@@ -13,10 +13,12 @@ pygame.display.set_caption("FFF")
 screen = pygame.display.set_mode((WX, WY))
 clock = pygame.time.Clock()
 
-huda = Huda(screen=screen, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png").convert_alpha(),
-            angle=75.0, scale=0.4, x=100, y=100)
-font = pygame.font.Font("Aiharahudemojikaisho_free305.ttf", size=36)
-text = font.render("とぅるー！", True, (0, 0, 0))
+def uturo(i: int) -> pygame.surface.Surface:
+    return pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
+hudas = [Huda(screen=screen, img=uturo(1), angle=6.0, scale=0.6, x=340, y=540),
+         Huda(screen=screen, img=uturo(2), angle=0.0, scale=0.6, x=400, y=540),
+         Huda(screen=screen, img=uturo(3), angle=-6.0, scale=0.6, x=460, y=540),
+         ]
 
 def mainloop() -> None:
     for event in pygame.event.get():
@@ -24,9 +26,7 @@ def mainloop() -> None:
             pygame.quit()
             sys.exit()
     screen.fill(color=(255, 255, 128))
-    huda.draw()
-    if huda.is_cursor_on():
-        screen.blit(source=text, dest=[300, 300])
+    [huda.draw() for huda in hudas]
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
