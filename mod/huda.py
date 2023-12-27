@@ -23,6 +23,9 @@ class Huda():
         [pygame.draw.circle(surface=self.screen, color=(0, 0, 255), center=[i[0], i[1]], radius=10) for i in self.vertices]
         self.screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
 
+    def is_cursor_on(self) -> bool:
+        return True
+
     @property
     def dest(self) -> [int, int]:
         return self.x, self.y
