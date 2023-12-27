@@ -24,7 +24,32 @@ class Huda():
         self.screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
 
     def is_cursor_on(self) -> bool:
-        return True
+        inside = False
+        mx, my = pygame.mouse.get_pos()
+        for i in range(4):
+            x1, y1 = self.vertices[i]
+            x2, y2 = self.vertices[(i+1) % 4]
+            if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
+                inside = not inside
+        return inside
+
+    def is_point_inside_polygon(poly, px, py):
+        # 多角形の頂点の数
+        num_vertices = len(poly)
+
+        # 初期化
+        inside = False
+
+        # 多角形の各辺と点Pとの関係を調べる
+        for i in range(num_vertices):
+            x1, y1 = poly[i]
+            x2, y2 = poly[(i + 1) % num_vertices]
+
+            # 点Pが辺の上にある場合
+            if ((y1 <= py and py < y2) or (y2 <= py and py < y1)) and (px < (x2 - x1) * (py - y1) / (y2 - y1) + x1):
+                inside = not inside
+
+        return inside
 
     @property
     def dest(self) -> [int, int]:

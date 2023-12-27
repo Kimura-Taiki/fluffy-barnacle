@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((WX, WY))
 clock = pygame.time.Clock()
 
 huda = Huda(screen=screen, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png").convert_alpha(),
-            angle=90.0, scale=0.4, x=100, y=100)
+            angle=75.0, scale=0.4, x=100, y=100)
 font = pygame.font.Font("Aiharahudemojikaisho_free305.ttf", size=36)
 text = font.render("とぅるー！", True, (0, 0, 0))
 
