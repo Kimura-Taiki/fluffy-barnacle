@@ -13,7 +13,6 @@ class Huda():
         self.x = int(x)
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
-        print(self.vertices)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> list[int]:
         rad = radians(-self.angle)
@@ -31,24 +30,6 @@ class Huda():
             x2, y2 = self.vertices[(i+1) % 4]
             if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
                 inside = not inside
-        return inside
-
-    def is_point_inside_polygon(poly, px, py):
-        # 多角形の頂点の数
-        num_vertices = len(poly)
-
-        # 初期化
-        inside = False
-
-        # 多角形の各辺と点Pとの関係を調べる
-        for i in range(num_vertices):
-            x1, y1 = poly[i]
-            x2, y2 = poly[(i + 1) % num_vertices]
-
-            # 点Pが辺の上にある場合
-            if ((y1 <= py and py < y2) or (y2 <= py and py < y1)) and (px < (x2 - x1) * (py - y1) / (y2 - y1) + x1):
-                inside = not inside
-
         return inside
 
     @property
