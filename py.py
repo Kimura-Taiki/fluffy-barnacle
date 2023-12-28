@@ -4,9 +4,13 @@ import sys
 
 from mod.huda import Huda
 
-WX = 800
-WY = 600
+# WX = 800
+# WY = 600
+WX, WY = 1280, 720
 FRAMES_PER_SECOND = 30
+CARDS = 4
+DHX = 80
+DA = -6.0
 
 pygame.init()
 pygame.display.set_caption("FFF")
@@ -15,7 +19,7 @@ clock = pygame.time.Clock()
 
 def uturo(i: int) -> pygame.surface.Surface:
     return pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
-hudas = [Huda(screen=screen, img=uturo(i+1), angle=6.0-6.0*i, scale=0.6, x=340+60*i, y=540) for i in range(3)]
+hudas = [Huda(screen=screen, img=uturo(i+1), angle=-DA/2*(CARDS-1)+DA*i, scale=0.6, x=WX/2-DHX/2*(CARDS-1)+DHX*i, y=WY-60) for i in range(CARDS)]
 
 def mainloop() -> None:
     for event in pygame.event.get():
