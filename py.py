@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import QUIT
+from pygame.surface import Surface
 import sys
+from typing import Callable
 
 from mod.huda import Huda
 
@@ -12,6 +14,7 @@ DA = -6.0
 HAND_ANGLE = lambda i: -DA/2*(CARDS-1)+DA*i
 HAND_X = lambda i: WX/2-DHX/2*(CARDS-1)+DHX*i
 HAND_Y = lambda i: WY-60+abs(i*2-(CARDS-1))**2*2
+AIHARA_KURO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("Aiharahudemojikaisho_free305.ttf", i).render(s, True, (0, 0, 0))
 
 pygame.init()
 pygame.display.set_caption("FFF")
@@ -30,9 +33,7 @@ def mainloop() -> None:
     screen.fill(color=(255, 255, 128))
     on_huda = next((huda for huda in hudas[::-1] if huda.is_cursor_on()), None)
     if on_huda:
-        font = pygame.font.Font("Aiharahudemojikaisho_free305.ttf", 36)
-        text = font.render(str(on_huda.x), True, (0, 0, 0))
-        screen.blit(source=text, dest=[0, 0])
+        screen.blit(source=AIHARA_KURO(str(on_huda.x), 36), dest=[0, 0])
     [huda.draw() for huda in hudas]
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
