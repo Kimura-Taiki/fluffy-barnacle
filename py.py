@@ -21,10 +21,6 @@ pygame.init()
 pygame.display.set_caption("FFF")
 screen = pygame.display.set_mode((WX, WY))
 clock = pygame.time.Clock()
-
-def uturo(i: int) -> pygame.surface.Surface:
-    return pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
-# hudas = [Huda(screen=screen, img=uturo(i+1), angle=HAND_ANGLE(i), scale=0.6, x=HAND_X(i), y=HAND_Y(i)) for i in range(CARDS)]
 hudas = [Huda(screen=screen, img=UTURO(i+1), angle=HAND_ANGLE(i), scale=0.6, x=HAND_X(i), y=HAND_Y(i)) for i in range(CARDS)]
 
 def mainloop() -> None:
@@ -36,6 +32,7 @@ def mainloop() -> None:
     on_huda = next((huda for huda in hudas[::-1] if huda.is_cursor_on()), None)
     if on_huda:
         screen.blit(source=AIHARA_KURO(str(on_huda.x), 36), dest=[0, 0])
+        screen.blit(source=on_huda.img_nega, dest=[WX/2, 0])
     [huda.draw() for huda in hudas]
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
