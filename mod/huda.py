@@ -3,7 +3,6 @@ from pygame.surface import Surface
 from math import sin, cos, radians
 
 class Huda():
-
     def __init__(self, screen: Surface, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0) -> None:
         self.screen = screen
         self.img_nega = img
