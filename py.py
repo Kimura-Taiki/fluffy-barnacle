@@ -10,6 +10,10 @@ from mod.tehuda import Tehuda
 tehuda = Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
 clicked = False
 target = None
+class Mouse():
+    def __init__(self) -> None:
+        self.clicked: bool = False
+        self.hovered: Huda | None = None
 
 def mainloop() -> None:
     for event in pygame.event.get():
