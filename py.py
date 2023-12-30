@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import QUIT
 import sys
 
-from mod.const import UTURO, CARDS, screen, AIHARA_KURO, WX, clock, FRAMES_PER_SECOND
+from mod.const import UTURO, CARDS, screen, clock, FRAMES_PER_SECOND
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.tehuda import Tehuda
@@ -15,11 +15,7 @@ def mainloop() -> None:
             pygame.quit()
             sys.exit()
     screen.fill(color=(255, 255, 128))
-    on_huda = next((huda for huda in tehuda[::-1] if huda.is_cursor_on()), None)
-    if on_huda:
-        screen.blit(source=AIHARA_KURO(str(on_huda.x), 36), dest=[0, 0])
-        screen.blit(source=on_huda.img_nega, dest=[WX/2, 0])
-    [huda.draw() for huda in tehuda]
+    tehuda.elapse()
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
