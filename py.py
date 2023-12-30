@@ -7,7 +7,9 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.tehuda import Tehuda
 
-tehuda= Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
+tehuda = Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
+clicked = False
+target = None
 
 def mainloop() -> None:
     for event in pygame.event.get():

@@ -1,6 +1,5 @@
 import pygame
 from pygame.surface import Surface
-from pygame import Surface
 from typing import Callable
 
 from mod.const import WX, WY, screen, AIHARA_KURO
@@ -16,13 +15,15 @@ HAND_Y: Callable[[int, int], int] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
         super().__init__(data)
-        self.cursor_on: Huda | None = None
+        self.held_on: Huda | None = None
+
+    def get_hovered_huda(self) -> Huda | None:
+        return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
     def elapse(self) -> None:
-        self.on_huda = next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
-        if self.on_huda:
-            screen.blit(source=AIHARA_KURO(str(self.on_huda.x), 36), dest=[0, 0])
-            screen.blit(source=self.on_huda.img_nega, dest=[WX/2, 0])
+        if (hovered := self.get_hovered_huda()):
+            screen.blit(source=AIHARA_KURO(str(hovered.x), 36), dest=[0, 0])
+            screen.blit(source=hovered.img_nega, dest=[WX-hovered.img_nega.get_width(), 0])
         [huda.draw() for huda in self]
 
     @classmethod
