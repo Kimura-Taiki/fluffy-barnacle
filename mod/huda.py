@@ -2,9 +2,10 @@ import pygame
 from pygame.surface import Surface
 from math import sin, cos, radians
 
+from mod.const import screen
+
 class Huda():
-    def __init__(self, screen: Surface, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0) -> None:
-        self.screen = screen
+    def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0) -> None:
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.angle = angle
@@ -18,8 +19,8 @@ class Huda():
         return [int(self.x+(cos(rad)*x-sin(rad)*y)*self.scale), int(self.y+(sin(rad)*x+cos(rad)*y)*self.scale)]
 
     def draw(self) -> None:
-        [pygame.draw.circle(surface=self.screen, color=(0, 0, 255), center=[i[0], i[1]], radius=10) for i in self.vertices]
-        self.screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
+        [pygame.draw.circle(surface=screen, color=(0, 0, 255), center=[i[0], i[1]], radius=10) for i in self.vertices]
+        screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
 
     def is_cursor_on(self) -> bool:
         inside = False

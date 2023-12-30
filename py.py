@@ -2,16 +2,12 @@ import pygame
 from pygame.locals import QUIT
 import sys
 
-from mod.const import *
+from mod.const import UTURO, CARDS, screen, AIHARA_KURO, WX, clock, FRAMES_PER_SECOND
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.tehuda import Tehuda
 
-# pygame.init()
-# pygame.display.set_caption("FFF")
-# screen = pygame.display.set_mode((WX, WY))
-# clock = pygame.time.Clock()
-tehuda= Tehuda.made_by_files(screen=screen, strs=[UTURO(i) for i in range(1, CARDS+1)])
+tehuda= Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
 
 def mainloop() -> None:
     for event in pygame.event.get():

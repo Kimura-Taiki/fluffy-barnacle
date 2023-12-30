@@ -26,9 +26,9 @@ class Tehuda(Taba):
     #     [huda.draw() for huda in tehuda]
 
     @classmethod
-    def made_by_files(cls, screen: Surface, strs: list[str]) -> "Tehuda":
+    def made_by_files(cls, strs: list[str]) -> "Tehuda":
         j = len(strs)
-        return Tehuda(data=[Huda(screen=screen, img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j))
+        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j))
                             for i, v in enumerate(strs)])
 
 # exit()    
