@@ -33,7 +33,7 @@ class Huda():
         return inside
 
     @property
-    def dest(self) -> [int, int]:
+    def dest(self) -> tuple[int, int]:
         return self.x, self.y
     
     @dest.setter
