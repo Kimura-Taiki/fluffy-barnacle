@@ -21,13 +21,18 @@ class Tehuda(Taba):
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
     def elapse(self) -> None:
-        if (hovered := self.get_hovered_huda()):
-            screen.blit(source=AIHARA_KURO(str(hovered.x), 36), dest=[0, 0])
-            screen.blit(source=hovered.img_nega, dest=[WX-hovered.img_nega.get_width(), 0])
+        # if (hovered := self.get_hovered_huda()):
+        #     screen.blit(source=AIHARA_KURO(str(hovered.x), 36), dest=[0, 0])
+        #     screen.blit(source=hovered.img_nega, dest=[WX-hovered.img_nega.get_width(), 0])
         [huda.draw() for huda in self]
 
     @classmethod
     def made_by_files(cls, strs: list[str]) -> "Tehuda":
         j = len(strs)
-        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j))
+        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j), hovered=cls._hovered_tehuda)
                             for i, v in enumerate(strs)])
+
+    @staticmethod
+    def _hovered_tehuda(huda: Huda) -> None:
+        screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
+        screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])

@@ -20,7 +20,7 @@ class Mouse():
 
 tehuda = Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
 mouse = Mouse()
-mouse.get_hovered = tehuda.get_hovered_huda()
+mouse.get_hovered = tehuda.get_hovered_huda
 
 def mainloop() -> None:
     for event in pygame.event.get():
@@ -29,6 +29,8 @@ def mainloop() -> None:
             sys.exit()
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
+    mouse.hovered = mouse.get_hovered()
+    if mouse.hovered: mouse.hovered.hovered(huda=mouse.hovered)
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 

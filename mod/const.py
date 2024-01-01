@@ -2,6 +2,9 @@ import pygame
 from pygame.surface import Surface
 from typing import Callable
 
+def pass_func() -> None:
+    pass
+
 WX, WY = 1280, 720
 pygame.init()
 pygame.display.set_caption("FFF")
