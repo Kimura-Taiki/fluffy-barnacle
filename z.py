@@ -10,4 +10,4 @@ class Mouse():
 
     @staticmethod
     def _not_implemented_error() -> None:
-        NotImplementedError("Mouse.get_hoveredが未定義です")
+        raise NotImplementedError("Mouse.get_hoveredが未定義です")
