@@ -1,17 +1,36 @@
-from typing import Callable
+from functools import partial
 
-def pass_func(i1: int, i2: int, key1: str, key2: str) -> None:
-    print(f"{key1}を{i1}回、{key2}を{i2}回行います。")
+class Huda:
+    def __init__(self, img, angle, scale, x, y, gen):
+        self.img = img
+        self.angle = angle
+        self.scale = scale
+        self.x = x
+        self.y = y
+        self.gen = gen(self)
 
-# def pass_func(*args, **kwargs) -> None:
-#     # 適切な処理を行う
-#     print(args, kwargs)
+# ジェネレータ関数の例
+def g(huda_instance):
+    def custom_method():
+        print(f"Custom method called for Huda with image: {huda_instance.img}")
+    return custom_method
 
-func: Callable[..., None] = pass_func
+# 使用例
+def HAND_ANGLE(i, j):
+    # 仮の実装
+    return i + j
 
-# 関数呼び出し
-func(1, 2, key1='value1', key2='value2')
+def HAND_X(i, j):
+    # 仮の実装
+    return i + j
 
-# # mypy --strict z.pyのエラーコード
-# z.py:3: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
-# Found 1 error in 1 file (checked 1 source file)
+def HAND_Y(i, j):
+    # 仮の実装
+    return i + j
+
+# リスト内包表記で Huda インスタンスを生成
+huda_instances = [Huda(img=f"example_image{i}{j}.png", angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j), gen=partial(g)) for i in range(5) for j in range(5)]
+
+# カスタムメソッドを呼び出す例
+for huda_instance in huda_instances:
+    huda_instance.gen()  # この時点で自身のインスタンスが渡されます
