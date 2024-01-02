@@ -30,9 +30,7 @@ def mainloop() -> None:
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
     mouse.hovered = mouse.get_hovered()
-    # if mouse.hovered: mouse.hovered.hovered(huda=mouse.hovered)
     if mouse.hovered:
-        print(mouse.hovered.hovered)
         mouse.hovered.hovered()
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)

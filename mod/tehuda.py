@@ -22,9 +22,6 @@ class Tehuda(Taba):
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
     def elapse(self) -> None:
-        # if (hovered := self.get_hovered_huda()):
-        #     screen.blit(source=AIHARA_KURO(str(hovered.x), 36), dest=[0, 0])
-        #     screen.blit(source=hovered.img_nega, dest=[WX-hovered.img_nega.get_width(), 0])
         [huda.draw() for huda in self]
 
     @classmethod
@@ -33,18 +30,6 @@ class Tehuda(Taba):
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
                                  hovered=partial(cls._generate_hovered_tehuda))
                             for i, v in enumerate(strs)])
-
-    # @staticmethod
-    # def _hovered_tehuda(huda: Huda) -> None:
-    #     screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
-    #     screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
-
-    # @staticmethod
-    # def _generate_hovered_tehuda(huda: Huda) -> Callable[..., None]:
-    #     def method() -> None:
-    #         screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
-    #         screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
-    #     return method
 
     @staticmethod
     def _generate_hovered_tehuda(huda: Huda) -> Callable[..., None]:
