@@ -1,8 +1,8 @@
 import pygame
 from pygame.surface import Surface
-from typing import Callable
+from typing import Callable, Any
 
-def pass_func() -> None:
+def pass_func(any: Any) -> None:
     pass
 
 WX, WY = 1280, 720

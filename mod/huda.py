@@ -16,7 +16,7 @@ class Huda():
         self.x = int(x)
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
-        self.hovered: Callable[..., None] = partial(hovered, huda=self)
+        self.hovered: Callable[..., None] = partial(hovered, self)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> list[int]:
         rad = radians(-self.angle)
