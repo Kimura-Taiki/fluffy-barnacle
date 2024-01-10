@@ -1,7 +1,7 @@
 import pygame
 from pygame.surface import Surface
 from math import sin, cos, radians
-from typing import Callable
+from typing import Callable, Optional
 from functools import partial
 
 from mod.const import screen, pass_func
@@ -22,9 +22,10 @@ class Huda():
         rad = radians(-self.angle)
         return [int(self.x+(cos(rad)*x-sin(rad)*y)*self.scale), int(self.y+(sin(rad)*x+cos(rad)*y)*self.scale)]
 
-    def draw(self) -> None:
+    def draw(self) -> None | bool:
         [pygame.draw.circle(surface=screen, color=(0, 0, 255), center=[i[0], i[1]], radius=10) for i in self.vertices]
         screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
+        return None
 
     def is_cursor_on(self) -> bool:
         inside = False

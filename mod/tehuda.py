@@ -9,9 +9,9 @@ from mod.taba import Taba
 
 HAND_X_RATE = 120
 HAND_ANGLE_RATE = -6.0
-HAND_ANGLE: Callable[[int, int], int] = lambda i, j: -HAND_ANGLE_RATE/2*(j-1)+HAND_ANGLE_RATE*i
-HAND_X: Callable[[int, int], int] = lambda i, j: WX/2-HAND_X_RATE/2*(j-1)+HAND_X_RATE*i
-HAND_Y: Callable[[int, int], int] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
+HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE/2*(j-1)+HAND_ANGLE_RATE*i
+HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE/2*(j-1)+HAND_X_RATE*i
+HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
 
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
@@ -25,11 +25,11 @@ class Tehuda(Taba):
         [huda.draw() for huda in self]
 
     @classmethod
-    def made_by_files(cls, strs: list[str]) -> "Tehuda":
-        j = len(strs)
+    def made_by_files(cls, surfaces: list[Surface]) -> "Tehuda":
+        j = len(surfaces)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
                                  hovered=cls._hovered_tehuda)
-                            for i, v in enumerate(strs)])
+                            for i, v in enumerate(surfaces)])
 
     @staticmethod
     def _hovered_tehuda(huda: Huda) -> None:

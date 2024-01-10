@@ -18,7 +18,7 @@ class Mouse():
     def _not_implemented_get_hovered() -> None:
         raise NotImplementedError("Mouse.get_hoveredが未定義です")
 
-tehuda = Tehuda.made_by_files(strs=[UTURO(i) for i in range(1, CARDS+1)])
+tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)])
 mouse = Mouse()
 mouse.get_hovered = tehuda.get_hovered_huda
 
