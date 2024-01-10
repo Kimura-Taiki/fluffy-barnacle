@@ -2,6 +2,7 @@ import pygame
 from pygame.surface import Surface
 from math import sin, cos, radians
 from typing import Callable
+from functools import partial
 
 from mod.const import screen, pass_func
 
@@ -15,7 +16,7 @@ class Huda():
         self.x = int(x)
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
-        self.hovered: Callable[..., None] = hovered(self)
+        self.hovered: Callable[..., None] = partial(hovered, huda=self)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> list[int]:
         rad = radians(-self.angle)

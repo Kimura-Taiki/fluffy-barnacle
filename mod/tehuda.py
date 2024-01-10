@@ -28,12 +28,10 @@ class Tehuda(Taba):
     def made_by_files(cls, strs: list[str]) -> "Tehuda":
         j = len(strs)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
-                                 hovered=partial(cls._generate_hovered_tehuda))
+                                 hovered=cls._hovered_tehuda)
                             for i, v in enumerate(strs)])
 
     @staticmethod
-    def _generate_hovered_tehuda(huda: Huda) -> Callable[..., None]:
-        def method() -> None:
-            screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
-            screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
-        return method
+    def _hovered_tehuda(huda: Huda) -> None:
+        screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
+        screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
