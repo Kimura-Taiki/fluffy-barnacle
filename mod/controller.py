@@ -1,6 +1,6 @@
 import pygame
 import sys
-from pygame.locals import QUIT
+from pygame.locals import QUIT, MOUSEMOTION
 from typing import Callable
 
 
@@ -18,9 +18,10 @@ class Controller():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == MOUSEMOTION:
+                self.hover = self.get_hover()
 
     def mouse_over(self) -> None:
-        self.hover = self.get_hover()
         if self.hover:
             self.hover.hover()
 
