@@ -1,13 +1,14 @@
 from typing import Callable
 
-from mod.huda import Huda
+# from mod.huda import Huda
+from mod.youso import Youso
 
 class Controller():
     def __init__(self) -> None:
         self.clicked: bool = False
-        self.hovered: Huda | None = None
-        self.get_hovered: Callable[[], Huda | None] = self._not_implemented_get_hovered
-        self.active: Huda | None = None
+        self.hovered: Youso | None = None
+        self.get_hovered: Callable[[], Youso | None] = self._not_implemented_get_hovered
+        self.active: Youso | None = None
 
     @staticmethod
     def _not_implemented_get_hovered() -> None:

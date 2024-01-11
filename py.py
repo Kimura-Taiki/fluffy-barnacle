@@ -1,5 +1,5 @@
 import pygame
-from pygame.locals import QUIT, MOUSEBUTTONDOWN
+from pygame.locals import QUIT
 import sys
 import time
 
