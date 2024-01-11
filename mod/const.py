@@ -2,7 +2,7 @@ import pygame
 from pygame.surface import Surface
 from typing import Callable, Any
 
-def pass_func(any: Any) -> None:
+def pass_func(any: Any=None) -> None:
     pass
 
 WX, WY = 1280, 720
@@ -14,4 +14,5 @@ clock = pygame.time.Clock()
 FRAMES_PER_SECOND = 30
 CARDS = 6
 AIHARA_KURO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("Aiharahudemojikaisho_free305.ttf", i).render(s, True, (0, 0, 0))
+MS_MINCHO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("msmincho001.ttf", i).render(s, True, (0, 0, 0))
 UTURO: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()

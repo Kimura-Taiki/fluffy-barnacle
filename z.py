@@ -1,3 +1,7 @@
+a = [0.1]*10
+print(a)
+exit()
+
 from typing import Callable, Generator
 
 class Huda():
