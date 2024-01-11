@@ -38,7 +38,7 @@ class Tehuda(Taba):
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
         if controller.hover == huda:
-            pygame.draw.polygon(screen, BRIGHT, huda.up_vertices, 20)
+            pygame.draw.polygon(screen, BRIGHT, [[x, y-40] for x, y in huda.vertices], 20)
             screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2-40])
         else:
             default_draw(huda=huda)
