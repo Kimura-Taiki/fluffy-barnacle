@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT
-from mod.huda import Huda
+from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
 
@@ -41,5 +41,5 @@ class Tehuda(Taba):
             pygame.draw.polygon(screen, BRIGHT, huda.up_vertices, 20)
             screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2-40])
         else:
-            screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2])
+            default_draw(huda=huda)
         return None

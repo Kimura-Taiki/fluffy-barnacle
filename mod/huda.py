@@ -7,12 +7,12 @@ from mod.youso import Youso
 from mod.const import screen, pass_func, BRIGHT
 from mod.controller import controller
 
-def _default_draw(huda: 'Huda') -> None:
+def default_draw(huda: 'Huda') -> None:
     screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2])
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
-                 draw: Callable[..., None]=_default_draw, hover: Callable[..., None]=pass_func) -> None:
+                 draw: Callable[..., None]=default_draw, hover: Callable[..., None]=pass_func) -> None:
         super().__init__(draw=draw, hover=hover)
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
