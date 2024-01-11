@@ -42,8 +42,8 @@ def mainloop() -> None:
     elapsed_time = end_time - start_time
     times.append(elapsed_time)
     times.pop(0)
-    screen.blit(source=MS_MINCHO(f"One loop time: {round(elapsed_time*1000, 3):.3f} ms", 32), dest=[0, 120])
-    screen.blit(source=MS_MINCHO(f"Frame time: {(sum(times)/FRAMES_PER_SECOND*1000):.3f} ms", 32), dest=[0, 160])
+    screen.blit(source=MS_MINCHO(f"One loop time: {round(elapsed_time*1000, 3):.3f} ms", 32), dest=[0, 0])
+    screen.blit(source=MS_MINCHO(f"Frame time: {(sum(times)/FRAMES_PER_SECOND*1000):.3f} ms", 32), dest=[0, 40])
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 

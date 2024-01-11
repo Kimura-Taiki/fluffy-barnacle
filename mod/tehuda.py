@@ -33,5 +33,4 @@ class Tehuda(Taba):
 
     @staticmethod
     def _hovered_tehuda(huda: Huda) -> None:
-        screen.blit(source=AIHARA_KURO(str(huda.x), 36), dest=[0, 0])
         screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
