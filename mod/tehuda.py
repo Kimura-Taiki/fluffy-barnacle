@@ -16,7 +16,7 @@ class Tehuda(Taba):
         super().__init__(data)
         self.held_on: Huda | None = None
 
-    def get_hovered_huda(self) -> Huda | None:
+    def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
     def elapse(self) -> None:
@@ -26,9 +26,9 @@ class Tehuda(Taba):
     def made_by_files(cls, surfaces: list[Surface]) -> "Tehuda":
         j = len(surfaces)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
-                                 hovered=cls._hovered_tehuda)
+                                 hover=cls._hover_tehuda)
                             for i, v in enumerate(surfaces)])
 
     @staticmethod
-    def _hovered_tehuda(huda: Huda) -> None:
+    def _hover_tehuda(huda: Huda) -> None:
         screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])

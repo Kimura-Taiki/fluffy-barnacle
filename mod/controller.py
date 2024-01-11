@@ -1,17 +1,21 @@
 from typing import Callable
 
-# from mod.huda import Huda
 from mod.youso import Youso
 
 class Controller():
     def __init__(self) -> None:
         self.clicked: bool = False
-        self.hovered: Youso | None = None
-        self.get_hovered: Callable[[], Youso | None] = self._not_implemented_get_hovered
+        self.hover: Youso | None = None
+        self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
 
+    def mouse_over(self) -> None:
+        self.hover = self.get_hover()
+        if self.hover:
+            self.hover.hover()
+
     @staticmethod
-    def _not_implemented_get_hovered() -> None:
-        raise NotImplementedError("Controller.get_hoveredが未定義です")
+    def _not_implemented_get_hover_youso() -> None:
+        raise NotImplementedError("Controller.get_hover_yousoが未定義です")
 
 controller = Controller()

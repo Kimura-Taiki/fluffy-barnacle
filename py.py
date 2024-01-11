@@ -8,7 +8,7 @@ from mod.tehuda import Tehuda
 from mod.controller import controller
 
 tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)])
-controller.get_hovered = tehuda.get_hovered_huda
+controller.get_hover = tehuda.get_hover_huda
 times = [1.0]*FRAMES_PER_SECOND
 
 def mainloop() -> None:
@@ -20,8 +20,7 @@ def mainloop() -> None:
             sys.exit()
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
-    if (hovered_huda := controller.get_hovered()):
-        hovered_huda.hovered()
+    controller.mouse_over()
 
     end_time = time.time()  # 一周期の終了時刻を記録
     elapsed_time = end_time - start_time
