@@ -4,11 +4,14 @@ from math import sin, cos, radians
 from typing import Callable
 from functools import partial
 
+from mod.youso import Youso
 from mod.const import screen, pass_func
 
-class Huda():
+class Huda(Youso):
+    # def __init__(self, hovered: Callable[..., None] = ...) -> None:
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
                  hovered: Callable[..., None]=pass_func) -> None:
+        super().__init__(hovered)
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.angle = angle
@@ -16,7 +19,7 @@ class Huda():
         self.x = int(x)
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
-        self.hovered: Callable[..., None] = partial(hovered, self)
+        # self.hovered: Callable[..., None] = partial(hovered, self)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> list[int]:
         rad = radians(-self.angle)
