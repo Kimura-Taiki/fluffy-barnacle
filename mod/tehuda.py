@@ -1,9 +1,7 @@
-import pygame
 from pygame.surface import Surface
 from typing import Callable
-from functools import partial
 
-from mod.const import WX, WY, screen, AIHARA_KURO
+from mod.const import WX, WY, screen
 from mod.huda import Huda
 from mod.taba import Taba
 

@@ -1,7 +1,7 @@
 import pygame
 from pygame.surface import Surface
 from math import sin, cos, radians
-from typing import Callable, Optional
+from typing import Callable
 from functools import partial
 
 from mod.const import screen, pass_func
