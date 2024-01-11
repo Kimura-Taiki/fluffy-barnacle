@@ -1,9 +1,11 @@
+import pygame
 from pygame.surface import Surface
 from typing import Callable
 
-from mod.const import WX, WY, screen
+from mod.const import WX, WY, screen, BRIGHT
 from mod.huda import Huda
 from mod.taba import Taba
+from mod.controller import controller
 
 HAND_X_RATE = 120
 HAND_ANGLE_RATE = -6.0
@@ -32,3 +34,12 @@ class Tehuda(Taba):
     @staticmethod
     def _hover_tehuda(huda: Huda) -> None:
         screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
+
+    @staticmethod
+    def _draw_tehuda(huda: Huda) -> None:
+        if controller.hover == huda:
+            pygame.draw.polygon(screen, BRIGHT, huda.up_vertices, 20)
+            screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2-40])
+        else:
+            screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2])
+        return None
