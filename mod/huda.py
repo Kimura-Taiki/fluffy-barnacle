@@ -7,10 +7,13 @@ from mod.youso import Youso
 from mod.const import screen, pass_func, BRIGHT
 from mod.controller import controller
 
+def _default_draw(huda: 'Huda') -> None:
+    screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2])
+
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
-                 hover: Callable[..., None]=pass_func) -> None:
-        super().__init__(hover=hover)
+                 draw: Callable[..., None]=_default_draw, hover: Callable[..., None]=pass_func) -> None:
+        super().__init__(draw=draw, hover=hover)
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.angle = angle
@@ -24,13 +27,13 @@ class Huda(Youso):
         rad = radians(-self.angle)
         return [int(self.x+(cos(rad)*x-sin(rad)*y)*self.scale), int(self.y+(sin(rad)*x+cos(rad)*y)*self.scale)]
 
-    def draw(self) -> None | bool:
-        if controller.hover == self:
-            pygame.draw.polygon(screen, BRIGHT, self.up_vertices, 20)
-            screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2-40])
-        else:
-            screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
-        return None
+    # def draw(self) -> None | bool:
+    #     if controller.hover == self:
+    #         pygame.draw.polygon(screen, BRIGHT, self.up_vertices, 20)
+    #         screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2-40])
+    #     else:
+    #         screen.blit(source=self.img_rz, dest=[self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2])
+    #     return None
 
     def is_cursor_on(self) -> bool:
         inside = False
@@ -49,4 +52,3 @@ class Huda(Youso):
     @dest.setter
     def dest(self, x:int | float, y:int | float) -> None:
         self.x, self.y = int(x), int(y)
-

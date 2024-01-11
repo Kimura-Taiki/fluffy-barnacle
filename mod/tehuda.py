@@ -28,7 +28,7 @@ class Tehuda(Taba):
     def made_by_files(cls, surfaces: list[Surface]) -> "Tehuda":
         j = len(surfaces)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
-                                 hover=cls._hover_tehuda)
+                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda)
                             for i, v in enumerate(surfaces)])
 
     @staticmethod
