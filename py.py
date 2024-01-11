@@ -6,23 +6,25 @@ import time
 
 from mod.const import UTURO, CARDS, screen, clock, FRAMES_PER_SECOND, MS_MINCHO
 from mod.huda import Huda
-from mod.taba import Taba
 from mod.tehuda import Tehuda
+from mod.controller import Controller
 
-class Mouse():
-    def __init__(self) -> None:
-        self.clicked: bool = False
-        self.hovered: Huda | None = None
-        self.get_hovered: Callable[[], Huda | None] = self._not_implemented_get_hovered
-        self.active: Huda | None = None
+# class Mouse():
+#     def __init__(self) -> None:
+#         self.clicked: bool = False
+#         self.hovered: Huda | None = None
+#         self.get_hovered: Callable[[], Huda | None] = self._not_implemented_get_hovered
+#         self.active: Huda | None = None
     
-    @staticmethod
-    def _not_implemented_get_hovered() -> None:
-        raise NotImplementedError("Mouse.get_hoveredが未定義です")
+#     @staticmethod
+#     def _not_implemented_get_hovered() -> None:
+#         raise NotImplementedError("Mouse.get_hoveredが未定義です")
 
 tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)])
-mouse = Mouse()
-mouse.get_hovered = tehuda.get_hovered_huda
+# mouse = Mouse()
+# mouse.get_hovered = tehuda.get_hovered_huda
+controller = Controller()
+controller.get_hovered = tehuda.get_hovered_huda
 times = [1.0]*FRAMES_PER_SECOND
 
 def mainloop() -> None:
@@ -35,7 +37,7 @@ def mainloop() -> None:
         # elif event.type == 
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
-    if (hovered_huda := mouse.get_hovered()):
+    if (hovered_huda := controller.get_hovered()):
         hovered_huda.hovered()
 
     end_time = time.time()  # 一周期の終了時刻を記録
