@@ -1,4 +1,8 @@
+import pygame
+import sys
+from pygame.locals import QUIT
 from typing import Callable
+
 
 from mod.youso import Youso
 
@@ -8,6 +12,12 @@ class Controller():
         self.hover: Youso | None = None
         self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
+
+    def resolve_pygame_events(self) -> None:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
 
     def mouse_over(self) -> None:
         self.hover = self.get_hover()

@@ -14,10 +14,11 @@ times = [1.0]*FRAMES_PER_SECOND
 def mainloop() -> None:
     start_time = time.time()  # 一周期の開始時刻を記録
 
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+    controller.resolve_pygame_events()
+    # for event in pygame.event.get():
+    #     if event.type == QUIT:
+    #         pygame.quit()
+    #         sys.exit()
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
     controller.mouse_over()
