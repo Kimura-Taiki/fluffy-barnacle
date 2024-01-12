@@ -1,7 +1,5 @@
 import pygame
-from pygame.locals import QUIT
-import sys
-import time
+from typing import Callable
 
 from mod.const import UTURO, CARDS, screen, clock, FRAMES_PER_SECOND, MS_MINCHO
 from mod.tehuda import Tehuda
@@ -9,23 +7,36 @@ from mod.controller import controller
 
 tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)])
 controller.get_hover = tehuda.get_hover_huda
+
+def timer_functions() -> [Callable[[], None], Callable[[], None]]:
+    from time import time
+    log = 0.0
+    times = [0.01]*FRAMES_PER_SECOND
+    def start_timer() -> None:
+        nonlocal log
+        log = time()
+    def end_timer() -> None:
+        nonlocal log, times
+        elapsed_time = time()-log
+        times.append(elapsed_time)
+        times.pop(0)
+        screen.blit(source=MS_MINCHO(
+            f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}",
+            32), dest=[0, 0])
+    return start_timer, end_timer
+start_timer, end_timer = timer_functions()
+
 times = [1.0]*FRAMES_PER_SECOND
 
 def mainloop() -> None:
-    start_time = time.time()  # 一周期の開始時刻を記録
+    start_timer()
 
     controller.resolve_pygame_events()
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
     controller.mouse_over()
 
-    end_time = time.time()  # 一周期の終了時刻を記録
-    elapsed_time = end_time - start_time
-    times.append(elapsed_time)
-    times.pop(0)
-    screen.blit(source=MS_MINCHO(
-        f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}",
-        32), dest=[0, 0])
+    end_timer()
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
