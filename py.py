@@ -15,10 +15,6 @@ def mainloop() -> None:
     start_time = time.time()  # 一周期の開始時刻を記録
 
     controller.resolve_pygame_events()
-    # for event in pygame.event.get():
-    #     if event.type == QUIT:
-    #         pygame.quit()
-    #         sys.exit()
     screen.fill(color=(255, 255, 128))
     tehuda.elapse()
     controller.mouse_over()
@@ -27,8 +23,9 @@ def mainloop() -> None:
     elapsed_time = end_time - start_time
     times.append(elapsed_time)
     times.pop(0)
-    screen.blit(source=MS_MINCHO(f"One loop time: {round(elapsed_time*1000, 3):.3f} ms", 32), dest=[0, 0])
-    screen.blit(source=MS_MINCHO(f"Frame time: {(sum(times)/FRAMES_PER_SECOND*1000):.3f} ms", 32), dest=[0, 40])
+    screen.blit(source=MS_MINCHO(
+        f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}",
+        32), dest=[0, 0])
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
