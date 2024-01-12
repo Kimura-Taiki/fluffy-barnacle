@@ -14,6 +14,8 @@ class Controller():
         self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
         self.motion: Event
+        self.hold_x: int | float
+        self.hold_y: int | float
 
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():
