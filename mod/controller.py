@@ -1,7 +1,7 @@
 import pygame
 import sys
 from pygame.event import Event
-from pygame.locals import QUIT, MOUSEMOTION
+from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from typing import Callable
 
 from mod.const import screen, MS_MINCHO
@@ -21,13 +21,22 @@ class Controller():
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEMOTION:
-                self.motion = event
+                # self.motion = event
                 self.hover = self.get_hover()
+            elif event.type == MOUSEBUTTONDOWN:
+                if self.hover:
+                    self.active = self.hover
+            elif event.type == MOUSEBUTTONUP:
+                self.active = None
+
 
     def mouse_over(self) -> None:
         # screen.blit(source=MS_MINCHO(f"MM : {self.motion.pos}, {self.motion.rel}, {self.motion.buttons}", 32), dest=[0, 80])
         if self.hover:
             self.hover.hover()
+        if self.active:
+            pass
+            # self.active.
 
     @staticmethod
     def _not_implemented_get_hover_youso() -> None:
