@@ -1,5 +1,6 @@
 import pygame
 import sys
+from pygame.event import Event
 from pygame.locals import QUIT, MOUSEMOTION
 from typing import Callable
 
@@ -12,7 +13,7 @@ class Controller():
         self.hover: Youso | None = None
         self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
-        self.motion = None
+        self.motion: Event
 
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():
