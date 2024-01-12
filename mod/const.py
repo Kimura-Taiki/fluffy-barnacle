@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 BRIGHT = (255, 255, 255, 128)
 
 FRAMES_PER_SECOND = 30
-CARDS = 2
+CARDS = 6
 _MS_MINCHO_32PT_FONT = pygame.font.Font("msmincho001.ttf", 32)
 MS_MINCHO_32PT: Callable[[str], Surface] = lambda s: _MS_MINCHO_32PT_FONT.render(s, True, (0, 0, 0))
 AIHARA_KURO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("Aiharahudemojikaisho_free305.ttf", i).render(s, True, (0, 0, 0))

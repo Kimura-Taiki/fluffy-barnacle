@@ -25,9 +25,11 @@ class Controller():
                 self.hover = self.get_hover()
             elif event.type == MOUSEBUTTONDOWN:
                 if self.hover:
-                    self.active = self.hover
+                    self.hover.dragstatrt()
             elif event.type == MOUSEBUTTONUP:
-                self.active = None
+                if self.active:
+                    self.active.dragend()
+                    self.active = None
 
 
     def mouse_over(self) -> None:
@@ -35,7 +37,7 @@ class Controller():
         if self.hover:
             self.hover.hover()
         if self.active:
-            pass
+            self.active.drag()
             # self.active.
 
     @staticmethod

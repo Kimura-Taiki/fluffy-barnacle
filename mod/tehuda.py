@@ -28,7 +28,7 @@ class Tehuda(Taba):
     def made_by_files(cls, surfaces: list[Surface]) -> "Tehuda":
         j = len(surfaces)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
-                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda)
+                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda, dragstart=cls._dragstart_tehuda, drag=cls._drag_tehuda)
                             for i, v in enumerate(surfaces)])
 
     @staticmethod
@@ -37,9 +37,23 @@ class Tehuda(Taba):
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
-        if controller.hover == huda:
+        if controller.active == huda:
+            return None
+        elif controller.hover == huda:
             pygame.draw.polygon(screen, BRIGHT, [[x, y-40] for x, y in huda.vertices], 20)
             screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2-40])
         else:
             default_draw(huda=huda)
         return None
+    
+    @staticmethod
+    def _dragstart_tehuda(huda: Huda) -> None:
+        controller.active = huda
+    
+    @staticmethod
+    def _drag_tehuda(huda: Huda) -> None:
+        mx, my = pygame.mouse.get_pos()
+        pygame.draw.polygon(screen, BRIGHT, [[x-huda.x+mx, y-huda.y+my] for x, y in huda.vertices], 20)
+        huda.img_rz.set_alpha(192)
+        screen.blit(source=huda.img_rz, dest=[mx-huda.img_rz.get_width()/2, my-huda.img_rz.get_height()/2])
+        huda.img_rz.set_alpha(255)

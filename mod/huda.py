@@ -12,8 +12,10 @@ def default_draw(huda: 'Huda') -> None:
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
-                 draw: Callable[..., None]=default_draw, hover: Callable[..., None]=pass_func) -> None:
-        super().__init__(draw=draw, hover=hover)
+                 draw: Callable[..., None]=default_draw, hover: Callable[..., None]=pass_func,
+                 dragstart: Callable[..., None]=pass_func, drag: Callable[..., None]=pass_func,
+                 dragend: Callable[..., None]=pass_func) -> None:
+        super().__init__(draw=draw, hover=hover, dragstart=dragstart, drag=drag, dragend=dragend)
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.angle = angle
