@@ -1,6 +1,7 @@
 import pygame
 import sys
 from pygame.event import Event
+from pygame.math import Vector2 as V2
 from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from typing import Callable
 
@@ -16,6 +17,8 @@ class Controller():
         self.motion: Event
         self.hold_x: int | float
         self.hold_y: int | float
+        # self.hold_coord: tuple[int | float, int | float]
+        self.hold_coord: V2
 
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():

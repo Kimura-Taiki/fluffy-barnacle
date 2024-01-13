@@ -22,3 +22,5 @@ MS_MINCHO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("msminc
 UTURO: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
 
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png")
+ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png")
+ACTION_CIRCLE_BASIC = pygame.image.load("pictures/action_circle_basic.png")
