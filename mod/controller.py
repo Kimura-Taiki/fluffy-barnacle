@@ -15,10 +15,8 @@ class Controller():
         self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
         self.motion: Event
-        self.hold_x: int | float
-        self.hold_y: int | float
-        # self.hold_coord: tuple[int | float, int | float]
         self.hold_coord: V2
+        self.drag: bool = False
 
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():
@@ -35,6 +33,7 @@ class Controller():
                 if self.active:
                     self.active.dragend()
                     self.active = None
+                    self.drag = False
 
 
     def mouse_over(self) -> None:

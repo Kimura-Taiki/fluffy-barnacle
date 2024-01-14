@@ -1,5 +1,6 @@
 import pygame
 from pygame.surface import Surface
+from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
@@ -39,8 +40,8 @@ class Huda(Youso):
         return inside
 
     @property
-    def dest(self) -> tuple[int, int]:
-        return self.x, self.y
+    def dest(self) -> Vector2:
+        return Vector2(self.x, self.y)
     
     @dest.setter
     def dest(self, x:int | float, y:int | float) -> None:

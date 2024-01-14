@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL
+from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
@@ -51,22 +51,26 @@ class Tehuda(Taba):
     def _dragstart_tehuda(huda: Huda) -> None:
         controller.active = huda
         controller.hold_coord = Vector2(pygame.mouse.get_pos())
-        # controller.hold_x, controller.hold_y = pygame.mouse.get_pos()
-        # mx, my = pygame.mouse.get_pos()
-        # controller.hold_x = mx-ACTION_CIRCLE_NEUTRAL.get_width()/2
-        # controller.hold_y = my-ACTION_CIRCLE_NEUTRAL.get_height()/2
     
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
+        if controller.drag == True:
+            gpv2 = Vector2(pygame.mouse.get_pos())
+            pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+[x, y] for x, y in huda.vertices], 20)
+            huda.img_rz.set_alpha(192)
+            screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
+            huda.img_rz.set_alpha(255)
+            return
         diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-        # mx, my = pygame.mouse.get_pos()
         if (rr := diff_coord.length_squared()) < 50:
             screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-        # if (rr := (controller.hold_x-mx)**2+(controller.hold_y-my)**2) < 50:
-        #     screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=[controller.hold_x-250, controller.hold_y-250])
-        # mx, my = pygame.mouse.get_pos()
-        # pygame.draw.polygon(screen, BRIGHT, [[x-huda.x+mx, y-huda.y+my] for x, y in huda.vertices], 20)
-        # huda.img_rz.set_alpha(192)
-        # screen.blit(source=huda.img_rz, dest=[mx-huda.img_rz.get_width()/2, my-huda.img_rz.get_height()/2])
-        # huda.img_rz.set_alpha(255)
+        elif rr > 62500:
+            controller.drag = True
+        else:
+            if 30 <= (deg := diff_coord.angle_to([0, 0])) and deg < 150:
+                screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
+            else:
+                screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
+
+
 
