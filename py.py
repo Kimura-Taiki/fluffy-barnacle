@@ -31,7 +31,6 @@ def mainloop() -> None:
     start_timer()
 
     controller.resolve_pygame_events()
-    # screen.fill(color=(255, 255, 128))
     pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 0, WX-340, WY], width=0)
     pygame.draw.rect(surface=screen, color=BLACK, rect=[WX-340, 0, WX, WY], width=0)
     tehuda.elapse()
