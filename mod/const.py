@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import FULLSCREEN
 from pygame.surface import Surface
 from typing import Callable, Any
 
@@ -12,6 +13,8 @@ screen = pygame.display.set_mode((WX, WY))
 clock = pygame.time.Clock()
 
 BRIGHT = (255, 255, 255, 128)
+LEMONCHIFFON = (255, 250, 205)
+BLACK = (0, 0, 0)
 
 FRAMES_PER_SECOND = 30
 CARDS = 6

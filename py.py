@@ -1,7 +1,7 @@
 import pygame
 from typing import Callable
 
-from mod.const import UTURO, CARDS, screen, clock, FRAMES_PER_SECOND
+from mod.const import UTURO, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY
 from mod.tehuda import Tehuda
 from mod.controller import controller
 
@@ -31,7 +31,9 @@ def mainloop() -> None:
     start_timer()
 
     controller.resolve_pygame_events()
-    screen.fill(color=(255, 255, 128))
+    # screen.fill(color=(255, 255, 128))
+    pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 0, WX-340, WY], width=0)
+    pygame.draw.rect(surface=screen, color=BLACK, rect=[WX-340, 0, WX, WY], width=0)
     tehuda.elapse()
     controller.mouse_over()
 
