@@ -14,7 +14,7 @@ class Controller():
         self.hover: Youso | None = None
         self.get_hover: Callable[[], Youso | None] = self._not_implemented_get_hover_youso
         self.active: Youso | None = None
-        self.motion: Event
+        self.data_transfer: Youso | None = None
         self.hold_coord: V2
         self.drag: bool = False
 
@@ -24,11 +24,10 @@ class Controller():
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEMOTION:
-                # self.motion = event
                 self.hover = self.get_hover()
             elif event.type == MOUSEBUTTONDOWN:
                 if self.hover:
-                    self.hover.dragstatrt()
+                    self.hover.dragstart()
             elif event.type == MOUSEBUTTONUP:
                 if self.active:
                     self.active.dragend()
