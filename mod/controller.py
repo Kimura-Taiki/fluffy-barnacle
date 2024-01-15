@@ -27,21 +27,26 @@ class Controller():
                 self.hover = self.get_hover()
             elif event.type == MOUSEBUTTONDOWN:
                 if self.hover:
-                    self.hover.dragstart()
+                    self.hover.mousedown()
             elif event.type == MOUSEBUTTONUP:
                 if self.active:
-                    self.active.dragend()
+                    self.active.mouseup()
                     self.active = None
+                if self.data_transfer:
+                    self.data_transfer.dragend()
+                    self.data_transfer = None
                     self.drag = False
 
 
     def mouse_over(self) -> None:
-        # screen.blit(source=MS_MINCHO(f"MM : {self.motion.pos}, {self.motion.rel}, {self.motion.buttons}", 32), dest=[0, 80])
-        if self.hover:
+        if self.data_transfer:
+            self.data_transfer.drag()
+            if self.hover:
+                self.hover.hover()
+        elif self.active:
+            self.active.active()
+        elif self.hover:
             self.hover.hover()
-        if self.active:
-            self.active.drag()
-            # self.active.
 
     @staticmethod
     def _not_implemented_get_hover_youso() -> None:
