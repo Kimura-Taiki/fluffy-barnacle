@@ -10,11 +10,15 @@ from mod.controller import controller
 
 # HAND_X_RATE = 120
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-HAND_ANGLE_RATE = -6.0
-HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE/2*(j-1)+HAND_ANGLE_RATE*i
+HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*min(3, j-1)/(j-1)
+# HAND_ANGLE_RATE = -6.0
+HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6.0*min(3, i-1)/(i-1)
+# HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE/2*(j-1)+HAND_ANGLE_RATE*i
+HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 # HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE/2*(j-1)+HAND_X_RATE*i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
-HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
+# HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
+HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
 
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
