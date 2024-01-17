@@ -32,9 +32,17 @@ class Tehuda(Taba):
         [huda.draw() for huda in self]
 
     @classmethod
-    def made_by_files(cls, surfaces: list[Surface]) -> "Tehuda":
+    def made_by_own_files(cls, surfaces: list[Surface]) -> "Tehuda":
         j = len(surfaces)
         return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
+                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
+                                 active=cls._active_huda, drag=cls._drag_tehuda)
+                            for i, v in enumerate(surfaces)])
+
+    @classmethod
+    def made_by_enemy_files(cls, surfaces: list[Surface]) -> "Tehuda":
+        j = len(surfaces)
+        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j)+180.0, scale=0.6, x=1280-HAND_X(i, j), y=720-HAND_Y(i, j),
                                  draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
                                  active=cls._active_huda, drag=cls._drag_tehuda)
                             for i, v in enumerate(surfaces)])
