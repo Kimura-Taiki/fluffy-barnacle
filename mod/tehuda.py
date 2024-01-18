@@ -29,20 +29,25 @@ class Tehuda(Taba):
         [huda.draw() for huda in self]
 
     @classmethod
-    def made_by_own_files(cls, surfaces: list[Surface]) -> "Tehuda":
+    def _made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
+        if is_own:
+            angle_func, x_func, y_func = HAND_ANGLE, HAND_X, HAND_Y
+        else:
+            angle_func = lambda i, j: HAND_ANGLE(i, j)+180.0
+            x_func, y_func = lambda i, j: WX-HAND_X(i, j), lambda i, j: WY-HAND_Y(i, j)
         j = len(surfaces)
-        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j), scale=0.6, x=HAND_X(i, j), y=HAND_Y(i, j),
+        return Tehuda(data=[Huda(img=v, angle=angle_func(i, j), scale=0.6, x=x_func(i, j), y=y_func(i, j),
                                  draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
-                                 active=cls._active_huda, drag=cls._drag_tehuda)
+                                 active=cls._active_huda, mouseup=cls._mouseup_tehdua, drag=cls._drag_tehuda)
                             for i, v in enumerate(surfaces)])
+    
+    @classmethod
+    def made_by_own_files(cls, surfaces: list[Surface]) -> "Tehuda":
+        return cls._made_by_files(surfaces=surfaces, is_own=True)
 
     @classmethod
     def made_by_enemy_files(cls, surfaces: list[Surface]) -> "Tehuda":
-        j = len(surfaces)
-        return Tehuda(data=[Huda(img=v, angle=HAND_ANGLE(i, j)+180.0, scale=0.6, x=1280-HAND_X(i, j), y=720-HAND_Y(i, j),
-                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
-                                 active=cls._active_huda, drag=cls._drag_tehuda)
-                            for i, v in enumerate(surfaces)])
+        return cls._made_by_files(surfaces=surfaces, is_own=False)
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
@@ -76,6 +81,10 @@ class Tehuda(Taba):
                 screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
             else:
                 screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
+
+    @staticmethod
+    def _mouseup_tehdua(huda: Huda) -> None:
+        print("手札がMouseUpしたよ")
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:

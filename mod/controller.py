@@ -29,13 +29,14 @@ class Controller():
                 if self.hover:
                     self.hover.mousedown()
             elif event.type == MOUSEBUTTONUP:
-                if self.active:
-                    self.active.mouseup()
-                    self.active = None
                 if self.data_transfer:
                     self.data_transfer.dragend()
                     self.data_transfer = None
                     self.drag = False
+                    self.active = False
+                elif self.active:
+                    self.active.mouseup()
+                    self.active = None
 
 
     def mouse_over(self) -> None:

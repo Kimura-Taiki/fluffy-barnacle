@@ -9,7 +9,7 @@ from mod.const import screen, pass_func, BRIGHT
 from mod.controller import controller
 
 def default_draw(huda: 'Huda') -> None:
-    screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2])
+    screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft)
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
@@ -47,4 +47,4 @@ class Huda(Youso):
 
     @property
     def img_rz_topleft(self) -> Vector2:
-        return Vector2(self.x-self.img_rz.get_width()/2, self.y-self.img_rz.get_height()/2)
+        return self.dest-Vector2(self.img_rz.get_size())/2
