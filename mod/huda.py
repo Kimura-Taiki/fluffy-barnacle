@@ -15,6 +15,7 @@ class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
                  draw: Callable[..., None]=default_draw, **kwargs) -> None:
         super().__init__(draw=draw, **kwargs)
+        self.belongs_to: list[Huda] | None = None
         self.img_nega = img
         self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.angle = angle

@@ -20,7 +20,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
         super().__init__(data)
-        self.held_on: Huda | None = None
+        # self.held_on: Huda | None = None
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
@@ -76,7 +76,7 @@ class Tehuda(Taba):
 
     @staticmethod
     def _mouseup_tehdua(huda: Huda) -> None:
-        print("手札がMouseUpしたよ")
+        huda.belongs_to.remove(huda)
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
@@ -85,7 +85,3 @@ class Tehuda(Taba):
         huda.img_rz.set_alpha(192)
         screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
         huda.img_rz.set_alpha(255)
-
-    # @staticmethod
-    # def _dragend_tehuda(huda: Huda) -> None:
-
