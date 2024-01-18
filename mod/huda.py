@@ -17,12 +17,7 @@ class Huda(Youso):
         super().__init__(draw=draw, **kwargs)
         self.belongs_to: list[Huda] | None = None
         self.img_nega = img
-        self.img_rz = pygame.transform.rotozoom(surface=img, angle=angle, scale=scale)
-        self.angle = angle
-        self.scale = scale
-        self.x = int(x)
-        self.y = int(y)
-        self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
+        self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)
@@ -37,6 +32,14 @@ class Huda(Youso):
             if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
                 inside = not inside
         return inside
+    
+    def rearrange(self, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0) -> None:
+        self.img_rz = pygame.transform.rotozoom(surface=self.img_nega, angle=angle, scale=scale)
+        self.angle = angle
+        self.scale = scale
+        self.x = int(x)
+        self.y = int(y)
+        self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
 
     @property
     def dest(self) -> Vector2:

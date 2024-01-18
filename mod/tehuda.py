@@ -20,13 +20,14 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
         super().__init__(data)
-        # self.held_on: Huda | None = None
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
     def elapse(self) -> None:
         [huda.draw() for huda in self]
+
+    # def 
 
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
@@ -77,6 +78,7 @@ class Tehuda(Taba):
     @staticmethod
     def _mouseup_tehdua(huda: Huda) -> None:
         huda.belongs_to.remove(huda)
+
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
