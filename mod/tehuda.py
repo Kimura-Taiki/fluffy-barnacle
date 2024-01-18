@@ -2,6 +2,7 @@ import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
+from functools import partial
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC
 from mod.huda import Huda, default_draw
@@ -18,8 +19,9 @@ HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6.0*min(3, i-1)/(i-1)
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
 class Tehuda(Taba):
-    def __init__(self, data: list[Huda]=[]) -> None:
+    def __init__(self, data: list[Huda]=[], is_own: bool=True) -> None:
         super().__init__(data)
+
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
@@ -27,20 +29,25 @@ class Tehuda(Taba):
     def elapse(self) -> None:
         [huda.draw() for huda in self]
 
-    # def 
+    def rearrange(self) -> None:
+        j = len(self)
+        [huda.rearrange() for huda in self]
+
+    @classmethod
+    def _rearrange_funcs(cls, l: int, is_own: bool) -> [Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
+        if is_own:
+            return partial(HAND_ANGLE, j=l), partial(HAND_X, j=l), partial(HAND_Y, j=l)
+        else:
+            return (partial(lambda i, j: HAND_ANGLE(i, j) + 180.0, j=l),
+                    partial(lambda i, j: WX - HAND_X(i, j), j=l), partial(lambda i, j: WY - HAND_Y(i, j), j=l))
 
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
-        if is_own:
-            angle_func, x_func, y_func = HAND_ANGLE, HAND_X, HAND_Y
-        else:
-            angle_func = lambda i, j: HAND_ANGLE(i, j)+180.0
-            x_func, y_func = lambda i, j: WX-HAND_X(i, j), lambda i, j: WY-HAND_Y(i, j)
-        j = len(surfaces)
-        return Tehuda(data=[Huda(img=v, angle=angle_func(i, j), scale=0.6, x=x_func(i, j), y=y_func(i, j),
+        angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
+        return Tehuda(data=[Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i),
                                  draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
                                  active=cls._active_huda, mouseup=cls._mouseup_tehdua, drag=cls._drag_tehuda)
-                            for i, v in enumerate(surfaces)])
+                            for i, v in enumerate(surfaces)], is_own=is_own)
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
