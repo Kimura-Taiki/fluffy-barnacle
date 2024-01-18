@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
@@ -12,16 +13,16 @@ from mod.controller import controller
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
 
-HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*min(3, j-1)/(j-1)
+HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
 HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
 
-HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6.0*min(3, i-1)/(i-1)
+HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[], is_own: bool=True) -> None:
         super().__init__(data)
-
+        self.is_one = is_own
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
@@ -30,16 +31,16 @@ class Tehuda(Taba):
         [huda.draw() for huda in self]
 
     def rearrange(self) -> None:
-        j = len(self)
-        [huda.rearrange() for huda in self]
+        angle_func, x_func, y_func = self._rearrange_funcs(l=len(self), is_own=self.is_one)
+        [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(self)]
 
     @classmethod
-    def _rearrange_funcs(cls, l: int, is_own: bool) -> [Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
+    def _rearrange_funcs(cls, l: int, is_own: bool) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
         if is_own:
             return partial(HAND_ANGLE, j=l), partial(HAND_X, j=l), partial(HAND_Y, j=l)
         else:
-            return (partial(lambda i, j: HAND_ANGLE(i, j) + 180.0, j=l),
-                    partial(lambda i, j: WX - HAND_X(i, j), j=l), partial(lambda i, j: WY - HAND_Y(i, j), j=l))
+            return (partial(lambda i, j: HAND_ANGLE(i, j)+180.0, j=l),
+                    partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
@@ -85,6 +86,7 @@ class Tehuda(Taba):
     @staticmethod
     def _mouseup_tehdua(huda: Huda) -> None:
         huda.belongs_to.remove(huda)
+        huda.belongs_to.rearrange()
 
 
     @staticmethod
