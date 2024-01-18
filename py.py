@@ -6,8 +6,8 @@ from mod.tehuda import Tehuda
 from mod.controller import controller
 from mod.youso import Youso
 
-own_tehuda = Tehuda.made_by_own_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)])
-enemy_tehuda = Tehuda.made_by_enemy_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)])
+own_tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], is_own=True)
+enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], is_own=False)
 def get_hover() -> Youso | None:
     if youso := own_tehuda.get_hover_huda():
         return youso

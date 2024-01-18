@@ -29,7 +29,7 @@ class Tehuda(Taba):
         [huda.draw() for huda in self]
 
     @classmethod
-    def _made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
+    def made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
         if is_own:
             angle_func, x_func, y_func = HAND_ANGLE, HAND_X, HAND_Y
         else:
@@ -40,14 +40,6 @@ class Tehuda(Taba):
                                  draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
                                  active=cls._active_huda, mouseup=cls._mouseup_tehdua, drag=cls._drag_tehuda)
                             for i, v in enumerate(surfaces)])
-    
-    @classmethod
-    def made_by_own_files(cls, surfaces: list[Surface]) -> "Tehuda":
-        return cls._made_by_files(surfaces=surfaces, is_own=True)
-
-    @classmethod
-    def made_by_enemy_files(cls, surfaces: list[Surface]) -> "Tehuda":
-        return cls._made_by_files(surfaces=surfaces, is_own=False)
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
