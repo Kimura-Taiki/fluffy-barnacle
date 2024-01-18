@@ -8,17 +8,14 @@ from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
 
-# HAND_X_RATE = 120
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*min(3, j-1)/(j-1)
-# HAND_ANGLE_RATE = -6.0
-HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6.0*min(3, i-1)/(i-1)
-# HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE/2*(j-1)+HAND_ANGLE_RATE*i
-HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
-# HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE/2*(j-1)+HAND_X_RATE*i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
-# HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+abs(i*2-(j-1))**2*2
+
+HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*min(3, j-1)/(j-1)
 HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
+
+HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6.0*min(3, i-1)/(i-1)
+HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
 class Tehuda(Taba):
     def __init__(self, data: list[Huda]=[]) -> None:
@@ -52,8 +49,8 @@ class Tehuda(Taba):
         if controller.active == huda:
             return None
         elif controller.hover == huda:
-            pygame.draw.polygon(screen, BRIGHT, [[x, y-40] for x, y in huda.vertices], 20)
-            screen.blit(source=huda.img_rz, dest=[huda.x-huda.img_rz.get_width()/2, huda.y-huda.img_rz.get_height()/2-40])
+            pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
+            screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
         else:
             default_draw(huda=huda)
         return None
@@ -83,35 +80,11 @@ class Tehuda(Taba):
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
         gpv2 = Vector2(pygame.mouse.get_pos())
-        pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+[x, y] for x, y in huda.vertices], 20)
+        pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.vertices], 20)
         huda.img_rz.set_alpha(192)
         screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
         huda.img_rz.set_alpha(255)
 
     # @staticmethod
-    # def _dragstart_tehuda(huda: Huda) -> None:
-    #     controller.active = huda
-    #     controller.hold_coord = Vector2(pygame.mouse.get_pos())
-    
-    # @staticmethod
-    # def _drag_tehuda(huda: Huda) -> None:
-    #     if controller.drag == True:
-    #         gpv2 = Vector2(pygame.mouse.get_pos())
-    #         pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+[x, y] for x, y in huda.vertices], 20)
-    #         huda.img_rz.set_alpha(192)
-    #         screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
-    #         huda.img_rz.set_alpha(255)
-    #         return
-    #     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-    #     if (rr := diff_coord.length_squared()) < 50:
-    #         screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-    #     elif rr > 62500:
-    #         controller.drag = True
-    #     else:
-    #         if 30 <= (deg := diff_coord.angle_to([0, 0])) and deg < 150:
-    #             screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
-    #         else:
-    #             screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
-
-
+    # def _dragend_tehuda(huda: Huda) -> None:
 

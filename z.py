@@ -4,5 +4,7 @@
 # (未使用&追加&除外)
 
 from pygame.math import Vector2
+
+print(Vector2.__bases__)
 v = Vector2(5, 12)
-print(v.rotate_rad(3.14/2))
+print(v.length(), v[0], v[1])
