@@ -5,7 +5,9 @@ from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LE
 from mod.tehuda import Tehuda
 from mod.controller import controller
 from mod.youso import Youso
+from mod.gottenon import Gottenon
 
+gottenon = Gottenon(text="手札", x=WX/2, y=WY/2)
 own_tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], is_own=True)
 enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], is_own=False)
 def get_hover() -> Youso | None:
@@ -48,6 +50,7 @@ def mainloop() -> None:
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     own_tehuda.elapse()
     enemy_tehuda.elapse()
+    gottenon.draw()
     controller.mouse_over()
 
     end_timer()

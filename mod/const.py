@@ -13,6 +13,7 @@ screen = pygame.display.set_mode((WX, WY))
 clock = pygame.time.Clock()
 
 BRIGHT = (255, 255, 255, 128)
+GAINSBORO = (220, 220, 220)
 LEMONCHIFFON = (255, 250, 205)
 BLACK = (0, 0, 0)
 
