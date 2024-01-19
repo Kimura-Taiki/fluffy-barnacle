@@ -8,3 +8,14 @@ class Gottena(list[Gottenon]):
 
     def elapse(self) -> None:
         [gottenon.draw() for gottenon in self]
+
+    def get_hover_gotten(self) -> Gottenon | None:
+        return next((gottenon for gottenon in self[::-1] if gottenon.is_cursor_on()), None)
+    
+    @staticmethod
+    def _hover_gottenon(gottenon: Gottenon, gottena: 'Gottena') -> None:
+        if gottena.selected == gottenon:
+            return
+        gottena.selected.off()
+        gottenon.on()
+        gottena.selected = gottenon

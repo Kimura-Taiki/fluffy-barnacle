@@ -1,4 +1,3 @@
-def p(i: int) -> None:
-    print(i)
-
-[x if (x := p(i)) else False for i in range(5)]
+x = (1, 2)
+y = (3, 4)
+a, b, c, d = x, y

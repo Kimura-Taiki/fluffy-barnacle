@@ -13,8 +13,18 @@ class Gottenon(Youso):
         self.text = text
         self.img_text = MS_MINCHO_32PT(self.text)
 
+    def is_cursor_on(self) -> bool:
+        mx, my = pygame.mouse.get_pos()
+        cx, cy = self.x, self.y
+        if cx-140 < mx and mx < cx+140 and cy-30 < my and my < cy+30:
+            return True
+        return False
+
     def on(self) -> None:
         self.draw = partial(self._draw_gottenon_on, self)
+
+    def off(self) -> None:
+        self.draw = partial(self._draw_gottenon_off, self)
 
     @staticmethod
     def _draw_gottenon_off(gottenon: 'Gottenon') -> None:

@@ -13,7 +13,9 @@ gottena = Gottena(data=[Gottenon(text="山札", x=WX-140, y=WY-210), Gottenon(te
 own_tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], is_own=True)
 enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], is_own=False)
 def get_hover() -> Youso | None:
-    if youso := own_tehuda.get_hover_huda():
+    if youso := gottena.get_hover_gotten():
+        return youso
+    elif youso := own_tehuda.get_hover_huda():
         return youso
     else:
         return enemy_tehuda.get_hover_huda()
@@ -45,9 +47,6 @@ def mainloop() -> None:
     start_timer()
 
     controller.resolve_pygame_events()
-    # pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 0, WX-340, WY], width=0)
-    # pygame.draw.rect(surface=screen, color=BLACK, rect=[WX-340, 0, 340, WY], width=0)
-    # pygame.draw.rect(surface=screen, color=BLACK, rect=[0, 0, 340, WY], width=0)
     screen.fill(color=LEMONCHIFFON)
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     own_tehuda.elapse()
