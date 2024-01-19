@@ -29,3 +29,4 @@ HONOKA: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_haj
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png")
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png")
 ACTION_CIRCLE_BASIC = pygame.image.load("pictures/action_circle_basic.png")
+IMG_GOTTENON_BG = pygame.image.load("pictures/gottenon.png")

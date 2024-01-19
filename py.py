@@ -7,7 +7,9 @@ from mod.controller import controller
 from mod.youso import Youso
 from mod.gottenon import Gottenon
 
-gottenon = Gottenon(text="手札", x=WX/2, y=WY/2)
+gottenons = [Gottenon(text="山札", x=WX-140, y=WY-210), Gottenon(text="手札", x=WX-140, y=WY-150),
+             Gottenon(text="伏せ札・捨て札", x=WX-140, y=WY-90), Gottenon(text="切り札", x=WX-140, y=WY-30)]
+gottenons[1].on()
 own_tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], is_own=True)
 enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], is_own=False)
 def get_hover() -> Youso | None:
@@ -43,14 +45,14 @@ def mainloop() -> None:
     start_timer()
 
     controller.resolve_pygame_events()
-    pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 0, WX-340, WY], width=0)
-    pygame.draw.rect(surface=screen, color=BLACK, rect=[WX-340, 0, 340, WY], width=0)
-    pygame.draw.rect(surface=screen, color=BLACK, rect=[0, 0, 340, WY], width=0)
-    screen.blit(source=img_taba, dest=[WX-340, 480])
+    # pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 0, WX-340, WY], width=0)
+    # pygame.draw.rect(surface=screen, color=BLACK, rect=[WX-340, 0, 340, WY], width=0)
+    # pygame.draw.rect(surface=screen, color=BLACK, rect=[0, 0, 340, WY], width=0)
+    screen.fill(color=LEMONCHIFFON)
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     own_tehuda.elapse()
     enemy_tehuda.elapse()
-    gottenon.draw()
+    [gottenon.draw() for gottenon in gottenons]
     controller.mouse_over()
 
     end_timer()
