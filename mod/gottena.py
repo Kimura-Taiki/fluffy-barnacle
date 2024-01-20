@@ -29,4 +29,4 @@ class Gottena(list[Gottenon]):
         gottena.selected.off()
         gottenon.on()
         gottena.selected = gottenon
-        gottena.call(taba=gottenon.taba)
+        # gottena.call(taba=gottenon.taba)

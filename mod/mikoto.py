@@ -16,12 +16,12 @@ class Mikoto():
         self.tehuda: Tehuda = Tehuda.made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, is_own=True)
         self.husesute: Tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
         self.kirihuda: Tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(4, 7)], delivery=self, is_own=True)
-        self.gottena: Gottena = Gottena(data=[Gottenon(taba=self.yamahuda, text="山札", x=WX-140, y=WY-210),
-                                              Gottenon(taba=self.tehuda, text="手札", x=WX-140, y=WY-150),
-                                              Gottenon(taba=self.husesute, text="伏せ札・捨て札", x=WX-140, y=WY-90),
-                                              Gottenon(taba=self.kirihuda, text="切り札", x=WX-140, y=WY-30)],
+        self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, text="山札", x=WX-140, y=WY-210),
+                                              Gottenon(core_view=self.tehuda, text="手札", x=WX-140, y=WY-150),
+                                              Gottenon(core_view=self.husesute, text="伏せ札・捨て札", x=WX-140, y=WY-90),
+                                              Gottenon(core_view=self.kirihuda, text="切り札", x=WX-140, y=WY-30)],
                                         call=partial(self._gottena_hover_select, mikoto=self))
-        self.view_taba: Taba = self.tehuda
+        # self.view_taba: Taba = self.tehuda
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.belongs_to.remove(huda)
@@ -33,4 +33,5 @@ class Mikoto():
 
     @staticmethod
     def _gottena_hover_select(mikoto: 'Mikoto', taba: Taba) -> None:
-        mikoto.view_taba = taba
+        pass
+        # mikoto.view_taba = taba

@@ -51,6 +51,6 @@ class Controller():
 
     @staticmethod
     def _not_implemented_get_hover_youso() -> None:
-        raise NotImplementedError("Controller.get_hover_yousoが未定義です")
+        raise NotImplementedError("Controller.get_hover_youso が未定義です")
 
 controller = Controller()

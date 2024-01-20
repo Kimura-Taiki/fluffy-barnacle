@@ -10,3 +10,6 @@ class Taba(list[Huda]):
 
     def elapse(self) -> None:
         [huda.draw() for huda in self]
+
+    def rearrange(self) -> None:
+        raise NotImplementedError("Taba.rearrange が未定義です")
