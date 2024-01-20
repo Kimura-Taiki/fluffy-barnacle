@@ -24,12 +24,6 @@ class Tehuda(Taba):
         super().__init__(data)
         self.is_one = is_own
 
-    def get_hover_huda(self) -> Huda | None:
-        return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
-
-    def elapse(self) -> None:
-        [huda.draw() for huda in self]
-
     def rearrange(self) -> None:
         angle_func, x_func, y_func = self._rearrange_funcs(l=len(self), is_own=self.is_one)
         [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(self)]
@@ -87,7 +81,6 @@ class Tehuda(Taba):
     def _mouseup_tehdua(huda: Huda) -> None:
         huda.belongs_to.remove(huda)
         huda.belongs_to.rearrange()
-
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
