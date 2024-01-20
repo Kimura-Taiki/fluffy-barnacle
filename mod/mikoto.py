@@ -1,6 +1,8 @@
 from functools import partial
 
-from mod.const import UTURO, HONOKA, CARDS, WX, WY
+#                 20                  40                  60                 79
+from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
+    , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.tehuda import Tehuda
@@ -22,7 +24,12 @@ class Mikoto():
         self.view_taba: Taba = self.tehuda
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
-        pass
+        huda.belongs_to.remove(huda)
+        huda.belongs_to.rearrange()
+        match taba_code:
+            case TC_HUSEHUDA:
+                self.husesute.append(huda)
+                self.husesute.rearrange()
 
     @staticmethod
     def _gottena_hover_select(mikoto: 'Mikoto', taba: Taba) -> None:

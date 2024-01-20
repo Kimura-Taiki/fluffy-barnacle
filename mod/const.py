@@ -30,3 +30,11 @@ ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png")
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png")
 ACTION_CIRCLE_BASIC = pygame.image.load("pictures/action_circle_basic.png")
 IMG_GOTTENON_BG = pygame.image.load("pictures/gottenon.png")
+
+TC_YAMAHUDA = 1
+TC_TEHUDA = 2
+TC_SUTEHUDA = 3
+TC_HUSEHUDA = 4
+TC_KIRIHUDA = 5
+TC_MISIYOU = 6
+TC_ZYOGAI = 7

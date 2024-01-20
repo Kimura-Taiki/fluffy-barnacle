@@ -5,7 +5,7 @@ from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC
+from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
@@ -82,8 +82,9 @@ class Tehuda(Taba):
 
     @staticmethod
     def _mouseup_tehdua(huda: Huda, delivery: Delivery) -> None:
-        huda.belongs_to.remove(huda)
-        huda.belongs_to.rearrange()
+        delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+        # huda.belongs_to.remove(huda)
+        # huda.belongs_to.rearrange()
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
