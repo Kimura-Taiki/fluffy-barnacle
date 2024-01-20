@@ -1,16 +1,13 @@
 import pygame
-from pygame.surface import Surface
-from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
-from mod.const import GAINSBORO, BLACK, MS_MINCHO_32PT, screen, IMG_GOTTENON_BG
+from mod.const import MS_MINCHO_32PT, screen, IMG_GOTTENON_BG
 from mod.youso import Youso
-# from mod.taba import Taba
 from mod.core_view import CoreView
 
 class Gottenon(Youso):
-    def __init__(self, core_view: CoreView, text: str, x: int, y: int, **kwargs) -> None:
+    def __init__(self, core_view: CoreView, text: str, x: int, y: int, **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
         self.text = text
         self.img_text = MS_MINCHO_32PT(self.text)

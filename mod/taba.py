@@ -1,8 +1,10 @@
+from functools import partial
+
 from mod.huda import Huda
 
 class Taba(list[Huda]):
     def __init__(self, data: list[Huda]=[]) -> None:
-        super().__init__([setattr(huda, 'belongs_to', self) or huda for huda in data])
+        super().__init__([self._has(huda=huda) for huda in data])
         self.other_params: list[int] = []
 
     def get_hover_huda(self) -> Huda | None:
@@ -13,3 +15,13 @@ class Taba(list[Huda]):
 
     def rearrange(self) -> None:
         raise NotImplementedError("Taba.rearrange が未定義です")
+
+    def _has(self, huda: Huda) -> Huda:
+        setattr(huda, 'belongs_to', self)
+        huda.withdraw = partial(self._withdraw_huda, huda=huda, taba=self)
+        return huda
+
+    @staticmethod
+    def _withdraw_huda(huda: Huda, taba: 'Taba') -> None:
+        taba.remove(huda)
+        taba.rearrange()

@@ -31,8 +31,7 @@ class Mikoto():
         screen.blit(source=IMG_SYUUTYUU_AREA, dest=[WX-340, WY-60])
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
-        huda.belongs_to.remove(huda)
-        huda.belongs_to.rearrange()
+        huda.withdraw()
         match taba_code:
             case TC_HUSEHUDA:
                 self.husesute.append(huda)

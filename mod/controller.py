@@ -1,11 +1,9 @@
 import pygame
 import sys
-from pygame.event import Event
 from pygame.math import Vector2 as V2
 from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from typing import Callable
 
-from mod.const import screen, MS_MINCHO
 from mod.youso import Youso
 
 class Controller():
@@ -33,7 +31,7 @@ class Controller():
                     self.data_transfer.dragend()
                     self.data_transfer = None
                     self.drag = False
-                    self.active = False
+                    self.active = None
                 elif self.active:
                     self.active.mouseup()
                     self.active = None
