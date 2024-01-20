@@ -9,6 +9,7 @@ from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRC
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
+from mod.delivery import Delivery
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -20,8 +21,9 @@ HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
 class Tehuda(Taba):
-    def __init__(self, data: list[Huda]=[], is_own: bool=True) -> None:
+    def __init__(self, delivery: Delivery, data: list[Huda]=[], is_own: bool=True) -> None:
         super().__init__(data)
+        self.delivery: Delivery = delivery
         self.is_one = is_own
 
     def rearrange(self) -> None:
@@ -37,12 +39,13 @@ class Tehuda(Taba):
                     partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
     @classmethod
-    def made_by_files(cls, surfaces: list[Surface], is_own: bool) -> "Tehuda":
+    def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
         angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
         return Tehuda(data=[Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i),
                                  draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
-                                 active=cls._active_huda, mouseup=cls._mouseup_tehdua, drag=cls._drag_tehuda)
-                            for i, v in enumerate(surfaces)], is_own=is_own)
+                                 active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
+                                 drag=cls._drag_tehuda)
+                            for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
@@ -78,7 +81,7 @@ class Tehuda(Taba):
                 screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
 
     @staticmethod
-    def _mouseup_tehdua(huda: Huda) -> None:
+    def _mouseup_tehdua(huda: Huda, delivery: Delivery) -> None:
         huda.belongs_to.remove(huda)
         huda.belongs_to.rearrange()
 

@@ -11,7 +11,7 @@ from mod.mikoto import Mikoto
 
 
 own_mikoto = Mikoto(is_own=True)
-enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], is_own=False)
+enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], delivery=own_mikoto, is_own=False)
 def get_hover() -> Youso | None:
     if youso := own_mikoto.gottena.get_hover_gotten():
         return youso
@@ -49,11 +49,8 @@ def mainloop() -> None:
     controller.resolve_pygame_events()
     screen.fill(color=LEMONCHIFFON)
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
-    # own_tehuda.elapse()
-    # own_mikoto.tehuda.elapse()
     own_mikoto.view_taba.elapse()
     enemy_tehuda.elapse()
-    # gottena.elapse()
     own_mikoto.gottena.elapse()
     controller.mouse_over()
 
