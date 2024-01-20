@@ -6,12 +6,14 @@ from functools import partial
 
 from mod.const import GAINSBORO, BLACK, MS_MINCHO_32PT, screen, IMG_GOTTENON_BG
 from mod.youso import Youso
+from mod.taba import Taba
 
 class Gottenon(Youso):
-    def __init__(self, text: str, x: int, y: int, **kwargs) -> None:
+    def __init__(self, taba: Taba, text: str, x: int, y: int, **kwargs) -> None:
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
         self.text = text
         self.img_text = MS_MINCHO_32PT(self.text)
+        self.taba: Taba = taba
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()
