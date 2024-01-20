@@ -51,9 +51,10 @@ def mainloop() -> None:
     screen.fill(color=LEMONCHIFFON)
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     # own_mikoto.view_taba.elapse()
-    own_mikoto.gottena.selected.core_view.elapse()
+    # own_mikoto.gottena.selected.core_view.elapse()
+    # own_mikoto.gottena.elapse()
+    own_mikoto.elapse()
     enemy_tehuda.elapse()
-    own_mikoto.gottena.elapse()
     controller.mouse_over()
 
     end_timer()

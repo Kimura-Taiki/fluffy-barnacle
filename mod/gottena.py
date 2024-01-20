@@ -5,15 +5,10 @@ from mod.gottenon import Gottenon
 from mod.taba import Taba
 
 class Gottena(list[Gottenon]):
-    @staticmethod
-    def _not_implemented_call(taba: Any=None) -> None:
-        raise NotImplementedError("Gottena.call が未定義です")
-
-    def __init__(self, data: list[Gottenon]=[], call: Callable[[Taba], None]=_not_implemented_call):
+    def __init__(self, data: list[Gottenon]=[]):
         super().__init__(data)
         self.selected = self[1]
         self.selected.on()
-        self.call: Callable[[Taba], None] = call
         [gottenon.set_partial_attr(attr="hover", func=partial(self._hover_gottenon, gottena=self)) for gottenon in self]
 
     def elapse(self) -> None:
@@ -29,4 +24,3 @@ class Gottena(list[Gottenon]):
         gottena.selected.off()
         gottenon.on()
         gottena.selected = gottenon
-        # gottena.call(taba=gottenon.taba)

@@ -2,7 +2,8 @@ from functools import partial
 
 #                 20                  40                  60                 79
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
-    , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI
+    , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
+    , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.tehuda import Tehuda
@@ -19,9 +20,15 @@ class Mikoto():
         self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, text="山札", x=WX-140, y=WY-210),
                                               Gottenon(core_view=self.tehuda, text="手札", x=WX-140, y=WY-150),
                                               Gottenon(core_view=self.husesute, text="伏せ札・捨て札", x=WX-140, y=WY-90),
-                                              Gottenon(core_view=self.kirihuda, text="切り札", x=WX-140, y=WY-30)],
-                                        call=partial(self._gottena_hover_select, mikoto=self))
-        # self.view_taba: Taba = self.tehuda
+                                              Gottenon(core_view=self.kirihuda, text="切り札", x=WX-140, y=WY-30)])
+
+    def elapse(self) -> None:
+        self.gottena.selected.core_view.elapse()
+        self.gottena.elapse()
+        screen.blit(source=IMG_AURA_AREA, dest=[WX-340, WY-240])
+        screen.blit(source=IMG_FLAIR_AREA, dest=[WX-340, WY-180])
+        screen.blit(source=IMG_LIFE_AREA, dest=[WX-340, WY-120])
+        screen.blit(source=IMG_SYUUTYUU_AREA, dest=[WX-340, WY-60])
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.belongs_to.remove(huda)
@@ -30,8 +37,3 @@ class Mikoto():
             case TC_HUSEHUDA:
                 self.husesute.append(huda)
                 self.husesute.rearrange()
-
-    @staticmethod
-    def _gottena_hover_select(mikoto: 'Mikoto', taba: Taba) -> None:
-        pass
-        # mikoto.view_taba = taba

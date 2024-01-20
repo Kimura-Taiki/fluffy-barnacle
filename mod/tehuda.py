@@ -82,9 +82,8 @@ class Tehuda(Taba):
 
     @staticmethod
     def _mouseup_tehdua(huda: Huda, delivery: Delivery) -> None:
+        if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
         delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
-        # huda.belongs_to.remove(huda)
-        # huda.belongs_to.rearrange()
 
     @staticmethod
     def _drag_tehuda(huda: Huda) -> None:
