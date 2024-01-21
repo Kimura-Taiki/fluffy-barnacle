@@ -21,8 +21,8 @@ HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
 class Tehuda(Taba):
-    def __init__(self, delivery: Delivery, data: list[Huda]=[], is_own: bool=True) -> None:
-        super().__init__(data)
+    def __init__(self, delivery: Delivery, is_own: bool=True) -> None:
+        super().__init__()
         self.delivery: Delivery = delivery
         self.is_one = is_own
         self.rearrange = partial(self._rearrange_tehuda, tehuda=self)
@@ -32,6 +32,11 @@ class Tehuda(Taba):
         __object.inject_funcs(draw=self._draw_tehuda, hover=self._hover_tehuda, mousedown=self._mousedown_tehuda,
                               active=self._active_huda, mouseup=partial(self._mouseup_tehdua, delivery=self.delivery),
                               drag=self._drag_tehuda)
+
+    @staticmethod
+    def _rearrange_tehuda(tehuda: 'Tehuda') -> None:
+        angle_func, x_func, y_func = tehuda._rearrange_funcs(l=len(tehuda), is_own=tehuda.is_one)
+        [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(tehuda)]
 
     @classmethod
     def _rearrange_funcs(cls, l: int, is_own: bool) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
@@ -47,11 +52,6 @@ class Tehuda(Taba):
         tehuda = Tehuda(delivery=delivery, is_own=is_own)
         [tehuda.append(Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i))) for i, v in enumerate(surfaces)]
         return tehuda
-
-    @staticmethod
-    def _rearrange_tehuda(tehuda: 'Tehuda') -> None:
-        angle_func, x_func, y_func = tehuda._rearrange_funcs(l=len(tehuda), is_own=tehuda.is_one)
-        [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(tehuda)]
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:
