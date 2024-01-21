@@ -22,13 +22,14 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)
 
 class Tehuda(Taba):
     def __init__(self, delivery: Delivery, is_own: bool=True) -> None:
-        super().__init__(delivery=delivery, is_own=is_own, rearrange=partial(self._rearrange_tehuda, tehuda=self))
+        super().__init__(delivery=delivery, is_own=is_own, rearrange=partial(self._rearrange_tehuda, tehuda=self),
+                         inject=self._inject_of_tehuda)
 
-    def append(self, __object: Huda) -> None:
-        super().append(__object)
-        __object.inject_funcs(draw=self._draw_tehuda, hover=self._hover_tehuda, mousedown=self._mousedown_tehuda,
-                              active=self._active_huda, mouseup=partial(self._mouseup_tehdua, delivery=self.delivery),
-                              drag=self._drag_tehuda)
+    @staticmethod
+    def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
+        huda.inject_funcs(draw=Tehuda._draw_tehuda, hover=Tehuda._hover_tehuda, mousedown=Tehuda._mousedown_tehuda,
+                              active=Tehuda._active_huda, mouseup=partial(Tehuda._mouseup_tehdua, delivery=taba.delivery),
+                              drag=Tehuda._drag_tehuda)
 
     @staticmethod
     def _rearrange_tehuda(tehuda: 'Tehuda') -> None:
