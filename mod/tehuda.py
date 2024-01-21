@@ -48,11 +48,16 @@ class Tehuda(Taba):
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
         angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
-        return Tehuda(data=[Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i),
-                                 draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
-                                 active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
-                                 drag=cls._drag_tehuda)
+        return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
+                                                 delivery=delivery)
                             for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
+    
+    @classmethod
+    def _injected_tehuda(cls, huda: Huda, delivery: Delivery) -> Huda:
+        huda.inject_funcs(draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
+                          active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
+                          drag=cls._drag_tehuda)
+        return huda
 
     @staticmethod
     def _rearrange_tehuda(tehuda: 'Tehuda') -> None:

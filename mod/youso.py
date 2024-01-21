@@ -29,7 +29,6 @@ class Youso():
         self.dragstart: Callable[..., None] = partial(kwargs.get('dragstart', pass_func), self)
         self.drag: Callable[..., None] = partial(kwargs.get('drag', pass_func), self)
         self.dragend: Callable[..., None] = partial(kwargs.get('dragend', pass_func), self)
-        return self
 
     def set_partial_attr(self, attr: str, func: Callable[[Any], None]) -> bool | None:
         setattr(self, attr, partial(func, self))
