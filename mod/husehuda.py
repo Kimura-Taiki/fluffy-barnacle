@@ -20,14 +20,14 @@ HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)
 HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
-def tehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
-    tehuda = Taba(delivery=delivery, is_own=is_own, inject=_inject_of_tehuda)
-    tehuda.rearrange = partial(_rearrange_tehuda, taba=tehuda)
+def husehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
+    husehuda = Taba(delivery=delivery, is_own=is_own, inject=_inject_of_husehuda)
+    husehuda.rearrange = partial(_rearrange_husehuda, taba=husehuda)
     for i in surfaces:
-        tehuda.append(Huda(img=i))
-    return tehuda
+        husehuda.append(Huda(img=i))
+    return husehuda
 
-def _rearrange_tehuda(taba: Taba) -> None:
+def _rearrange_husehuda(taba: Taba) -> None:
     angle_func, x_func, y_func = _rearrange_funcs(l=len(taba), is_own=taba.is_own)
     [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(taba)]
 
@@ -38,9 +38,8 @@ def _rearrange_funcs(l: int, is_own: bool) -> tuple[Callable[[int], float], Call
         return (partial(lambda i, j: HAND_ANGLE(i, j)+180.0, j=l),
                 partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
-def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
-    huda.inject_funcs(draw=_draw, hover=_hover, mousedown=_mousedown, active=_active,
-                      mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
+def _inject_of_husehuda(huda: Huda, taba: Taba) -> None:
+    huda.inject_funcs(draw=_draw, hover=_hover)
     
 def _draw(huda: Huda) -> None:
     if controller.active == huda:
@@ -54,30 +53,3 @@ def _draw(huda: Huda) -> None:
 
 def _hover(huda: Huda) -> None:
     screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
-
-def _mousedown(huda: Huda) -> None:
-    controller.active = huda
-    controller.hold_coord = Vector2(pygame.mouse.get_pos())
-
-def _active(huda: Huda) -> None:
-    diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-    if (rr := diff_coord.length_squared()) < 50:
-        screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-    elif rr > 62500:
-        controller.data_transfer = huda
-    else:
-        if 30 <= (deg := diff_coord.angle_to([0, 0])) and deg < 150:
-            screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
-        else:
-            screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
-
-def _mouseup(huda: Huda, delivery: Delivery) -> None:
-    if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
-    delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
-
-def _drag(huda: Huda) -> None:
-    gpv2 = Vector2(pygame.mouse.get_pos())
-    pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.vertices], 20)
-    huda.img_rz.set_alpha(192)
-    screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
-    huda.img_rz.set_alpha(255)
