@@ -32,14 +32,15 @@ MS_MINCHO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("msminc
 UTURO: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
 HONOKA: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_b_n_{i}.png").convert_alpha()
 
-ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png")
-ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png")
-ACTION_CIRCLE_BASIC = pygame.image.load("pictures/action_circle_basic.png")
-IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png")
-IMG_FLAIR_AREA = pygame.image.load("pictures/ouka_flare.png")
-IMG_LIFE_AREA = pygame.image.load("pictures/ouka_life.png")
-IMG_SYUUTYUU_AREA = pygame.image.load("pictures/syuutyuu.png")
-IMG_GOTTENON_BG = pygame.image.load("pictures/gottenon.png")
+ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png").convert_alpha()
+ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png").convert_alpha()
+ACTION_CIRCLE_BASIC = pygame.image.load("pictures/action_circle_basic.png").convert_alpha()
+IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()
+IMG_FLAIR_AREA = pygame.image.load("pictures/ouka_flare.png").convert_alpha()
+IMG_LIFE_AREA = pygame.image.load("pictures/ouka_life.png").convert_alpha()
+IMG_SYUUTYUU_AREA = pygame.image.load("pictures/syuutyuu.png").convert_alpha()
+IMG_GOTTENON_BG = pygame.image.load("pictures/gottenon.png").convert_alpha()
+IMG_BACK = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=90.0, scale=0.6).convert_alpha()
 
 TC_YAMAHUDA = 1
 TC_TEHUDA = 2
