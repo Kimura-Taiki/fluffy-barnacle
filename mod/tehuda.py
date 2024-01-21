@@ -25,10 +25,15 @@ class Tehuda(Taba):
         super().__init__(data)
         self.delivery: Delivery = delivery
         self.is_one = is_own
+        self.rearrange = partial(self._rearrange_tehuda, tehuda=self)
 
-    def rearrange(self) -> None:
-        angle_func, x_func, y_func = self._rearrange_funcs(l=len(self), is_own=self.is_one)
-        [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(self)]
+    # def append(self, huda: Huda) -> None:
+    #     super().append(huda)  # 親クラスの append メソッドを呼び出す
+    #     # 追加した Huda インスタンスに対する特別な処理を追加する
+    #     angle_func, x_func, y_func = self._rearrange_funcs(l=len(self), is_own=self.is_one)
+    #     huda.rearrange(angle=angle_func(len(self) - 1), scale=0.6, x=x_func(len(self) - 1), y=y_func(len(self) - 1))
+
+    # def 
 
     @classmethod
     def _rearrange_funcs(cls, l: int, is_own: bool) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
@@ -46,6 +51,11 @@ class Tehuda(Taba):
                                  active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
                                  drag=cls._drag_tehuda)
                             for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
+
+    @staticmethod
+    def _rearrange_tehuda(tehuda: 'Tehuda') -> None:
+        angle_func, x_func, y_func = tehuda._rearrange_funcs(l=len(tehuda), is_own=tehuda.is_one)
+        [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(tehuda)]
 
     @staticmethod
     def _draw_tehuda(huda: Huda) -> None:

@@ -7,7 +7,6 @@ from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.tehuda import Tehuda
-from mod.taba import Taba
 from mod.huda import Huda
 
 class Mikoto():
