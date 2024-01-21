@@ -46,7 +46,8 @@ class Tehuda(Taba):
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
         tehuda = Tehuda(delivery=delivery, is_own=is_own)
-        [tehuda.append(Huda(img=i)) for i in surfaces]
+        for i in surfaces:
+            tehuda.append(Huda(img=i))
         return tehuda
 
     @staticmethod

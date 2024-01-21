@@ -21,14 +21,14 @@ class Youso():
         self.inject_funcs(**kwargs)
 
     def inject_funcs(self, **kwargs: Callable[..., None]) -> None:
-        self.draw: Callable[..., None] = partial(kwargs.get('draw', pass_func), self)
-        self.hover: Callable[..., None] = partial(kwargs.get('hover', pass_func), self)
-        self.mousedown: Callable[..., None] = partial(kwargs.get('mousedown', pass_func), self)
-        self.active: Callable[..., None] = partial(kwargs.get('active', pass_func), self)
-        self.mouseup: Callable[..., None] = partial(kwargs.get('mouseup', pass_func), self)
-        self.dragstart: Callable[..., None] = partial(kwargs.get('dragstart', pass_func), self)
-        self.drag: Callable[..., None] = partial(kwargs.get('drag', pass_func), self)
-        self.dragend: Callable[..., None] = partial(kwargs.get('dragend', pass_func), self)
+        self.draw = partial(kwargs.get('draw', pass_func), self)
+        self.hover = partial(kwargs.get('hover', pass_func), self)
+        self.mousedown = partial(kwargs.get('mousedown', pass_func), self)
+        self.active = partial(kwargs.get('active', pass_func), self)
+        self.mouseup = partial(kwargs.get('mouseup', pass_func), self)
+        self.dragstart = partial(kwargs.get('dragstart', pass_func), self)
+        self.drag = partial(kwargs.get('drag', pass_func), self)
+        self.dragend = partial(kwargs.get('dragend', pass_func), self)
 
     def set_partial_attr(self, attr: str, func: Callable[[Any], None]) -> bool | None:
         setattr(self, attr, partial(func, self))
