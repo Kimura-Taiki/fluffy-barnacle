@@ -36,6 +36,9 @@ class Tehuda(Taba):
     # def inject_huda_funcs(self, huda: Huda) -> Huda:
 
     #     return huda
+    def append(self, __object: Huda) -> None:
+        super().append(__object)
+        self._injected_tehuda(huda=__object)
 
     @classmethod
     def _rearrange_funcs(cls, l: int, is_own: bool) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
@@ -48,25 +51,27 @@ class Tehuda(Taba):
     # @classmethod
     # def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
     #     angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
-    #     return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
-    #                                              delivery=delivery)
-    #                         for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
+    #     tehuda = Tehuda(delivery=delivery, is_own=is_own)
+    #     [tehuda.append(tehuda._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)))
+    #                    ) for i, v in enumerate(surfaces)]
+    #     return tehuda
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
         angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
         tehuda = Tehuda(delivery=delivery, is_own=is_own)
-        [tehuda.append(cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)), delivery=delivery)
-                       ) for i, v in enumerate(surfaces)]
+        [tehuda.append(Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i))) for i, v in enumerate(surfaces)]
         return tehuda
-        # return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
-        #                                          delivery=delivery)
-        #                     for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
-    
-    @classmethod
-    def _injected_tehuda(cls, huda: Huda, delivery: Delivery) -> Huda:
-        huda.inject_funcs(draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
-                          active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
-                          drag=cls._drag_tehuda)
+
+    # @classmethod
+    # def _injected_tehuda(cls, huda: Huda, delivery: Delivery) -> Huda:
+    #     huda.inject_funcs(draw=cls._draw_tehuda, hover=cls._hover_tehuda, mousedown=cls._mousedown_tehuda,
+    #                       active=cls._active_huda, mouseup=partial(cls._mouseup_tehdua, delivery=delivery),
+    #                       drag=cls._drag_tehuda)
+    #     return huda
+    def _injected_tehuda(self, huda: Huda) -> Huda:
+        huda.inject_funcs(draw=self._draw_tehuda, hover=self._hover_tehuda, mousedown=self._mousedown_tehuda,
+                          active=self._active_huda, mouseup=partial(self._mouseup_tehdua, delivery=self.delivery),
+                          drag=self._drag_tehuda)
         return huda
 
     @staticmethod
