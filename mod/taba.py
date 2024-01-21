@@ -11,6 +11,7 @@ class Taba(list[Huda]):
         self.delivery = delivery
         self.is_own = is_own
         self.rearrange = rearrange
+        self.withdraw: Callable[[], None] = nie(text="Taba.withdraw")
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
@@ -19,13 +20,9 @@ class Taba(list[Huda]):
         [huda.draw() for huda in self]
 
     def append(self, __object: Huda) -> None:
-        self._has(huda=__object)
+        __object.withdraw = partial(self._withdraw_huda, huda=__object, taba=self)
         super().append(__object)
         self.rearrange()
-
-    def _has(self, huda: Huda) -> Huda:
-        huda.withdraw = partial(self._withdraw_huda, huda=huda, taba=self)
-        return huda
 
     @staticmethod
     def _withdraw_huda(huda: Huda, taba: 'Taba') -> None:
