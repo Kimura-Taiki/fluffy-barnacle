@@ -34,4 +34,3 @@ class Mikoto():
         match taba_code:
             case TC_HUSEHUDA:
                 self.husesute.append(huda)
-                self.husesute.rearrange()

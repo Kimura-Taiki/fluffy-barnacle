@@ -18,8 +18,8 @@ class Taba(list[Huda]):
 
     def append(self, __object: Huda) -> None:
         self._has(huda=__object)
-        # self.rearrange()
-        return super().append(__object)
+        super().append(__object)
+        self.rearrange()
 
     def _has(self, huda: Huda) -> Huda:
         huda.withdraw = partial(self._withdraw_huda, huda=huda, taba=self)

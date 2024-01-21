@@ -48,9 +48,8 @@ class Tehuda(Taba):
 
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
-        angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
         tehuda = Tehuda(delivery=delivery, is_own=is_own)
-        [tehuda.append(Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i))) for i, v in enumerate(surfaces)]
+        [tehuda.append(Huda(img=i)) for i in surfaces]
         return tehuda
 
     @staticmethod
