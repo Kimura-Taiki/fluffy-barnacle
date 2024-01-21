@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen
+from mod.const import screen, nie
 from mod.youso import Youso
 
 def default_draw(huda: 'Huda') -> None:
@@ -14,7 +14,7 @@ class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
                  draw: Callable[..., None]=default_draw, **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, draw=draw, **kwargs)
-        self.withdraw: Callable[[], None] = self._not_implemented_withdraw
+        self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
@@ -44,7 +44,3 @@ class Huda(Youso):
     @property
     def img_rz_topleft(self) -> Vector2:
         return self.dest-Vector2(self.img_rz.get_size())/2
-
-    @staticmethod
-    def _not_implemented_withdraw() -> None:
-        raise NotImplementedError("Huda.withdraw が未定義です")

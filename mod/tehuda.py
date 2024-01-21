@@ -45,12 +45,22 @@ class Tehuda(Taba):
             return (partial(lambda i, j: HAND_ANGLE(i, j)+180.0, j=l),
                     partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
+    # @classmethod
+    # def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
+    #     angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
+    #     return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
+    #                                              delivery=delivery)
+    #                         for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
     @classmethod
     def made_by_files(cls, surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
         angle_func, x_func, y_func = cls._rearrange_funcs(l=len(surfaces), is_own=is_own)
-        return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
-                                                 delivery=delivery)
-                            for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
+        tehuda = Tehuda(delivery=delivery, is_own=is_own)
+        [tehuda.append(cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)), delivery=delivery)
+                       ) for i, v in enumerate(surfaces)]
+        return tehuda
+        # return Tehuda(data=[cls._injected_tehuda(huda=Huda(img=v, angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)),
+        #                                          delivery=delivery)
+        #                     for i, v in enumerate(surfaces)], delivery=delivery, is_own=is_own)
     
     @classmethod
     def _injected_tehuda(cls, huda: Huda, delivery: Delivery) -> Huda:

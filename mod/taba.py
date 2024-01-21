@@ -16,6 +16,10 @@ class Taba(list[Huda]):
     def elapse(self) -> None:
         [huda.draw() for huda in self]
 
+    def append(self, __object: Huda) -> None:
+        self._has(huda=__object)
+        return super().append(__object)
+
     def _has(self, huda: Huda) -> Huda:
         setattr(huda, 'belongs_to', self)
         huda.withdraw = partial(self._withdraw_huda, huda=huda, taba=self)
