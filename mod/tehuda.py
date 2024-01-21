@@ -5,7 +5,7 @@ from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA
+from mod.const import WX, WY, nie, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
@@ -22,10 +22,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)
 
 class Tehuda(Taba):
     def __init__(self, delivery: Delivery, is_own: bool=True) -> None:
-        super().__init__()
-        self.delivery: Delivery = delivery
-        self.is_one = is_own
-        self.rearrange = partial(self._rearrange_tehuda, tehuda=self)
+        super().__init__(delivery=delivery, is_own=is_own, rearrange=partial(self._rearrange_tehuda, tehuda=self))
 
     def append(self, __object: Huda) -> None:
         super().append(__object)
@@ -35,7 +32,7 @@ class Tehuda(Taba):
 
     @staticmethod
     def _rearrange_tehuda(tehuda: 'Tehuda') -> None:
-        angle_func, x_func, y_func = tehuda._rearrange_funcs(l=len(tehuda), is_own=tehuda.is_one)
+        angle_func, x_func, y_func = tehuda._rearrange_funcs(l=len(tehuda), is_own=tehuda.is_own)
         [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(tehuda)]
 
     @classmethod

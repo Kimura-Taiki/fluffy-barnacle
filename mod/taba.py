@@ -3,12 +3,14 @@ from functools import partial
 
 from mod.const import nie
 from mod.huda import Huda
+from mod.delivery import Delivery
 
 class Taba(list[Huda]):
-    def __init__(self) -> None:
+    def __init__(self, delivery: Delivery, is_own: bool=True, rearrange: Callable[[], None]=nie(text="Taba.rearrange")) -> None:
         super().__init__()
-        self.other_params: list[int] = []
-        self.rearrange: Callable[[], None] = nie(text="Taba.rearrange")
+        self.delivery = delivery
+        self.is_own = is_own
+        self.rearrange = rearrange
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
