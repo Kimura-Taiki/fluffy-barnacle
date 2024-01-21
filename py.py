@@ -2,14 +2,14 @@ import pygame
 from typing import Callable
 
 from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY
-from mod.tehuda import Tehuda
+from mod.tehuda import tehuda_made_by_files
 from mod.controller import controller
 from mod.youso import Youso
 from mod.mikoto import Mikoto
 
 
 own_mikoto = Mikoto(is_own=True)
-enemy_tehuda = Tehuda.made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], delivery=own_mikoto, is_own=False)
+enemy_tehuda = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], delivery=own_mikoto, is_own=False)
 def get_hover() -> Youso | None:
     if y1 := own_mikoto.gottena.get_hover_gotten():
         return y1
