@@ -20,21 +20,20 @@ HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)
 HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 
-def tehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
-    tehuda = Taba(delivery=delivery, is_own=is_own, inject=_inject_of_tehuda)
-    tehuda.rearrange = partial(_rearrange_tehuda, taba=tehuda)
+def tehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> "Tehuda":
+    tehuda = Taba(delivery=delivery, is_own=is_own, rearrange=_rearrange_tehuda, inject=_inject_of_tehuda)
     for i in surfaces:
         tehuda.append(Huda(img=i))
     return tehuda
 
 def _rearrange_tehuda(taba: Taba) -> None:
-    angle_func, x_func, y_func = Tehuda._rearrange_funcs(l=len(taba), is_own=taba.is_own)
+    angle_func, x_func, y_func = taba._rearrange_funcs(l=len(taba), is_own=taba.is_own)
     [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(taba)]
 
 def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
     huda.inject_funcs(draw=Tehuda._draw_tehuda, hover=Tehuda._hover_tehuda, mousedown=Tehuda._mousedown_tehuda,
-                      active=Tehuda._active_huda, mouseup=partial(Tehuda._mouseup_tehdua, delivery=taba.delivery),
-                      drag=Tehuda._drag_tehuda)
+                            active=Tehuda._active_huda, mouseup=partial(Tehuda._mouseup_tehdua, delivery=taba.delivery),
+                            drag=Tehuda._drag_tehuda)
 
 class Tehuda(Taba):
     def __init__(self, delivery: Delivery, is_own: bool=True) -> None:
