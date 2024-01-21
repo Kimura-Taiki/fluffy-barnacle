@@ -33,7 +33,9 @@ class Tehuda(Taba):
     #     angle_func, x_func, y_func = self._rearrange_funcs(l=len(self), is_own=self.is_one)
     #     huda.rearrange(angle=angle_func(len(self) - 1), scale=0.6, x=x_func(len(self) - 1), y=y_func(len(self) - 1))
 
-    # def 
+    # def inject_huda_funcs(self, huda: Huda) -> Huda:
+
+    #     return huda
 
     @classmethod
     def _rearrange_funcs(cls, l: int, is_own: bool) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:

@@ -1,33 +1,10 @@
-from typing import Protocol, Callable
-from functools import partial
+def coord3(x: int, y: int, z: int) -> None:
+    print(f"Coord3 = ({x}, {y}, {z})")
 
+class Kws:
+    def __init__(self, **kwargs) -> None:
+        coord3(**kwargs)
+        print("print = ", kwargs)
+        self.kwargs = kwargs
 
-def nie(text: str) -> Callable[[], None]:
-    def raise_func() -> None:
-        raise NotImplementedError(text)
-    return raise_func
-
-
-class Hoge:
-    def __init__(self, x: int, y: int) -> None:
-        self.x, self.y = x, y
-        self.method: Callable[[], None] = nie(text="Hoge.method が未実装です")
-
-
-class Duck(Protocol):
-    def method(self) -> None:
-        ...
-
-
-def _method_hoge(hoge: Hoge) -> None:
-    print(f"Hoge({hoge.x}, {hoge.y})")
-
-
-def call_duck(duck: Duck) -> None:
-    duck.method()
-
-
-hoge = Hoge(x=10, y=35)
-hoge.method()
-hoge.method = partial(_method_hoge, hoge=hoge)
-call_duck(duck=hoge)
+Kws(x=10, y=35, z=99)

@@ -10,6 +10,17 @@ class Youso():
     def __init__(self, x: int|float=0, y: int|float=0, **kwargs: Callable[..., None]) -> None:
         self.x = x
         self.y = y
+        self.draw: Callable[..., None]
+        self.hover: Callable[..., None]
+        self.mousedown: Callable[..., None]
+        self.active: Callable[..., None]
+        self.mouseup: Callable[..., None]
+        self.dragstart: Callable[..., None]
+        self.drag: Callable[..., None]
+        self.dragend: Callable[..., None]
+        self.inject_funcs(**kwargs)
+
+    def inject_funcs(self, **kwargs: Callable[..., None]) -> None:
         self.draw: Callable[..., None] = partial(kwargs.get('draw', pass_func), self)
         self.hover: Callable[..., None] = partial(kwargs.get('hover', pass_func), self)
         self.mousedown: Callable[..., None] = partial(kwargs.get('mousedown', pass_func), self)
@@ -18,6 +29,7 @@ class Youso():
         self.dragstart: Callable[..., None] = partial(kwargs.get('dragstart', pass_func), self)
         self.drag: Callable[..., None] = partial(kwargs.get('drag', pass_func), self)
         self.dragend: Callable[..., None] = partial(kwargs.get('dragend', pass_func), self)
+        return self
 
     def set_partial_attr(self, attr: str, func: Callable[[Any], None]) -> bool | None:
         setattr(self, attr, partial(func, self))
