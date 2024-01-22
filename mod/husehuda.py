@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
+from pygame.rect import Rect
 from pygame.math import Vector2
 from typing import Callable
 from functools import partial
@@ -17,8 +18,9 @@ HAND_X: Callable[[int, int], int | float] = lambda i, j: 340+286/2
 
 # HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
 # HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
-HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 3 else -108/i
-HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-204/2+HAND_Y_DIFF(j)*i
+# HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 3 else -108/i
+HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 4 else -144/i
+HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-102+HAND_Y_DIFF(j)*i
 
 # HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
 # HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
@@ -54,11 +56,17 @@ def _draw(huda: Huda) -> None:
     return None
 
 def _husehuda_draw(huda: Huda) -> None:
-    default_draw(huda=huda)
-    IMG_BACK.set_alpha(128)
-    screen.blit(source=IMG_BACK, dest=huda.img_rz_topleft)
+    for i in range(19):
+        IMG_BACK.set_alpha(i*25+30)
+        screen.blit(source=IMG_BACK, dest=huda.img_rz_topleft+[0, i*20], area=(0, i*20, 285, 20))
     IMG_BACK.set_alpha(255)
-
+    screen.blit(source=IMG_BACK, dest=huda.img_rz_topleft+[0, 180], area=(0, 180, 285, 24))
+    for i in range(4):
+        huda.img_rz.set_alpha(i*48+48)
+        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, i*9+132], area=(0, i*9+132, 285, 9))
+    huda.img_rz.set_alpha(224)
+    screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, 168], area=(0, 168, 285, 36))
+    huda.img_rz.set_alpha(255)
 
 def _hover(huda: Huda) -> None:
     screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
