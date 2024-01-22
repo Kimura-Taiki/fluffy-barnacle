@@ -12,18 +12,11 @@ from mod.taba import Taba
 from mod.controller import controller
 from mod.delivery import Delivery
 
-# HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-# HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: 340+286/2
 
-# HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
-# HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
-# HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 3 else -108/i
 HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 4 else -144/i
 HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-102+HAND_Y_DIFF(j)*i
 
-# HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
-# HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 90.0
 
 def husehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
@@ -48,11 +41,7 @@ def _inject_of_husehuda(huda: Huda, taba: Taba) -> None:
     huda.inject_funcs(draw=_draw, hover=_hover)
     
 def _draw(huda: Huda) -> None:
-    if controller.hover == huda:
-        pygame.draw.polygon(screen, BRIGHT, huda.vertices, 20)
-        _husehuda_draw(huda=huda)
-    else:
-        _husehuda_draw(huda=huda)
+    _husehuda_draw(huda=huda)
     return None
 
 def _husehuda_draw(huda: Huda) -> None:
