@@ -20,7 +20,7 @@ class Mikoto():
         # self.husesute: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
         self.husesute: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
         # self.kirihuda: Taba = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 7)], delivery=self, is_own=True)
-        self.kirihuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 7)], delivery=self, is_own=True)
+        self.kirihuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=True)
         self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, text="山札", x=WX-140, y=WY-210),
                                               Gottenon(core_view=self.tehuda, text="手札", x=WX-140, y=WY-150),
                                               Gottenon(core_view=self.husesute, text="伏せ札・捨て札", x=WX-140, y=WY-90),
