@@ -11,7 +11,7 @@ def nie(text: str) -> Callable[[], None]:
         raise NotImplementedError(f"{text} が未注入です")
     return raise_func
 
-def compatible_with(cls: type, protocol: type):
+def compatible_with(cls: type, protocol: type) -> None:
     if not isinstance(cls, protocol):
         raise NotImplementedError(f"{cls.__name__}は{protocol.__name__}規約を満たしていません")
 

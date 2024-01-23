@@ -9,6 +9,7 @@ from mod.gottena import Gottena
 from mod.tehuda import tehuda_made_by_files
 from mod.husehuda import husehuda_made_by_files
 from mod.sutehuda import sutehuda_made_by_files
+from mod.huse_sute_view import HuseSuteView
 from mod.huda import Huda
 from mod.taba import Taba
 
@@ -17,12 +18,13 @@ class Mikoto():
         self.is_own = is_own
         self.yamahuda: Taba = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 2)], delivery=self, is_own=True)
         self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, is_own=True)
-        self.husesute: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
+        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
         self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=True)
         self.kirihuda: Taba = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 7)], delivery=self, is_own=True)
         self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, text="山札", x=WX-140, y=WY-210),
                                               Gottenon(core_view=self.tehuda, text="手札", x=WX-140, y=WY-150),
-                                              Gottenon(core_view=self.husesute, text="伏せ札・捨て札", x=WX-140, y=WY-90),
+                                              Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda),
+                                                       text="伏せ札・捨て札", x=WX-140, y=WY-90),
                                               Gottenon(core_view=self.kirihuda, text="切り札", x=WX-140, y=WY-30)])
 
     def elapse(self) -> None:
@@ -37,4 +39,4 @@ class Mikoto():
         huda.withdraw()
         match taba_code:
             case TC_HUSEHUDA:
-                self.husesute.append(huda)
+                self.husehuda.append(huda)
