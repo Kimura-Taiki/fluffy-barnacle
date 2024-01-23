@@ -37,10 +37,10 @@ class Gottenon(Youso):
 
     @staticmethod
     def _draw_gottenon_off(gottenon: 'Gottenon') -> None:
-        IMG_GOTTENON_BG.set_alpha(64)
+        IMG_GOTTENON_BG.set_alpha(128)
         screen.blit(source=IMG_GOTTENON_BG, dest=gottenon.topleft(source=IMG_GOTTENON_BG))
         IMG_GOTTENON_BG.set_alpha(255)
-        gottenon.img_text.set_alpha(128)
+        gottenon.img_text.set_alpha(192)
         screen.blit(source=gottenon.img_text, dest=gottenon.topleft(source=gottenon.img_text))
         gottenon.img_text.set_alpha(255)
 
