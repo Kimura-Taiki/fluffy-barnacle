@@ -18,15 +18,9 @@ class Gottenon(Youso):
         self.name = name
         self.core_view: CoreView = core_view
         self.redraw_img_text()
-        # arrange: Callable[[], None] = self.core_view.var_rearrange
-        # self.core_view.var_rearrange
-
-        # self.text = self.core_view.text(name=self.name)
-        # self.img_text = MS_MINCHO_32PT(self.text)
 
     def redraw_img_text(self) -> None:
-        text = self.core_view.text(name=self.name)
-        self.img_text = MS_MINCHO_32PT(text)
+        self.img_text = MS_MINCHO_32PT(self.core_view.text(name=self.name))
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()

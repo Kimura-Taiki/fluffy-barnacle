@@ -42,5 +42,7 @@ class Mikoto():
         match taba_code:
             case TC_HUSEHUDA:
                 self.husehuda.append(huda)
+        for gottenon in self.gottena:
+            gottenon.redraw_img_text()
 
 compatible_with(cls=Mikoto, protocol=Delivery)
