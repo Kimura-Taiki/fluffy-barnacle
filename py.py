@@ -1,7 +1,7 @@
 import pygame
 from typing import Callable
 
-from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY
+from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY, IMG_YATUBA_BG
 from mod.tehuda import tehuda_made_by_files
 from mod.controller import controller
 from mod.youso import Youso
@@ -45,7 +45,7 @@ def mainloop() -> None:
     start_timer()
 
     controller.resolve_pygame_events()
-    screen.fill(color=LEMONCHIFFON)
+    screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
     screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     own_mikoto.elapse()
     enemy_tehuda.elapse()
