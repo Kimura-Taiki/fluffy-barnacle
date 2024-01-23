@@ -3,7 +3,8 @@ from functools import partial
 #                 20                  40                  60                 79
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
-    , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA
+    , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA\
+    , compatible_with
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.tehuda import tehuda_made_by_files
@@ -12,6 +13,7 @@ from mod.sutehuda import sutehuda_made_by_files
 from mod.huse_sute_view import HuseSuteView
 from mod.huda import Huda
 from mod.taba import Taba
+from mod.delivery import Delivery
 
 class Mikoto():
     def __init__(self, is_own: bool) -> None:
@@ -40,3 +42,5 @@ class Mikoto():
         match taba_code:
             case TC_HUSEHUDA:
                 self.husehuda.append(huda)
+
+compatible_with(cls=Mikoto, protocol=Delivery)
