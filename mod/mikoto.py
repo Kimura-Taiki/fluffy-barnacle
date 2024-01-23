@@ -23,11 +23,11 @@ class Mikoto():
         self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
         self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=True)
         self.kirihuda: Taba = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 7)], delivery=self, is_own=True)
-        self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, text="山札", x=WX-140, y=WY-210),
-                                              Gottenon(core_view=self.tehuda, text="手札", x=WX-140, y=WY-150),
+        self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
+                                              Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
                                               Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda),
-                                                       text="伏せ札・捨て札", x=WX-140, y=WY-90),
-                                              Gottenon(core_view=self.kirihuda, text="切り札", x=WX-140, y=WY-30)])
+                                                       name="伏せ札・捨て札", x=WX-140, y=WY-90),
+                                              Gottenon(core_view=self.kirihuda, name="切り札", x=WX-140, y=WY-30)])
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()
