@@ -9,9 +9,9 @@ from mod.core_view import CoreView
 class Gottenon(Youso):
     def __init__(self, core_view: CoreView, text: str, x: int, y: int, **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
-        self.text = text
-        self.img_text = MS_MINCHO_32PT(self.text)
         self.core_view: CoreView = core_view
+        self.text = self.core_view.text(name=text)
+        self.img_text = MS_MINCHO_32PT(self.text)
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()

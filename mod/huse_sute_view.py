@@ -22,4 +22,7 @@ class HuseSuteView():
         else:
             return self.husehuda.get_hover_huda()
 
+    def text(self, name: str="") -> str:
+        return f"伏せ札{len(self.husehuda)} / 捨て札{len(self.sutehuda)}"
+
 compatible_with(cls=HuseSuteView, protocol=CoreView)

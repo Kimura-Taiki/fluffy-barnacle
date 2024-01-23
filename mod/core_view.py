@@ -12,3 +12,6 @@ class CoreView(Protocol):
 
     def get_hover_huda(self) -> Huda | None:
         ...
+
+    def text(self, name: str) -> str:
+        ...

@@ -4,7 +4,7 @@ from pygame.surface import Surface
 from pygame.rect import Rect
 from pygame.math import Vector2
 from typing import Callable
-from functools import partial
+from functools import partial, partialmethod
 
 from mod.const import WX, WY, screen, BRIGHT, IMG_BACK
 from mod.huda import Huda, default_draw

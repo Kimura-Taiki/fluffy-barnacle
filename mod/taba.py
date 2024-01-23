@@ -1,9 +1,10 @@
 from typing import Callable
 from functools import partial
 
-from mod.const import nie
+from mod.const import nie, compatible_with
 from mod.huda import Huda
 from mod.delivery import Delivery
+from mod.core_view import CoreView
 
 def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
     nie(text="Taba.inject")
@@ -18,6 +19,9 @@ class Taba(list[Huda]):
         self.inject = inject
         self.withdraw: Callable[[], None] = nie(text="Taba.withdraw")
 
+    # def rearrange(self) -> None:
+    #     self.rearrange()
+
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)
 
@@ -30,7 +34,12 @@ class Taba(list[Huda]):
         super().append(__object)
         self.rearrange()
 
+    def text(self, name: str) -> str:
+        return f"{name}{len(self)}"
+
     @staticmethod
     def _withdraw_huda(huda: Huda, taba: 'Taba') -> None:
         taba.remove(huda)
         taba.rearrange()
+
+# compatible_with(cls=Taba, protocol=CoreView)
