@@ -20,7 +20,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0.0
 
 def sutehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
     tehuda = Taba(delivery=delivery, is_own=is_own, inject=_inject_of_sutehuda)
-    tehuda.rearrange = partial(_rearrange_tehuda, taba=tehuda)
+    tehuda.var_rearrange = partial(_rearrange_tehuda, taba=tehuda)
     for i in surfaces:
         tehuda.append(Huda(img=i))
     return tehuda
