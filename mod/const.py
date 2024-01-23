@@ -15,6 +15,12 @@ def compatible_with(cls: type, protocol: type) -> None:
     if not isinstance(cls, protocol):
         raise NotImplementedError(f"{cls.__name__}は{protocol.__name__}規約を満たしていません")
 
+def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
+    def mono_command() -> None:
+        for command in commands:
+            command()
+    return mono_command
+
 WX, WY = 1280, 720
 pygame.init()
 pygame.display.set_caption("FFF")

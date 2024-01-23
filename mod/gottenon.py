@@ -6,13 +6,27 @@ from mod.const import MS_MINCHO_32PT, screen, IMG_GOTTENON_BG
 from mod.youso import Youso
 from mod.core_view import CoreView
 
+def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
+    def mono_command() -> None:
+        for command in commands:
+            command()
+    return mono_command
+
 class Gottenon(Youso):
     def __init__(self, core_view: CoreView, name: str, x: int, y: int, **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
         self.name = name
         self.core_view: CoreView = core_view
-        self.text = self.core_view.text(name=self.name)
-        self.img_text = MS_MINCHO_32PT(self.text)
+        self.redraw_img_text()
+        # arrange: Callable[[], None] = self.core_view.var_rearrange
+        # self.core_view.var_rearrange
+
+        # self.text = self.core_view.text(name=self.name)
+        # self.img_text = MS_MINCHO_32PT(self.text)
+
+    def redraw_img_text(self) -> None:
+        text = self.core_view.text(name=self.name)
+        self.img_text = MS_MINCHO_32PT(text)
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()

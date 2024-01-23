@@ -1,4 +1,4 @@
-from mod.const import compatible_with
+from mod.const import compatible_with, joined_commands
 from mod.core_view import CoreView
 from mod.huda import Huda
 from mod.taba import Taba
@@ -7,14 +7,16 @@ class HuseSuteView():
     def __init__(self, husehuda: Taba, sutehuda: Taba) -> None:
         self.husehuda = husehuda
         self.sutehuda = sutehuda
+        self.var_rearrange = joined_commands(commands=[self.husehuda.rearrange, self.sutehuda.rearrange])
 
     def elapse(self) -> None:
         self.husehuda.elapse()
         self.sutehuda.elapse()
     
     def rearrange(self) -> None:
-        self.husehuda.rearrange()
-        self.sutehuda.rearrange()
+        self.var_rearrange()
+        # self.husehuda.rearrange()
+        # self.sutehuda.rearrange()
     
     def get_hover_huda(self) -> Huda | None:
         if huda := self.sutehuda.get_hover_huda():
