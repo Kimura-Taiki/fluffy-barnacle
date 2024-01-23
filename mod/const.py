@@ -54,6 +54,9 @@ IMG_GOTTENON_BG = pygame.image.load("pictures/gottenon.png").convert_alpha()
 IMG_YAMAHUDA = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=4.0, scale=0.6).convert_alpha()
 IMG_BACK = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=90.0, scale=0.6).convert_alpha()
 IMG_YATUBA_BG = pygame.image.load("pictures/yatuha_bg.png").convert_alpha()
+IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
+def draw_aiharasuu(surface: Surface, dest: tuple[int, int], num: int) -> None:
+    surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 
 TC_YAMAHUDA = 1
 TC_TEHUDA = 2

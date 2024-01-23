@@ -4,7 +4,7 @@ from functools import partial
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
     , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA\
-    , compatible_with, HONOKA_S
+    , compatible_with, HONOKA_S, draw_aiharasuu
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.yamahuda import yamahuda_made_by_files
@@ -35,8 +35,11 @@ class Mikoto():
         self.gottena.selected.core_view.elapse()
         self.gottena.elapse()
         screen.blit(source=IMG_AURA_AREA, dest=[WX-340, WY-240])
+        draw_aiharasuu(surface=screen, dest=(WX-340, WY-240), num=3)
         screen.blit(source=IMG_FLAIR_AREA, dest=[WX-340, WY-180])
+        draw_aiharasuu(surface=screen, dest=[WX-340, WY-180], num=0)
         screen.blit(source=IMG_LIFE_AREA, dest=[WX-340, WY-120])
+        draw_aiharasuu(surface=screen, dest=[WX-340, WY-120], num=10)
         screen.blit(source=IMG_SYUUTYUU_AREA, dest=[WX-340, WY-60])
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
