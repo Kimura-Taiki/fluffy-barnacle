@@ -11,17 +11,11 @@ from mod.taba import Taba
 from mod.controller import controller
 from mod.delivery import Delivery
 
-# HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-# HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
 HAND_X_RATE: Callable[[int], float] = lambda i: 80-80*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2+70-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
 
-# HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
-# HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
 HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60
 
-# HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
-# HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0.0
 
 def sutehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, is_own: bool) -> Taba:
