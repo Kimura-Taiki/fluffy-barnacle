@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import FULLSCREEN
 from pygame.surface import Surface
-from typing import Callable, Any
+from typing import Callable, Any, Protocol
 
 def pass_func(any: Any=None) -> None:
     pass
@@ -11,6 +11,9 @@ def nie(text: str) -> Callable[[], None]:
         raise NotImplementedError(f"{text} が未注入です")
     return raise_func
 
+def compatible_with(cls: type, protocol: type):
+    if not isinstance(cls, protocol):
+        raise NotImplementedError(f"{cls.__name__}は{protocol.__name__}規約を満たしていません")
 
 WX, WY = 1280, 720
 pygame.init()

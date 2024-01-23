@@ -1,15 +1,22 @@
+from mod.const import compatible_with
 from mod.core_view import CoreView
 from mod.huda import Huda
 
-class HuseSuteView(CoreView):
+class HuseSuteView():
     def __init__(self) -> None:
-        super().__init__()
+        pass
+        # super().__init__()
 
     def elapse(self) -> None:
-        return super().elapse()
+        pass
+        # return super().elapse()
     
     def rearrange(self) -> None:
-        return super().rearrange()
+        pass
+        # return super().rearrange()
     
     def get_hover_huda(self) -> Huda | None:
-        return super().get_hover_huda()
+        pass
+        # return super().get_hover_huda()
+
+compatible_with(cls=HuseSuteView, protocol=CoreView)

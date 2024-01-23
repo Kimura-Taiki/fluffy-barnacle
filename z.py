@@ -1,4 +1,1 @@
-li = []
-li.append(1)
-li.append("hey")
-print(li.append(True))
+import mod.huse_sute_view

@@ -1,9 +1,8 @@
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from mod.huda import Huda
-# from mod.taba import Taba
-# from mod.delivery import Delivery
 
+@runtime_checkable
 class CoreView(Protocol):
     def elapse(self) -> None:
         ...
