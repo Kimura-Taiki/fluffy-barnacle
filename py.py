@@ -1,7 +1,8 @@
 import pygame
 from typing import Callable
 
-from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY, IMG_YATUBA_BG
+from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY, IMG_YATUBA_BG \
+    , IMG_MAAI_AREA, IMG_DUST_AREA
 from mod.tehuda import tehuda_made_by_files
 from mod.controller import controller
 from mod.youso import Youso
@@ -10,13 +11,12 @@ from mod.mikoto import Mikoto
 
 own_mikoto = Mikoto(is_own=True)
 enemy_mikoto = Mikoto(is_own=False)
-# enemy_tehuda = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], delivery=own_mikoto, is_own=False)
+
 def get_hover() -> Youso | None:
     if y1 := own_mikoto.get_hover():
         return y1
     else:
         return enemy_mikoto.get_hover()
-        # return enemy_tehuda.get_hover_huda()
 controller.get_hover = get_hover
 
 def timer_functions() -> tuple[Callable[[], None], Callable[[], None]]:
@@ -46,10 +46,10 @@ def mainloop() -> None:
 
     controller.resolve_pygame_events()
     screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
-    # screen.blit(source=pygame.transform.rotate(surface=img_taba, angle=180), dest=[0, 0])
     own_mikoto.elapse()
     enemy_mikoto.elapse()
-    # enemy_tehuda.elapse()
+    screen.blit(source=IMG_MAAI_AREA, dest=[540, 330])
+    screen.blit(source=IMG_DUST_AREA, dest=[680, 330])
     controller.mouse_over()
 
     end_timer()
