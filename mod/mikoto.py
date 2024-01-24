@@ -20,22 +20,22 @@ from mod.utuwa import Utuwa
 from mod.youso import Youso
 
 class Mikoto():
-    def __init__(self, is_own: bool) -> None:
-        self.is_own = is_own
-        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 10)], delivery=self, is_own=self.is_own)
-        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, is_own=self.is_own)
-        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=self.is_own)
-        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=self.is_own)
-        self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=self.is_own)
+    def __init__(self, gata: int) -> None:
+        self.gata = gata
+        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 10)], delivery=self, gata=self.gata)
+        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, gata=self.gata)
+        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, gata=self.gata)
+        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, gata=self.gata)
+        self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, gata=self.gata)
         self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=140, y=WY-210),
                                      Gottenon(core_view=self.tehuda, name="手札", x=140, y=WY-150),
-                                     Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=is_own),
+                                     Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, gata=gata),
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=310, y=WY-210, max=2)
-        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=310, y=WY-150, max=5)
-        self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=310, y=WY-90)
-        self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=310, y=WY-30)
+        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, gata=self.gata, num=0, x=310, y=WY-210, max=2)
+        self.aura = Utuwa(img=IMG_AURA_AREA, gata=self.gata, num=3, x=310, y=WY-150, max=5)
+        self.flair = Utuwa(img=IMG_FLAIR_AREA, gata=self.gata, num=0, x=310, y=WY-90)
+        self.life = Utuwa(img=IMG_LIFE_AREA, gata=self.gata, num=10, x=310, y=WY-30)
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()

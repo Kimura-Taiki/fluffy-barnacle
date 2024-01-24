@@ -3,17 +3,17 @@ from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
-from mod.const import screen, draw_aiharasuu, WX, WY
+from mod.const import screen, draw_aiharasuu, WX, WY, KAMITE
 from mod.youso import Youso
 
 class Utuwa(Youso):
-    def __init__(self, img: Surface, is_own: bool, num: int, x: int | float = 0, y: int | float = 0, max: int=99,
+    def __init__(self, img: Surface, gata: int, num: int, x: int | float = 0, y: int | float = 0, max: int=99,
                  **kwargs: Callable[..., None]) -> None:
-        if is_own == False:
+        if gata == KAMITE:
             x, y = WX-x, WY-y
         super().__init__(x=x, y=y, **kwargs)
         self.img = img
-        self.is_own = is_own
+        self.gata = gata
         self.num = num
         self.max = max
         self.draw = partial(self._draw)

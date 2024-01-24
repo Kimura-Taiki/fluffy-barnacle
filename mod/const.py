@@ -62,6 +62,10 @@ IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
 def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 
+HANTE = 0
+SIMOTE = 1
+KAMITE = 2
+
 TC_YAMAHUDA = 1
 TC_TEHUDA = 2
 TC_SUTEHUDA = 3

@@ -1,7 +1,7 @@
 from typing import Callable
 from functools import partial
 
-from mod.const import nie, compatible_with
+from mod.const import nie, compatible_with, SIMOTE
 from mod.huda import Huda
 from mod.delivery import Delivery, DuckDelivery
 from mod.core_view import CoreView
@@ -10,11 +10,11 @@ def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
     nie(text="Taba.inject")
 
 class Taba(list[Huda]):
-    def __init__(self, delivery: Delivery, is_own: bool=True, var_rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
+    def __init__(self, delivery: Delivery, gata: int=SIMOTE, var_rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
                  inject: Callable[[Huda, 'Taba'], None]=_huda_taba_nie) -> None:
         super().__init__()
         self.delivery = delivery
-        self.is_own = is_own
+        self.gata = gata
         self.var_rearrange = var_rearrange
         self.inject = inject
         self.withdraw: Callable[[], None] = nie(text="Taba.withdraw")

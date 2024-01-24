@@ -1,13 +1,13 @@
-from mod.const import compatible_with
+from mod.const import compatible_with, SIMOTE
 from mod.core_view import CoreView
 from mod.huda import Huda
 from mod.taba import Taba, DuckTaba
 
 class HuseSuteView():
-    def __init__(self, husehuda: Taba=DuckTaba(), sutehuda: Taba=DuckTaba(), is_own: bool=True) -> None:
+    def __init__(self, husehuda: Taba=DuckTaba(), sutehuda: Taba=DuckTaba(), gata: int=SIMOTE) -> None:
         self.husehuda = husehuda
         self.sutehuda = sutehuda
-        self.is_own = is_own
+        self.gata = gata
 
     def elapse(self) -> None:
         self.husehuda.elapse()

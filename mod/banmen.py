@@ -1,4 +1,5 @@
-from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE
+from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE, \
+    SIMOTE, KAMITE, HANTE
 from mod.mikoto import Mikoto
 from mod.utuwa import Utuwa
 from mod.youso import Youso
@@ -7,10 +8,10 @@ from mod.huda import Huda
 
 class Banmen():
     def __init__(self) -> None:
-        self.own_mikoto = Mikoto(is_own=True)
-        self.enemy_mikoto = Mikoto(is_own=False)
-        self.maai = Utuwa(img=IMG_MAAI_AREA, is_own=True, num=10, x=WX-200, y=310, max=10)
-        self.dust = Utuwa(img=IMG_DUST_AREA, is_own=True, num=0, x=WX-30, y=310)
+        self.own_mikoto = Mikoto(gata=SIMOTE)
+        self.enemy_mikoto = Mikoto(gata=KAMITE)
+        self.maai = Utuwa(img=IMG_MAAI_AREA, gata=HANTE, num=10, x=WX-200, y=310, max=10)
+        self.dust = Utuwa(img=IMG_DUST_AREA, gata=HANTE, num=0, x=WX-30, y=310)
 
     def get_hover(self) -> Youso | None:
         if y1 := self.own_mikoto.get_hover():
@@ -47,8 +48,8 @@ class Banmen():
         target.num += real_shift
 
     def _utuwa_target(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int) -> Utuwa:
-        bools = (utuwa.is_own, is_mine)
-        mikoto = self.own_mikoto if (bools == (True, True)) or (bools == (False, False)) else self.enemy_mikoto
+        tpl = (utuwa.gata, is_mine)
+        mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
                   }.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")

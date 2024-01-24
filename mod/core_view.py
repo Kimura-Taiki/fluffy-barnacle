@@ -4,7 +4,7 @@ from mod.huda import Huda
 
 @runtime_checkable
 class CoreView(Protocol):
-    is_own: bool
+    gata: int
 
     def elapse(self) -> None:
         ...
