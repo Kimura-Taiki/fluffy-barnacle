@@ -3,14 +3,16 @@ from typing import Callable
 
 from mod.const import UTURO, HONOKA, CARDS, screen, clock, FRAMES_PER_SECOND, LEMONCHIFFON, BLACK, WX, WY, IMG_YATUBA_BG \
     , IMG_MAAI_AREA, IMG_DUST_AREA
-from mod.tehuda import tehuda_made_by_files
 from mod.controller import controller
 from mod.youso import Youso
 from mod.mikoto import Mikoto
+from mod.utuwa import Utuwa
+from mod.timer_functions import start_timer, end_timer
 
 
 own_mikoto = Mikoto(is_own=True)
 enemy_mikoto = Mikoto(is_own=False)
+# maai = Utuwa(img=IMG_MAAI_AREA, is_own=True, num=10, x=)
 
 def get_hover() -> Youso | None:
     if y1 := own_mikoto.get_hover():
@@ -18,26 +20,6 @@ def get_hover() -> Youso | None:
     else:
         return enemy_mikoto.get_hover()
 controller.get_hover = get_hover
-
-def timer_functions() -> tuple[Callable[[], None], Callable[[], None]]:
-    from time import time
-    from mod.const import MS_MINCHO_32PT, FRAMES_PER_SECOND
-    log = 0.0
-    times = [0.01]*FRAMES_PER_SECOND
-    def start_timer() -> None:
-        nonlocal log
-        log = time()
-    def end_timer() -> None:
-        nonlocal log, times
-        elapsed_time = time()-log
-        times.append(elapsed_time)
-        times.pop(0)
-        pygame.draw.rect(surface=screen, color=LEMONCHIFFON, rect=[0, 240, 340, 40], width=0)
-        screen.blit(source=MS_MINCHO_32PT(
-            f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}"),
-            dest=[0, 240])
-    return start_timer, end_timer
-start_timer, end_timer = timer_functions()
 
 img_taba = pygame.image.load("pictures/taba_selecter.png")
 
