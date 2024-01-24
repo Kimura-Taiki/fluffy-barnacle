@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import FULLSCREEN
 from pygame.surface import Surface
+from pygame.math import Vector2
 from typing import Callable, Any, Protocol
 
 def pass_func(any: Any=None) -> None:
@@ -58,7 +59,7 @@ IMG_YAMAHUDA = pygame.transform.rotozoom(surface=pygame.image.load("pictures/bac
 IMG_BACK = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=90.0, scale=0.6).convert_alpha()
 IMG_YATUBA_BG = pygame.image.load("pictures/yatuha_bg.png").convert_alpha()
 IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
-def draw_aiharasuu(surface: Surface, dest: tuple[int | float, int | float], num: int) -> None:
+def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 
 TC_YAMAHUDA = 1

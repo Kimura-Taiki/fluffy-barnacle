@@ -1,4 +1,5 @@
 from pygame.surface import Surface
+from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
@@ -18,5 +19,5 @@ class Utuwa(Youso):
         self.draw = partial(self._draw)
 
     def _draw(self) -> None:
-        screen.blit(source=self.img, dest=[self.x-30, self.y-30])
-        draw_aiharasuu(surface=screen, dest=(self.x-30, self.y-30), num=self.num)
+        screen.blit(source=self.img, dest=-Vector2(self.img.get_size())/2+[self.x, self.y])
+        draw_aiharasuu(surface=screen, dest=-Vector2(self.img.get_size())/2+(self.x, self.y), num=self.num)
