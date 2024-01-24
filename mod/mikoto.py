@@ -32,8 +32,8 @@ class Mikoto():
                                      Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=is_own),
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=310, y=WY-210)
-        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=310, y=WY-150)
+        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=310, y=WY-210, max=2)
+        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=310, y=WY-150, max=5)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=310, y=WY-90)
         self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=310, y=WY-30)
 

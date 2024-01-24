@@ -6,7 +6,7 @@ from mod.const import screen, draw_aiharasuu, WX, WY
 from mod.youso import Youso
 
 class Utuwa(Youso):
-    def __init__(self, img: Surface, is_own: bool, num: int, x: int | float = 0, y: int | float = 0,
+    def __init__(self, img: Surface, is_own: bool, num: int, x: int | float = 0, y: int | float = 0, max: int=99,
                  **kwargs: Callable[..., None]) -> None:
         if is_own == False:
             x, y = WX-x, WY-y
@@ -14,6 +14,7 @@ class Utuwa(Youso):
         self.img = img
         self.is_own = is_own
         self.num = num
+        self.max = max
         self.draw = partial(self._draw)
 
     def _draw(self) -> None:
