@@ -12,7 +12,8 @@ from mod.timer_functions import start_timer, end_timer
 
 own_mikoto = Mikoto(is_own=True)
 enemy_mikoto = Mikoto(is_own=False)
-# maai = Utuwa(img=IMG_MAAI_AREA, is_own=True, num=10, x=)
+maai = Utuwa(img=IMG_MAAI_AREA, is_own=True, num=10, x=WX-200, y=310)
+dust = Utuwa(img=IMG_DUST_AREA, is_own=True, num=0, x=WX-30, y=310)
 
 def get_hover() -> Youso | None:
     if y1 := own_mikoto.get_hover():
@@ -30,8 +31,8 @@ def mainloop() -> None:
     screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
     own_mikoto.elapse()
     enemy_mikoto.elapse()
-    screen.blit(source=IMG_MAAI_AREA, dest=[540, 330])
-    screen.blit(source=IMG_DUST_AREA, dest=[680, 330])
+    maai.draw()
+    dust.draw()
     controller.mouse_over()
 
     end_timer()
