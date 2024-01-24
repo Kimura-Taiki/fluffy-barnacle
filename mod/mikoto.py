@@ -27,15 +27,15 @@ class Mikoto():
         self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=self.is_own)
         self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=self.is_own)
         self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=self.is_own)
-        self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
-                                     Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
+        self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=140, y=WY-210),
+                                     Gottenon(core_view=self.tehuda, name="手札", x=140, y=WY-150),
                                      Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=is_own),
-                                              name="伏せ札・捨て札", x=WX-140, y=WY-90),
-                                     Gottenon(core_view=self.kirihuda, name="切り札", x=WX-140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=WX-310, y=WY-210)
-        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=WX-310, y=WY-150)
-        self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=WX-310, y=WY-90)
-        self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=WX-310, y=WY-30)
+                                              name="伏せ札・捨て札", x=140, y=WY-90),
+                                     Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
+        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=310, y=WY-210)
+        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=310, y=WY-150)
+        self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=310, y=WY-90)
+        self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=310, y=WY-30)
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()

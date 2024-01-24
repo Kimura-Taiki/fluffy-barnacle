@@ -41,6 +41,9 @@ class Huda(Youso):
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         return None
     
+    def detail_draw(self) -> None:
+        screen.blit(source=self.img_nega, dest=[0, 0])
+    
     @property
     def img_rz_topleft(self) -> Vector2:
         return self.dest-Vector2(self.img_rz.get_size())/2

@@ -39,9 +39,9 @@ def _rearrange_funcs(l: int, is_own: bool) -> tuple[Callable[[int], float], Call
                 partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
 def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
-    huda.inject_funcs(draw=_draw, hover=_hover, mousedown=_mousedown, active=_active,
+    huda.inject_funcs(draw=_draw, hover=Huda.detail_draw, mousedown=_mousedown, active=_active,
                       mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
-    
+
 def _draw(huda: Huda) -> None:
     if controller.active == huda:
         return None
@@ -51,9 +51,6 @@ def _draw(huda: Huda) -> None:
     else:
         default_draw(huda=huda)
     return None
-
-def _hover(huda: Huda) -> None:
-    screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
 
 def _mousedown(huda: Huda) -> None:
     controller.active = huda

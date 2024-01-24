@@ -1,15 +1,11 @@
 #                 20                  40                  60                 79
-import pygame
 from pygame.surface import Surface
-from pygame.rect import Rect
-from pygame.math import Vector2
 from typing import Callable
-from functools import partial, partialmethod
+from functools import partial
 
-from mod.const import WX, WY, screen, BRIGHT, IMG_BACK
+from mod.const import WX, WY, screen, IMG_BACK
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
-from mod.controller import controller
 from mod.delivery import Delivery
 
 HAND_X: Callable[[int, int], int | float] = lambda i, j: 340+286/2
@@ -38,8 +34,8 @@ def _rearrange_funcs(l: int, is_own: bool) -> tuple[Callable[[int], float], Call
                 partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
 
 def _inject_of_husehuda(huda: Huda, taba: Taba) -> None:
-    huda.inject_funcs(draw=_draw, hover=_hover)
-    
+    huda.inject_funcs(draw=_draw, hover=Huda.detail_draw)
+
 def _draw(huda: Huda) -> None:
     _husehuda_draw(huda=huda)
     return None
@@ -56,6 +52,3 @@ def _husehuda_draw(huda: Huda) -> None:
     huda.img_rz.set_alpha(224)
     screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, 168], area=(0, 168, 285, 36))
     huda.img_rz.set_alpha(255)
-
-def _hover(huda: Huda) -> None:
-    screen.blit(source=huda.img_nega, dest=[WX-huda.img_nega.get_width(), 0])
