@@ -11,8 +11,9 @@ def nie(text: str) -> Callable[[], None]:
         raise NotImplementedError(f"{text} が未注入です")
     return raise_func
 
-def compatible_with(cls: type, protocol: type) -> None:
-    if not isinstance(cls, protocol):
+def compatible_with(obj: Any, protocol: type) -> None:
+    if not isinstance(obj, protocol):
+        cls = obj if type(obj) == type else type(obj)
         raise NotImplementedError(f"{cls.__name__}は{protocol.__name__}規約を満たしていません")
 
 def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
@@ -55,7 +56,7 @@ IMG_YAMAHUDA = pygame.transform.rotozoom(surface=pygame.image.load("pictures/bac
 IMG_BACK = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=90.0, scale=0.6).convert_alpha()
 IMG_YATUBA_BG = pygame.image.load("pictures/yatuha_bg.png").convert_alpha()
 IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
-def draw_aiharasuu(surface: Surface, dest: tuple[int, int], num: int) -> None:
+def draw_aiharasuu(surface: Surface, dest: tuple[int | float, int | float], num: int) -> None:
     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 
 TC_YAMAHUDA = 1

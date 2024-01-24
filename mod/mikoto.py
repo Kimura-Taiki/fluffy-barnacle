@@ -27,11 +27,11 @@ class Mikoto():
         self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=self.is_own)
         self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=self.is_own)
         self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=self.is_own)
-        self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
-                                              Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
-                                              Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda),
-                                                       name="伏せ札・捨て札", x=WX-140, y=WY-90),
-                                              Gottenon(core_view=self.kirihuda, name="切り札", x=WX-140, y=WY-30)])
+        self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
+                                     Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
+                                     Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=True),
+                                              name="伏せ札・捨て札", x=WX-140, y=WY-90),
+                                     Gottenon(core_view=self.kirihuda, name="切り札", x=WX-140, y=WY-30)])
         self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=WX-340, y=WY-240)
         self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=WX-340, y=WY-180)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=WX-340, y=WY-120)
@@ -59,4 +59,4 @@ class Mikoto():
         for gottenon in self.gottena:
             gottenon.redraw_img_text()
 
-compatible_with(cls=Mikoto, protocol=Delivery)
+compatible_with(obj=Mikoto, protocol=Delivery)
