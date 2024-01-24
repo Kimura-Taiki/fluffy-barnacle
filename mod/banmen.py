@@ -1,4 +1,4 @@
-from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG
+from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE
 from mod.mikoto import Mikoto
 from mod.utuwa import Utuwa
 from mod.youso import Youso
@@ -34,10 +34,15 @@ class Banmen():
     #     for gottenon in self.gottena:
     #         gottenon.redraw_img_text()
 
-    # def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
-    #     if utuwa.num < kazu:
-    #         return False
-        
+    def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+        if utuwa.num < kazu:
+            return False
+        bools = (utuwa.is_own, is_mine)
+        mikoto = self.own_mikoto if (bools == (True, True)) or (bools == (False, False)) else self.enemy_mikoto
+        if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
+                  }.get(utuwa_code)):
+            raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
+        return target.max-target.num >= kazu
 
     # def send_ouka_to_ryouiki(self, utuwa: Utuwa, kazu: int, is_mine: bool, utuwa_code: int) -> None:
     #     move = min(utuwa.num, kazu)
