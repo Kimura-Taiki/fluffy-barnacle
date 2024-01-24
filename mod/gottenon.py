@@ -2,7 +2,7 @@ import pygame
 from typing import Callable
 from functools import partial
 
-from mod.const import MS_MINCHO_32PT, screen, IMG_GOTTENON_BG
+from mod.const import MS_MINCHO_32PT, screen, IMG_GOTTENON_BG, WX, WY
 from mod.youso import Youso
 from mod.core_view import CoreView
 
@@ -14,6 +14,9 @@ def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
 
 class Gottenon(Youso):
     def __init__(self, core_view: CoreView, name: str, x: int, y: int, **kwargs: Callable[..., None]) -> None:
+        print(core_view.is_own)
+        if core_view.is_own == False:
+            x, y = WX-x, WY-y
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
         self.name = name
         self.core_view: CoreView = core_view

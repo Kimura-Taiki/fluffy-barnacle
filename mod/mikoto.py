@@ -29,13 +29,13 @@ class Mikoto():
         self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=self.is_own)
         self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
                                      Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
-                                     Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=True),
+                                     Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, is_own=is_own),
                                               name="伏せ札・捨て札", x=WX-140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=WX-140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=WX-340, y=WY-240)
-        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=WX-340, y=WY-180)
-        self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=WX-340, y=WY-120)
-        self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=WX-340, y=WY-60)
+        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, is_own=self.is_own, num=0, x=WX-310, y=WY-210)
+        self.aura = Utuwa(img=IMG_AURA_AREA, is_own=self.is_own, num=3, x=WX-310, y=WY-150)
+        self.flair = Utuwa(img=IMG_FLAIR_AREA, is_own=self.is_own, num=0, x=WX-310, y=WY-90)
+        self.life = Utuwa(img=IMG_LIFE_AREA, is_own=self.is_own, num=10, x=WX-310, y=WY-30)
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()
