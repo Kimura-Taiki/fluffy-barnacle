@@ -1,18 +1,43 @@
-def http_error(status):
-    error_string = {
-        400: "Bad request",
-        404: "Not found",
-        418: "I'm a teapot",
-    }
-    # return error_string.get(status, "Something's wrong with the Internet")
-    return error_string.get(status)
+from typing import Protocol, runtime_checkable, Any
 
-print(http_error(400), http_error(418), http_error(444))
-k = http_error(444)
-print(k)
+@runtime_checkable
+class Listener(Protocol):
+    def handle_event(self, event: Any) -> None:
+        ...
 
-if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life}.get(utuwa_code)):
-    raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
+class EventDispatcher:
+    def __init__(self) -> None:
+        self.listeners: list[Listener] = []
 
-target = {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life}.get(utuwa_code, ValueError(f"Invalid utuwa_code: {utuwa_code}"))
+    def add_listener(self, listener: Listener) -> None:
+        self.listeners.append(listener)
 
+    def dispatch_event(self, event: Any) -> None:
+        for listener in self.listeners:
+            listener.handle_event(event)
+
+
+class ChildObject:
+    def __init__(self) -> None:
+        self.event_dispatcher = EventDispatcher()
+
+    def do_something(self) -> None:
+        # 何かしらの処理
+        print("ChildObject で何かしらの処理を実行")
+
+        # イベントを伝達
+        self.event_dispatcher.dispatch_event("ChildObject のイベント")
+
+
+class ParentObject:
+    def __init__(self) -> None:
+        self.child_object = ChildObject()
+        self.child_object.event_dispatcher.add_listener(self)
+
+    def handle_event(self, event: Any) -> None:
+        print(f"ParentObject がイベントを受信: {event}")
+
+
+# 使用例
+parent_obj = ParentObject()
+parent_obj.child_object.do_something()

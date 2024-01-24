@@ -1,12 +1,14 @@
 import pygame
 from typing import Callable
 
-from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG
+from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG, UC_FLAIR, UC_DUST, UC_MAAI
 from mod.controller import controller
 from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
 
 banmen = Banmen()
+own_aura = banmen.own_mikoto.aura
+banmen.send_ouka_to_ryouiki(utuwa=banmen.own_mikoto.life, is_mine=True, utuwa_code=UC_DUST, kazu=13)
 
 controller.get_hover = banmen.get_hover
 

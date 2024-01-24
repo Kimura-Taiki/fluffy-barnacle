@@ -37,12 +37,19 @@ class Banmen():
     def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
         if utuwa.num < kazu:
             return False
+        target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
+        return target.max-target.num >= kazu
+
+    def send_ouka_to_ryouiki(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+        target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
+        real_shift = min(kazu, utuwa.num, target.max-target.num)
+        utuwa.num -= real_shift
+        target.num += real_shift
+
+    def _utuwa_target(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int) -> Utuwa:
         bools = (utuwa.is_own, is_mine)
         mikoto = self.own_mikoto if (bools == (True, True)) or (bools == (False, False)) else self.enemy_mikoto
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
                   }.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
-        return target.max-target.num >= kazu
-
-    # def send_ouka_to_ryouiki(self, utuwa: Utuwa, kazu: int, is_mine: bool, utuwa_code: int) -> None:
-    #     move = min(utuwa.num, kazu)
+        return target
