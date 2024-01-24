@@ -17,15 +17,16 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery
 from mod.utuwa import Utuwa
+from mod.youso import Youso
 
 class Mikoto():
     def __init__(self, is_own: bool) -> None:
         self.is_own = is_own
-        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 10)], delivery=self, is_own=True)
-        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, is_own=True)
-        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=True)
-        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=True)
-        self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=True)
+        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 10)], delivery=self, is_own=self.is_own)
+        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, is_own=self.is_own)
+        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, is_own=self.is_own)
+        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, is_own=self.is_own)
+        self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, is_own=self.is_own)
         self.gottena: Gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=WX-140, y=WY-210),
                                               Gottenon(core_view=self.tehuda, name="手札", x=WX-140, y=WY-150),
                                               Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda),
@@ -43,13 +44,12 @@ class Mikoto():
         self.aura.draw()
         self.flair.draw()
         self.life.draw()
-        # # screen.blit(source=IMG_AURA_AREA, dest=[WX-340, WY-240])
-        # # draw_aiharasuu(surface=screen, dest=(WX-340, WY-240), num=3)
-        # screen.blit(source=IMG_FLAIR_AREA, dest=[WX-340, WY-180])
-        # draw_aiharasuu(surface=screen, dest=[WX-340, WY-180], num=0)
-        # screen.blit(source=IMG_LIFE_AREA, dest=[WX-340, WY-120])
-        # draw_aiharasuu(surface=screen, dest=[WX-340, WY-120], num=10)
-        # screen.blit(source=IMG_SYUUTYUU_AREA, dest=[WX-340, WY-60])
+
+    def get_hover(self) -> Youso | None:
+        if y1 := self.gottena.get_hover_gotten():
+            return y1
+        else:
+            return self.gottena.selected.core_view.get_hover_huda()
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.withdraw()

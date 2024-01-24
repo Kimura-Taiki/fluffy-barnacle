@@ -11,10 +11,8 @@ from mod.mikoto import Mikoto
 own_mikoto = Mikoto(is_own=True)
 enemy_tehuda = tehuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, CARDS+1)], delivery=own_mikoto, is_own=False)
 def get_hover() -> Youso | None:
-    if y1 := own_mikoto.gottena.get_hover_gotten():
+    if y1 := own_mikoto.get_hover():
         return y1
-    elif y2 := own_mikoto.gottena.selected.core_view.get_hover_huda():
-        return y2
     else:
         return enemy_tehuda.get_hover_huda()
 controller.get_hover = get_hover
