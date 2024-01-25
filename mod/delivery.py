@@ -1,11 +1,10 @@
-from typing import Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable, Any
 
 from mod.const import compatible_with
-from mod.huda import Huda
 
 @runtime_checkable
 class Delivery(Protocol):
-    def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
+    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         ...
 
 class DuckDelivery():
@@ -13,7 +12,7 @@ class DuckDelivery():
         self.hoge = True
         pass
 
-    def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
+    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         pass
 
 @runtime_checkable

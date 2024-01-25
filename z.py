@@ -1,4 +1,19 @@
+from dataclasses import dataclass
+from typing import NamedTuple
 
+from typing import NamedTuple
+
+class Signal(NamedTuple):
+    code: int = 0
+    text: str = ""  # 初期値を追加
+
+# 初期値を持つ Signal インスタンスを作成
+s = Signal(text="GGG")
+
+# 結果を表示
+print(s)
+
+exit("GGG")
 from typing import List
 
 # Mediator インターフェース
