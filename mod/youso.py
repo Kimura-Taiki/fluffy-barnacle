@@ -4,12 +4,14 @@ from typing import Callable, Any
 from functools import partial
 from typing import Any
 
-from mod.const import pass_func
+from mod.const import pass_func, compatible_with
+from mod.delivery import Delivery, Listener, duck_delivery
 
 class Youso():
     def __init__(self, x: int|float=0, y: int|float=0, **kwargs: Callable[..., None]) -> None:
         self.x = x
         self.y = y
+        self.delivery: Delivery = duck_delivery
         self.draw: Callable[..., None]
         self.hover: Callable[..., None]
         self.mousedown: Callable[..., None]
@@ -36,6 +38,9 @@ class Youso():
 
     def topleft(self, source: Surface) -> Vector2:
         return self.dest-Vector2(source.get_size())/2
+    
+    def tenko(self) -> list[Listener]:
+        return [self]
 
     @property
     def dest(self) -> Vector2:
@@ -44,3 +49,5 @@ class Youso():
     @dest.setter
     def dest(self, x:int | float, y:int | float) -> None:
         self.x, self.y = int(x), int(y)
+
+compatible_with(obj=Youso(), protocol=Listener)

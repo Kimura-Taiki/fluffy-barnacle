@@ -3,7 +3,7 @@ from functools import partial
 
 from mod.const import nie, compatible_with, SIMOTE
 from mod.huda import Huda
-from mod.delivery import Delivery, DuckDelivery
+from mod.delivery import Delivery, duck_delivery
 from mod.core_view import CoreView
 
 def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
@@ -43,4 +43,4 @@ class DuckTaba(Taba):
     def __init__(self) -> None:
         pass
 
-compatible_with(obj=Taba(delivery=DuckDelivery()), protocol=CoreView)
+compatible_with(obj=Taba(delivery=duck_delivery), protocol=CoreView)
