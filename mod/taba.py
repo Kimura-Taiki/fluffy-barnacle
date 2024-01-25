@@ -3,14 +3,14 @@ from functools import partial
 
 from mod.const import nie, compatible_with, SIMOTE
 from mod.huda import Huda
-from mod.delivery import Delivery, duck_delivery
+from mod.delivery import Delivery, duck_delivery, Listener
 from mod.core_view import CoreView
 
 def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
     nie(text="Taba.inject")
 
 class Taba(list[Huda]):
-    def __init__(self, delivery: Delivery, hoyuusya: int=SIMOTE, rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
+    def __init__(self, delivery: Delivery=duck_delivery, hoyuusya: int=SIMOTE, rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
                  inject: Callable[[Huda, 'Taba'], None]=_huda_taba_nie) -> None:
         super().__init__()
         self.delivery = delivery
@@ -33,7 +33,10 @@ class Taba(list[Huda]):
 
     def text(self, name: str) -> str:
         return f"{name}{len(self)}"
-
+    
+    def tenko(self) -> list[Listener]:
+        return [self]+list(self)
+    
     @staticmethod
     def _withdraw_huda(huda: Huda, taba: 'Taba') -> None:
         taba.remove(huda)
@@ -44,3 +47,4 @@ class DuckTaba(Taba):
         pass
 
 compatible_with(obj=Taba(delivery=duck_delivery), protocol=CoreView)
+compatible_with(obj=Taba(delivery=duck_delivery), protocol=Listener)
