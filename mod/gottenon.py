@@ -14,7 +14,7 @@ def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
 
 class Gottenon(Youso):
     def __init__(self, core_view: CoreView, name: str, x: int, y: int, **kwargs: Callable[..., None]) -> None:
-        if core_view.gata == KAMITE:
+        if core_view.hoyuusya == KAMITE:
             x, y = WX-x, WY-y
         super().__init__(x=x, y=y, draw=self._draw_gottenon_off, **kwargs)
         self.name = name

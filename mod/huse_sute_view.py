@@ -4,10 +4,10 @@ from mod.huda import Huda
 from mod.taba import Taba, DuckTaba
 
 class HuseSuteView():
-    def __init__(self, husehuda: Taba=DuckTaba(), sutehuda: Taba=DuckTaba(), gata: int=SIMOTE) -> None:
+    def __init__(self, husehuda: Taba=DuckTaba(), sutehuda: Taba=DuckTaba(), hoyuusya: int=SIMOTE) -> None:
         self.husehuda = husehuda
         self.sutehuda = sutehuda
-        self.gata = gata
+        self.hoyuusya = hoyuusya
 
     def elapse(self) -> None:
         self.husehuda.elapse()
