@@ -10,17 +10,14 @@ def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
     nie(text="Taba.inject")
 
 class Taba(list[Huda]):
-    def __init__(self, delivery: Delivery, hoyuusya: int=SIMOTE, var_rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
+    def __init__(self, delivery: Delivery, hoyuusya: int=SIMOTE, rearrange: Callable[[], None]=nie(text="Taba.rearrange"),
                  inject: Callable[[Huda, 'Taba'], None]=_huda_taba_nie) -> None:
         super().__init__()
         self.delivery = delivery
         self.hoyuusya = hoyuusya
-        self.var_rearrange = var_rearrange
+        self.rearrange = rearrange
         self.inject = inject
         self.withdraw: Callable[[], None] = nie(text="Taba.withdraw")
-
-    def rearrange(self) -> None:
-        self.var_rearrange()
 
     def get_hover_huda(self) -> Huda | None:
         return next((huda for huda in self[::-1] if huda.is_cursor_on()), None)

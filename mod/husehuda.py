@@ -17,7 +17,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 90.0
 
 def husehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, hoyuusya: int) -> Taba:
     husehuda = Taba(delivery=delivery, hoyuusya=hoyuusya, inject=_inject_of_husehuda)
-    husehuda.var_rearrange = partial(_rearrange_husehuda, taba=husehuda)
+    husehuda.rearrange = partial(_rearrange_husehuda, taba=husehuda)
     for i in surfaces:
         husehuda.append(Huda(img=i))
     return husehuda
