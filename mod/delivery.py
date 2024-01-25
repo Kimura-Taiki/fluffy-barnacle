@@ -16,4 +16,11 @@ class DuckDelivery():
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         pass
 
+@runtime_checkable
+class Listener(Protocol):
+    delivery: Delivery
+
+    def tenko(self) -> list['Listener']:
+        ...
+
 compatible_with(DuckDelivery(), Delivery)
