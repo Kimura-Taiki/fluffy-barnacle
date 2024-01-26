@@ -36,7 +36,12 @@ class Taba(list[Huda]):
     
     def tenko(self) -> list[Listener]:
         return [self]+list(self)
-    
+
+    def __repr__(self):
+        obj_type = type(self).__name__
+        obj_address = hex(id(self))
+        return f"<{obj_type} object at {obj_address}>"
+
     @staticmethod
     def _withdraw_huda(huda: Huda, taba: 'Taba') -> None:
         taba.remove(huda)

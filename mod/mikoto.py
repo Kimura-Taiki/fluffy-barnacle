@@ -4,7 +4,7 @@ from functools import partial
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
     , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA\
-    , compatible_with, HONOKA_S, draw_aiharasuu
+    , compatible_with, HONOKA_S, draw_aiharasuu, SIMOTE
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.yamahuda import yamahuda_made_by_files
@@ -15,17 +15,18 @@ from mod.kirihuda import kirihuda_made_by_files
 from mod.huse_sute_view import HuseSuteView
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.delivery import Delivery
+from mod.delivery import Delivery, Listener, duck_delivery
 from mod.utuwa import Utuwa
 from mod.youso import Youso
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
+        self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
-        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 10)], delivery=self, hoyuusya=self.hoyuusya)
-        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(1, CARDS+1)], delivery=self, hoyuusya=self.hoyuusya)
-        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(2, 4)], delivery=self, hoyuusya=self.hoyuusya)
-        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(4, 9)], delivery=self, hoyuusya=self.hoyuusya)
+        self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], delivery=self, hoyuusya=self.hoyuusya)
+        self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(3, 7)], delivery=self, hoyuusya=self.hoyuusya)
+        self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], delivery=self, hoyuusya=self.hoyuusya)
+        self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], delivery=self, hoyuusya=self.hoyuusya)
         self.kirihuda: Taba = kirihuda_made_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], delivery=self, hoyuusya=self.hoyuusya)
         self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=140, y=WY-210),
                                      Gottenon(core_view=self.tehuda, name="手札", x=140, y=WY-150),
@@ -59,4 +60,15 @@ class Mikoto():
         for gottenon in self.gottena:
             gottenon.redraw_img_text()
 
-compatible_with(obj=Mikoto, protocol=Delivery)
+    def tenko(self) -> list[Listener]:
+        li: list[Listener] = [self.yamahuda, self.tehuda, self.husehuda, self.sutehuda, self.kirihuda, self.syuutyuu, self.aura, self.flair, self.life]
+        # print(sum(i.tenko() for i in li))
+        return [self]+[item for sublist in [i.tenko() for i in li] for item in sublist]
+
+    def __repr__(self):
+        obj_type = type(self).__name__
+        obj_address = hex(id(self))
+        return f"<{obj_type} object at {obj_address}>"
+
+compatible_with(obj=Mikoto(hoyuusya=SIMOTE), protocol=Delivery)
+compatible_with(obj=Mikoto(hoyuusya=SIMOTE), protocol=Listener)

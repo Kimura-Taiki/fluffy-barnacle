@@ -5,6 +5,7 @@ from mod.utuwa import Utuwa
 from mod.youso import Youso
 from mod.controller import controller
 from mod.huda import Huda
+from mod.delivery import Delivery, duck_delivery, Listener
 
 class Banmen():
     def __init__(self) -> None:
@@ -12,6 +13,9 @@ class Banmen():
         self.enemy_mikoto = Mikoto(hoyuusya=KAMITE)
         self.maai = Utuwa(img=IMG_MAAI_AREA, hoyuusya=HANTE, num=10, x=WX-200, y=310, max=10)
         self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, num=0, x=WX-30, y=310)
+        li: list[Listener] = [self.own_mikoto, self.enemy_mikoto, self.maai, self.dust]
+        self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
+        print(self.listeners)
 
     def get_hover(self) -> Youso | None:
         if y1 := self.own_mikoto.get_hover():
