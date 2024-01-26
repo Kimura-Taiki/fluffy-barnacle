@@ -48,10 +48,20 @@ def _active(huda: Huda) -> None:
 def _mouseup(huda: Huda) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
-    text = {3: "カードを使ったよ", 2: "宿したよ", 1: "その他基本動作だよ"}.get(
-        int((diff_coord.angle_to([0, 0])+225)/90), "前進したよ")
-    popup_message.add(text=text)
+    {3: _use_card, 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda=huda)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+
+def _use_card(huda: Huda) -> None:
+    popup_message.add(text="カードを使います")
+
+def _yadosi(huda: Huda) -> None:
+    popup_message.add(text="宿します")
+
+def _basic(huda: Huda) -> None:
+    popup_message.add(text="その他基本動作です")
+
+def _zensin(huda: Huda) -> None:
+    popup_message.add(text="前進します")
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
