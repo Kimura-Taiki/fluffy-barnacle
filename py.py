@@ -5,6 +5,7 @@ from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG, U
 from mod.controller import controller
 from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
+from mod.popup_message import popup_message
 
 banmen = Banmen()
 
@@ -18,6 +19,8 @@ def mainloop() -> None:
     controller.resolve_pygame_events()
     screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
     banmen.elpase()
+    popup_message.elapse()
+    popup_message.draw()
 
     end_timer()
     pygame.display.update()

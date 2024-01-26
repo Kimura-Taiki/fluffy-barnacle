@@ -22,7 +22,11 @@ class PopupMessage:
         self.queues: list[_Queue] = []
 
     def add(self, text: str) -> None:
-        self.queues.append(_Queue(text=text))
+        add = _Queue(text=text)
+        dx = add.img_text.get_height()+5
+        for queue in self.queues:
+            queue.coord.y -= dx
+        self.queues.append(add)
 
     def draw(self) -> None:
         for queue in self.queues:

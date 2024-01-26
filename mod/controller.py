@@ -6,6 +6,7 @@ from typing import Callable
 
 from mod.const import screen, nie
 from mod.youso import Youso
+from mod.popup_message import popup_message
 
 class Controller():
     def __init__(self) -> None:
@@ -16,6 +17,7 @@ class Controller():
         self.data_transfer: Youso | None = None
         self.hold_coord: V2
         self.drag: bool = False
+        self.count = 0
 
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():
@@ -26,6 +28,8 @@ class Controller():
             elif event.type == MOUSEMOTION:
                 self.hover = self.get_hover()
             elif event.type == MOUSEBUTTONDOWN:
+                popup_message.add(text=f"マウスクリックしたよ{self.count}")
+                self.count += 1
                 if self.hover:
                     self.hover.mousedown()
             elif event.type == MOUSEBUTTONUP:
