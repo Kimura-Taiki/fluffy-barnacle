@@ -1,5 +1,5 @@
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE
+    , SIMOTE, KAMITE, HANTE, compatible_with
 from mod.mikoto import Mikoto
 from mod.utuwa import Utuwa
 from mod.youso import Youso
@@ -36,6 +36,8 @@ class Banmen():
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.withdraw()
         mikoto = {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)
+        if mikoto is None:
+            raise ValueError(f"Invalid huda.hoyuusya: {huda.hoyuusya}")
         match taba_code:
             case TC_HUSEHUDA:
                 mikoto.husehuda.append(huda)
@@ -61,3 +63,5 @@ class Banmen():
                   }.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
+
+compatible_with(obj=Banmen(), protocol=Delivery)

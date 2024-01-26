@@ -41,7 +41,6 @@ def _rearrange_funcs(l: int, hoyuusya: int) -> tuple[Callable[[int], float], Cal
 
 def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
     huda.inject_funcs(draw=_draw, hover=Huda.detail_draw, mousedown=_mousedown, active=_active,
-                    #   mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
                       mouseup=_mouseup, drag=_drag)
 
 def _draw(huda: Huda) -> None:
