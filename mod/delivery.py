@@ -7,13 +7,25 @@ class Delivery(Protocol):
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         ...
 
+    def can_move_ouka(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+        ...
+
+    def send_ouka_to_ryouiki(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+        ...
+
 class _DuckDelivery():
     def __init__(self) -> None:
-        self.hoge = True
         pass
 
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         pass
+
+    def can_move_ouka(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+        pass
+
+    def send_ouka_to_ryouiki(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+        pass
+
 
 duck_delivery = _DuckDelivery()
 
