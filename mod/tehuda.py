@@ -3,7 +3,8 @@ import pygame
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA
+from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
+    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA
 from mod.huda import Huda, default_draw
 from mod.controller import controller
 from mod.taba_factory import TabaFactory
@@ -32,16 +33,16 @@ def _mousedown(huda: Huda) -> None:
     controller.hold_coord = Vector2(pygame.mouse.get_pos())
 
 def _active(huda: Huda) -> None:
+    huda.detail_draw()
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if (rr := diff_coord.length_squared()) < 50:
         screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
     elif rr > 62500:
         controller.data_transfer = huda
     else:
-        if 30 <= (deg := diff_coord.angle_to([0, 0])) and deg < 150:
-            screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
-        else:
-            screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
+        source = {3: ACTION_CIRCLE_CARD, 2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(
+            int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
+        screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
 def _mouseup(huda: Huda) -> None:
     if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return

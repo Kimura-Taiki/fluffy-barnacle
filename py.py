@@ -7,8 +7,6 @@ from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
 
 banmen = Banmen()
-# own_aura = banmen.own_mikoto.aura
-# banmen.send_ouka_to_ryouiki(utuwa=banmen.own_mikoto.life, is_mine=False, utuwa_code=UC_FLAIR, kazu=3)
 
 controller.get_hover = banmen.get_hover
 
