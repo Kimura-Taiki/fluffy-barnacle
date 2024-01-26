@@ -22,7 +22,6 @@ class TabaFactory():
                  huda_x: Callable[[int, int], float], huda_y: Callable[[int, int], float],
                  huda_angle: Callable[[int, int], float]) -> None:
         self.delivery, self.inject_kwargs = delivery, inject_kwargs
-        self.huda_x, self.huda_y, self.huda_angle = huda_x, huda_y, huda_angle
         self.simote_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (

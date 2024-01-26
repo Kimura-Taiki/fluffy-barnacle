@@ -1,12 +1,10 @@
 #                 20                  40                  60                 79
-from pygame.surface import Surface
 from typing import Callable
-from functools import partial
 
-from mod.const import WX, WY, screen, IMG_BACK, SIMOTE, KAMITE
-from mod.huda import Huda, default_draw
-from mod.taba import Taba
-from mod.delivery import Delivery
+from mod.const import WX, WY, screen, IMG_BACK
+from mod.huda import Huda
+from mod.delivery import duck_delivery
+from mod.taba_factory import TabaFactory
 
 HAND_X: Callable[[int, int], int | float] = lambda i, j: 340+286/2
 
@@ -14,27 +12,6 @@ HAND_Y_DIFF: Callable[[int], float] = lambda i: -36 if i < 4 else -144/i
 HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-102+HAND_Y_DIFF(j)*i
 
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 90.0
-
-def husehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, hoyuusya: int) -> Taba:
-    husehuda = Taba(delivery=delivery, hoyuusya=hoyuusya, inject=_inject_of_husehuda)
-    husehuda.rearrange = partial(_rearrange_husehuda, taba=husehuda)
-    for i in surfaces:
-        husehuda.append(Huda(img=i))
-    return husehuda
-
-def _rearrange_husehuda(taba: Taba) -> None:
-    angle_func, x_func, y_func = _rearrange_funcs(l=len(taba), hoyuusya=taba.hoyuusya)
-    [huda.rearrange(angle=angle_func(i), scale=0.6, x=x_func(i), y=y_func(i)) for i, huda in enumerate(taba)]
-
-def _rearrange_funcs(l: int, hoyuusya: int) -> tuple[Callable[[int], float], Callable[[int], float], Callable[[int], float]]:
-    if hoyuusya == SIMOTE:
-        return partial(HAND_ANGLE, j=l), partial(HAND_X, j=l), partial(HAND_Y, j=l)
-    elif hoyuusya == KAMITE:
-        return (partial(lambda i, j: HAND_ANGLE(i, j)+180.0, j=l),
-                partial(lambda i, j: WX-HAND_X(i, j), j=l), partial(lambda i, j: WY-HAND_Y(i, j), j=l))
-
-def _inject_of_husehuda(huda: Huda, taba: Taba) -> None:
-    huda.inject_funcs(draw=_draw, hover=Huda.detail_draw)
 
 def _draw(huda: Huda) -> None:
     _husehuda_draw(huda=huda)
@@ -52,3 +29,7 @@ def _husehuda_draw(huda: Huda) -> None:
     huda.img_rz.set_alpha(224)
     screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, 168], area=(0, 168, 285, 36))
     huda.img_rz.set_alpha(255)
+
+husehuda_factory = TabaFactory(delivery=duck_delivery, inject_kwargs={
+    "draw": _draw, "hover": Huda.detail_draw
+}, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
