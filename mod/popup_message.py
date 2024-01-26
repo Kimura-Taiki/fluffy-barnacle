@@ -8,13 +8,13 @@ class _Queue:
         self.img_text = MS_MINCHO_32PT(text)
         self.img_shadow = Surface(self.img_text.get_size())
         self.img_shadow.fill(WHITE)
-        self.lifetime: int = 60
+        self.lifetime: int = 90
         self.coord = Vector2(WX/2, WY-240)-Vector2(self.img_text.get_size())/2
 
     def draw(self) -> None:
-        self.img_shadow.set_alpha(128)
+        self.img_shadow.set_alpha(255-abs(self.lifetime-82)*16 if self.lifetime >= 74 else 128 if self.lifetime >= 16 else self.lifetime*8)
         screen.blit(source=self.img_shadow, dest=self.coord)
-        self.img_text.set_alpha(255)
+        self.img_text.set_alpha(255 if self.lifetime >= 16 else self.lifetime*16)
         screen.blit(source=self.img_text, dest=self.coord)
 
 class PopupMessage:

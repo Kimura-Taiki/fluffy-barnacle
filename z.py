@@ -1,5 +1,11 @@
-li = list(range(10))
+def call(b: bool) -> bool:
+    print("call")
+    return b
 
-for i in li[::-1]:
-    li.remove(i)
-    print(li)
+def dif(c1: bool, c2: bool) -> int:
+    print(1 if call(c1) else 2 if call(c2) else 3)
+
+dif(True, True)
+dif(True, False)
+dif(False, True)
+dif(False, False)
