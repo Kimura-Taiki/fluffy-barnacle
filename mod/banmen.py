@@ -15,7 +15,9 @@ class Banmen():
         self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, num=0, x=WX-30, y=310)
         li: list[Listener] = [self.own_mikoto, self.enemy_mikoto, self.maai, self.dust]
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
-        print(self.listeners)
+        for listener in self.listeners:
+            listener.delivery = self
+        # print(self.listeners)
 
     def get_hover(self) -> Youso | None:
         if y1 := self.own_mikoto.get_hover():
@@ -31,13 +33,14 @@ class Banmen():
         self.dust.draw()
         controller.mouse_over()
 
-    # def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
-    #     huda.withdraw()
-    #     match taba_code:
-    #         case TC_HUSEHUDA:
-    #             self.husehuda.append(huda)
-    #     for gottenon in self.gottena:
-    #         gottenon.redraw_img_text()
+    def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
+        huda.withdraw()
+        mikoto = {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)
+        match taba_code:
+            case TC_HUSEHUDA:
+                mikoto.husehuda.append(huda)
+        for gottenon in mikoto.gottena:
+            gottenon.redraw_img_text()
 
     def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
         if utuwa.num < kazu:

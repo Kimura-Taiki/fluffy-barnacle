@@ -20,6 +20,7 @@ duck_delivery = _DuckDelivery()
 @runtime_checkable
 class Listener(Protocol):
     delivery: Delivery
+    hoyuusya: int
 
     def tenko(self) -> list['Listener']:
         ...

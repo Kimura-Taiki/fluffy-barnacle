@@ -41,7 +41,8 @@ def _rearrange_funcs(l: int, hoyuusya: int) -> tuple[Callable[[int], float], Cal
 
 def _inject_of_tehuda(huda: Huda, taba: Taba) -> None:
     huda.inject_funcs(draw=_draw, hover=Huda.detail_draw, mousedown=_mousedown, active=_active,
-                      mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
+                    #   mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
+                      mouseup=_mouseup, drag=_drag)
 
 def _draw(huda: Huda) -> None:
     if controller.active == huda:
@@ -69,9 +70,12 @@ def _active(huda: Huda) -> None:
         else:
             screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
 
-def _mouseup(huda: Huda, delivery: Delivery) -> None:
+# def _mouseup(huda: Huda, delivery: Delivery) -> None:
+#     if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
+#     delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+def _mouseup(huda: Huda) -> None:
     if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
-    delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())

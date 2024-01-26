@@ -37,6 +37,8 @@ class Mikoto():
         self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, num=3, x=310, y=WY-150, max=5)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-90)
         self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, num=10, x=310, y=WY-30)
+        for listener in self.tenko():
+            listener.hoyuusya = self.hoyuusya
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()
@@ -62,7 +64,6 @@ class Mikoto():
 
     def tenko(self) -> list[Listener]:
         li: list[Listener] = [self.yamahuda, self.tehuda, self.husehuda, self.sutehuda, self.kirihuda, self.syuutyuu, self.aura, self.flair, self.life]
-        # print(sum(i.tenko() for i in li))
         return [self]+[item for sublist in [i.tenko() for i in li] for item in sublist]
 
     def __repr__(self):

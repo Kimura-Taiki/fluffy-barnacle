@@ -4,7 +4,7 @@ from typing import Callable, Any
 from functools import partial
 from typing import Any
 
-from mod.const import pass_func, compatible_with
+from mod.const import pass_func, compatible_with, HANTE
 from mod.delivery import Delivery, Listener, duck_delivery
 
 class Youso():
@@ -12,6 +12,7 @@ class Youso():
         self.x = x
         self.y = y
         self.delivery: Delivery = duck_delivery
+        self.hoyuusya: int = HANTE
         self.draw: Callable[..., None]
         self.hover: Callable[..., None]
         self.mousedown: Callable[..., None]

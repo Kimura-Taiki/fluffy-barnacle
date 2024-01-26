@@ -6,11 +6,11 @@ from typing import Callable
 from functools import partial
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA\
-    , SIMOTE, KAMITE
+    , SIMOTE, KAMITE, HANTE
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
 from mod.controller import controller
-from mod.delivery import Delivery
+from mod.delivery import Delivery, duck_delivery
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -31,6 +31,13 @@ class TabaFactory():
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: WX-huda_x(i, j), lambda i, j: WY-huda_y(i, j), lambda i, j: huda_angle(i, j)+180.0)
+        
+    def maid_by_files(self, surfaces: list[Surface], delivery: Delivery, hoyuusya: int) -> Taba:
+        taba = Taba(delivery=delivery, hoyuusya=hoyuusya, inject=_inject_of_tehuda)
+        taba.rearrange = partial(self._rearrange_huda, taba=taba)
+        for i in surfaces:
+            taba.append(Huda(img=i))
+        return taba
 
     def _rearrange_huda(self, taba: Taba) -> None:
         if not (funcs := {SIMOTE: self.simote_funcs, KAMITE: self.kamite_funcs}.get(self.hoyuusya)):
@@ -41,8 +48,9 @@ class TabaFactory():
             huda.rearrange(angle=a_func(i), scale=0.6, x=x_func(i), y=y_func(i))
 
     def _inject(self, huda: Huda, taba: Taba) -> None:
-        huda.inject_funcs(draw=_draw, hover=Huda.detail_draw, mousedown=_mousedown, active=_active,
-                        mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
+        # huda.inject_funcs(draw=_draw, hover=Huda.detail_draw, mousedown=_mousedown, active=_active,
+        #                 mouseup=partial(_mouseup, delivery=taba.delivery),drag=_drag)
+        huda.inject_funcs(**self.inject_kwargs)
 
 
 def tehuda_made_by_files(surfaces: list[Surface], delivery: Delivery, hoyuusya: int) -> Taba:
@@ -96,6 +104,10 @@ def _active(huda: Huda) -> None:
 def _mouseup(huda: Huda, delivery: Delivery) -> None:
     if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
     delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+
+def _mouseup(huda: Huda) -> None:
+    if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
+    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())

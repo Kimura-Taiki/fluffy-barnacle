@@ -1,17 +1,26 @@
-class Huda:
-    pass
+from functools import partial
 
-def custom_repr(obj):
-    obj_type = type(obj).__name__
-    obj_address = hex(id(obj))
-    return f"<{obj_type} object at {obj_address}>"
+class Low:
+    def __init__(self, x) -> None:
+        self.x = x
 
-# インスタンスの作成
-huda_instance = Huda()
+class High:
+    def __init__(self, low) -> None:
+        self.low = low
 
-# カスタムな表示を得る
-custom_representation = custom_repr(huda_instance)
+def low_mes(low):
+    print(low.x)
 
-# 表示
-print(custom_representation)
-print(huda_instance)
+def high_mes(high):
+    print(high.low.x)
+
+low1 = Low(10)
+low2 = Low(20)
+high = High(low1)
+hlm = partial(low_mes, high.low)
+hlm = partial(high_mes, high)
+hlm = partial(low_mes, low1)
+hlm()
+low1.x = 55; hlm()
+high.low = low2; hlm()
+low1 = Low(99); hlm()
