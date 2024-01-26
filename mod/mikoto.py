@@ -1,5 +1,3 @@
-from functools import partial
-
 #                 20                  40                  60                 79
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
@@ -8,7 +6,7 @@ from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
 from mod.yamahuda import yamahuda_made_by_files
-# from mod.tehuda import tehuda_made_by_files
+from mod.tehuda import tehuda_factory
 from mod.husehuda import husehuda_made_by_files
 from mod.sutehuda import sutehuda_made_by_files
 from mod.kirihuda import kirihuda_made_by_files
@@ -18,14 +16,12 @@ from mod.taba import Taba
 from mod.delivery import Delivery, Listener, duck_delivery
 from mod.utuwa import Utuwa
 from mod.youso import Youso
-from mod.taba_factory import tehuda_factory
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
         self.yamahuda: Taba = yamahuda_made_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], delivery=self, hoyuusya=self.hoyuusya)
-        # self.tehuda: Taba = tehuda_made_by_files(surfaces=[UTURO(i) for i in range(3, 7)], delivery=self, hoyuusya=self.hoyuusya)
         self.tehuda: Taba = tehuda_factory.maid_by_files(surfaces=[UTURO(i) for i in range(3, 7)], delivery=self, hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_made_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], delivery=self, hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_made_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], delivery=self, hoyuusya=self.hoyuusya)

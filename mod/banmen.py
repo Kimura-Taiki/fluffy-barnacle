@@ -5,7 +5,7 @@ from mod.utuwa import Utuwa
 from mod.youso import Youso
 from mod.controller import controller
 from mod.huda import Huda
-from mod.delivery import Delivery, duck_delivery, Listener
+from mod.delivery import Delivery, Listener
 
 class Banmen():
     def __init__(self) -> None:
@@ -17,7 +17,6 @@ class Banmen():
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
         for listener in self.listeners:
             listener.delivery = self
-        # print(self.listeners)
 
     def get_hover(self) -> Youso | None:
         if y1 := self.own_mikoto.get_hover():

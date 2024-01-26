@@ -1,16 +1,12 @@
 #                 20                  40                  60                 79
-import pygame
 from pygame.surface import Surface
-from pygame.math import Vector2
 from typing import Callable
 from functools import partial
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA\
-    , SIMOTE, KAMITE, HANTE
-from mod.huda import Huda, default_draw
+from mod.const import WX, WY, SIMOTE, KAMITE
+from mod.huda import Huda
 from mod.taba import Taba
-from mod.controller import controller
-from mod.delivery import Delivery, duck_delivery
+from mod.delivery import Delivery
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -49,46 +45,3 @@ class TabaFactory():
 
     def _inject(self, huda: Huda, taba: Taba) -> None:
         huda.inject_funcs(**self.inject_kwargs)
-
-
-def _draw(huda: Huda) -> None:
-    if controller.active == huda:
-        return None
-    elif controller.hover == huda:
-        pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
-        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
-    else:
-        default_draw(huda=huda)
-    return None
-
-def _mousedown(huda: Huda) -> None:
-    controller.active = huda
-    controller.hold_coord = Vector2(pygame.mouse.get_pos())
-
-def _active(huda: Huda) -> None:
-    diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-    if (rr := diff_coord.length_squared()) < 50:
-        screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-    elif rr > 62500:
-        controller.data_transfer = huda
-    else:
-        if 30 <= (deg := diff_coord.angle_to([0, 0])) and deg < 150:
-            screen.blit(source=ACTION_CIRCLE_CARD, dest=controller.hold_coord-[250, 250])
-        else:
-            screen.blit(source=ACTION_CIRCLE_BASIC, dest=controller.hold_coord-[250, 250])
-
-def _mouseup(huda: Huda) -> None:
-    if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
-    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
-
-def _drag(huda: Huda) -> None:
-    gpv2 = Vector2(pygame.mouse.get_pos())
-    pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.vertices], 20)
-    huda.img_rz.set_alpha(192)
-    screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
-    huda.img_rz.set_alpha(255)
-
-
-tehuda_factory = TabaFactory(delivery=duck_delivery, inject_kwargs={
-    "draw": _draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup, "drag": _drag
-    }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
