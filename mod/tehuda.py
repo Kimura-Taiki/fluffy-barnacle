@@ -8,6 +8,7 @@ from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRC
 from mod.huda import Huda, default_draw
 from mod.controller import controller
 from mod.taba_factory import TabaFactory
+from mod.popup_message import popup_message
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -45,7 +46,11 @@ def _active(huda: Huda) -> None:
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
 def _mouseup(huda: Huda) -> None:
-    if (pygame.mouse.get_pos()-controller.hold_coord).length_squared() < 50: return
+    diff_coord = pygame.mouse.get_pos()-controller.hold_coord
+    if diff_coord.length_squared() < 50: return
+    text = {3: "カードを使ったよ", 2: "宿したよ", 1: "その他基本動作だよ"}.get(
+        int((diff_coord.angle_to([0, 0])+225)/90), "前進したよ")
+    popup_message.add(text=text)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
