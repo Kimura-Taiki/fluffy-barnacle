@@ -43,24 +43,46 @@ class Banmen():
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
 
-    def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
-        if utuwa.num < kazu:
-            return False
-        target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
-        return target.max-target.num >= kazu
+    def can_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
+                             kazu: int=1) -> None:
+        from_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=from_mine, utuwa_code=from_code)
+        to_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+        return min(from_utuwa.num, to_utuwa.max-to_utuwa.num) >= kazu
 
-    def send_ouka_to_ryouiki(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
-        target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
-        real_shift = min(kazu, utuwa.num, target.max-target.num)
-        utuwa.num -= real_shift
-        target.num += real_shift
+    # def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+    #     if utuwa.num < kazu:
+    #         return False
+    #     target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
+    #     return target.max-target.num >= kazu
 
-    def _utuwa_target(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int) -> Utuwa:
-        tpl = (utuwa.hoyuusya, is_mine)
+    def send_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
+                             kazu: int=1) -> None:
+        from_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=from_mine, utuwa_code=from_code)
+        to_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+        real_shift = min(kazu, from_utuwa.num, to_utuwa.max-to_utuwa.num)
+        from_utuwa.num -= real_shift
+        to_utuwa.num += real_shift
+
+    # def send_ouka_to_ryouiki(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+    #     target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
+    #     real_shift = min(kazu, utuwa.num, target.max-target.num)
+    #     utuwa.num -= real_shift
+    #     target.num += real_shift
+
+    def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
+        tpl = (hoyuusya, is_mine)
         mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
                   }.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
+
+    # def _utuwa_target(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int) -> Utuwa:
+    #     tpl = (utuwa.hoyuusya, is_mine)
+    #     mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+    #     if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
+    #               }.get(utuwa_code)):
+    #         raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
+    #     return target
 
 compatible_with(obj=Banmen(), protocol=Delivery)

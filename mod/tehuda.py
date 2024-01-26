@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
-    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA
+    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR
 from mod.huda import Huda, default_draw
 from mod.controller import controller
 from mod.taba_factory import TabaFactory
@@ -49,13 +49,17 @@ def _mouseup(huda: Huda) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
     {3: _use_card, 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda=huda)
-    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
 
 def _yadosi(huda: Huda) -> None:
+    if not huda.delivery.can_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR):
+        popup_message.add(text="宿せません！")
+        return
     popup_message.add(text="宿します")
+    huda.delivery.send_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
+    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")

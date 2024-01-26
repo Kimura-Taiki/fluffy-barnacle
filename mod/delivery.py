@@ -7,10 +7,10 @@ class Delivery(Protocol):
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         ...
 
-    def can_move_ouka(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+    def can_ouka_to_ryouiki(self, listener: Any, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
         ...
 
-    def send_ouka_to_ryouiki(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+    def send_ouka_to_ryouiki(self, listener: Any, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
         ...
 
 class _DuckDelivery():
@@ -20,10 +20,10 @@ class _DuckDelivery():
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         pass
 
-    def can_move_ouka(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
+    def can_ouka_to_ryouiki(self, listener: Any, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
         pass
 
-    def send_ouka_to_ryouiki(self, utuwa: Any, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
+    def send_ouka_to_ryouiki(self, listener: Any, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
         pass
 
 
