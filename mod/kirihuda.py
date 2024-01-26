@@ -5,7 +5,6 @@ from typing import Callable
 from mod.const import WX, WY, screen, BRIGHT
 from mod.huda import Huda, default_draw
 from mod.controller import controller
-from mod.delivery import duck_delivery
 from mod.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 600/i
@@ -25,6 +24,6 @@ def _draw(huda: Huda) -> None:
         default_draw(huda=huda)
     return None
 
-kirihuda_factory = TabaFactory(delivery=duck_delivery, inject_kwargs={
+kirihuda_factory = TabaFactory(inject_kwargs={
     "draw": _draw, "hover": Huda.detail_draw
 }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)

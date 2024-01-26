@@ -3,7 +3,6 @@ from typing import Callable
 
 from mod.const import WX, WY, screen, IMG_YAMAHUDA
 from mod.huda import Huda, default_draw
-from mod.delivery import duck_delivery
 from mod.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 42
@@ -20,6 +19,6 @@ def _draw(huda: Huda) -> None:
     screen.blit(source=IMG_YAMAHUDA, dest=huda.img_rz_topleft)
     IMG_YAMAHUDA.set_alpha(255)
 
-yamahuda_factory = TabaFactory(delivery=duck_delivery, inject_kwargs={
+yamahuda_factory = TabaFactory(inject_kwargs={
     "draw": _draw, "hover": Huda.detail_draw
 }, huda_x=HAND_X, huda_y= HAND_Y, huda_angle=HAND_ANGLE)

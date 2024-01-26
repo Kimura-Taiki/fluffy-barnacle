@@ -6,7 +6,6 @@ from typing import Callable
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC, TC_HUSEHUDA
 from mod.huda import Huda, default_draw
 from mod.controller import controller
-from mod.delivery import duck_delivery
 from mod.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
@@ -55,6 +54,6 @@ def _drag(huda: Huda) -> None:
     screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
     huda.img_rz.set_alpha(255)
 
-tehuda_factory = TabaFactory(delivery=duck_delivery, inject_kwargs={
+tehuda_factory = TabaFactory(inject_kwargs={
     "draw": _draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup, "drag": _drag
     }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
