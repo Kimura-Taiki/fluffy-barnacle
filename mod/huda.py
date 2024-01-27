@@ -12,8 +12,8 @@ def default_draw(huda: 'Huda') -> None:
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
-                 draw: Callable[..., None]=default_draw, **kwargs: Callable[..., None]) -> None:
-        super().__init__(x=x, y=y, draw=draw, **kwargs)
+                 **kwargs: Callable[..., None]) -> None:
+        super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
