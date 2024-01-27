@@ -11,6 +11,8 @@ from mod.ol.main_phase import MainPhase
 
 banmen = Banmen()
 
+mp = MainPhase()
+# mp.inject_func = 
 moderator.append(MainPhase())
 
 controller.get_hover = banmen.get_hover

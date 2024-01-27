@@ -5,6 +5,7 @@ from mod.utuwa import Utuwa
 from mod.youso import Youso
 from mod.controller import controller
 from mod.huda import Huda
+from mod.taba import Taba
 from mod.delivery import Delivery, Listener
 
 class Banmen():
@@ -17,6 +18,7 @@ class Banmen():
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
         for listener in self.listeners:
             listener.delivery = self
+        self.tabas = [listener for listener in self.listeners if isinstance(listener, Taba)]
 
     def get_hover(self) -> Youso | None:
         if y1 := self.own_mikoto.get_hover():
@@ -44,16 +46,10 @@ class Banmen():
             gottenon.redraw_img_text()
 
     def can_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
-                             kazu: int=1) -> None:
+                             kazu: int=1) -> bool:
         from_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=from_mine, utuwa_code=from_code)
         to_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         return min(from_utuwa.num, to_utuwa.max-to_utuwa.num) >= kazu
-
-    # def can_move_ouka(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> bool:
-    #     if utuwa.num < kazu:
-    #         return False
-    #     target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
-    #     return target.max-target.num >= kazu
 
     def send_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
                              kazu: int=1) -> None:
@@ -63,12 +59,6 @@ class Banmen():
         from_utuwa.num -= real_shift
         to_utuwa.num += real_shift
 
-    # def send_ouka_to_ryouiki(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int, kazu: int=1) -> None:
-    #     target = self._utuwa_target(utuwa=utuwa, is_mine=is_mine, utuwa_code=utuwa_code)
-    #     real_shift = min(kazu, utuwa.num, target.max-target.num)
-    #     utuwa.num -= real_shift
-    #     target.num += real_shift
-
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         tpl = (hoyuusya, is_mine)
         mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
@@ -76,13 +66,5 @@ class Banmen():
                   }.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
-
-    # def _utuwa_target(self, utuwa: Utuwa, is_mine: bool, utuwa_code: int) -> Utuwa:
-    #     tpl = (utuwa.hoyuusya, is_mine)
-    #     mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
-    #     if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
-    #               }.get(utuwa_code)):
-    #         raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
-    #     return target
 
 compatible_with(obj=Banmen(), protocol=Delivery)

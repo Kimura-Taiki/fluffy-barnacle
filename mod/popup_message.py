@@ -11,7 +11,7 @@ class _Queue:
         self.lifetime: int = 90
         self.coord = Vector2(WX/2, WY-240)-Vector2(self.img_text.get_size())/2
 
-    def draw(self, dy) -> None:
+    def draw(self, dy: float) -> None:
         self.img_shadow.set_alpha(255-abs(self.lifetime-82)*16 if self.lifetime >= 74 else 128 if self.lifetime >= 16 else self.lifetime*8)
         screen.blit(source=self.img_shadow, dest=self.coord+[0, dy])
         self.img_text.set_alpha(255 if self.lifetime >= 16 else self.lifetime*16)
@@ -21,7 +21,7 @@ class PopupMessage:
     def __init__(self) -> None:
         self.queues: list[_Queue] = []
         self.shifttime = 0
-        self.dy = 0
+        self.dy = 0.0
 
     def add(self, text: str) -> None:
         add = _Queue(text=text)

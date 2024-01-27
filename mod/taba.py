@@ -38,6 +38,10 @@ class Taba(list[Huda]):
     
     def tenko(self) -> list[Listener]:
         return [self]+list(self)
+    
+    def inject_kwargs(self, kwargs: dict[str, Callable[[Huda], None]]) -> None:
+        for huda in self:
+            huda.inject_funcs(**kwargs)
 
     def __repr__(self) -> str:
         obj_type = type(self).__name__
