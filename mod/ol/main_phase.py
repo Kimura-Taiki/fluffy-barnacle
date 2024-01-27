@@ -4,10 +4,12 @@ from mod.const import compatible_with, pass_func
 from mod.moderator import OverLayer
 from mod.youso import Youso
 from mod.popup_message import popup_message
+from mod.delivery import Delivery, duck_delivery
 
 class MainPhase():
-    def __init__(self, inject_func: Callable[[], None]=pass_func) -> None:
+    def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
         self.inject_func: Callable[[], None] = inject_func
+        self.delivery = delivery
 
     def elapse(self) -> None:
         ...

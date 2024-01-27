@@ -7,6 +7,7 @@ from mod.controller import controller
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery, Listener
+from mod.moderator import moderator
 
 class Banmen():
     def __init__(self) -> None:
@@ -19,10 +20,11 @@ class Banmen():
         for listener in self.listeners:
             listener.delivery = self
         self.tabas = [listener for listener in self.listeners if isinstance(listener, Taba)]
+        self.turn_player = SIMOTE
 
     def get_hover(self) -> Youso | None:
-        if y1 := self.own_mikoto.get_hover():
-            return y1
+        if y2 := self.own_mikoto.get_hover():
+            return y2
         else:
             return self.enemy_mikoto.get_hover()
 
