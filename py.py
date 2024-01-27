@@ -6,14 +6,12 @@ from mod.controller import controller
 from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
 from mod.popup_message import popup_message
+from mod.moderator import moderator
+from mod.ol.main_phase import MainPhase
 
 banmen = Banmen()
-from mod.taba import Taba
-for taba in banmen.listeners:
-    if not isinstance(taba, Taba):
-        continue
-    for huda in taba:
-        huda.inject_funcs(**taba.main_phase_inject_kwargs)
+
+moderator.append(MainPhase())
 
 controller.get_hover = banmen.get_hover
 
