@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
-    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR
+    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
 from mod.huda import Huda, default_draw
 from mod.controller import controller
 from mod.taba_factory import TabaFactory
@@ -65,7 +65,12 @@ def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")
 
 def _zensin(huda: Huda) -> None:
+    if not huda.delivery.can_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):
+        popup_message.add(text="前進できません！")
+        return
     popup_message.add(text="前進します")
+    huda.delivery.send_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA)
+    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
