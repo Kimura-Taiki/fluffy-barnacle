@@ -59,6 +59,14 @@ class Banmen():
         from_utuwa.num -= real_shift
         to_utuwa.num += real_shift
 
+    def inject_main_phase(self) -> None:
+        for taba in self.tabas:
+            taba.inject_kwargs(taba.main_phase_inject_kwargs)
+
+    def inject_view(self) -> None:
+        for taba in self.tabas:
+            taba.inject_kwargs(taba.view_inject_kwargs)
+
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         tpl = (hoyuusya, is_mine)
         mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto

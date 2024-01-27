@@ -6,8 +6,8 @@ from mod.youso import Youso
 from mod.popup_message import popup_message
 
 class MainPhase():
-    def __init__(self) -> None:
-        self.inject_func: Callable[[], None] = pass_func
+    def __init__(self, inject_func: Callable[[], None]=pass_func) -> None:
+        self.inject_func: Callable[[], None] = inject_func
 
     def elapse(self) -> None:
         ...
