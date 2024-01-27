@@ -8,6 +8,12 @@ from mod.banmen import Banmen
 from mod.popup_message import popup_message
 
 banmen = Banmen()
+from mod.taba import Taba
+for taba in banmen.listeners:
+    if not isinstance(taba, Taba):
+        continue
+    for huda in taba:
+        huda.inject_funcs(**taba.main_phase_inject_kwargs)
 
 controller.get_hover = banmen.get_hover
 

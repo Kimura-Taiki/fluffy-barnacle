@@ -4,7 +4,7 @@ from typing import Callable
 from functools import partial
 
 from mod.const import WX, WY, SIMOTE, KAMITE
-from mod.huda import Huda
+from mod.huda import Huda, default_draw
 from mod.taba import Taba
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
@@ -21,6 +21,8 @@ class TabaFactory():
                  huda_x: Callable[[int, int], float], huda_y: Callable[[int, int], float],
                  huda_angle: Callable[[int, int], float]) -> None:
         self.inject_kwargs = inject_kwargs
+        self.main_phase_inject_kwargs = inject_kwargs
+        self.view_inject_kwargs = {"draw": inject_kwargs.get("draw", default_draw), "hover": Huda.detail_draw}
         self.simote_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
@@ -28,6 +30,8 @@ class TabaFactory():
         
     def maid_by_files(self, surfaces: list[Surface], hoyuusya: int) -> Taba:
         taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
+        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
+        taba.view_inject_kwargs = self.view_inject_kwargs
         taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
         for i in surfaces:
             taba.append(Huda(img=i))

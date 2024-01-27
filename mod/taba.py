@@ -1,7 +1,7 @@
 from typing import Callable
 from functools import partial
 
-from mod.const import nie, compatible_with, SIMOTE
+from mod.const import nie, compatible_with, SIMOTE, pass_func
 from mod.huda import Huda
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.core_view import CoreView
@@ -17,6 +17,8 @@ class Taba(list[Huda]):
         self.hoyuusya = hoyuusya
         self.rearrange = rearrange
         self.inject = inject
+        self.main_phase_inject_kwargs: dict[str, Callable[[Huda], None]] = {"hoge": pass_func}
+        self.view_inject_kwargs: dict[str, Callable[[Huda], None]] = {"hoge": pass_func}
         self.withdraw: Callable[[], None] = nie(text="Taba.withdraw")
 
     def get_hover_huda(self) -> Huda | None:
