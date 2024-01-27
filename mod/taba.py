@@ -47,9 +47,5 @@ class Taba(list[Huda]):
         taba.remove(huda)
         taba.rearrange()
 
-class DuckTaba(Taba):
-    def __init__(self) -> None:
-        pass
-
 compatible_with(obj=Taba(), protocol=CoreView)
 compatible_with(obj=Taba(), protocol=Listener)

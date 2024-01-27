@@ -1,10 +1,10 @@
 from mod.const import compatible_with, SIMOTE
 from mod.core_view import CoreView
 from mod.huda import Huda
-from mod.taba import Taba, DuckTaba
+from mod.taba import Taba
 
 class HuseSuteView():
-    def __init__(self, husehuda: Taba=DuckTaba(), sutehuda: Taba=DuckTaba(), hoyuusya: int=SIMOTE) -> None:
+    def __init__(self, husehuda: Taba=Taba(), sutehuda: Taba=Taba(), hoyuusya: int=SIMOTE) -> None:
         self.husehuda = husehuda
         self.sutehuda = sutehuda
         self.hoyuusya = hoyuusya
