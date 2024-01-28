@@ -9,14 +9,16 @@ from mod.taba import Taba
 from mod.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.youso import Youso
+from mod.huda import Huda
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
-_basic_action_factory = TabaFactory(inject_kwargs={"draw": default_draw}, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
+_basic_action_factory = TabaFactory(inject_kwargs={"draw": default_draw, "hover": Huda.detail_draw}, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
 _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
+_gray_youso = Youso()
 
 class OthersBasicAction():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -29,7 +31,7 @@ class OthersBasicAction():
         self.taba.elapse()
 
     def get_hover(self) -> Youso | None:
-        return self.taba.get_hover_huda()
+        return self.taba.get_hover_huda() or _gray_youso
 
     def open(self) -> None:
         popup_message.add(text="OthersBasicAction.openで開いたよ")
