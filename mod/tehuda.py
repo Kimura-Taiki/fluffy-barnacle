@@ -9,6 +9,8 @@ from mod.huda import Huda, default_draw
 from mod.controller import controller
 from mod.taba_factory import TabaFactory
 from mod.popup_message import popup_message
+from mod.moderator import moderator
+from mod.ol.others_basic_action import OthersBasicAction
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -63,6 +65,7 @@ def _yadosi(huda: Huda) -> None:
 
 def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")
+    moderator.append(over_layer=OthersBasicAction(inject_func=huda.delivery.inject_view))
 
 def _zensin(huda: Huda) -> None:
     if not huda.delivery.can_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):

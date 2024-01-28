@@ -64,6 +64,7 @@ IMG_YATUBA_BG = pygame.image.load("pictures/yatuha_bg.png").convert_alpha()
 IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
 def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
+IMG_GRAY_LAYER = pygame.image.load("pictures/gray_layer.png").convert_alpha()
 
 HANTE = 0
 SIMOTE = 1

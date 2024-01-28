@@ -40,4 +40,10 @@ class Moderator():
         self.stack[-1].inject_func()
         self.stack[-1].moderate(stat=over_layer.close())
 
+    def get_hover(self) -> Any | None:
+        return self.stack[-1].get_hover()
+
+    def elapse(self) -> None:
+        self.stack[-1].elapse()
+
 moderator = Moderator()

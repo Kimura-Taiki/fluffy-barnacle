@@ -24,6 +24,7 @@ def mainloop() -> None:
     controller.resolve_pygame_events()
     screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
     banmen.elpase()
+    moderator.elapse()
     popup_message.elapse()
     popup_message.draw()
 
