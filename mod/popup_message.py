@@ -1,11 +1,16 @@
 from pygame.surface import Surface
 from pygame.math import Vector2
 
-from mod.const import screen, WX, WY, BLACK, WHITE, MS_MINCHO_32PT
+from mod.const import screen, WX, WY, BLACK, WHITE, MS_MINCHO_32PT, MS_MINCHO_WHITE_32PT
 
 class _Queue:
     def __init__(self, text: str, color: tuple[int, int, int] = BLACK) -> None:
-        self.img_text = MS_MINCHO_32PT(text)
+        kuro_text, siro_text = MS_MINCHO_32PT(text).convert_alpha(), MS_MINCHO_WHITE_32PT(text).convert_alpha()
+        self.img_text = Surface(kuro_text.get_size()).convert_alpha()
+        self.img_text.fill((0, 0, 0, 0))
+        for i in [[0, -2], [0, 2], [-2, 0], [2, 0]]:
+            self.img_text.blit(source=siro_text, dest=i)
+        self.img_text.blit(source=kuro_text, dest=[0, 0])
         self.img_shadow = Surface(self.img_text.get_size())
         self.img_shadow.fill(WHITE)
         self.lifetime: int = 90

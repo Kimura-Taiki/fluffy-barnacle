@@ -20,7 +20,7 @@ class Controller():
     def resolve_pygame_events(self) -> None:
         for event in pygame.event.get():
             if event.type == QUIT:
-                # pygame.image.save(screen, "screenshot.png")
+                pygame.image.save(screen, "screenshot.png")
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEMOTION:
