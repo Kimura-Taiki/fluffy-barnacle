@@ -4,7 +4,7 @@ from functools import partial
 
 from mod.const import compatible_with, WX, WY, SIMOTE, KAMITE, pass_func, screen, IMG_GRAY_LAYER
 from mod.delivery import Delivery, duck_delivery
-from mod.moderator import OverLayer
+from mod.moderator import OverLayer, moderator
 from mod.huda import default_draw
 from mod.taba import Taba
 from mod.taba_factory import TabaFactory
@@ -40,7 +40,7 @@ class OthersBasicAction():
     def open(self) -> None:
         popup_message.add(text="OthersBasicAction.open で開いたよ")
         bac = TabaFactory(inject_kwargs={
-            "draw": default_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown
+            "draw": default_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
 
@@ -51,9 +51,12 @@ class OthersBasicAction():
     def moderate(self, stat: int) -> None:
         ...
 
-    @staticmethod
-    def _mousedown(huda: Huda) -> None:
+    def _mousedown(self, huda: Huda) -> None:
         popup_message.add(text="OthersBasicAction.mousedown でクリックしたよ")
         controller.active = huda
+
+    def _mouseup(self, huda: Huda) -> None:
+        moderator.pop()
+
 
 compatible_with(OthersBasicAction(), OverLayer)
