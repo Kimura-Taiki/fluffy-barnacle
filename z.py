@@ -1,8 +1,6 @@
-from mod.ol.main_phase import MainPhase
-mp = MainPhase()
-mp.close()
-if 1: print(1)
-if 0: print(0)
-if -1: print(-1)
-
-print("ZZZ")
+dictionary = {"x": 100}
+print(dictionary)
+dictionary["x"] = 200
+print(dictionary)
+dictionary["y"] = 300
+print(dictionary)
