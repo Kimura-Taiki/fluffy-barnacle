@@ -14,7 +14,8 @@ banmen = Banmen()
 moderator.delivery = banmen
 moderator.append(MainPhase(inject_func=banmen.inject_main_phase))
 
-controller.get_hover = banmen.get_hover
+# controller.get_hover = banmen.get_hover
+controller.get_hover = lambda : moderator.get_hover() if moderator.get_hover() else banmen.get_hover()
 
 img_taba = pygame.image.load("pictures/taba_selecter.png")
 

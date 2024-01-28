@@ -8,6 +8,7 @@ from mod.huda import default_draw
 from mod.taba import Taba
 from mod.taba_factory import TabaFactory
 from mod.popup_message import popup_message
+from mod.youso import Youso
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
@@ -27,8 +28,8 @@ class OthersBasicAction():
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.taba.elapse()
 
-    def get_hover(self) -> Any | None:
-        ...
+    def get_hover(self) -> Youso | None:
+        return self.taba.get_hover_huda()
 
     def open(self) -> None:
         popup_message.add(text="OthersBasicAction.openで開いたよ")
@@ -36,7 +37,7 @@ class OthersBasicAction():
 
     def close(self) -> int:
         popup_message.add(text="OthersBasicAction.openで閉じたよ")
-        ...
+        return 0
 
     def moderate(self, stat: int) -> None:
         ...
