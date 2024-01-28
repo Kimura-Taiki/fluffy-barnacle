@@ -47,16 +47,16 @@ class Banmen():
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
 
-    def can_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
+    def can_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
                              kazu: int=1) -> bool:
-        from_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=from_mine, utuwa_code=from_code)
-        to_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+        from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
+        to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         return min(from_utuwa.num, to_utuwa.max-to_utuwa.num) >= kazu
 
-    def send_ouka_to_ryouiki(self, listener: Listener, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
+    def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
                              kazu: int=1) -> None:
-        from_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=from_mine, utuwa_code=from_code)
-        to_utuwa = self._utuwa_target(hoyuusya=listener.hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+        from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
+        to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         real_shift = min(kazu, from_utuwa.num, to_utuwa.max-to_utuwa.num)
         from_utuwa.num -= real_shift
         to_utuwa.num += real_shift

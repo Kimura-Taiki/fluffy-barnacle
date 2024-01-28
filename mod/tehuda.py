@@ -56,11 +56,11 @@ def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
 
 def _yadosi(huda: Huda) -> None:
-    if not huda.delivery.can_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR):
+    if not huda.delivery.can_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR):
         popup_message.add(text="宿せません！")
         return
     popup_message.add(text="宿します")
-    huda.delivery.send_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
+    huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _basic(huda: Huda) -> None:
@@ -68,11 +68,11 @@ def _basic(huda: Huda) -> None:
     moderator.append(over_layer=OthersBasicAction(inject_func=huda.delivery.inject_view))
 
 def _zensin(huda: Huda) -> None:
-    if not huda.delivery.can_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):
+    if not huda.delivery.can_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):
         popup_message.add(text="前進できません！")
         return
     popup_message.add(text="前進します")
-    huda.delivery.send_ouka_to_ryouiki(listener=huda, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA)
+    huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
