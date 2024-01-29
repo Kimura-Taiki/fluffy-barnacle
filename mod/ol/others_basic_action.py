@@ -12,6 +12,7 @@ from mod.popup_message import popup_message
 from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
+from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
@@ -51,7 +52,13 @@ class OthersBasicAction():
             "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
-        print(self.taba[0].hoyuusya)
+        self.taba[0].koudou = zensin
+        self.taba[1].koudou = ridatu
+        self.taba[2].koudou = koutai
+        self.taba[3].koudou = matoi
+        self.taba[4].koudou = yadosi
+        for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
+            self.taba[i].koudou = v
 
     def close(self) -> int:
         popup_message.add(text="OthersBasicAction.close で閉じたよ")
@@ -73,7 +80,6 @@ class OthersBasicAction():
 
     def _mouseup(self, huda: Huda) -> None:
         huda.koudou(self.delivery, self.delivery.turn_player)
-        print(huda.hoyuusya, self.delivery.turn_player)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
 
