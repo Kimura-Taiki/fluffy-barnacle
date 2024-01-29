@@ -11,6 +11,7 @@ from mod.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
+from mod.kihondousa import can_zensin, zensin, can_yadosi, yadosi
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -56,11 +57,10 @@ def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
 
 def _yadosi(huda: Huda) -> None:
-    if not huda.delivery.can_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR):
+    if not can_yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
         popup_message.add(text="宿せません！")
         return
-    popup_message.add(text="宿します")
-    huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
+    yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _basic(huda: Huda) -> None:
@@ -68,11 +68,10 @@ def _basic(huda: Huda) -> None:
     moderator.append(over_layer=OthersBasicAction(huda=huda, inject_func=huda.delivery.inject_view))
 
 def _zensin(huda: Huda) -> None:
-    if not huda.delivery.can_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):
+    if not can_zensin(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
         popup_message.add(text="前進できません！")
         return
-    popup_message.add(text="前進します")
-    huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA)
+    zensin(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:

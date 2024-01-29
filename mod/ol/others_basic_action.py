@@ -52,11 +52,6 @@ class OthersBasicAction():
             "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
-        self.taba[0].koudou = zensin
-        self.taba[1].koudou = ridatu
-        self.taba[2].koudou = koutai
-        self.taba[3].koudou = matoi
-        self.taba[4].koudou = yadosi
         for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
             self.taba[i].koudou = v
 
@@ -75,14 +70,11 @@ class OthersBasicAction():
             default_draw(huda=huda)
 
     def _mousedown(self, huda: Huda) -> None:
-        popup_message.add(text="OthersBasicAction.mousedown でクリックしたよ")
         controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
         huda.koudou(self.delivery, self.delivery.turn_player)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
-
-
 
 compatible_with(OthersBasicAction(Huda(img=pygame.Surface((16, 16)))), OverLayer)

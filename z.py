@@ -1,16 +1,26 @@
-class Coord:
-    def __init__(self, x, y) -> None:
-        self.x, self.y = x, y
+class ReturnValue(Exception):
+    def __init__(self, value):
+        Exception.__init__(self)
+        self.value = value
 
-class Hoge:
-    def __init__(self, text: str, coord: Coord) -> None:
-        self.text, self.coord = text, coord
+def enable_ret(func):
+    def decorated_func(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ReturnValue as exc:
+            return exc.value
+    return decorated_func
 
-h1 = Hoge()
-print(h1)
+def ret(value):
+    raise ReturnValue(value)
 
-h1.coord.x, h1.coord.y = 15, 40
-print(h1)
+@enable_ret
+def testfunc(x):
+    ret(None) if x is None else 0
+    # in a real use-case there would be more code here
+    # ...
+    print("hey")
+    return 1
 
-h2 = Hoge()
-print(h2)
+print(testfunc(None))
+print(testfunc(1))
