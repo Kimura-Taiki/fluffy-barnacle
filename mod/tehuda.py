@@ -65,7 +65,7 @@ def _yadosi(huda: Huda) -> None:
 
 def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")
-    moderator.append(over_layer=OthersBasicAction(inject_func=huda.delivery.inject_view))
+    moderator.append(over_layer=OthersBasicAction(huda=huda, inject_func=huda.delivery.inject_view))
 
 def _zensin(huda: Huda) -> None:
     if not huda.delivery.can_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=True, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA):

@@ -34,7 +34,10 @@ class TabaFactory():
         taba.view_inject_kwargs = self.view_inject_kwargs
         taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
         for i in surfaces:
-            taba.append(Huda(img=i))
+            huda = Huda(img=i)
+            huda.hoyuusya = hoyuusya
+            taba.append(huda)
+            # taba.append(Huda(img=i))
         return taba
 
     def _rearrange_huda(self, taba: Taba, hoyuusya: int) -> None:

@@ -6,6 +6,8 @@ from typing import Callable
 
 from mod.const import screen, nie
 from mod.youso import Youso
+from mod.delivery import Delivery
+from mod.kihondousa import pass_koudou
 
 def default_draw(huda: 'Huda') -> None:
     screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft)
@@ -17,6 +19,7 @@ class Huda(Youso):
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
+        self.koudou: Callable[[Delivery, int], None] = pass_koudou
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)

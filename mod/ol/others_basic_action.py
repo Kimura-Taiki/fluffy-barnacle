@@ -2,7 +2,7 @@ import pygame
 from typing import Protocol, Callable, Any
 from functools import partial
 
-from mod.const import compatible_with, WX, WY, SIMOTE, KAMITE, pass_func, screen, IMG_GRAY_LAYER, BRIGHT
+from mod.const import compatible_with, WX, WY, SIMOTE, KAMITE, pass_func, screen, IMG_GRAY_LAYER, BRIGHT, TC_HUSEHUDA
 from mod.delivery import Delivery, duck_delivery
 from mod.moderator import OverLayer, moderator
 from mod.huda import default_draw
@@ -32,7 +32,8 @@ _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
 _gray_youso = Youso(mousedown=_mousedown, mouseup=_mouseup)
 
 class OthersBasicAction():
-    def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
+    def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
+        self.source_huda = huda
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
         self.taba: Taba
@@ -50,6 +51,7 @@ class OthersBasicAction():
             "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
+        print(self.taba[0].hoyuusya)
 
     def close(self) -> int:
         popup_message.add(text="OthersBasicAction.close で閉じたよ")
@@ -70,8 +72,11 @@ class OthersBasicAction():
         controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
+        huda.koudou(self.delivery, self.delivery.turn_player)
+        print(huda.hoyuusya, self.delivery.turn_player)
+        self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
 
 
 
-compatible_with(OthersBasicAction(), OverLayer)
+compatible_with(OthersBasicAction(Huda(img=pygame.Surface((16, 16)))), OverLayer)

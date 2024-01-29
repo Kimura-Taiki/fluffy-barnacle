@@ -1,8 +1,16 @@
-dictionary = {"x": 100}
-print(dictionary)
-dictionary["x"] = 200
-print(dictionary)
-dictionary["y"] = 300
-print(dictionary)
+class Coord:
+    def __init__(self, x, y) -> None:
+        self.x, self.y = x, y
 
-exit()
+class Hoge:
+    def __init__(self, text: str, coord: Coord) -> None:
+        self.text, self.coord = text, coord
+
+h1 = Hoge()
+print(h1)
+
+h1.coord.x, h1.coord.y = 15, 40
+print(h1)
+
+h2 = Hoge()
+print(h2)
