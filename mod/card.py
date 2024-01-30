@@ -21,8 +21,8 @@ class Card():
         self.cond = cond
 
 class Kougeki(Card):
-    def __init__(self, img: Surface, cond: BoolDI, life_dagage: SuuziDI, aura_damage: SuuziDI, maai_list: MaaiDI) -> None:
+    def __init__(self, img: Surface, cond: BoolDI, aura_damage: SuuziDI, life_dagage: SuuziDI, maai_list: MaaiDI) -> None:
         super().__init__(img, cond)
-        self.life_dagage = life_dagage
         self.aura_damage =aura_damage
+        self.life_dagage = life_dagage
         self.maai_list = maai_list
