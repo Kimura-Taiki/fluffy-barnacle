@@ -4,7 +4,7 @@ from typing import Callable
 
 from mod.const import WX, WY, screen, BLACK
 from mod.huda import Huda, default_draw
-from mod.taba_factory import TabaFactory
+from mod.taba_factory.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 80-80*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2+70-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i

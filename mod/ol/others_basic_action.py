@@ -7,7 +7,7 @@ from mod.delivery import Delivery, duck_delivery
 from mod.moderator import OverLayer, moderator
 from mod.huda import default_draw
 from mod.taba import Taba
-from mod.taba_factory import TabaFactory
+from mod.taba_factory.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.youso import Youso
 from mod.huda import Huda

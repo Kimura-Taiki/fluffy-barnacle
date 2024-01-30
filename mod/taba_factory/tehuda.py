@@ -7,7 +7,7 @@ from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRC
     , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
 from mod.huda import Huda, default_draw
 from mod.controller import controller
-from mod.taba_factory import TabaFactory
+from mod.taba_factory.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
@@ -55,6 +55,9 @@ def _mouseup(huda: Huda) -> None:
 
 def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
+    from mod.card import Kougeki
+    if isinstance(huda.card, Kougeki):
+        huda.card.attack(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
 
 def _yadosi(huda: Huda) -> None:
     if not can_yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
