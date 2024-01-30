@@ -6,6 +6,7 @@ from functools import partial
 from mod.const import WX, WY, SIMOTE, KAMITE
 from mod.huda import Huda, default_draw
 from mod.taba import Taba
+from mod.card import Card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -27,7 +28,7 @@ class TabaFactory():
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: WX-huda_x(i, j), lambda i, j: WY-huda_y(i, j), lambda i, j: huda_angle(i, j)+180.0)
-        
+
     def maid_by_files(self, surfaces: list[Surface], hoyuusya: int) -> Taba:
         taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
         taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
@@ -38,6 +39,18 @@ class TabaFactory():
             huda.hoyuusya = hoyuusya
             taba.append(huda)
             # taba.append(Huda(img=i))
+        return taba
+
+    def maid_by_cards(self, cards: list[Card], hoyuusya: int) -> Taba:
+        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
+        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
+        taba.view_inject_kwargs = self.view_inject_kwargs
+        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
+        for card in cards:
+            huda = Huda(img=card.img)
+            huda.hoyuusya = hoyuusya
+            huda.card = card
+            taba.append(huda)
         return taba
 
     def _rearrange_huda(self, taba: Taba, hoyuusya: int) -> None:

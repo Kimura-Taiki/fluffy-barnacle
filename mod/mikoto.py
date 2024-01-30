@@ -15,13 +15,15 @@ from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.utuwa import Utuwa
 from mod.youso import Youso
+from koukas.n_1 import n_1, n_2, n_3, n_4
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
         self.yamahuda: Taba = yamahuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], hoyuusya=self.hoyuusya)
-        self.tehuda: Taba = tehuda_factory.maid_by_files(surfaces=[UTURO(i) for i in range(3, 7)], hoyuusya=self.hoyuusya)
+        # self.tehuda: Taba = tehuda_factory.maid_by_files(surfaces=[UTURO(i) for i in range(3, 7)], hoyuusya=self.hoyuusya)
+        self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4], hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], hoyuusya=self.hoyuusya)
         self.kirihuda: Taba = kirihuda_factory.maid_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], hoyuusya=self.hoyuusya)
