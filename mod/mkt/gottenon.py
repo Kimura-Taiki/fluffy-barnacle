@@ -4,7 +4,7 @@ from functools import partial
 
 from mod.const import screen, IMG_GOTTENON_BG, WX, WY, KAMITE, MS_MINCHO_COL, FONT_SIZE_GOTTENON, BLACK
 from mod.youso import Youso
-from mod.core_view import CoreView
+from mod.mkt.core_view import CoreView
 
 def joined_commands(commands: list[Callable[[], None]]) -> Callable[[], None]:
     def mono_command() -> None:

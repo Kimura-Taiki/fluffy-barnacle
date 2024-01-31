@@ -3,17 +3,17 @@ from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
     , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA\
     , compatible_with, HONOKA_S, draw_aiharasuu, SIMOTE
-from mod.gottenon import Gottenon
-from mod.gottena import Gottena
+from mod.mkt.gottenon import Gottenon
+from mod.mkt.gottena import Gottena
+from mod.mkt.utuwa import Utuwa
 from mod.tf.yamahuda import yamahuda_factory
 from mod.tf.tehuda import tehuda_factory
 from mod.tf.husehuda import husehuda_factory
 from mod.tf.sutehuda import sutehuda_factory
 from mod.tf.kirihuda import kirihuda_factory
-from mod.huse_sute_view import HuseSuteView
+from mod.mkt.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
-from mod.utuwa import Utuwa
 from mod.youso import Youso
 from koukas.n_1 import n_1, n_2, n_3, n_4
 
@@ -22,7 +22,6 @@ class Mikoto():
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
         self.yamahuda: Taba = yamahuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], hoyuusya=self.hoyuusya)
-        # self.tehuda: Taba = tehuda_factory.maid_by_files(surfaces=[UTURO(i) for i in range(3, 7)], hoyuusya=self.hoyuusya)
         self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4], hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], hoyuusya=self.hoyuusya)

@@ -4,7 +4,7 @@ from functools import partial
 from mod.const import nie, compatible_with, SIMOTE, pass_func
 from mod.huda import Huda
 from mod.delivery import Listener, Delivery, duck_delivery
-from mod.core_view import CoreView
+from mod.mkt.core_view import CoreView
 
 def _huda_taba_nie(huda: Huda, taba: 'Taba') -> None:
     nie(text="Taba.inject")

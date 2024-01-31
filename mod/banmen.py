@@ -1,7 +1,7 @@
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with
 from mod.mikoto import Mikoto
-from mod.utuwa import Utuwa
+from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
 from mod.controller import controller
 from mod.huda import Huda

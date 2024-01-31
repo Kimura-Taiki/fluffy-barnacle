@@ -1,6 +1,6 @@
 from functools import partial
 
-from mod.gottenon import Gottenon
+from mod.mkt.gottenon import Gottenon
 
 class Gottena(list[Gottenon]):
     def __init__(self, data: list[Gottenon]=[]):

@@ -1,5 +1,5 @@
 from mod.const import compatible_with, SIMOTE
-from mod.core_view import CoreView
+from mod.mkt.core_view import CoreView
 from mod.huda import Huda
 from mod.taba import Taba
 
