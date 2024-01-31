@@ -4,7 +4,8 @@ from functools import partial
 
 from mod.const import compatible_with, WX, WY, SIMOTE, KAMITE, pass_func, screen, IMG_GRAY_LAYER, BRIGHT, TC_HUSEHUDA
 from mod.delivery import Delivery, duck_delivery
-from mod.moderator import OverLayer, moderator
+from mod.moderator import moderator
+from mod.over_layer import OverLayer
 from mod.huda import default_draw
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory

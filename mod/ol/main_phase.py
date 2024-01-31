@@ -1,7 +1,7 @@
 from typing import Callable, Any
 
 from mod.const import compatible_with, pass_func
-from mod.moderator import OverLayer
+from mod.over_layer import OverLayer
 from mod.youso import Youso
 from mod.popup_message import popup_message
 from mod.delivery import Delivery, duck_delivery
