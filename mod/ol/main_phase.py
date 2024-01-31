@@ -8,6 +8,7 @@ from mod.delivery import Delivery, duck_delivery
 
 class MainPhase():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
+        self.name = "メインフェイズ"
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
 

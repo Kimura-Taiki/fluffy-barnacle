@@ -1,10 +1,13 @@
+import pygame
+from pygame.surface import Surface
 from typing import Callable, Protocol, Any, runtime_checkable
 
-from mod.const import pass_func
+from mod.const import pass_func, MS_MINCHO_COL, WHITE, BLACK, screen, FONT_SIZE_STACK_LOG
 from mod.delivery import Delivery, duck_delivery
 
 @runtime_checkable
 class OverLayer(Protocol):
+    name: str = "------"
     inject_func: Callable[[], None] = pass_func
     delivery: Delivery = duck_delivery
 
@@ -45,5 +48,16 @@ class Moderator():
 
     def elapse(self) -> None:
         self.stack[-1].elapse()
+
+    def stack_log(self) -> None:
+        img_nega = Surface((340, (FONT_SIZE_STACK_LOG+4)*len(self.stack)), pygame.SRCALPHA)
+        for i, v in enumerate(self.stack):
+            mozi = MS_MINCHO_COL(" "*i+v.name, 20, BLACK)
+            siro = Surface(mozi.get_size())
+            siro.fill(WHITE)
+            siro.set_alpha(192)
+            img_nega.blit(source=siro, dest=[0, i*(FONT_SIZE_STACK_LOG+4)])
+            img_nega.blit(source=mozi, dest=[0, i*(FONT_SIZE_STACK_LOG+4)])
+        screen.blit(source=img_nega, dest=[0, 0])
 
 moderator = Moderator()

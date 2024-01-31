@@ -34,6 +34,7 @@ class Banmen():
         self.enemy_mikoto.elapse()
         self.maai.draw()
         self.dust.draw()
+        moderator.stack_log()
         controller.mouse_over()
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:

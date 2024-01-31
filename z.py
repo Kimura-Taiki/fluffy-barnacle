@@ -1,3 +1,1 @@
-s = "ABC"
-# s.pop(0)
-print(s[1:])
+print(sum("A. " for _ in range(10)))

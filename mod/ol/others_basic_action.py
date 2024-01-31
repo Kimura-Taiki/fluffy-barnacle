@@ -34,6 +34,7 @@ _gray_youso = Youso(mousedown=_mousedown, mouseup=_mouseup)
 
 class OthersBasicAction():
     def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
+        self.name = "基本動作の選択"
         self.source_huda = huda
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
