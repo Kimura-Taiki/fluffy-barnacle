@@ -5,11 +5,11 @@ from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , compatible_with, HONOKA_S, draw_aiharasuu, SIMOTE
 from mod.gottenon import Gottenon
 from mod.gottena import Gottena
-from mod.taba_factory.yamahuda import yamahuda_factory
-from mod.taba_factory.tehuda import tehuda_factory
-from mod.taba_factory.husehuda import husehuda_factory
-from mod.taba_factory.sutehuda import sutehuda_factory
-from mod.taba_factory.kirihuda import kirihuda_factory
+from mod.tf.yamahuda import yamahuda_factory
+from mod.tf.tehuda import tehuda_factory
+from mod.tf.husehuda import husehuda_factory
+from mod.tf.sutehuda import sutehuda_factory
+from mod.tf.kirihuda import kirihuda_factory
 from mod.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery

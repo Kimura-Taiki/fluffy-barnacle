@@ -7,7 +7,7 @@ from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRC
     , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
 from mod.huda import Huda, default_draw
 from mod.controller import controller
-from mod.taba_factory.taba_factory import TabaFactory
+from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
