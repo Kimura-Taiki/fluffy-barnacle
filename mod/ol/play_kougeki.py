@@ -15,7 +15,7 @@ from mod.controller import controller
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
-SCALE_SIZE = Vector2(120, 120)
+SCALE_SIZE = 150
 
 _aura_damage = Card(img=IMG_AURA_DAMAGE, name="", cond=auto_di)
 _life_damage = Card(img=IMG_LIFE_DAMAGE, name="", cond=auto_di)
@@ -31,16 +31,18 @@ class PlayKougeki():
         self.delivery = huda.delivery
         self.taiou_taba: Taba = []
         self.uke_taba: Taba = []
-        self.img_aura_value = Surface((16, 16))
-        self.img_life_value = Surface((16, 16))
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.uke_taba.elapse()
         if aura_huda := next((huda for huda in self.uke_taba if huda.card == _aura_damage), None):
-            screen.blit(source=self.img_aura_value, dest=aura_huda.dest-Vector2(60, 60)/2)
+            draw_aiharasuu(surface=screen, dest=aura_huda.dest-Vector2(SCALE_SIZE, SCALE_SIZE)/2,
+                           num=self.kougeki.aura_damage(self.delivery, self.source_huda.hoyuusya),
+                           size=SCALE_SIZE)
         if life_huda := next((huda for huda in self.uke_taba if huda.card == _life_damage), None):
-            screen.blit(source=self.img_life_value, dest=life_huda.dest-Vector2(120, 120)/2)
+            draw_aiharasuu(surface=screen, dest=life_huda.dest-Vector2(SCALE_SIZE, SCALE_SIZE)/2,
+                           num=self.kougeki.life_damage(self.delivery, self.source_huda.hoyuusya),
+                           size=SCALE_SIZE)
 
     def get_hover(self) -> Any | None:
         return view_youso
@@ -50,14 +52,6 @@ class PlayKougeki():
             "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.uke_taba = bac.maid_by_cards(cards=[_aura_damage, _life_damage], hoyuusya=self.source_huda.hoyuusya)
-        self.img_aura_value = Surface((60, 60), pygame.SRCALPHA)
-        draw_aiharasuu(surface=self.img_aura_value, dest=Vector2(0, 0),
-                       num=self.kougeki.aura_damage(self.delivery, self.source_huda.hoyuusya))
-        pygame.transform.scale(surface=self.img_aura_value, size=(120, 120))
-        self.img_life_value = Surface((60, 60), pygame.SRCALPHA)
-        draw_aiharasuu(surface=self.img_life_value, dest=Vector2(0, 0),
-                       num=self.kougeki.life_dagage(self.delivery, self.source_huda.hoyuusya))
-        pygame.transform.scale(surface=self.img_life_value, size=(120, 120))
 
     def close(self) -> int:
         return 0

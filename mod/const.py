@@ -48,6 +48,7 @@ FONT_SIZE_STACK_LOG = 24
 FONT_SIZE_GOTTENON = 32
 FONT_SIZE_POPUP_MESSAGE = 32
 FONT_SIZE_TIMER = 32
+FONT_SIZE_AIHARASUU = 60
 
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png").convert_alpha()
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png").convert_alpha()
@@ -65,8 +66,18 @@ IMG_YAMAHUDA = pygame.transform.rotozoom(surface=pygame.image.load("pictures/bac
 IMG_BACK = pygame.transform.rotozoom(surface=pygame.image.load("pictures/back_340x475.png"), angle=90.0, scale=0.6).convert_alpha()
 IMG_YATUBA_BG = pygame.image.load("pictures/yatuha_bg.png").convert_alpha()
 IMG_AIHARASUU = pygame.image.load("pictures/aiharasuu.png").convert_alpha()
-def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
-    surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
+_FSAS = FONT_SIZE_AIHARASUU
+def draw_aiharasuu(surface: Surface, dest: Vector2, num: int, size: int=_FSAS) -> None:
+    if size == _FSAS:
+        surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*_FSAS, num//10*_FSAS, _FSAS, _FSAS])
+    else:
+        img_scale = Surface((_FSAS, _FSAS), pygame.SRCALPHA)
+        img_scale.blit(source=IMG_AIHARASUU, dest=[0, 0], area=[num%10*_FSAS, num//10*_FSAS, _FSAS, _FSAS])
+        pygame.image.save(img_scale, "img_scale.png")
+        surface.blit(source=pygame.transform.scale(img_scale, (size, size)), dest=dest)
+
+# def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
+#     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 IMG_GRAY_LAYER = pygame.image.load("pictures/gray_layer.png").convert_alpha()
 IMG_AURA_DAMAGE = pygame.image.load("pictures/aura_damage.png").convert_alpha()
 IMG_LIFE_DAMAGE = pygame.image.load("pictures/life_damage.png").convert_alpha()

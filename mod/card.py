@@ -26,11 +26,11 @@ class Card():
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
-                 aura_damage: SuuziDI, life_dagage: SuuziDI, maai_list: MaaiDI) -> None:
+                 aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI) -> None:
         super().__init__(img, name, cond)
         self.type = CT_KOUGEKI
         self.aura_damage = aura_damage
-        self.life_dagage = life_dagage
+        self.life_damage = life_damage
         self.maai_list = maai_list
 
     def attack(self, delivery: Delivery, hoyuusya: int) -> None:
