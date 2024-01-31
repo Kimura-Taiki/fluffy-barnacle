@@ -29,7 +29,7 @@ class Kougeki(Card):
                  aura_damage: SuuziDI, life_dagage: SuuziDI, maai_list: MaaiDI) -> None:
         super().__init__(img, name, cond)
         self.type = CT_KOUGEKI
-        self.aura_damage =aura_damage
+        self.aura_damage = aura_damage
         self.life_dagage = life_dagage
         self.maai_list = maai_list
 
