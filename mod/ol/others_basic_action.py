@@ -40,7 +40,6 @@ class OthersBasicAction():
         return self.taba.get_hover_huda() or _gray_youso
 
     def open(self) -> None:
-        popup_message.add(text="OthersBasicAction.open で開いたよ")
         bac = TabaFactory(inject_kwargs={
             "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
@@ -49,7 +48,6 @@ class OthersBasicAction():
             self.taba[i].koudou = v
 
     def close(self) -> int:
-        popup_message.add(text="OthersBasicAction.close で閉じたよ")
         return 0
 
     def moderate(self, stat: int) -> None:

@@ -19,10 +19,9 @@ class MainPhase():
         return None
 
     def open(self) -> None:
-        popup_message.add(text="MainPhase.openで開いたよ")
+        ...
 
     def close(self) -> int:
-        popup_message.add(text="MainPhase.closeで閉じたよ")
         return 0
 
     def moderate(self, stat: int) -> None:
