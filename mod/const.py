@@ -38,17 +38,16 @@ WHITE = (255, 255, 255)
 FRAMES_PER_SECOND = 30
 CARDS = 9
 MS_MINCHO_COL: Callable[[str, int, tuple[int, int, int]], Surface] = lambda s, i, c: pygame.font.Font("msmincho001.ttf", i).render(s, True, c)
-_MS_MINCHO_32PT_FONT = pygame.font.Font("msmincho001.ttf", 32)
-MS_MINCHO_32PT: Callable[[str], Surface] = lambda s: _MS_MINCHO_32PT_FONT.render(s, True, BLACK)
-MS_MINCHO_WHITE_32PT: Callable[[str], Surface] = lambda s: _MS_MINCHO_32PT_FONT.render(s, True, WHITE)
 AIHARA_KURO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("Aiharahudemojikaisho_free305.ttf", i).render(s, True, (0, 0, 0))
-MS_MINCHO: Callable[[str, int], Surface] = lambda s, i: pygame.font.Font("msmincho001.ttf", i).render(s, True, (0, 0, 0))
 UTURO: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_a_n_{i}.png").convert_alpha()
 UTURO_S: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_a_s_{i}.png").convert_alpha()
 HONOKA: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_b_n_{i}.png").convert_alpha()
 HONOKA_S: Callable[[int], Surface] = lambda i: pygame.image.load(f"cards/na_00_hajimari_b_s_{i}.png").convert_alpha()
 
 FONT_SIZE_STACK_LOG = 24
+FONT_SIZE_GOTTENON = 32
+FONT_SIZE_POPUP_MESSAGE = 32
+FONT_SIZE_TIMER = 32
 
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png").convert_alpha()
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png").convert_alpha()

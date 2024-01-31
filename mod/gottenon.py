@@ -2,7 +2,7 @@ import pygame
 from typing import Callable
 from functools import partial
 
-from mod.const import MS_MINCHO_32PT, screen, IMG_GOTTENON_BG, WX, WY, KAMITE
+from mod.const import screen, IMG_GOTTENON_BG, WX, WY, KAMITE, MS_MINCHO_COL, FONT_SIZE_GOTTENON, BLACK
 from mod.youso import Youso
 from mod.core_view import CoreView
 
@@ -22,7 +22,7 @@ class Gottenon(Youso):
         self.redraw_img_text()
 
     def redraw_img_text(self) -> None:
-        self.img_text = MS_MINCHO_32PT(self.core_view.text(name=self.name))
+        self.img_text = MS_MINCHO_COL(self.core_view.text(name=self.name), FONT_SIZE_GOTTENON, BLACK)
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()
