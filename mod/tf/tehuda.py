@@ -12,6 +12,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
 from mod.kihondousa import can_zensin, zensin, can_yadosi, yadosi
+from mod.ol.play_kougeki import PlayKougeki
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -57,7 +58,7 @@ def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
     from mod.card import Kougeki
     if isinstance(huda.card, Kougeki):
-        huda.card.attack(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
+        moderator.append(over_layer=PlayKougeki(huda=huda))
 
 def _yadosi(huda: Huda) -> None:
     if not can_yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
