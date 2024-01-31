@@ -4,7 +4,7 @@ from typing import Callable, Protocol, Any, runtime_checkable
 
 from mod.const import pass_func, MS_MINCHO_COL, WHITE, BLACK, screen, FONT_SIZE_STACK_LOG
 from mod.delivery import Delivery, duck_delivery
-from mod.over_layer import OverLayer
+from mod.ol.over_layer import OverLayer
 
 class Moderator():
     def __init__(self) -> None:
