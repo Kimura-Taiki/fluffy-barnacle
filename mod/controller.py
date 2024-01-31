@@ -18,13 +18,12 @@ class Controller():
         self.drag: bool = False
 
     def resolve_pygame_events(self) -> None:
+        self.hover = self.get_hover()
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.image.save(screen, "screenshot.png")
                 pygame.quit()
                 sys.exit()
-            elif event.type == MOUSEMOTION:
-                self.hover = self.get_hover()
             elif event.type == MOUSEBUTTONDOWN:
                 if self.hover:
                     self.hover.mousedown()

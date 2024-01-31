@@ -4,9 +4,10 @@ from typing import Any
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with
-from mod.ol.undo_mouse import make_gray_youso
+from mod.ol.undo_mouse import make_undo_youso
+from mod.ol.view_banmen import view_youso
 
-_gray_youso = make_gray_youso(text="PlayKougeki")
+_gray_youso = make_undo_youso(text="PlayKougeki")
 
 class PlayKougeki():
     def __init__(self, huda: Huda) -> None:
@@ -19,13 +20,13 @@ class PlayKougeki():
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
 
     def get_hover(self) -> Any | None:
-        return _gray_youso
+        return view_youso
 
     def open(self) -> None:
         ...
 
     def close(self) -> int:
-        ...
+        return 0
 
     def moderate(self, stat: int) -> None:
         ...

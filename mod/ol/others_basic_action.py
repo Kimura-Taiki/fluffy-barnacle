@@ -13,7 +13,7 @@ from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
 from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
-from mod.ol.undo_mouse import make_gray_youso
+from mod.ol.undo_mouse import make_undo_youso
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
@@ -22,7 +22,7 @@ HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
 
-_gray_youso = make_gray_youso(text="OthersBasicAction")
+_gray_youso = make_undo_youso(text="OthersBasicAction")
 
 class OthersBasicAction():
     def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -63,9 +63,11 @@ class OthersBasicAction():
             default_draw(huda=huda)
 
     def _mousedown(self, huda: Huda) -> None:
+        popup_message.add(text="OthersBasicAction.mousedown でクリックしたよ")
         controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
+        popup_message.add(text="OthersBasicAction.mouseup でクリック確定したよ")
         huda.koudou(self.delivery, self.delivery.turn_player)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()

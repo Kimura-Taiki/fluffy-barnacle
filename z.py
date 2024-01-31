@@ -1,1 +1,5 @@
-print(sum("A. " for _ in range(10)))
+li = list(range(10))
+print(li)
+li.pop()
+print(li)
+print(li[-1])
