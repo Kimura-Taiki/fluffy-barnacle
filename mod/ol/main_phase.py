@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable
 
 from mod.const import compatible_with, pass_func
 from mod.ol.over_layer import OverLayer

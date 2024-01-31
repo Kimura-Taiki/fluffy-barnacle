@@ -1,22 +1,12 @@
 import pygame
-from typing import Any, Callable
+from typing import Any
 
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with
-from mod.popup_message import popup_message
-from mod.controller import controller
-from mod.moderator import moderator
-from mod.youso import Youso
+from mod.ol.undo_mouse import make_gray_youso
 
-def _mousedown(huda: Huda) -> None:
-    popup_message.add(text="PlayKougeki.mousedown でクリックしたよ")
-    controller.active = huda
-
-def _mouseup(huda: Huda) -> None:
-    moderator.pop()
-
-_gray_youso = Youso(mousedown=_mousedown, mouseup=_mouseup)
+_gray_youso = make_gray_youso(text="PlayKougeki")
 
 class PlayKougeki():
     def __init__(self, huda: Huda) -> None:
