@@ -11,7 +11,7 @@ from mod.controller import controller
 from mod.moderator import moderator
 from mod.youso import Youso
 
-_gray_youso = make_undo_youso(text="PlayKougeki")
+_undo_youso = make_undo_youso(text="PlayKougeki")
 
 class ViewBanmen():
     def __init__(self, delivery: Delivery) -> None:
@@ -20,10 +20,10 @@ class ViewBanmen():
         self.delivery = delivery
 
     def elapse(self) -> None:
-        screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
+        ...
 
     def get_hover(self) -> Any | None:
-        return _gray_youso
+        return self.delivery.get_hover() or _undo_youso
 
     def open(self) -> None:
         ...

@@ -34,7 +34,7 @@ class Kougeki(Card):
         self.maai_list = maai_list
 
     def attack(self, delivery: Delivery, hoyuusya: int) -> None:
-        popup_message.add(text=f"{self.name}の攻撃です {self.aura_damage(delivery, hoyuusya)}/{self.life_dagage(delivery, hoyuusya)} {self.maai_text(self.maai_list(delivery, hoyuusya))}")
+        popup_message.add(text=f"{self.name}の攻撃です {self.aura_damage(delivery, hoyuusya)}/{self.life_damage(delivery, hoyuusya)} {self.maai_text(self.maai_list(delivery, hoyuusya))}")
 
     def maai_text(self, bool_list: list[bool]) -> str:
         bool_list.append(False)

@@ -29,8 +29,8 @@ class PlayKougeki():
         self.source_huda = huda
         self.inject_func = huda.delivery.inject_view
         self.delivery = huda.delivery
-        self.taiou_taba: Taba = []
-        self.uke_taba: Taba = []
+        self.taiou_taba: Taba = Taba()
+        self.uke_taba: Taba = Taba()
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
