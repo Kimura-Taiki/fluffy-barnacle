@@ -52,9 +52,7 @@ def _mouseup(huda: Huda) -> None:
 
 def _use_card(huda: Huda) -> None:
     popup_message.add(text="カードを使います")
-    from mod.card import Kougeki
-    if isinstance(huda.card, Kougeki):
-        moderator.append(over_layer=PlayKougeki(huda=huda))
+    huda.play()
 
 def _yadosi(huda: Huda) -> None:
     if not can_yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya):

@@ -1,11 +1,12 @@
 from pygame.surface import Surface
 from pygame.math import Vector2
-from typing import Callable
+from typing import Callable, Any
 from functools import partial
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
+from mod.moderator import moderator
 
 BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
@@ -25,7 +26,7 @@ class Card():
         self.cond = cond
         self.type = CT_HUTEI
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int) -> None:
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         pass
 
 class Kougeki(Card):
@@ -57,6 +58,11 @@ class Kougeki(Card):
                         text, chain = text+","+str(num)+"-"+str(i-1), False
         return text[1:]
 
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
+        from mod.ol.play_kougeki import PlayKougeki
+        moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+
+
 class Damage(Card):
     _SCALE_SIZE = 180
 
@@ -69,7 +75,7 @@ class Damage(Card):
         draw_aiharasuu(surface=self.img, dest=Vector2(340, 475)/2 - Vector2(self._SCALE_SIZE, self._SCALE_SIZE)/2,
                        num=dmg, size=self._SCALE_SIZE)
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int) -> None:
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
                                       to_mine=False, to_code=self.to_code, kazu=self.dmg)
 

@@ -1,7 +1,7 @@
 from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE, compatible_with
+    , SIMOTE, KAMITE, HANTE, compatible_with, TC_SUTEHUDA, TC_HUSEHUDA
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -42,12 +42,11 @@ class Banmen():
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.withdraw()
-        mikoto = {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)
-        if mikoto is None:
+        if not (mikoto := {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)):
             raise ValueError(f"Invalid huda.hoyuusya: {huda.hoyuusya}")
-        match taba_code:
-            case TC_HUSEHUDA:
-                mikoto.husehuda.append(huda)
+        if not (taba := {TC_HUSEHUDA: mikoto.husehuda, TC_SUTEHUDA: mikoto.sutehuda}.get(taba_code)):
+            raise ValueError(f"Invalid taba_code: {taba_code}")
+        taba.append(huda)
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
 
