@@ -8,7 +8,7 @@ from mod.ol.over_layer import OverLayer
 from mod.huda import default_draw
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
-from mod.popup_message import popup_message
+# from mod.popup_message import popup_message
 from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
@@ -61,11 +61,11 @@ class OthersBasicAction():
             default_draw(huda=huda)
 
     def _mousedown(self, huda: Huda) -> None:
-        popup_message.add(text="OthersBasicAction.mousedown でクリックしたよ")
+        # popup_message.add(text="OthersBasicAction.mousedown でクリックしたよ")
         controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
-        popup_message.add(text="OthersBasicAction.mouseup でクリック確定したよ")
+        # popup_message.add(text="OthersBasicAction.mouseup でクリック確定したよ")
         huda.koudou(self.delivery, self.delivery.turn_player)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
