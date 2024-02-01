@@ -1,6 +1,7 @@
 from typing import Protocol, runtime_checkable, Any, NamedTuple
 
 from mod.const import compatible_with, HANTE
+from mod.req.request import Request
 
 @runtime_checkable
 class Delivery(Protocol):
@@ -16,6 +17,9 @@ class Delivery(Protocol):
         ...
 
     def inject_view(self) -> None:
+        ...
+
+    def respond(self, request: Request) -> Any | None:
         ...
 
 
@@ -34,6 +38,9 @@ class _DuckDelivery():
 
     def inject_view(self) -> None:
         pass
+
+    def respond(self, request: Request) -> Any | None:
+        return None
 
 
 duck_delivery = _DuckDelivery()

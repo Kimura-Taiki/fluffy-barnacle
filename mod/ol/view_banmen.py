@@ -10,6 +10,7 @@ from mod.popup_message import popup_message
 from mod.controller import controller
 from mod.moderator import moderator
 from mod.youso import Youso
+from mod.req.req_get_hover import ReqGetHover
 
 _undo_youso = make_undo_youso(text="PlayKougeki")
 
@@ -23,7 +24,7 @@ class ViewBanmen():
         ...
 
     def get_hover(self) -> Any | None:
-        return self.delivery.get_hover() or _undo_youso
+        return self.delivery.respond(request=ReqGetHover()) or _undo_youso
 
     def open(self) -> None:
         ...

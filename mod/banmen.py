@@ -1,3 +1,5 @@
+from typing import Any
+
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with
 from mod.mikoto import Mikoto
@@ -8,6 +10,7 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery, Listener
 from mod.moderator import moderator
+from mod.req.request import Request
 
 class Banmen():
     def __init__(self) -> None:
@@ -69,6 +72,12 @@ class Banmen():
     def inject_view(self) -> None:
         for taba in self.tabas:
             taba.inject_kwargs(taba.view_inject_kwargs)
+
+    def respond(self, request: Request) -> Any | None:
+        from mod.const import REQ_GET_HOVER
+        if request.request_code == REQ_GET_HOVER:
+            return self.get_hover()
+        return None
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         tpl = (hoyuusya, is_mine)
