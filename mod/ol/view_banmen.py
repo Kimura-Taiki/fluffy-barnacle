@@ -38,7 +38,7 @@ class ViewBanmen():
 compatible_with(ViewBanmen(delivery=duck_delivery), OverLayer)
 
 def _view_mouseup(huda: Huda) -> None:
-    popup_message.add(text=f"ViewBanmen's_undo.mouseup でクリック確定したよ")
+    # popup_message.add(text=f"ViewBanmen's_undo.mouseup でクリック確定したよ")
     moderator.append(over_layer=ViewBanmen(delivery=huda.delivery))
 
 view_youso = Youso(mousedown=partial(undo_mousedown, text="ViewBanmen"), mouseup=_view_mouseup)

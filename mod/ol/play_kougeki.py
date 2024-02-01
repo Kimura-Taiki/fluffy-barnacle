@@ -7,7 +7,7 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, 
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda, default_draw
 from mod.ol.view_banmen import view_youso
-from mod.card import Card, auto_di, Kougeki
+from mod.card import Card, auto_di, Kougeki, SuuziDI
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
 from mod.controller import controller
@@ -15,7 +15,7 @@ from mod.controller import controller
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
-SCALE_SIZE = 150
+SCALE_SIZE = 180
 
 _aura_damage = Card(img=IMG_AURA_DAMAGE, name="", cond=auto_di)
 _life_damage = Card(img=IMG_LIFE_DAMAGE, name="", cond=auto_di)
@@ -33,19 +33,15 @@ class PlayKougeki():
         self.uke_taba: Taba = Taba()
 
     def elapse(self) -> None:
+        screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.uke_taba.elapse()
-        if aura_huda := next((huda for huda in self.uke_taba if huda.card == _aura_damage), None):
-            draw_aiharasuu(surface=screen, dest=aura_huda.dest-Vector2(SCALE_SIZE, SCALE_SIZE)/2,
-                           num=self.kougeki.aura_damage(self.delivery, self.source_huda.hoyuusya),
-                           size=SCALE_SIZE)
-        if life_huda := next((huda for huda in self.uke_taba if huda.card == _life_damage), None):
-            draw_aiharasuu(surface=screen, dest=life_huda.dest-Vector2(SCALE_SIZE, SCALE_SIZE)/2,
-                           num=self.kougeki.life_damage(self.delivery, self.source_huda.hoyuusya),
-                           size=SCALE_SIZE)
+        self._draw_damage(_aura_damage, self.kougeki.aura_damage)
+        self._draw_damage(_life_damage, self.kougeki.life_damage)
+
 
     def get_hover(self) -> Any | None:
-        return view_youso
+        return self.uke_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={
@@ -58,6 +54,12 @@ class PlayKougeki():
 
     def moderate(self, stat: int) -> None:
         ...
+
+    def _draw_damage(self, card_type: Card, damage_func: SuuziDI) -> None:
+        if huda := next((huda for huda in self.uke_taba if huda.card == card_type), None):
+            draw_aiharasuu(surface=screen, dest=huda.dest - Vector2(SCALE_SIZE, SCALE_SIZE)/2,
+                        num=damage_func(self.delivery, self.source_huda.hoyuusya),
+                        size=SCALE_SIZE)
 
     def _draw(self, huda: Huda) -> None:
         if controller.hover == huda:

@@ -73,11 +73,8 @@ def draw_aiharasuu(surface: Surface, dest: Vector2, num: int, size: int=_FSAS) -
     else:
         img_scale = Surface((_FSAS, _FSAS), pygame.SRCALPHA)
         img_scale.blit(source=IMG_AIHARASUU, dest=[0, 0], area=[num%10*_FSAS, num//10*_FSAS, _FSAS, _FSAS])
-        pygame.image.save(img_scale, "img_scale.png")
         surface.blit(source=pygame.transform.scale(img_scale, (size, size)), dest=dest)
 
-# def draw_aiharasuu(surface: Surface, dest: Vector2, num: int) -> None:
-#     surface.blit(source=IMG_AIHARASUU, dest=dest, area=[num%10*60, num//10*60, 60, 60])
 IMG_GRAY_LAYER = pygame.image.load("pictures/gray_layer.png").convert_alpha()
 IMG_AURA_DAMAGE = pygame.image.load("pictures/aura_damage.png").convert_alpha()
 IMG_LIFE_DAMAGE = pygame.image.load("pictures/life_damage.png").convert_alpha()
