@@ -5,7 +5,7 @@ from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
     , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
-from mod.huda import Huda, default_draw
+from mod.huda import Huda, available_draw
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
@@ -26,12 +26,8 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)
 def _draw(huda: Huda) -> None:
     if controller.active == huda:
         return None
-    elif controller.hover == huda:
-        pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
-        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
     else:
-        default_draw(huda=huda)
-    return None
+        available_draw(huda=huda)
 
 def _mousedown(huda: Huda) -> None:
     controller.active = huda

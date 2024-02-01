@@ -4,14 +4,22 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie
+from mod.const import screen, nie, BRIGHT
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
 from mod.card import Card, auto_di
+from mod.controller import controller
 
 def default_draw(huda: 'Huda') -> None:
     screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft)
+
+def available_draw(huda: 'Huda') -> None:
+    if controller.hover == huda:
+        pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
+        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
+    else:
+        default_draw(huda=huda)
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,

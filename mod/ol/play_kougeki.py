@@ -7,7 +7,7 @@ from typing import Any, Callable
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
     , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR
 from mod.ol.over_layer import OverLayer
-from mod.huda import Huda, default_draw
+from mod.huda import Huda, available_draw
 from mod.ol.view_banmen import view_youso
 from mod.card import Card, auto_di, Kougeki, SuuziDI, Damage
 from mod.taba import Taba
@@ -43,7 +43,7 @@ class PlayKougeki():
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={
-            "draw": self._draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
+            "draw": available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
             self.delivery, self.source_huda.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
@@ -56,13 +56,6 @@ class PlayKougeki():
 
     def moderate(self, stat: int) -> None:
         ...
-
-    def _draw(self, huda: Huda) -> None:
-        if controller.hover == huda:
-            pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
-            screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
-        else:
-            default_draw(huda=huda)
 
     def _mousedown(self, huda: Huda) -> None:
         controller.active = huda
