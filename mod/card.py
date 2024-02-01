@@ -79,3 +79,7 @@ class Damage(Card):
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
                                       to_mine=False, to_code=self.to_code, kazu=self.dmg)
 
+    def can_damage(self, delivery: Delivery, hoyuusya: int) -> None:
+        return delivery.can_ouka_to_ryouiki(
+            hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code, to_mine=False, to_code=self.to_code, kazu=self.dmg)
+

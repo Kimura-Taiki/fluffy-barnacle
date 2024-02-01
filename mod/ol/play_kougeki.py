@@ -47,9 +47,10 @@ class PlayKougeki():
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
             self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
+        can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
         _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフダメージ", dmg=self.kougeki.life_damage(
             self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-        self.uke_taba = bac.maid_by_cards(cards=[_ad_card, _ld_card], hoyuusya=self.hoyuusya)
+        self.uke_taba = bac.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
 
     def close(self) -> int:
         return 0
