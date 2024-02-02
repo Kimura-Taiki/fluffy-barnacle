@@ -1,7 +1,7 @@
 from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE, compatible_with, TC_SUTEHUDA, TC_HUSEHUDA, IMG_ZYOGAI_AREA, UC_ZYOGAI
+    , SIMOTE, KAMITE, HANTE, compatible_with, TC_SUTEHUDA, TC_HUSEHUDA, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -86,7 +86,7 @@ class Banmen():
         tpl = (hoyuusya, is_mine)
         mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
-                           UC_FLAIR: mikoto.flair,UC_LIFE: mikoto.life}.get(utuwa_code)):
+                           UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life, UC_SYUUTYUU: mikoto.syuutyuu}.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
 
