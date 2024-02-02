@@ -76,6 +76,9 @@ class Banmen():
         from mod.const import REQ_GET_HOVER
         if request.request_code == REQ_GET_HOVER:
             return self.get_hover()
+        from mod.req.req_ouka import ReqOuka
+        if isinstance(request, ReqOuka):
+            return self._utuwa_target(hoyuusya=request.hoyuusya, is_mine=request.is_mine, utuwa_code=request.utuwa_code).num
         return None
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:

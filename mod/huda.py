@@ -60,6 +60,9 @@ class Huda(Youso):
     def play(self) -> None:
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
+    def can_play(self) -> bool:
+        return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)
+
     @property
     def img_rz_topleft(self) -> Vector2:
         return self.dest-Vector2(self.img_rz.get_size())/2

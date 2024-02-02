@@ -3,10 +3,11 @@ from pygame.math import Vector2
 from typing import Callable, Any
 from functools import partial
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu
+from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
+from mod.req.req_ouka import ReqOuka
 
 BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
@@ -28,6 +29,9 @@ class Card():
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         pass
+
+    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return self.cond(delivery, hoyuusya)
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
@@ -62,6 +66,8 @@ class Kougeki(Card):
         from mod.ol.play_kougeki import PlayKougeki
         moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
+    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return self.cond(delivery, hoyuusya) and self.maai_list(delivery, hoyuusya)[int(delivery.respond(request=ReqOuka(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)))]
 
 class Damage(Card):
     _SCALE_SIZE = 180
@@ -83,3 +89,5 @@ class Damage(Card):
         return delivery.can_ouka_to_ryouiki(
             hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code, to_mine=False, to_code=self.to_code, kazu=self.dmg)
 
+    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return True
