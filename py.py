@@ -1,7 +1,7 @@
 import pygame
 from typing import Callable
 
-from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG, UC_FLAIR, UC_DUST, UC_MAAI
+from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG, UC_FLAIR, UC_DUST, UC_MAAI, SIMOTE
 from mod.controller import controller
 from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
@@ -10,6 +10,7 @@ from mod.moderator import moderator
 from mod.ol.main_phase import MainPhase
 
 banmen = Banmen()
+banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=5)
 
 moderator.delivery = banmen
 moderator.append(MainPhase(inject_func=banmen.inject_main_phase))

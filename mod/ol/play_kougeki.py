@@ -62,7 +62,7 @@ class PlayKougeki():
         controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
-        popup_message.add(text="PlayKougeki.mouseup でクリック確定したよ")
+        # popup_message.add(text="PlayKougeki.mouseup でクリック確定したよ")
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
         if self.source_huda:
             self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
