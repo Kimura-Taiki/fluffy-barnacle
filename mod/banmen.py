@@ -1,7 +1,7 @@
 from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE, compatible_with, TC_SUTEHUDA, TC_HUSEHUDA
+    , SIMOTE, KAMITE, HANTE, compatible_with, TC_SUTEHUDA, TC_HUSEHUDA, IMG_ZYOGAI_AREA, UC_ZYOGAI
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -18,6 +18,7 @@ class Banmen():
         self.enemy_mikoto = Mikoto(hoyuusya=KAMITE)
         self.maai = Utuwa(img=IMG_MAAI_AREA, hoyuusya=HANTE, num=10, x=WX-200, y=310, max=10)
         self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, num=0, x=WX-30, y=310)
+        self.zyogai = Utuwa(img=IMG_ZYOGAI_AREA, hoyuusya=HANTE, num=50)
         li: list[Listener] = [self.own_mikoto, self.enemy_mikoto, self.maai, self.dust]
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
         for listener in self.listeners:
@@ -84,8 +85,8 @@ class Banmen():
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         tpl = (hoyuusya, is_mine)
         mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
-        if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_AURA: mikoto.aura, UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life
-                  }.get(utuwa_code)):
+        if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
+                           UC_FLAIR: mikoto.flair,UC_LIFE: mikoto.life}.get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
 

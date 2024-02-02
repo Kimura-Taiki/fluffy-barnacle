@@ -3,7 +3,7 @@ from pygame.math import Vector2
 from typing import Callable, Any
 from functools import partial
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI
+from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -68,6 +68,16 @@ class Kougeki(Card):
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.cond(delivery, hoyuusya) and self.maai_list(delivery, hoyuusya)[int(delivery.respond(request=ReqOuka(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)))]
+
+class Koudou(Card):
+    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI) -> None:
+        super().__init__(img, name, cond)
+        self.kouka = kouka
+
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
+        self.kouka(delivery, hoyuusya)
+        if huda:
+            delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
 
 class Damage(Card):
     _SCALE_SIZE = 180
