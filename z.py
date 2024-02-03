@@ -1,6 +1,17 @@
 import pygame
 import sys
 
+# a = {"a": 1}
+# b = {"b": 2, "bb": "B"}
+# print(a |b)
+# c = {"a": 3, "c": 3}
+# print(a | c)
+# print(c|a)
+# d = {"d": 4, "bb": 4}
+# d.update(b)
+# print(d)
+# exit()
+
 # 画像の読み込み
 # life = pygame.image.load("pictures/area_life.png")
 from mod.card import TempCard, auto_di
