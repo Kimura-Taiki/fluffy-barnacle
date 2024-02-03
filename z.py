@@ -15,7 +15,10 @@ import sys
 # 画像の読み込み
 # life = pygame.image.load("pictures/area_life.png")
 from mod.card import TempCard, auto_di
-tc = TempCard(name="潜り", cond=auto_di)
+from mod.const import UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR
+tc = TempCard(name="潜り", cond=auto_di, todo=[
+    ["コストとして、あなたの", "マシンにある造花結晶を", "２つ燃焼済みにして良い。", "そうした場合、あなたは", "集中力を１得て、相手は", "集中力１を失い、相手を", "萎縮させる。"], [False, UC_MAAI, False, UC_DUST, 3], [True, UC_AURA, False, UC_FLAIR, 1],
+    ["ほいほいほいほいほい", ]])
 from mod.const import IMG_HAKUSI
 
 def main(): # メインループ

@@ -107,10 +107,15 @@ from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUK
     , IMG_FT_ZI_AURA, IMG_FT_ZI_FLAIR, IMG_FT_ZI_LIFE, IMG_FT_ZI_SYUUTYUU, UC_MAAI, UC_DUST, UC_ZYOGAI\
     , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU
 class TempCard(Card):
-    def __init__(self, name: str, cond: BoolDI) -> None:
+    def __init__(self, name: str, cond: BoolDI, todo: list=[list]) -> None:
         self.img = IMG_HAKUSI.copy()
+        self.y = 20
         self._draw_name(name=name)
-        self._draw_yazirusi(from_mine=False, from_code=UC_SYUUTYUU, to_mine=False, to_code=UC_AURA, kazu=5)
+        for i in todo:
+            if isinstance(i[0], bool):
+                self._draw_yazirusi(from_mine=i[0], from_code=i[1], to_mine=i[2], to_code=i[3], kazu=i[4])
+            elif isinstance(i[0], str):
+                self._draw_text(texts=i)
         super().__init__(self.img, name, cond)
 
     def _draw_name(self, name: str) -> None:
@@ -118,11 +123,12 @@ class TempCard(Card):
             self.img.blit(source=MS_MINCHO_COL(mozi, FONT_SIZE_CARD_TITLE, BLACK), dest=[0, i*FONT_SIZE_CARD_TITLE])
 
     def _draw_yazirusi(self, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int) -> None:
-        self.img.blit(source=self._img_target(is_mine=from_mine, utuwa_code=from_code), dest=[50, 50])
-        self.img.blit(source=self._img_target(is_mine=to_mine, utuwa_code=to_code), dest=[190, 50])
-        self.img.blit(source=IMG_FT_ARROW, dest=[120, 50])
+        self.img.blit(source=self._img_target(is_mine=from_mine, utuwa_code=from_code), dest=[60, self.y])
+        self.img.blit(source=self._img_target(is_mine=to_mine, utuwa_code=to_code), dest=[210, self.y])
+        self.img.blit(source=IMG_FT_ARROW, dest=[130, self.y])
         for i in range(kazu):
-            self.img.blit(source=IMG_FT_OUKA, dest=[130-kazu*5+i*10, 50])
+            self.img.blit(source=IMG_FT_OUKA, dest=[140-kazu*5+i*10, self.y])
+        self.y += 100
 
     def _img_target(self, is_mine: bool, utuwa_code: int) -> Surface:
         if not (target := (
@@ -133,4 +139,10 @@ class TempCard(Card):
              .get(utuwa_code)):
             raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
         return target
-
+    
+    def _draw_text(self, texts: list[str]) -> None:
+        self.y += 5
+        for text in texts:
+            self.img.blit(source=MS_MINCHO_COL(text, 20, BLACK), dest=[60, self.y])
+            self.y += 20+2
+        self.y += 5
