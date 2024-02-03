@@ -3,6 +3,7 @@ import pygame
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU
 from mod.card import Kougeki, Koudou, auto_di, int_di, dima_di, KoukaDI
 from mod.delivery import Delivery
+from mod.moderator import moderator
 
 n_1 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di,
               aura_damage=int_di(3), life_damage=int_di(1), maai_list=dima_di(5, 9))

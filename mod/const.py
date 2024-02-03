@@ -80,6 +80,20 @@ IMG_GRAY_LAYER = pygame.image.load("pictures/gray_layer.png").convert_alpha()
 IMG_AURA_DAMAGE = pygame.image.load("pictures/aura_damage.png").convert_alpha()
 IMG_LIFE_DAMAGE = pygame.image.load("pictures/life_damage.png").convert_alpha()
 
+IMG_HAKUSI = pygame.image.load("pictures/ft_hakusi.png").convert_alpha()
+IMG_FT_MAAI = pygame.image.load("pictures/ft_maai.png").convert_alpha()
+IMG_FT_DUST = pygame.image.load("pictures/ft_dust.png").convert_alpha()
+IMG_FT_ZYOGAI = pygame.image.load("pictures/ft_zyogai.png").convert_alpha()
+IMG_FT_ZI_AURA = pygame.image.load("pictures/ft_zi_aura.png").convert_alpha()
+IMG_FT_ZI_FLAIR = pygame.image.load("pictures/ft_zi_flair.png").convert_alpha()
+IMG_FT_ZI_LIFE = pygame.image.load("pictures/ft_zi_life.png").convert_alpha()
+IMG_FT_ZI_SYUUTYUU = pygame.image.load("pictures/ft_zi_syuutyuu.png").convert_alpha()
+IMG_FT_AI_AURA = pygame.image.load("pictures/ft_ai_aura.png").convert_alpha()
+IMG_FT_AI_FLAIR = pygame.image.load("pictures/ft_ai_flair.png").convert_alpha()
+IMG_FT_AI_LIFE = pygame.image.load("pictures/ft_ai_life.png").convert_alpha()
+IMG_FT_AI_SYUUTYUU = pygame.image.load("pictures/ft_ai_syuutyuu.png").convert_alpha()
+IMG_FT_ARROW = pygame.image.load("pictures/ft_arrow.png").convert_alpha()
+IMG_FT_OUKA = pygame.image.load("pictures/ft_ouka.png").convert_alpha()
 
 HANTE = 0
 SIMOTE = 1

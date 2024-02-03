@@ -101,3 +101,20 @@ class Damage(Card):
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
         return True
+
+from mod.const import IMG_HAKUSI, IMG_FT_MAAI, IMG_FT_DUST, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUKA
+class TempCard(Card):
+    def __init__(self, name: str, cond: BoolDI) -> None:
+        img = IMG_HAKUSI.copy()
+        for i, mozi in enumerate(name):
+            img.blit(source=MS_MINCHO_COL(mozi, 60, BLACK), dest=[0, i*60])
+        img.blit(source=IMG_FT_MAAI, dest=[40, 50])
+        img.blit(source=IMG_FT_DUST, dest=[200, 50])
+        img.blit(source=IMG_FT_ARROW, dest=[120, 50])
+        # img.blit(source=IMG_FT_OUKA, dest=[120, 50])
+        # img.blit(source=IMG_FT_OUKA, dest=[115, 50])
+        # img.blit(source=IMG_FT_OUKA, dest=[125, 50])
+        img.blit(source=IMG_FT_OUKA, dest=[110, 50])
+        img.blit(source=IMG_FT_OUKA, dest=[120, 50])
+        img.blit(source=IMG_FT_OUKA, dest=[130, 50])
+        super().__init__(img, name, cond)
