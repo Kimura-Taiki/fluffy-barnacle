@@ -20,6 +20,8 @@ from mod.delivery import Delivery
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
+HAND_UX: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
+HAND_UY: Callable[[int, int], float] = lambda i, j: WY-150
 SCALE_SIZE = 180
 
 class PlayKougeki():
@@ -35,14 +37,18 @@ class PlayKougeki():
         self.factory = TabaFactory(inject_kwargs={
             "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
+        self.taiou_factory = TabaFactory(inject_kwargs={
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._taiou_mouseup
+            }, huda_x=HAND_UX, huda_y=HAND_UY, huda_angle=HAND_ANGLE)
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.uke_taba.elapse()
+        self.taiou_taba.elapse()
 
     def get_hover(self) -> Any | None:
-        return self.uke_taba.get_hover_huda() or view_youso
+        return self.uke_taba.get_hover_huda() or self.taiou_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
         self._make_uke_taba()
@@ -61,6 +67,9 @@ class PlayKougeki():
             self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
         moderator.pop()
 
+    def _taiou_mouseup(self, huda: Huda) -> None:
+        ...
+
     def _make_uke_taba(self) -> None:
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
             self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
@@ -71,11 +80,12 @@ class PlayKougeki():
 
     def _make_taiou_taba(self) -> None:
         from mod.const import TC_TEHUDA
-        # li: Taba = self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA)
         if not isinstance(tehuda := self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba):
             raise ValueError(f"Invalid tehuda: {tehuda}")
+        cards = []
         for huda in tehuda:
-            print(huda.card.name)
+            cards.append(huda.card)
+        self.taiou_taba = self.taiou_factory.maid_by_cards(cards=cards, hoyuusya=self.hoyuusya)
 
 
 # compatible_with(, OverLayer)
