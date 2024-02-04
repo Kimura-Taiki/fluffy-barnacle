@@ -4,7 +4,7 @@ from typing import Callable
 from functools import partial
 
 from mod.const import WX, WY, SIMOTE, KAMITE
-from mod.huda import Huda, default_draw
+from mod.huda import Huda
 from mod.taba import Taba
 from mod.card import Card
 
@@ -23,7 +23,7 @@ class TabaFactory():
                  huda_angle: Callable[[int, int], float]) -> None:
         self.inject_kwargs = inject_kwargs
         self.main_phase_inject_kwargs = inject_kwargs
-        self.view_inject_kwargs = {"draw": inject_kwargs.get("draw", default_draw), "hover": Huda.detail_draw}
+        self.view_inject_kwargs = {"draw": inject_kwargs.get("draw", Huda.default_draw), "hover": Huda.detail_draw}
         self.simote_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (

@@ -3,7 +3,7 @@ import pygame
 from typing import Callable
 
 from mod.const import WX, WY, screen, BLACK
-from mod.huda import Huda, default_draw
+from mod.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 80-80*max(0, i-4)/i
@@ -16,7 +16,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0.0
 def _draw(huda: Huda) -> None:
     pygame.draw.polygon(surface=screen, color=BLACK, points=huda.vertices, width=0)
     huda.img_rz.set_alpha(192)
-    default_draw(huda=huda)
+    huda.default_draw()
     huda.img_rz.set_alpha(255)
 
 sutehuda_factory = TabaFactory(inject_kwargs={

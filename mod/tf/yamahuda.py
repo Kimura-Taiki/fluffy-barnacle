@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import WX, WY, screen, IMG_YAMAHUDA
-from mod.huda import Huda, default_draw
+from mod.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 42
@@ -14,7 +14,7 @@ HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60-HAND_Y_DIFF(i, j)
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 4.0
 
 def _draw(huda: Huda) -> None:
-    default_draw(huda=huda)
+    huda.default_draw()
     IMG_YAMAHUDA.set_alpha(64)
     screen.blit(source=IMG_YAMAHUDA, dest=huda.img_rz_topleft)
     IMG_YAMAHUDA.set_alpha(255)
