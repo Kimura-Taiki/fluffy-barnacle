@@ -5,7 +5,7 @@ from pygame.surface import Surface
 from typing import Any, Callable
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR
+    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
@@ -56,7 +56,7 @@ class PlayKougeki():
         self._make_taiou_taba()
 
     def close(self) -> int:
-        popup_message.add(text=f"{self.kougeki.name}を解決しました")
+        self.kougeki.close(hoyuusya=self.hoyuusya)
         return 0
 
     def moderate(self, stat: int) -> None:
@@ -72,7 +72,7 @@ class PlayKougeki():
         number = False
         if (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))) is None:
             raise ValueError(f"Invalid huda: {huda}")
-        self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.origin_list[number])
+        self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=opponent(self.hoyuusya), huda=self.origin_list[number])
 
     def _make_uke_taba(self) -> None:
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(

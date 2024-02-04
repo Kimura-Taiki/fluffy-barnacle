@@ -100,6 +100,8 @@ HANTE = 0
 SIMOTE = 1
 KAMITE = 2
 
+opponent: Callable[[int], int] = lambda hoyuusya: KAMITE if hoyuusya == SIMOTE else SIMOTE if hoyuusya == KAMITE else hoyuusya
+
 TC_INVALID = 0
 TC_YAMAHUDA = 1
 TC_TEHUDA = 2

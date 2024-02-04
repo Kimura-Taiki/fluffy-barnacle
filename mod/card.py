@@ -3,7 +3,7 @@ from pygame.math import Vector2
 from typing import Callable, Any
 from functools import partial
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA
+from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -34,6 +34,12 @@ class Card():
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.cond(delivery, hoyuusya)
+    
+    def close(self, hoyuusya: int) -> None:
+        popup_message.add(f"{'下手' if hoyuusya == SIMOTE else
+                             '上手' if hoyuusya == KAMITE else '半手？'}の「{self.name}」を解決しました")
+
+
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
@@ -80,7 +86,7 @@ class Koudou(Card):
         self.kouka(delivery, hoyuusya)
         if huda:
             delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
-        popup_message.add(f"{self.name}を解決しました")
+        self.close(hoyuusya=hoyuusya)
 
 class Damage(Card):
     _SCALE_SIZE = 180
