@@ -70,10 +70,12 @@ class PlayKougeki():
         self.uke_taba = self.factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
 
     def _make_taiou_taba(self) -> None:
-        from mod.req.req_taba import ReqTaba
         from mod.const import TC_TEHUDA
-        li = self.delivery.respond(ReqTaba(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA))
-        print(li)
+        # li: Taba = self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA)
+        if not isinstance(tehuda := self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba):
+            raise ValueError(f"Invalid tehuda: {tehuda}")
+        for huda in tehuda:
+            print(huda.card.name)
 
 
 # compatible_with(, OverLayer)

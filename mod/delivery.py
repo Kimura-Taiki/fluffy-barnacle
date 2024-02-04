@@ -19,6 +19,9 @@ class Delivery(Protocol):
     def inject_view(self) -> None:
         ...
 
+    def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
+        ...
+
     def respond(self, request: Request) -> Any | None:
         ...
 
@@ -38,6 +41,9 @@ class _DuckDelivery():
 
     def inject_view(self) -> None:
         pass
+
+    def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
+        return None
 
     def respond(self, request: Request) -> Any | None:
         return None

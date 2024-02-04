@@ -21,11 +21,13 @@ moma_di: Callable[[int], MaaiDI] = lambda i: lambda delivery, hoyuusya: [j == i 
 dima_di: Callable[[int, int], MaaiDI] = lambda i, j: lambda delivery, hoyuusya: [i <= k <= j for k in range(11)]
 
 class Card():
-    def __init__(self, img: Surface, name: str, cond: BoolDI) -> None:
+    def __init__(self, img: Surface, name: str, cond: BoolDI, taiou: bool=False, zenryoku: bool=False) -> None:
         self.img = img
         self.name = name
         self.cond = cond
         self.type = CT_HUTEI
+        self.taiou = taiou
+        self.zenryoku = zenryoku
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         pass
@@ -35,7 +37,7 @@ class Card():
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
-                 aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI) -> None:
+                 aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI, taiou: bool=False, zenryoku: bool=False) -> None:
         super().__init__(img, name, cond)
         self.type = CT_KOUGEKI
         self.aura_damage = aura_damage
@@ -70,7 +72,7 @@ class Kougeki(Card):
         return self.cond(delivery, hoyuusya) and self.maai_list(delivery, hoyuusya)[int(delivery.respond(request=ReqOuka(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)))]
 
 class Koudou(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI) -> None:
+    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False) -> None:
         super().__init__(img, name, cond)
         self.kouka = kouka
 
