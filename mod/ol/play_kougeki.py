@@ -69,7 +69,9 @@ class PlayKougeki():
         moderator.pop()
 
     def _taiou_mouseup(self, huda: Huda) -> None:
-        ...
+        if not (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))):
+            raise ValueError(f"Invalid huda: {huda}")
+        popup_message.add(text=f"{self.origin_list[number].card.name}を発動")
 
     def _make_uke_taba(self) -> None:
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
