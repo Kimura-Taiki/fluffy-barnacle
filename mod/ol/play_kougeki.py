@@ -56,22 +56,23 @@ class PlayKougeki():
         self._make_taiou_taba()
 
     def close(self) -> int:
+        popup_message.add(text=f"{self.kougeki.name}を解決しました")
         return 0
 
     def moderate(self, stat: int) -> None:
         ...
 
     def _uke_mouseup(self, huda: Huda) -> None:
-        # popup_message.add(text="PlayKougeki.mouseup でクリック確定したよ")
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
         if self.source_huda:
             self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
         moderator.pop()
 
     def _taiou_mouseup(self, huda: Huda) -> None:
-        if not (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))):
+        number = False
+        if (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))) is None:
             raise ValueError(f"Invalid huda: {huda}")
-        popup_message.add(text=f"{self.origin_list[number].card.name}を発動")
+        self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.origin_list[number])
 
     def _make_uke_taba(self) -> None:
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(

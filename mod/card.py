@@ -80,6 +80,7 @@ class Koudou(Card):
         self.kouka(delivery, hoyuusya)
         if huda:
             delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
+        popup_message.add(f"{self.name}を解決しました")
 
 class Damage(Card):
     _SCALE_SIZE = 180
