@@ -3,7 +3,7 @@ from functools import partial
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with
 from mod.delivery import Delivery, duck_delivery
-from mod.ol.undo_mouse import make_undo_youso, undo_mousedown
+from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.popup_message import popup_message
@@ -41,4 +41,4 @@ def _view_mouseup(huda: Huda) -> None:
     # popup_message.add(text=f"ViewBanmen's_undo.mouseup でクリック確定したよ")
     moderator.append(over_layer=ViewBanmen(delivery=huda.delivery))
 
-view_youso = Youso(mousedown=partial(undo_mousedown, text="ViewBanmen"), mouseup=_view_mouseup)
+view_youso = Youso(mousedown=Huda.mousedown, mouseup=_view_mouseup)

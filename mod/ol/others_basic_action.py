@@ -39,7 +39,7 @@ class OthersBasicAction():
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
         for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
@@ -50,9 +50,6 @@ class OthersBasicAction():
 
     def moderate(self, stat: int) -> None:
         ...
-
-    def _mousedown(self, huda: Huda) -> None:
-        controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
         huda.koudou(self.delivery, self.delivery.turn_player)

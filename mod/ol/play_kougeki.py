@@ -43,7 +43,7 @@ class PlayKougeki():
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
             self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
@@ -57,9 +57,6 @@ class PlayKougeki():
 
     def moderate(self, stat: int) -> None:
         ...
-
-    def _mousedown(self, huda: Huda) -> None:
-        controller.active = huda
 
     def _mouseup(self, huda: Huda) -> None:
         # popup_message.add(text="PlayKougeki.mouseup でクリック確定したよ")

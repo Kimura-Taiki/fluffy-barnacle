@@ -57,6 +57,9 @@ class Huda(Youso):
         else:
             self.default_draw()
 
+    def mousedown(self) -> None:
+        controller.active = self
+
     def play(self) -> None:
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
