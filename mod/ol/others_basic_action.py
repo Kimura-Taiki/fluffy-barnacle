@@ -20,7 +20,7 @@ HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
 
-_gray_youso = make_undo_youso(text="OthersBasicAction")
+_undo_youso = make_undo_youso(text="OthersBasicAction")
 
 class OthersBasicAction():
     def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -35,7 +35,7 @@ class OthersBasicAction():
         self.taba.elapse()
 
     def get_hover(self) -> Youso | None:
-        return self.taba.get_hover_huda() or _gray_youso
+        return self.taba.get_hover_huda() or _undo_youso
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={

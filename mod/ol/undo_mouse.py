@@ -2,7 +2,6 @@ from functools import partial
 
 from mod.huda import Huda
 from mod.popup_message import popup_message
-from mod.controller import controller
 from mod.moderator import moderator
 from mod.youso import Youso
 
