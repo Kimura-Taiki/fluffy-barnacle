@@ -80,6 +80,9 @@ class Banmen():
         from mod.req.req_ouka import ReqOuka
         if isinstance(request, ReqOuka):
             return self._utuwa_target(hoyuusya=request.hoyuusya, is_mine=request.is_mine, utuwa_code=request.utuwa_code).num
+        from mod.req.req_taba import ReqTaba
+        if isinstance(request, ReqTaba):
+            return None
         return None
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:

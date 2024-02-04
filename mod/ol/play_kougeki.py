@@ -32,6 +32,9 @@ class PlayKougeki():
         self.inject_func = delivery.inject_view
         self.taiou_taba: Taba = Taba()
         self.uke_taba: Taba = Taba()
+        self.factory = TabaFactory(inject_kwargs={
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
+            }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
@@ -42,15 +45,8 @@ class PlayKougeki():
         return self.uke_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        bac = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
-            }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
-        _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
-            self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
-        can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
-        _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフダメージ", dmg=self.kougeki.life_damage(
-            self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-        self.uke_taba = bac.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
+        self._make_uke_taba()
+        self._make_taiou_taba()
 
     def close(self) -> int:
         return 0
@@ -64,6 +60,20 @@ class PlayKougeki():
         if self.source_huda:
             self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
         moderator.pop()
+
+    def _make_uke_taba(self) -> None:
+        _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
+            self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
+        can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
+        _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフダメージ", dmg=self.kougeki.life_damage(
+            self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
+        self.uke_taba = self.factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
+
+    def _make_taiou_taba(self) -> None:
+        from mod.req.req_taba import ReqTaba
+        from mod.const import TC_TEHUDA
+        li = self.delivery.respond(ReqTaba(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA))
+        print(li)
 
 
 # compatible_with(, OverLayer)
