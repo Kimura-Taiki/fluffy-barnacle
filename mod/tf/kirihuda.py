@@ -3,7 +3,7 @@ import pygame
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT
-from mod.huda import Huda, default_draw
+from mod.huda import Huda, available_draw
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 
@@ -17,11 +17,8 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0
 def _draw(huda: Huda) -> None:
     if controller.active == huda:
         return None
-    elif controller.hover == huda:
-        pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
-        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
     else:
-        default_draw(huda=huda)
+        available_draw(huda=huda)
     return None
 
 kirihuda_factory = TabaFactory(inject_kwargs={
