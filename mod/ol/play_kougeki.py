@@ -33,9 +33,10 @@ class PlayKougeki():
         self.name = f"攻撃:{kougeki.name}の使用"
         self.inject_func = delivery.inject_view
         self.taiou_taba: Taba = Taba()
+        self.origin_list: list[Huda] = []
         self.uke_taba: Taba = Taba()
-        self.factory = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
+        self.uke_factory = TabaFactory(inject_kwargs={
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._uke_mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taiou_factory = TabaFactory(inject_kwargs={
             "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._taiou_mouseup
@@ -60,7 +61,7 @@ class PlayKougeki():
     def moderate(self, stat: int) -> None:
         ...
 
-    def _mouseup(self, huda: Huda) -> None:
+    def _uke_mouseup(self, huda: Huda) -> None:
         # popup_message.add(text="PlayKougeki.mouseup でクリック確定したよ")
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
         if self.source_huda:
@@ -76,16 +77,14 @@ class PlayKougeki():
         can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
         _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフダメージ", dmg=self.kougeki.life_damage(
             self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-        self.uke_taba = self.factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
+        self.uke_taba = self.uke_factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
 
     def _make_taiou_taba(self) -> None:
         from mod.const import TC_TEHUDA
         if not isinstance(tehuda := self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba):
             raise ValueError(f"Invalid tehuda: {tehuda}")
-        cards = []
-        for huda in tehuda:
-            cards.append(huda.card)
-        self.taiou_taba = self.taiou_factory.maid_by_cards(cards=cards, hoyuusya=self.hoyuusya)
+        self.origin_list = [huda for huda in tehuda if huda.card.taiou]
+        self.taiou_taba = self.taiou_factory.maid_by_cards(cards=[huda.card for huda in self.origin_list], hoyuusya=self.hoyuusya)
 
 
 # compatible_with(, OverLayer)

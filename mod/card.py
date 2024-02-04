@@ -38,7 +38,7 @@ class Card():
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
                  aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI, taiou: bool=False, zenryoku: bool=False) -> None:
-        super().__init__(img, name, cond)
+        super().__init__(img, name, cond, taiou, zenryoku)
         self.type = CT_KOUGEKI
         self.aura_damage = aura_damage
         self.life_damage = life_damage
@@ -73,7 +73,7 @@ class Kougeki(Card):
 
 class Koudou(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False) -> None:
-        super().__init__(img, name, cond)
+        super().__init__(img, name, cond, taiou, zenryoku)
         self.kouka = kouka
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
