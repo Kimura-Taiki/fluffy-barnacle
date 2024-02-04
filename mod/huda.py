@@ -14,13 +14,6 @@ from mod.controller import controller
 def default_draw(huda: 'Huda') -> None:
     screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft)
 
-def available_draw(huda: 'Huda') -> None:
-    if controller.hover == huda:
-        pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in huda.vertices], 20)
-        screen.blit(source=huda.img_rz, dest=huda.img_rz_topleft+[0, -40])
-    else:
-        default_draw(huda=huda)
-
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
                  **kwargs: Callable[..., None]) -> None:
@@ -56,6 +49,13 @@ class Huda(Youso):
     
     def detail_draw(self) -> None:
         screen.blit(source=self.img_nega, dest=[0, 0])
+
+    def available_draw(self) -> None:
+        if controller.hover == self:
+            pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
+            screen.blit(source=self.img_rz, dest=self.img_rz_topleft+[0, -40])
+        else:
+            default_draw(huda=self)
 
     def play(self) -> None:
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)

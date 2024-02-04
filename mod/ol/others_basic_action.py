@@ -8,7 +8,7 @@ from mod.ol.over_layer import OverLayer
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
 from mod.youso import Youso
-from mod.huda import Huda, available_draw
+from mod.huda import Huda
 from mod.controller import controller
 from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
 from mod.ol.undo_mouse import make_undo_youso
@@ -39,7 +39,7 @@ class OthersBasicAction():
 
     def open(self) -> None:
         bac = TabaFactory(inject_kwargs={
-            "draw": available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
         for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):

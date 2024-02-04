@@ -3,7 +3,7 @@ import pygame
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT
-from mod.huda import Huda, available_draw
+from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 
@@ -18,7 +18,7 @@ def _draw(huda: Huda) -> None:
     if controller.active == huda:
         return None
     else:
-        available_draw(huda=huda)
+        huda.available_draw()
     return None
 
 kirihuda_factory = TabaFactory(inject_kwargs={

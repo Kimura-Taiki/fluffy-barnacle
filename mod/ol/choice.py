@@ -7,7 +7,7 @@ from typing import Any, Callable
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
     , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR
 from mod.ol.over_layer import OverLayer
-from mod.huda import Huda, available_draw
+from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card, auto_di, Kougeki, SuuziDI, Damage
 from mod.taba import Taba
@@ -30,7 +30,7 @@ class Choice():
         self.name = "効果の選択"
         self.inject_func = delivery.inject_view
         factory = TabaFactory(inject_kwargs={
-            "draw": available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
+            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": self._mousedown, "mouseup": self._mouseup
             }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taba = factory.maid_by_cards(cards=cards, hoyuusya=self.hoyuusya)
 

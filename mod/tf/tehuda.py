@@ -5,7 +5,7 @@ from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
     , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
-from mod.huda import Huda, available_draw
+from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
@@ -27,7 +27,7 @@ def _draw(huda: Huda) -> None:
     if controller.active == huda:
         return None
     else:
-        available_draw(huda=huda)
+        huda.available_draw()
 
 def _mousedown(huda: Huda) -> None:
     controller.active = huda
