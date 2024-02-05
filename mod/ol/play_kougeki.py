@@ -5,7 +5,7 @@ from pygame.surface import Surface
 from typing import Any, Callable
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_TAIOUED
+    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_TAIOUED, side_name
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
@@ -64,13 +64,19 @@ class PlayKougeki():
     def moderate(self, stat: int) -> None:
         if stat != POP_TAIOUED or not self.taiou_huda:
             return
-        self.taiou_taba: list[Huda] = []
-        # if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
-        #     popup_message.add(text=)
+        self.taiou_taba.clear()
+        if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
+            popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
+            self._discard_source()
+            return
         print(self.taiou_huda.card.name)
 
     def _uke_mouseup(self, huda: Huda) -> None:
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
+        popup_message.add(f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」を{huda.card.name}")
+        self._discard_source()
+
+    def _discard_source(self) -> None:
         if self.source_huda:
             self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
         moderator.pop()
@@ -81,13 +87,12 @@ class PlayKougeki():
             raise ValueError(f"Invalid huda: {huda}")
         self.taiou_huda = self.origin_list[number]
         moderator.append(over_layer=PlayTaiou(huda=self.taiou_huda))
-        # self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=opponent(self.hoyuusya), huda=self.origin_list[number])
 
     def _make_uke_taba(self) -> None:
-        _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(
+        _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=self.kougeki.aura_damage(
             self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
         can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
-        _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフダメージ", dmg=self.kougeki.life_damage(
+        _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=self.kougeki.life_damage(
             self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
         self.uke_taba = self.uke_factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
 
