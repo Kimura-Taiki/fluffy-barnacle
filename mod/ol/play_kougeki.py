@@ -5,7 +5,7 @@ from pygame.surface import Surface
 from typing import Any, Callable
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent
+    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_TAIOUED
 from mod.ol.over_layer import OverLayer
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
@@ -16,6 +16,7 @@ from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
+from mod.ol.play_taiou import PlayTaiou
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
@@ -41,6 +42,7 @@ class PlayKougeki():
         self.taiou_factory = TabaFactory(inject_kwargs={
             "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._taiou_mouseup
             }, huda_x=HAND_UX, huda_y=HAND_UY, huda_angle=HAND_ANGLE)
+        self.taiou_huda: Huda | None = None
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
@@ -60,7 +62,12 @@ class PlayKougeki():
         return 0
 
     def moderate(self, stat: int) -> None:
-        ...
+        if stat != POP_TAIOUED or not self.taiou_huda:
+            return
+        self.taiou_taba: list[Huda] = []
+        # if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
+        #     popup_message.add(text=)
+        print(self.taiou_huda.card.name)
 
     def _uke_mouseup(self, huda: Huda) -> None:
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
@@ -72,7 +79,9 @@ class PlayKougeki():
         number = False
         if (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))) is None:
             raise ValueError(f"Invalid huda: {huda}")
-        self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=opponent(self.hoyuusya), huda=self.origin_list[number])
+        self.taiou_huda = self.origin_list[number]
+        moderator.append(over_layer=PlayTaiou(huda=self.taiou_huda))
+        # self.origin_list[number].card.kaiketu(delivery=self.delivery, hoyuusya=opponent(self.hoyuusya), huda=self.origin_list[number])
 
     def _make_uke_taba(self) -> None:
         _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラダメージ", dmg=self.kougeki.aura_damage(

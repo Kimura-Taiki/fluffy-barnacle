@@ -99,8 +99,8 @@ IMG_FT_OUKA = pygame.image.load("pictures/ft_ouka.png").convert_alpha()
 HANTE = 0
 SIMOTE = 1
 KAMITE = 2
-
 opponent: Callable[[int], int] = lambda hoyuusya: KAMITE if hoyuusya == SIMOTE else SIMOTE if hoyuusya == KAMITE else hoyuusya
+side_name: Callable[[int], str] = lambda hoyuusya: '下手' if hoyuusya == SIMOTE else '上手' if hoyuusya == KAMITE else '半手？'
 
 TC_INVALID = 0
 TC_YAMAHUDA = 1
@@ -131,3 +131,5 @@ CT_ZENRYOKU = 5
 REQ_GET_HOVER = 1
 REQ_OUKA = 2
 REQ_TAIOU_TABA = 3
+
+POP_TAIOUED = 101
