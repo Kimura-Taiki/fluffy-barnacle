@@ -22,6 +22,9 @@ class Delivery(Protocol):
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
         ...
 
+    def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
+        ...
+
     def respond(self, request: Request) -> Any | None:
         ...
 
@@ -44,6 +47,9 @@ class _DuckDelivery():
 
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
         return None
+
+    def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
+        return 0
 
     def respond(self, request: Request) -> Any | None:
         return None

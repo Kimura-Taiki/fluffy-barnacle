@@ -67,10 +67,14 @@ class Banmen():
         to_utuwa.num += real_shift
 
     def inject_main_phase(self) -> None:
+        from mod.popup_message import popup_message
+        popup_message.add("Inject Main Phase")
         for taba in self.tabas:
             taba.inject_kwargs(taba.main_phase_inject_kwargs)
 
     def inject_view(self) -> None:
+        from mod.popup_message import popup_message
+        popup_message.add("Inject View")
         for taba in self.tabas:
             taba.inject_kwargs(taba.view_inject_kwargs)
 
@@ -101,5 +105,9 @@ class Banmen():
                            TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
             raise ValueError(f"Invalid taba_code: {taba_code}")
         return target
+
+    def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
+        return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).num
+
 
 compatible_with(obj=Banmen(), protocol=Delivery)

@@ -82,7 +82,6 @@ class PlayKougeki():
         moderator.pop()
 
     def _taiou_mouseup(self, huda: Huda) -> None:
-        number = False
         if (number := next((i for i, v in enumerate(self.taiou_taba) if v == huda))) is None:
             raise ValueError(f"Invalid huda: {huda}")
         self.taiou_huda = self.origin_list[number]

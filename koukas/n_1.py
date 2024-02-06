@@ -39,5 +39,7 @@ def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
 
 n_7 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, kouka=_kouka_n_7, taiou=True)
 
+# n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, kouka=_kouka_n_7, taiou=True)
+
 # n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di,
 #              aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(1, 1))

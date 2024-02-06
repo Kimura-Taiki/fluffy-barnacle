@@ -29,6 +29,7 @@ class PlayTaiou():
 
     def __init__(self, huda: Huda) -> None:
         self.huda = huda
+        self.delivery = huda.delivery
         self.inject_func = huda.delivery.inject_view
 
     def elapse(self) -> None:

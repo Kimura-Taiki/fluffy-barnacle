@@ -1,4 +1,5 @@
 from pygame.surface import Surface
+from typing import Any
 
 from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUKA, FONT_SIZE_CARD_TITLE\
     , IMG_FT_MAAI, IMG_FT_DUST, IMG_FT_ZYOGAI, IMG_FT_AI_AURA, IMG_FT_AI_FLAIR, IMG_FT_AI_LIFE, IMG_FT_AI_SYUUTYUU\
@@ -7,7 +8,7 @@ from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUK
 from mod.card import Koudou, BoolDI, KoukaDI
 
 class TempKoudou(Koudou):
-    def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list]="") -> None:
+    def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list[Any]]=[]) -> None:
         self.img = IMG_HAKUSI.copy()
         self.y = 20
         self._draw_name(name=name)

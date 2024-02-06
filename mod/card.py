@@ -13,12 +13,14 @@ BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
 SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
+TaiounizeDI = Callable[['Card', Delivery, int], 'Card']
 auto_di: BoolDI = lambda delivery, hoyuusya: True
 pass_di: KoukaDI = lambda delivery, hoyuusya: None
 int_di: Callable[[int], SuuziDI] = lambda i: lambda delivery, hoyuusya: i
 whole_di: MaaiDI = lambda delivery, hoyuusya: [True]*11
 moma_di: Callable[[int], MaaiDI] = lambda i: lambda delivery, hoyuusya: [j == i for j in range(11)]
 dima_di: Callable[[int, int], MaaiDI] = lambda i, j: lambda delivery, hoyuusya: [i <= k <= j for k in range(11)]
+identity_di: Callable[['Card', Delivery, int], 'Card'] = lambda i, j, k: i
 
 class Card():
     def __init__(self, img: Surface, name: str, cond: BoolDI, taiou: bool=False, zenryoku: bool=False) -> None:
@@ -37,6 +39,7 @@ class Card():
     
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
+# TaiounizeDI = Callable[[Card, Delivery, int], Card]
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI,
@@ -75,7 +78,7 @@ class Kougeki(Card):
         return self.cond(delivery, hoyuusya) and self.maai_cond(delivery=delivery, hoyuusya=hoyuusya)
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return self.maai_list(delivery, hoyuusya)[int(delivery.respond(request=ReqOuka(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)))]
+        return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
 class Koudou(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False) -> None:
@@ -104,7 +107,7 @@ class Damage(Card):
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
                                       to_mine=False, to_code=self.to_code, kazu=self.dmg)
 
-    def can_damage(self, delivery: Delivery, hoyuusya: int) -> None:
+    def can_damage(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.can_ouka_to_ryouiki(
             hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code, to_mine=False, to_code=self.to_code, kazu=self.dmg)
 
