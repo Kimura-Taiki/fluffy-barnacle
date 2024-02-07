@@ -15,8 +15,6 @@ from mod.delivery import Delivery
 from mod.ol.play_taiou import PlayTaiou
 from mod.ol.uke_taba import make_uke_taba
 
-HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
-HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_UX: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 HAND_UY: Callable[[int, int], float] = lambda i, j: WY-150
@@ -33,9 +31,6 @@ class PlayKougeki():
         self.taiou_taba: Taba = Taba()
         self.origin_list: list[Huda] = []
         self.uke_taba: Taba = Taba()
-        self.uke_factory = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._uke_mouseup
-            }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
         self.taiou_factory = TabaFactory(inject_kwargs={
             "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._taiou_mouseup
             }, huda_x=HAND_UX, huda_y=HAND_UY, huda_angle=HAND_ANGLE)
@@ -51,7 +46,6 @@ class PlayKougeki():
         return self.uke_taba.get_hover_huda() or self.taiou_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        # self._make_uke_taba()
         self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                       delivery=self.delivery, hoyuusya=self.hoyuusya)
         self._make_taiou_taba()
@@ -70,14 +64,8 @@ class PlayKougeki():
             return
         print(self.taiou_huda.card.name)
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
-        # self._make_uke_taba()
         self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                       delivery=self.delivery, hoyuusya=self.hoyuusya)
-
-    def _uke_mouseup(self, huda: Huda) -> None:
-        huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
-        popup_message.add(f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」を{huda.card.name}")
-        self._discard_source()
 
     def _discard_source(self) -> None:
         if self.source_huda:
@@ -89,14 +77,6 @@ class PlayKougeki():
             raise ValueError(f"Invalid huda: {huda}")
         self.taiou_huda = self.origin_list[number]
         moderator.append(over_layer=PlayTaiou(huda=self.taiou_huda))
-
-    # def _make_uke_taba(self) -> None:
-    #     _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=self.kougeki.aura_damage(
-    #         self.delivery, self.hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
-    #     can_receive_aura = _ad_card.can_damage(delivery=self.delivery, hoyuusya=self.hoyuusya)
-    #     _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=self.kougeki.life_damage(
-    #         self.delivery, self.hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-    #     self.uke_taba = self.uke_factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=self.hoyuusya)
 
     def _make_taiou_taba(self) -> None:
         from mod.const import TC_TEHUDA
