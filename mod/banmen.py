@@ -68,13 +68,13 @@ class Banmen():
 
     def inject_main_phase(self) -> None:
         from mod.popup_message import popup_message
-        popup_message.add("Inject Main Phase")
+        # popup_message.add("Inject Main Phase")
         for taba in self.tabas:
             taba.inject_kwargs(taba.main_phase_inject_kwargs)
 
     def inject_view(self) -> None:
         from mod.popup_message import popup_message
-        popup_message.add("Inject View")
+        # popup_message.add("Inject View")
         for taba in self.tabas:
             taba.inject_kwargs(taba.view_inject_kwargs)
 

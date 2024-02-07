@@ -16,14 +16,14 @@ class Moderator():
     def append(self, over_layer: OverLayer) -> None:
         over_layer.delivery = self.delivery
         self.stack.append(over_layer)
-        popup_message.add(text=f"{over_layer.name} を開きます")
+        # popup_message.add(text=f"{over_layer.name} を開きます")
         over_layer.inject_func()
         over_layer.open()
 
     def pop(self) -> None:
         over_layer = self.stack.pop()
         self.stack[-1].inject_func()
-        popup_message.add(text=f"{over_layer.name} を閉じます")
+        # popup_message.add(text=f"{over_layer.name} を閉じます")
         self.stack[-1].moderate(stat=over_layer.close())
         # popup_message.add(text=f"{over_layer.name} のpopが終わる")
 
