@@ -59,6 +59,7 @@ ACTION_CIRCLE_YADOSI = pygame.image.load("pictures/action_circle_yadosi.png").co
 IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()
 IMG_FLAIR_AREA = pygame.image.load("pictures/ouka_flare.png").convert_alpha()
 IMG_LIFE_AREA = pygame.image.load("pictures/ouka_life.png").convert_alpha()
+IMG_ISYUKU_AREA = pygame.image.load("pictures/isyuku.png").convert_alpha()
 IMG_SYUUTYUU_AREA = pygame.image.load("pictures/syuutyuu.png").convert_alpha()
 IMG_MAAI_AREA = pygame.image.load("pictures/ouka_distance.png").convert_alpha()
 IMG_DUST_AREA = pygame.image.load("pictures/ouka_shadow.png").convert_alpha()
@@ -118,6 +119,7 @@ UC_AURA = 10
 UC_FLAIR = 11
 UC_LIFE = 12
 UC_SYUUTYUU = 13
+UC_ISYUKU = 14
 
 MC_NONE = 0
 

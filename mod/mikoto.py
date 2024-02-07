@@ -2,7 +2,7 @@
 from mod.const import UTURO, HONOKA, CARDS, WX, WY, TC_YAMAHUDA, TC_TEHUDA\
     , TC_SUTEHUDA, TC_HUSEHUDA, TC_KIRIHUDA, TC_MISIYOU, TC_ZYOGAI, screen\
     , IMG_AURA_AREA, IMG_FLAIR_AREA, IMG_LIFE_AREA, IMG_SYUUTYUU_AREA\
-    , compatible_with, HONOKA_S, draw_aiharasuu, SIMOTE
+    , compatible_with, HONOKA_S, draw_aiharasuu, SIMOTE, IMG_ISYUKU_AREA
 from mod.mkt.gottenon import Gottenon
 from mod.mkt.gottena import Gottena
 from mod.mkt.utuwa import Utuwa
@@ -32,6 +32,7 @@ class Mikoto():
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
         self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-210, max=2)
+        self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, num=1, x=330, y=WY-210, max=1)
         self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, num=3, x=310, y=WY-150, max=5)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-90)
         self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, num=10, x=310, y=WY-30)
@@ -42,6 +43,8 @@ class Mikoto():
         self.gottena.selected.core_view.elapse()
         self.gottena.elapse()
         self.syuutyuu.draw()
+        if self.isyuku.num:
+            self.isyuku.isyuku_draw()
         self.aura.draw()
         self.flair.draw()
         self.life.draw()

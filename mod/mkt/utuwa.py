@@ -21,3 +21,6 @@ class Utuwa(Youso):
     def _draw(self) -> None:
         screen.blit(source=self.img, dest=-Vector2(self.img.get_size())/2+[self.x, self.y])
         draw_aiharasuu(surface=screen, dest=-Vector2(self.img.get_size())/2+(self.x, self.y), num=self.num)
+
+    def isyuku_draw(self) -> None:
+        screen.blit(source=self.img, dest=-Vector2(self.img.get_size())/2+[self.x, self.y])
