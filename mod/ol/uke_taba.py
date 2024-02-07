@@ -13,7 +13,7 @@ HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
-def make_uke_taba(self, kougeki: Kougeki, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
+def make_uke_taba(kougeki: Kougeki, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
     factory = _uke_factory(mouse_up=mouseup)
     _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=kougeki.aura_damage(
