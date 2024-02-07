@@ -1,6 +1,6 @@
 import pygame
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU
 from mod.card import Kougeki, Koudou, auto_di, int_di, dima_di, KoukaDI
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
@@ -39,7 +39,10 @@ def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
 
 n_7 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, kouka=_kouka_n_7, taiou=True)
 
-# n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, kouka=_kouka_n_7, taiou=True)
+def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_ISYUKU, kazu=1)
+
+n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, kouka=_kouka_n_8, taiou=True)
 
 # n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di,
 #              aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(1, 1))

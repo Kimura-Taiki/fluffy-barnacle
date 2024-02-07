@@ -15,14 +15,14 @@ from mod.mkt.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
-from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7
+from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7, n_8
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
         self.yamahuda: Taba = yamahuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], hoyuusya=self.hoyuusya)
-        self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, n_6, n_7], hoyuusya=self.hoyuusya)
+        self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, n_6, n_7, n_8], hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], hoyuusya=self.hoyuusya)
         self.kirihuda: Taba = kirihuda_factory.maid_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], hoyuusya=self.hoyuusya)
@@ -32,7 +32,7 @@ class Mikoto():
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
         self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-210, max=2)
-        self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, num=1, x=330, y=WY-210, max=1)
+        self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, num=0, x=330, y=WY-210, max=1)
         self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, num=3, x=310, y=WY-150, max=5)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-90)
         self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, num=10, x=310, y=WY-30)
