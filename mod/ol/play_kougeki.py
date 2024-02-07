@@ -2,11 +2,10 @@
 from pygame.math import Vector2
 from typing import Any, Callable
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, WX, WY\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, POP_TAIOUED, side_name
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, POP_TAIOUED, side_name
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Kougeki, Damage
+from mod.card import Kougeki
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
