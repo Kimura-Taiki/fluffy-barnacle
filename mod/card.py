@@ -20,7 +20,6 @@ int_di: Callable[[int], SuuziDI] = lambda i: lambda delivery, hoyuusya: i
 whole_di: MaaiDI = lambda delivery, hoyuusya: [True]*11
 moma_di: Callable[[int], MaaiDI] = lambda i: lambda delivery, hoyuusya: [j == i for j in range(11)]
 dima_di: Callable[[int, int], MaaiDI] = lambda i, j: lambda delivery, hoyuusya: [i <= k <= j for k in range(11)]
-# identity_di: Callable[['Card', Delivery, int], 'Card'] = lambda i, j, k: i
 identity_di: TaiounizeDI = lambda i, j, k: i
 
 class Card():
@@ -42,11 +41,8 @@ class Card():
     
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
-# TaiounizeDI = Callable[[Card, Delivery, int], Card]
 
 class Kougeki(Card):
-    # def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI,
-    #              maai_list: MaaiDI, taiou: bool=False, zenryoku: bool=False) -> None:
     def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI,
                  maai_list: MaaiDI, taiou: bool = False, zenryoku: bool = False, taiounize: TaiounizeDI = identity_di) -> None:
         super().__init__(img, name, cond, taiou, zenryoku, taiounize)
