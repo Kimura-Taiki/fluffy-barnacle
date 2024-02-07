@@ -1,18 +1,14 @@
 #                 20                  40                  60                 79
-import pygame
 from pygame.math import Vector2
-from pygame.surface import Surface
 from typing import Any, Callable
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_TAIOUED, side_name
-from mod.ol.over_layer import OverLayer
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, WX, WY\
+    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, POP_TAIOUED, side_name
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Card, auto_di, Kougeki, SuuziDI, Damage
+from mod.card import Kougeki, Damage
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
-from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
@@ -103,6 +99,5 @@ class PlayKougeki():
             raise ValueError(f"Invalid tehuda: {tehuda}")
         self.origin_list = [huda for huda in tehuda if huda.card.taiou]
         self.taiou_taba = self.taiou_factory.maid_by_cards(cards=[huda.card for huda in self.origin_list], hoyuusya=self.hoyuusya)
-
 
 # compatible_with(, OverLayer)
