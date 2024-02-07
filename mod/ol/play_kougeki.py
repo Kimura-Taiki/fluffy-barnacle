@@ -70,6 +70,8 @@ class PlayKougeki():
             self._discard_source()
             return
         print(self.taiou_huda.card.name)
+        self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
+        self._make_uke_taba()
 
     def _uke_mouseup(self, huda: Huda) -> None:
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
