@@ -3,7 +3,7 @@ from pygame.math import Vector2
 from typing import Callable, Any
 from functools import partial
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name
+from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR, UC_DUST
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -35,11 +35,19 @@ class Card():
         self.taiounize = taiounize
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
-        pass
+        if self.kirihuda:
+            delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
+                                          kazu=self.flair(delivery, hoyuusya))
+
+    def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
         if not self.cond(delivery, hoyuusya):
             popup_message.add(text=f"「{self.name}」の使用条件を満たしていません")
+            return False
+        elif not self.is_full(delivery=delivery, hoyuusya=hoyuusya):
+            popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
             return False
         return True
     
@@ -76,7 +84,8 @@ class Kougeki(Card):
                         text, chain = text+","+str(num)+"-"+str(i-1), False
         return text[1:]
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
+        super().kaiketu(delivery, hoyuusya, huda)
         from mod.ol.play_kougeki import PlayKougeki
         moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
@@ -98,6 +107,7 @@ class Koudou(Card):
         self.kouka = kouka
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
+        super().kaiketu(delivery, hoyuusya, huda)
         self.kouka(delivery, hoyuusya)
         from mod.huda import Huda
         if isinstance(huda, Huda):

@@ -10,7 +10,8 @@ from mod.moderator import moderator
 from mod.ol.main_phase import MainPhase
 
 banmen = Banmen()
-banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=5)
+# banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=5)
+banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_FLAIR, kazu=5)
 
 moderator.delivery = banmen
 moderator.append(MainPhase(inject_func=banmen.inject_main_phase))

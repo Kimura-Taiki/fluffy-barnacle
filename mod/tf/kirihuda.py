@@ -20,6 +20,8 @@ def _draw(huda: Huda) -> None:
     if huda.usage == USAGE_USED:
         huda.shadow_draw()
         screen.blit(source=pygame.transform.rotate(surface=IMG_USED, angle=0.0 if huda.hoyuusya == SIMOTE else 180.0), dest=huda.dest-[100, 100])
+    elif not huda.card.is_full(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
+        huda.shadow_draw()
     else:
         huda.available_draw()
 
