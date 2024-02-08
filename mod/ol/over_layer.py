@@ -18,7 +18,7 @@ class OverLayer(Protocol):
     def open(self) -> None:
         ...
 
-    def close(self) -> int:
+    def close(self) -> Any:
         ...
 
     def moderate(self, stat: int) -> None:

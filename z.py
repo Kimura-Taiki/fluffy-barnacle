@@ -1,10 +1,11 @@
-import pygame
-import sys
+def ret1() -> int:
+    return 50
 
-x = range(10)
+def ret2() -> tuple[int, str]:
+    return 100, "百式"
 
-for i in x:
-    print(x)
+print(ret1(), ret2())
+print(ret1()[0], ret2()[0])
 
 exit()
 

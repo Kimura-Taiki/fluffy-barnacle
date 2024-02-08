@@ -42,8 +42,9 @@ class PlayTaiou():
         self.huda.card.kaiketu(delivery=self.huda.delivery, hoyuusya=self.huda.hoyuusya, huda=self.huda)
         moderator.pop()
 
-    def close(self) -> int:
-        return POP_TAIOUED
+    def close(self) -> Any:
+        print("PopTaioued")
+        return POP_TAIOUED, self.huda
 
     def moderate(self, stat: int) -> None:
         ...

@@ -13,6 +13,7 @@ from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.play_taiou import PlayTaiou
 from mod.ol.uke_taba import make_uke_taba
+from mod.ol.taiou_taba import make_taiou_taba
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_UX: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
@@ -47,15 +48,21 @@ class PlayKougeki():
     def open(self) -> None:
         self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                       delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self._make_taiou_taba()
+        # self._make_taiou_taba()
+        self.taiou_taba = make_taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
 
     def close(self) -> int:
         self.kougeki.close(hoyuusya=self.hoyuusya)
         return 0
 
-    def moderate(self, stat: int) -> None:
-        if stat != POP_TAIOUED or not self.taiou_huda:
+    def moderate(self, stat: Any) -> None:
+        print("moderate")
+        # if stat != POP_TAIOUED or not self.taiou_huda:
+        #     return
+        if not isinstance(stat, tuple) or not isinstance(stat[1], Huda):
             return
+        self.taiou_huda = stat[1]
+        print("taioued")
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
