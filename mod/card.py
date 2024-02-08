@@ -24,7 +24,7 @@ identity_di: TaiounizeDI = lambda i, j, k: i
 
 class Card():
     def __init__(self, img: Surface, name: str, cond: BoolDI, taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
-                 flair: int=0, taiounize: TaiounizeDI = identity_di) -> None:
+                 flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di) -> None:
         self.img = img
         self.name = name
         self.cond = cond
@@ -45,11 +45,8 @@ class Card():
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
 
 class Kougeki(Card):
-    # def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI,
-    #              maai_list: MaaiDI, taiou: bool = False, zenryoku: bool = False, taiounize: TaiounizeDI = identity_di) -> None:
-    #     super().__init__(img, name, cond, taiou, zenryoku, taiounize)
     def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
-                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: int = 0,
+                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: SuuziDI = int_di(0),
                  taiounize: TaiounizeDI = identity_di) -> None:
         super().__init__(img, name, cond, taiou, zenryoku, kirihuda, flair, taiounize)
         self.type = CT_KOUGEKI
@@ -88,11 +85,8 @@ class Kougeki(Card):
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
 class Koudou(Card):
-    # def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False,
-    #              taiounize: TaiounizeDI = identity_di) -> None:
-    #     super().__init__(img, name, cond, taiou, zenryoku, taiounize)
     def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool = False, zenryoku: bool = False,
-                 kirihuda: bool = False, flair: int = 0, taiounize: TaiounizeDI = identity_di) -> None:
+                 kirihuda: bool = False, flair: SuuziDI = int_di(0), taiounize: TaiounizeDI = identity_di) -> None:
         super().__init__(img, name, cond, taiou, zenryoku, kirihuda, flair, taiounize)
         self.kouka = kouka
 

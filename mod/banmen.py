@@ -91,8 +91,9 @@ class Banmen():
         return None
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
-        tpl = (hoyuusya, is_mine)
-        mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+        # tpl = (hoyuusya, is_mine)
+        # mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
                            UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life, UC_SYUUTYUU: mikoto.syuutyuu,
                            UC_ISYUKU: mikoto.isyuku}.get(utuwa_code)):
@@ -100,8 +101,9 @@ class Banmen():
         return target
     
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Taba:
-        tpl = (hoyuusya, is_mine)
-        mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+        # tpl = (hoyuusya, is_mine)
+        # mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         if not (target := {TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
                            TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
             raise ValueError(f"Invalid taba_code: {taba_code}")
@@ -109,6 +111,15 @@ class Banmen():
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
         return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).num
+    
+    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
+        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
+        draw_huda = mikoto.yamahuda[0]
+        self.send_huda_to_ryouiki(huda=draw_huda, is_mine=True, taba_code=TC_TEHUDA)
+
+    def _mikoto_target(self, hoyuusya: int, is_mine: bool) -> Mikoto:
+        tpl = (hoyuusya, is_mine)
+        return self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
 
 
 compatible_with(obj=Banmen(), protocol=Delivery)

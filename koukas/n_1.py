@@ -1,7 +1,7 @@
 import pygame
 from copy import copy
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA
 from mod.card import Kougeki, Koudou, auto_di, int_di, dima_di, KoukaDI
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
@@ -52,3 +52,26 @@ def _taiounize_n_8(kougeki: Kougeki, delivery: Delivery, hoyuusya: int) -> Kouge
 
 n_8 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, kouka=_kouka_n_8,
              taiou=True, taiounize=_taiounize_n_8)
+
+s_1 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))
+
+def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
+    for _ in range(2):
+        delivery.hand_draw(hoyuusya=hoyuusya, is_mine=True)
+
+s_2 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_s_2.png"), name="闇凪ノ声", cond=auto_di, kouka=_kouka_s_2,
+             kirihuda=True, flair=int_di(4))
+
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_DUST, kazu=2)
+
+def _taiounize_s_3(kougeki: Kougeki, delivery: Delivery, hoyuusya: int) -> Kougeki:
+    taiounized = copy(kougeki)
+    def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
+        return max(0, kougeki.aura_damage(delivery, hoyuusya)-2)
+    taiounized.aura_damage = aura_damage
+    return taiounized
+
+s_3 = Koudou(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, kouka=_kouka_s_3,
+             taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
+

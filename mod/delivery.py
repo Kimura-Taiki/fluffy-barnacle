@@ -28,6 +28,8 @@ class Delivery(Protocol):
     def respond(self, request: Request) -> Any | None:
         ...
 
+    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
+        ...
 
 class _DuckDelivery():
     def __init__(self) -> None:
@@ -53,6 +55,9 @@ class _DuckDelivery():
 
     def respond(self, request: Request) -> Any | None:
         return None
+
+    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
+        ...
 
 
 duck_delivery = _DuckDelivery()
