@@ -61,7 +61,7 @@ class PlayKougeki():
 
     def _discard_source(self) -> None:
         if self.source_huda:
-            self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
+            self.source_huda.discard()
         moderator.pop()
 
 # compatible_with(, OverLayer)

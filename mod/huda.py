@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie, BRIGHT, USAGE_UNUSED
+from mod.const import screen, nie, BRIGHT, USAGE_UNUSED, TC_SUTEHUDA
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
@@ -66,6 +66,9 @@ class Huda(Youso):
 
     def can_play(self) -> bool:
         return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)
+    
+    def discard(self) -> None:
+        self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
 
     @property
     def img_rz_topleft(self) -> Vector2:

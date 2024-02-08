@@ -7,7 +7,6 @@ from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.req.req_ouka import ReqOuka
 
 BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
@@ -100,8 +99,9 @@ class Koudou(Card):
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
         self.kouka(delivery, hoyuusya)
-        if huda:
-            delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
+        from mod.huda import Huda
+        if isinstance(huda, Huda):
+            huda.discard()
         self.close(hoyuusya=hoyuusya)
 
 class Damage(Card):
