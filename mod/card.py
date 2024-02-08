@@ -23,14 +23,16 @@ dima_di: Callable[[int, int], MaaiDI] = lambda i, j: lambda delivery, hoyuusya: 
 identity_di: TaiounizeDI = lambda i, j, k: i
 
 class Card():
-    def __init__(self, img: Surface, name: str, cond: BoolDI, taiou: bool=False, zenryoku: bool=False,
-                 taiounize: TaiounizeDI = identity_di) -> None:
+    def __init__(self, img: Surface, name: str, cond: BoolDI, taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
+                 flair: int=0, taiounize: TaiounizeDI = identity_di) -> None:
         self.img = img
         self.name = name
         self.cond = cond
         self.type = CT_HUTEI
         self.taiou = taiou
+        self.flair = flair
         self.zenryoku = zenryoku
+        self.kirihuda = kirihuda
         self.taiounize = taiounize
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
@@ -43,9 +45,13 @@ class Card():
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
 
 class Kougeki(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI,
-                 maai_list: MaaiDI, taiou: bool = False, zenryoku: bool = False, taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, taiou, zenryoku, taiounize)
+    # def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI,
+    #              maai_list: MaaiDI, taiou: bool = False, zenryoku: bool = False, taiounize: TaiounizeDI = identity_di) -> None:
+    #     super().__init__(img, name, cond, taiou, zenryoku, taiounize)
+    def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
+                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: int = 0,
+                 taiounize: TaiounizeDI = identity_di) -> None:
+        super().__init__(img, name, cond, taiou, zenryoku, kirihuda, flair, taiounize)
         self.type = CT_KOUGEKI
         self.aura_damage = aura_damage
         self.life_damage = life_damage
@@ -82,9 +88,12 @@ class Kougeki(Card):
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
 class Koudou(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False,
-                 taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, taiou, zenryoku, taiounize)
+    # def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool=False, zenryoku: bool=False,
+    #              taiounize: TaiounizeDI = identity_di) -> None:
+    #     super().__init__(img, name, cond, taiou, zenryoku, taiounize)
+    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool = False, zenryoku: bool = False,
+                 kirihuda: bool = False, flair: int = 0, taiounize: TaiounizeDI = identity_di) -> None:
+        super().__init__(img, name, cond, taiou, zenryoku, kirihuda, flair, taiounize)
         self.kouka = kouka
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
