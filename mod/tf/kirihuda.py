@@ -3,7 +3,7 @@ import pygame
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import WX, WY, screen, KIRIHUDA_CIRCLE_NEUTRAL, KIRIHUDA_CIRCLE_CARD
+from mod.const import WX, WY, screen, KIRIHUDA_CIRCLE_NEUTRAL, KIRIHUDA_CIRCLE_CARD, USAGE_USED, IMG_USED, SIMOTE
 from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
@@ -17,11 +17,11 @@ HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-144
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0
 
 def _draw(huda: Huda) -> None:
-    if controller.active == huda:
-        return None
+    if huda.usage == USAGE_USED:
+        huda.shadow_draw()
+        screen.blit(source=pygame.transform.rotate(surface=IMG_USED, angle=0.0 if huda.hoyuusya == SIMOTE else 180.0), dest=huda.dest-[100, 100])
     else:
         huda.available_draw()
-    return None
 
 def _mousedown(huda: Huda) -> None:
     controller.active = huda
@@ -53,5 +53,6 @@ def _use_card(huda: Huda) -> None:
     huda.play()
 
 kirihuda_factory = TabaFactory(inject_kwargs={
-    "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup
+    "draw": _draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup
+    # "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup
 }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)

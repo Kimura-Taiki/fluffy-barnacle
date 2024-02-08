@@ -58,6 +58,7 @@ ACTION_CIRCLE_ZENSIN = pygame.image.load("pictures/action_circle_zensin.png").co
 ACTION_CIRCLE_YADOSI = pygame.image.load("pictures/action_circle_yadosi.png").convert_alpha()
 KIRIHUDA_CIRCLE_NEUTRAL = pygame.image.load("pictures/kirihuda_circle_neutral.png").convert_alpha()
 KIRIHUDA_CIRCLE_CARD = pygame.image.load("pictures/kirihuda_circle_card.png").convert_alpha()
+IMG_USED = pygame.image.load("pictures/img_used.png").convert_alpha()
 IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()
 IMG_FLAIR_AREA = pygame.image.load("pictures/ouka_flare.png").convert_alpha()
 IMG_LIFE_AREA = pygame.image.load("pictures/ouka_life.png").convert_alpha()

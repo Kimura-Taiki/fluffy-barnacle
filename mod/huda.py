@@ -4,12 +4,13 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie, BRIGHT, USAGE_UNUSED, TC_SUTEHUDA
+from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
 from mod.card import Card, auto_di
 from mod.controller import controller
+from mod.popup_message import popup_message
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
@@ -51,6 +52,12 @@ class Huda(Youso):
     def default_draw(self) -> None:
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft)
 
+    def shadow_draw(self) -> None:
+        pygame.draw.polygon(surface=screen, color=BLACK, points=self.vertices, width=0)
+        self.img_rz.set_alpha(192)
+        self.default_draw()
+        self.img_rz.set_alpha(255)
+
     def available_draw(self) -> None:
         if controller.hover == self:
             pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
@@ -65,10 +72,16 @@ class Huda(Youso):
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
     def can_play(self) -> bool:
+        if self.usage == USAGE_USED:
+            popup_message.add(text=f"「{self.card.name}」は使用済みです")
+            return False
         return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)
-    
+
     def discard(self) -> None:
-        self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
+        if self.card.kirihuda:
+            self.usage = USAGE_USED
+        else:
+            self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
 
     @property
     def img_rz_topleft(self) -> Vector2:

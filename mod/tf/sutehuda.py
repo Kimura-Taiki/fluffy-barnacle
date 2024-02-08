@@ -13,12 +13,6 @@ HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60
 
 HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 0.0
 
-def _draw(huda: Huda) -> None:
-    pygame.draw.polygon(surface=screen, color=BLACK, points=huda.vertices, width=0)
-    huda.img_rz.set_alpha(192)
-    huda.default_draw()
-    huda.img_rz.set_alpha(255)
-
 sutehuda_factory = TabaFactory(inject_kwargs={
-    "draw": _draw, "hover": Huda.detail_draw
+    "draw": Huda.shadow_draw, "hover": Huda.detail_draw
 }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
