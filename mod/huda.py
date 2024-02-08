@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie, BRIGHT
+from mod.const import screen, nie, BRIGHT, USAGE_UNUSED
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
@@ -20,6 +20,7 @@ class Huda(Youso):
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
+        self.usage = USAGE_UNUSED
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)

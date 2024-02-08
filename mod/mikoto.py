@@ -15,7 +15,7 @@ from mod.mkt.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
-from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7, n_8
+from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7, n_8, s_1, s_2, s_3
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
@@ -25,7 +25,7 @@ class Mikoto():
         self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, n_6, n_7, n_8], hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], hoyuusya=self.hoyuusya)
-        self.kirihuda: Taba = kirihuda_factory.maid_by_files(surfaces=[HONOKA_S(i) for i in range(1, 4)], hoyuusya=self.hoyuusya)
+        self.kirihuda: Taba = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3], hoyuusya=self.hoyuusya)
         self.gottena = Gottena(data=[Gottenon(core_view=self.yamahuda, name="山札", x=140, y=WY-210),
                                      Gottenon(core_view=self.tehuda, name="手札", x=140, y=WY-150),
                                      Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, hoyuusya=hoyuusya),
