@@ -48,11 +48,10 @@ def _mouseup(huda: Huda) -> None:
 
 def _use_card(huda: Huda) -> None:
     if not huda.can_play():
-        # popup_message.add(text="カードの使用条件を満たしていません")
         return
-    popup_message.add(text=f"手札から「{huda.card.name}」を使います")
+    popup_message.add(text=f"切り札から「{huda.card.name}」を使います")
     huda.play()
 
 kirihuda_factory = TabaFactory(inject_kwargs={
-    "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active
+    "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup
 }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)

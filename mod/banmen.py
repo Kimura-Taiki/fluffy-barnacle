@@ -46,7 +46,8 @@ class Banmen():
         huda.withdraw()
         if not (mikoto := {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)):
             raise ValueError(f"Invalid huda.hoyuusya: {huda.hoyuusya}")
-        if not (taba := {TC_HUSEHUDA: mikoto.husehuda, TC_SUTEHUDA: mikoto.sutehuda}.get(taba_code)):
+        if not (taba := {TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
+                         TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
             raise ValueError(f"Invalid taba_code: {taba_code}")
         taba.append(huda)
         for gottenon in mikoto.gottena:
