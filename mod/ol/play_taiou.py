@@ -4,18 +4,9 @@ from pygame.math import Vector2
 from pygame.surface import Surface
 from typing import Any, Callable
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_TAIOUED
-from mod.ol.over_layer import OverLayer
+from mod.const import WX, WY, POP_TAIOUED
 from mod.huda import Huda
-from mod.ol.view_banmen import view_youso
-from mod.card import Card, auto_di, Kougeki, SuuziDI, Damage
-from mod.taba import Taba
-from mod.tf.taba_factory import TabaFactory
-from mod.controller import controller
-from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.delivery import Delivery
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
@@ -43,7 +34,6 @@ class PlayTaiou():
         moderator.pop()
 
     def close(self) -> Any:
-        print("PopTaioued")
         return POP_TAIOUED, self.huda
 
     def moderate(self, stat: int) -> None:

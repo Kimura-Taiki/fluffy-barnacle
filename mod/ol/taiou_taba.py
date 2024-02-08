@@ -31,12 +31,7 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
 
 def _taiou_mouseup(huda: Huda) -> None:
     global taiou_taba, origin_list
-    print(taiou_taba)
-    for i in taiou_taba:
-        print(i)
-    print(origin_list)
     if (number := next((i for i, v in enumerate(taiou_taba) if v == huda))) is None:
         raise ValueError(f"Invalid huda: {huda}")
     taiou_huda = origin_list[number]
-    print(number, taiou_huda)
     moderator.append(over_layer=PlayTaiou(huda=taiou_huda))
