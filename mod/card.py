@@ -39,7 +39,10 @@ class Card():
         pass
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return self.cond(delivery, hoyuusya)
+        if not self.cond(delivery, hoyuusya):
+            popup_message.add(text=f"「{self.name}」の使用条件を満たしていません")
+            return False
+        return True
     
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
@@ -79,7 +82,12 @@ class Kougeki(Card):
         moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
     def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return self.cond(delivery, hoyuusya) and self.maai_cond(delivery=delivery, hoyuusya=hoyuusya)
+        if not super().can_play(delivery=delivery, hoyuusya=hoyuusya):
+            return False
+        elif not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
+            popup_message.add(text=f"「{self.name}」の適正距離から外れています")
+            return False
+        return True
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]

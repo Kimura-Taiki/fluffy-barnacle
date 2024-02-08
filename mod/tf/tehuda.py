@@ -52,7 +52,6 @@ def _mouseup(huda: Huda) -> None:
 
 def _use_card(huda: Huda) -> None:
     if not huda.can_play():
-        popup_message.add(text="カードの使用条件を満たしていません")
         return
     popup_message.add(text=f"手札から「{huda.card.name}」を使います")
     huda.play()
