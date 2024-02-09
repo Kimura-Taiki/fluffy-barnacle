@@ -3,11 +3,12 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import compatible_with, pass_func, screen, IMG_ZYOGAI_AREA, WX, WY
+from mod.const import compatible_with, pass_func, screen, IMG_ZYOGAI_AREA, WX, WY, WHITE
 from mod.ol.over_layer import OverLayer
 from mod.youso import Youso
 from mod.popup_message import popup_message
 from mod.delivery import Delivery, duck_delivery
+from mod.controller import controller
 
 class Button(Youso):
     def __init__(self, img: Surface, x: int | float = 0, y: int | float = 0) -> None:
@@ -20,9 +21,17 @@ class Button(Youso):
         return self.x-hx <= mx and mx <= self.x+hx and self.y-hy <= my and my <= self.y+hy
 
     def _draw(self) -> None:
-        screen.blit(source=self.img, dest=self.dest-Vector2(self.img.get_size())/2)
+        if controller.hover == self:
+            sx, sy = self.img.get_size()
+            screen.fill(color=WHITE, rect=[self.x-sx/2, self.y-sy/2, sx, sy])
+            self.img.set_alpha(192)
+            screen.blit(source=self.img, dest=self.dest-Vector2(self.img.get_size())/2)
+            self.img.set_alpha(255)
+        else:
+            screen.blit(source=self.img, dest=self.dest-Vector2(self.img.get_size())/2)
 
     def _mousedown(self) -> None:
+        controller.active = self
         popup_message.add(text="ボタンを押したよ")
 
 class MainPhase():
