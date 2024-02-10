@@ -28,8 +28,7 @@ class Card():
     def __init__(self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI, kouka: KoukaDI=pass_di,
                  taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
                  flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di) -> None:
-        self.img, self.name, self.cond = img, name, cond
-        self.type = type
+        self.img, self.name, self.cond, self.type = img, name, cond, type
         self.kouka =kouka
         self.taiou = taiou
         self.flair = flair
@@ -37,10 +36,24 @@ class Card():
         self.kirihuda = kirihuda
         self.taiounize = taiounize
 
+    # def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
+    #     super().kaiketu(delivery, hoyuusya, huda)
+    #     self.kouka(delivery, hoyuusya)
+    #     from mod.huda import Huda
+    #     if isinstance(huda, Huda):
+    #         huda.discard()
+    #     self.close(hoyuusya=hoyuusya)
+
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
+        if self.type == CT_KOUDOU:
+            self.kouka(delivery, hoyuusya)
+            from mod.huda import Huda
+            if isinstance(huda, Huda):
+                huda.discard()
+            self.close(hoyuusya=hoyuusya)
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
@@ -65,11 +78,11 @@ class Koudou(Card):
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
         super().kaiketu(delivery, hoyuusya, huda)
-        self.kouka(delivery, hoyuusya)
-        from mod.huda import Huda
-        if isinstance(huda, Huda):
-            huda.discard()
-        self.close(hoyuusya=hoyuusya)
+        # self.kouka(delivery, hoyuusya)
+        # from mod.huda import Huda
+        # if isinstance(huda, Huda):
+        #     huda.discard()
+        # self.close(hoyuusya=hoyuusya)
 
 
 
