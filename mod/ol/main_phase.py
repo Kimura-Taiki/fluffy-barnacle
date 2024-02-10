@@ -13,8 +13,10 @@ from mod.moderator import moderator
 class Button(Youso):
     def __init__(self, x: int | float = WX-30, y: int | float = WY-60, mouseup: Callable[[Youso], None]=pass_func) -> None:
         super().__init__(x, y, draw=Button._draw, mousedown=Button._mousedown, mouseup=mouseup)
-        self.img_nega = IMG_TURN_END
-        self.img_lighten = IMG_TURN_END_LIGHTEN
+        self.img_nega = pygame.transform.scale(surface=IMG_TURN_END, size=Vector2(IMG_TURN_END.get_size())*2)
+        self.x = WX-self.img_nega.get_width()/2
+        self.y = WY-self.img_nega.get_height()/2
+        self.img_lighten = pygame.transform.scale(surface=IMG_TURN_END_LIGHTEN, size=Vector2(IMG_TURN_END_LIGHTEN.get_size())*2)
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()
@@ -49,6 +51,7 @@ class MainPhase():
         ...
 
     def close(self) -> int:
+        popup_message.add(text="ターンを終了します")
         return 0
 
     def moderate(self, stat: int) -> None:
