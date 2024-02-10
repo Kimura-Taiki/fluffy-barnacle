@@ -7,6 +7,18 @@ from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUK
     , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU
 from mod.card import Koudou, BoolDI, KoukaDI
 
+# class TempKoudou(Koudou):
+#     def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list[Any]]=[]) -> None:
+#         self.img = IMG_HAKUSI.copy()
+#         self.y = 20
+#         self._draw_name(name=name)
+#         for i in todo:
+#             if isinstance(i[0], bool):
+#                 self._draw_yazirusi(from_mine=i[0], from_code=i[1], to_mine=i[2], to_code=i[3], kazu=i[4])
+#             elif isinstance(i[0], str):
+#                 self._draw_text(texts=i)
+#         super().__init__(self.img, name, cond, kouka)
+
 class TempKoudou(Koudou):
     def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list[Any]]=[]) -> None:
         self.img = IMG_HAKUSI.copy()

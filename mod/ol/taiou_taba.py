@@ -1,6 +1,6 @@
 from typing import Callable
 
-from mod.const import WX, WY, TC_TEHUDA, TC_KIRIHUDA
+from mod.const import WX, WY, TC_TEHUDA, TC_KIRIHUDA, opponent
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
@@ -22,7 +22,7 @@ def make_taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
     if not isinstance(kirihuda := delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_KIRIHUDA), Taba):
         raise ValueError(f"Invalid kirihuda: {kirihuda}")
     factory = _taiou_factory(mouseup=_taiou_mouseup)
-    origin_list = [huda for huda in tehuda+kirihuda if huda.card.taiou]
+    origin_list = [huda for huda in tehuda+kirihuda if huda.card.taiou and huda.can_play()]
     taiou_taba = factory.maid_by_cards(cards=[huda.card for huda in origin_list], hoyuusya=hoyuusya)
     return taiou_taba
 
