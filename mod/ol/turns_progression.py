@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 from typing import Any, Callable
 
-from mod.const import compatible_with, pass_func, PH_NONE, PH_MAIN
+from mod.const import compatible_with, pass_func, PH_NONE, PH_MAIN, POP_MAIN_PHASE_FINISHED, opponent, side_name
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Kougeki
@@ -22,6 +22,7 @@ class TurnProgression():
         self.main_inject = main_inject
         self.phase = PH_NONE
         self.delivery: Delivery = delivery
+        self.turn = 1
 
     def elapse(self) -> None:
         ...
@@ -31,11 +32,21 @@ class TurnProgression():
 
     def open(self) -> None:
         moderator.append(MainPhase(inject_func=self.main_inject))
+        self.turn = 1
+        self.phase = PH_MAIN
+        self.reset_name()
 
     def close(self) -> Any:
         ...
 
     def moderate(self, stat: int) -> None:
-        ...
+        if self.phase == PH_MAIN:
+            self.turn += 1
+            self.delivery.turn_player = opponent(self.delivery.turn_player)
+            self.reset_name()
+            moderator.append(MainPhase(inject_func=self.main_inject))
+        
+    def reset_name(self) -> None:
+        self.name = f"{self.turn}ターン目 {side_name(self.delivery.turn_player)}"
 
 compatible_with(TurnProgression(delivery=duck_delivery, main_inject=pass_func), OverLayer)
