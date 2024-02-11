@@ -46,6 +46,9 @@ class Card():
             if isinstance(huda, Huda):
                 huda.discard()
             self.close(hoyuusya=hoyuusya)
+        # elif self.type == CT_KOUGEKI:
+        #     from mod.ol.play_kougeki import PlayKougeki
+        #     moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
@@ -57,23 +60,13 @@ class Card():
         elif not self.is_full(delivery=delivery, hoyuusya=hoyuusya):
             popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
             return False
+        # elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
+        #     popup_message.add(text=f"「{self.name}」の適正距離から外れています")
+        #     return False
         return True
-    
+
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
-
-class Kougeki(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
-                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: SuuziDI = int_di(0),
-                 taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, CT_KOUGEKI, pass_di, taiou, zenryoku, kirihuda, flair, taiounize)
-        self.type = CT_KOUGEKI
-        self.aura_damage = aura_damage
-        self.life_damage = life_damage
-        self.maai_list = maai_list
-
-    def attack(self, delivery: Delivery, hoyuusya: int) -> None:
-        popup_message.add(text=f"{self.name}の攻撃です {self.aura_damage(delivery, hoyuusya)}/{self.life_damage(delivery, hoyuusya)} {self.maai_text(self.maai_list(delivery, hoyuusya))}")
 
     def maai_text(self, bool_list: list[bool]) -> str:
         bool_list.append(False)
@@ -92,18 +85,21 @@ class Kougeki(Card):
                         text, chain = text+","+str(num)+"-"+str(i-1), False
         return text[1:]
 
+class Kougeki(Card):
+    def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
+                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: SuuziDI = int_di(0),
+                 taiounize: TaiounizeDI = identity_di) -> None:
+        super().__init__(img, name, cond, CT_KOUGEKI,
+                         kouka=pass_di, taiou=taiou, zenryoku=zenryoku, kirihuda=kirihuda, flair=flair, taiounize=taiounize)
+        self.type = CT_KOUGEKI
+        self.aura_damage = aura_damage
+        self.life_damage = life_damage
+        self.maai_list = maai_list
+
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
         super().kaiketu(delivery, hoyuusya, huda)
         from mod.ol.play_kougeki import PlayKougeki
         moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
-
-    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
-        if not super().can_play(delivery=delivery, hoyuusya=hoyuusya):
-            return False
-        elif not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
-            popup_message.add(text=f"「{self.name}」の適正距離から外れています")
-            return False
-        return True
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
