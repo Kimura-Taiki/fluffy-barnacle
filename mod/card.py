@@ -60,14 +60,9 @@ class Card():
             from mod.ol.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
         else:
-            popup_message.add("メインタイプの解決がまだ未実装だね")
-            from mod.huda import Huda
-            if isinstance(huda, Huda):
-                popup_message.add("付与を捨てるよ")
-                huda.usage = USAGE_DEPLOYED
-                huda.osame = self.osame(delivery, hoyuusya)
-                huda.discard()
-            self.close(hoyuusya=hoyuusya)
+            popup_message.add("付与用のOverLayerを開くよ")
+            from mod.ol.play_huyo import PlayHuyo
+            moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
