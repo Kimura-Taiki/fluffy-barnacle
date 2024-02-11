@@ -11,11 +11,12 @@ from mod.popup_message import popup_message
 class Button(Youso):
     def __init__(self, img_nega: Surface, img_lighten: Surface, x: int | None=None, y: int | None=None,
                  mouseup: Callable[[Youso], None]=pass_func) -> None:
-        super().__init__(x, y, draw=Button._draw, mousedown=Button._mousedown, mouseup=mouseup)
         self.img_nega = img_nega
-        self.x = x if x is not None else WX-self.img_nega.get_width()/2
-        self.y = y if y is not None else WY-self.img_nega.get_height()/2
         self.img_lighten = img_lighten
+        super().__init__(
+            x if x is not None else WX-self.img_nega.get_width()/2,
+            y if y is not None else WY-self.img_nega.get_height()/2,
+            draw=Button._draw, mousedown=Button._mousedown, mouseup=mouseup)
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()
