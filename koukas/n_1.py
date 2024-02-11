@@ -1,7 +1,7 @@
 import pygame
 from copy import copy
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO
 from mod.card import Card, auto_di, int_di, dima_di
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
@@ -52,6 +52,9 @@ def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     return taiounized
 
 n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
+           kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
+
+n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠", cond=auto_di, type=CT_HUYO,
            kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
 
 s_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, type=CT_KOUGEKI,

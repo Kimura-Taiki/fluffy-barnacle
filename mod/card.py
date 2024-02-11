@@ -47,6 +47,7 @@ class Card():
                                           kazu=self.flair(delivery, hoyuusya))
         if self.type == CT_KOUDOU:
             self.kouka(delivery, hoyuusya)
+            # from mod.huda import Huda
             from mod.huda import Huda
             if isinstance(huda, Huda):
                 huda.discard()
@@ -54,6 +55,12 @@ class Card():
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+        else:
+            popup_message.add("メインタイプの解決がまだ未実装だね")
+            from mod.huda import Huda
+            if isinstance(huda, Huda):
+                huda.discard()
+            self.close(hoyuusya=hoyuusya)
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)

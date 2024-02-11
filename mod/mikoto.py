@@ -15,14 +15,14 @@ from mod.mkt.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
-from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7, n_8, s_1, s_2, s_3
+from koukas.n_1 import n_1, n_2, n_3, n_4, n_6, n_7, n_8, n_9, s_1, s_2, s_3
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
         self.yamahuda: Taba = yamahuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(1, 3)], hoyuusya=self.hoyuusya)
-        self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, n_6, n_7, n_8], hoyuusya=self.hoyuusya)
+        self.tehuda: Taba = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, n_6, n_7, n_8, n_9], hoyuusya=self.hoyuusya)
         self.husehuda: Taba = husehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(7, 8)], hoyuusya=self.hoyuusya)
         self.sutehuda: Taba = sutehuda_factory.maid_by_files(surfaces=[HONOKA(i) for i in range(8, 9)], hoyuusya=self.hoyuusya)
         self.kirihuda: Taba = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3], hoyuusya=self.hoyuusya)
