@@ -5,7 +5,7 @@ from typing import Callable, Any
 from functools import partial
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST
+    , CT_KOUDOU, UC_DUST, USAGE_DEPLOYED
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -28,13 +28,17 @@ class Card():
     def __init__(
             self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
             aura_damage: SuuziDI = int_di(0), life_damage: SuuziDI=int_di(0),
-            maai_list: MaaiDI=whole_di, kouka: KoukaDI=pass_di,
+            maai_list: MaaiDI=whole_di,
+            kouka: KoukaDI=pass_di,
+            osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
+            tenkaizi: KoukaDI=pass_di, hakizi: KoukaDI=pass_di,
             taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
             flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
             ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
         self.aura_damage, self.life_damage, self.maai_list = aura_damage, life_damage, maai_list
         self.kouka =kouka
+        self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
         self.taiou = taiou
         self.flair = flair
         self.zenryoku = zenryoku
@@ -59,6 +63,8 @@ class Card():
             popup_message.add("メインタイプの解決がまだ未実装だね")
             from mod.huda import Huda
             if isinstance(huda, Huda):
+                huda.usage = USAGE_DEPLOYED
+                huda.osame = self.osame(delivery, hoyuusya)
                 huda.discard()
             self.close(hoyuusya=hoyuusya)
 

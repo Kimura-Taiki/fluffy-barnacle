@@ -22,6 +22,7 @@ class Huda(Youso):
         self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.usage = USAGE_UNUSED
+        self.osame = 0
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)
