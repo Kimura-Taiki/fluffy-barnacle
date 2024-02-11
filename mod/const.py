@@ -59,10 +59,13 @@ ACTION_CIRCLE_YADOSI = pygame.image.load("pictures/action_circle_yadosi.png").co
 KIRIHUDA_CIRCLE_NEUTRAL = pygame.image.load("pictures/kirihuda_circle_neutral.png").convert_alpha()
 KIRIHUDA_CIRCLE_CARD = pygame.image.load("pictures/kirihuda_circle_card.png").convert_alpha()
 
-HUDA_SCALE = 0.6
-IMG_OSAME = pygame.image.load("pictures/osame_frame.png").convert_alpha()
+IMG_DECISION = pygame.image.load("pictures/decision.png").convert_alpha()
+IMG_DECISION_LIGHTEN = pygame.image.load("pictures/decision_lighten.png").convert_alpha()
 IMG_TURN_END = pygame.image.load("pictures/turn_end.png").convert_alpha()
 IMG_TURN_END_LIGHTEN = pygame.image.load("pictures/turn_end_lighten.png").convert_alpha()
+
+HUDA_SCALE = 0.6
+IMG_OSAME = pygame.image.load("pictures/osame_frame.png").convert_alpha()
 IMG_USED = pygame.image.load("pictures/img_used.png").convert_alpha()
 IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()
 IMG_FLAIR_AREA = pygame.image.load("pictures/ouka_flare.png").convert_alpha()
