@@ -50,8 +50,8 @@ class Huda(Youso):
     def detail_draw(self) -> None:
         screen.blit(source=self.img_nega, dest=[0, 0])
 
-    def default_draw(self) -> None:
-        screen.blit(source=self.img_rz, dest=self.img_rz_topleft)
+    def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
+        screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:
         pygame.draw.polygon(surface=screen, color=BLACK, points=self.vertices, width=0)
@@ -62,7 +62,7 @@ class Huda(Youso):
     def available_draw(self) -> None:
         if controller.hover == self:
             pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
-            screen.blit(source=self.img_rz, dest=self.img_rz_topleft+[0, -40])
+            self.default_draw(offset=[0, -40])
         else:
             self.default_draw()
 
