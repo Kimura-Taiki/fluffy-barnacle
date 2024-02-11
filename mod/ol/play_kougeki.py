@@ -5,7 +5,7 @@ from typing import Any
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Kougeki, Card
+from mod.card import Card
 from mod.taba import Taba
 from mod.popup_message import popup_message
 from mod.moderator import moderator

@@ -1,17 +1,10 @@
 #                 20                  40                  60                 79
-from pygame.math import Vector2
 from typing import Any, Callable
 
-from mod.const import compatible_with, pass_func, PH_NONE, PH_MAIN, POP_MAIN_PHASE_FINISHED, opponent, side_name
-from mod.huda import Huda
-from mod.ol.view_banmen import view_youso
-from mod.card import Kougeki
-from mod.taba import Taba
+from mod.const import compatible_with, pass_func, PH_NONE, PH_MAIN, opponent, side_name
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery, duck_delivery
-from mod.ol.uke_taba import make_uke_taba
-from mod.ol.taiou_taba import make_taiou_taba
 from mod.ol.main_phase import MainPhase
 from mod.ol.over_layer import OverLayer
 

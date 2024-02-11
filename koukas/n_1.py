@@ -1,23 +1,23 @@
 import pygame
 from copy import copy
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUDOU
-from mod.card import Card, Kougeki, auto_di, int_di, dima_di, KoukaDI
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU
+from mod.card import Card, auto_di, int_di, dima_di
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import Choice
 
-n_1 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di,
+n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(1), maai_list=dima_di(5, 9))
 
-n_2 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_n_2.png"), name="脇斬り", cond=auto_di,
+n_2 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_2.png"), name="脇斬り", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(2), life_damage=int_di(2), maai_list=dima_di(2, 3))
 
-n_3 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_n_3.png"), name="牽制", cond=auto_di,
+n_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_3.png"), name="牽制", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(2), life_damage=int_di(1), maai_list=dima_di(1, 3))
 
-n_4 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_n_4.png"), name="背中刺し", cond=auto_di,
+n_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_4.png"), name="背中刺し", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(1, 1))
 
 def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
@@ -54,7 +54,8 @@ def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
 
-s_1 = Kougeki(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))
+s_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, type=CT_KOUGEKI,
+           aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))
 
 def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
     for _ in range(2):

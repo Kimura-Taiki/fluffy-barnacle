@@ -6,7 +6,7 @@ from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.card import Kougeki, Damage, Card
+from mod.card import Damage, Card
 from mod.popup_message import popup_message
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i

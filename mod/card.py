@@ -93,26 +93,6 @@ class Card():
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
-
-class Kougeki(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
-                 taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: SuuziDI = int_di(0),
-                 taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, CT_KOUGEKI, aura_damage=aura_damage, life_damage=life_damage, maai_list=maai_list,
-                         kouka=pass_di, taiou=taiou, zenryoku=zenryoku, kirihuda=kirihuda, flair=flair, taiounize=taiounize)
-        self.type = CT_KOUGEKI
-        self.aura_damage = aura_damage
-        self.life_damage = life_damage
-        self.maai_list = maai_list
-
-    # def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
-    #     super().kaiketu(delivery, hoyuusya, huda)
-    #     from mod.ol.play_kougeki import PlayKougeki
-    #     moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
-
-    # def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
-    #     return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
-
 class Damage(Card):
     _SCALE_SIZE = 180
 

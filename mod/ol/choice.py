@@ -1,16 +1,10 @@
 #                 20                  40                  60                 79
-import pygame
-from pygame.math import Vector2
-from pygame.surface import Surface
 from typing import Any, Callable
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, BRIGHT, WX, WY, draw_aiharasuu\
-    , TC_SUTEHUDA, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR
-from mod.ol.over_layer import OverLayer
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Card, auto_di, Kougeki, SuuziDI, Damage
-from mod.taba import Taba
+from mod.card import Card
 from mod.tf.taba_factory import TabaFactory
 from mod.controller import controller
 from mod.popup_message import popup_message
