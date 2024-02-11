@@ -63,6 +63,7 @@ class Card():
             popup_message.add("メインタイプの解決がまだ未実装だね")
             from mod.huda import Huda
             if isinstance(huda, Huda):
+                popup_message.add("付与を捨てるよ")
                 huda.usage = USAGE_DEPLOYED
                 huda.osame = self.osame(delivery, hoyuusya)
                 huda.discard()

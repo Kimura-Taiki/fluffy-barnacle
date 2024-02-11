@@ -4,7 +4,8 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA
+from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, IMG_OSAME, TC_SUTEHUDA,\
+    HUDA_SCALE, draw_aiharasuu
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
@@ -13,16 +14,17 @@ from mod.controller import controller
 from mod.popup_message import popup_message
 
 class Huda(Youso):
-    def __init__(self, img: Surface, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0,
+    def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
                  **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
+        self.usage = USAGE_UNUSED
+        self.osame = 0
+        self._pre_osame = 0
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
-        self.usage = USAGE_UNUSED
-        self.osame = 0
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)
@@ -38,19 +40,25 @@ class Huda(Youso):
                 inside = not inside
         return inside
     
-    def rearrange(self, angle: float=0.0, scale: float=0.4, x:int | float=0, y:int | float=0) -> bool | None:
-        self.img_rz = pygame.transform.rotozoom(surface=self.img_nega, angle=angle, scale=scale)
+    def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
+        img_intermediate = self.img_nega.copy()
+        if self.usage == USAGE_DEPLOYED:
+            img_intermediate.blit(source=IMG_OSAME, dest=[0, 0])
+            draw_aiharasuu(surface=img_intermediate, dest=Vector2(5, 0), num=self.osame)
+        self.img_rz = pygame.transform.rotozoom(surface=img_intermediate, angle=angle, scale=scale)
         self.angle = angle
         self.scale = scale
         self.x = int(x)
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         return None
-    
+
     def detail_draw(self) -> None:
         screen.blit(source=self.img_nega, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
+        if self.osame != self._pre_osame:
+            self.rearrange(x=self.x, y=self.y)
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:
