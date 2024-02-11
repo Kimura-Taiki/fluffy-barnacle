@@ -36,14 +36,6 @@ class Card():
         self.kirihuda = kirihuda
         self.taiounize = taiounize
 
-    # def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
-    #     super().kaiketu(delivery, hoyuusya, huda)
-    #     self.kouka(delivery, hoyuusya)
-    #     from mod.huda import Huda
-    #     if isinstance(huda, Huda):
-    #         huda.discard()
-    #     self.close(hoyuusya=hoyuusya)
-
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
@@ -69,22 +61,6 @@ class Card():
     
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
-
-class Koudou(Card):
-    def __init__(self, img: Surface, name: str, cond: BoolDI, kouka: KoukaDI, taiou: bool = False, zenryoku: bool = False,
-                 kirihuda: bool = False, flair: SuuziDI = int_di(0), taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, CT_KOUDOU, kouka, taiou, zenryoku, kirihuda, flair, taiounize)
-        # self.kouka = kouka
-
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
-        super().kaiketu(delivery, hoyuusya, huda)
-        # self.kouka(delivery, hoyuusya)
-        # from mod.huda import Huda
-        # if isinstance(huda, Huda):
-        #     huda.discard()
-        # self.close(hoyuusya=hoyuusya)
-
-
 
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
