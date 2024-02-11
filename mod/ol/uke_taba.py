@@ -6,14 +6,14 @@ from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.card import Kougeki, Damage
+from mod.card import Kougeki, Damage, Card
 from mod.popup_message import popup_message
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
-def make_uke_taba(kougeki: Kougeki, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
+def make_uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
     factory = _uke_factory(mouse_up=mouseup)
     _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=kougeki.aura_damage(
@@ -28,7 +28,7 @@ def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
         "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouse_up
         }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
 
-def _uke_mouseup(huda: Huda, kougeki: Kougeki, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> None:
+def _uke_mouseup(huda: Huda, kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> None:
     huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya)
     popup_message.add(f"{side_name(hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
     discard_source()

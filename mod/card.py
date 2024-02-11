@@ -14,7 +14,7 @@ BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
 SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
-TaiounizeDI = Callable[['Kougeki', Delivery, int], 'Kougeki']
+TaiounizeDI = Callable[['Card', Delivery, int], 'Card']
 auto_di: BoolDI = lambda delivery, hoyuusya: True
 pass_di: KoukaDI = lambda delivery, hoyuusya: None
 int_di: Callable[[int], SuuziDI] = lambda i: lambda delivery, hoyuusya: i
@@ -25,10 +25,15 @@ identity_di: TaiounizeDI = lambda i, j, k: i
 
 #                 20                  40                  60                 79
 class Card():
-    def __init__(self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI, kouka: KoukaDI=pass_di,
-                 taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
-                 flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di) -> None:
+    def __init__(
+            self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
+            aura_damage: SuuziDI = int_di(0), life_damage: SuuziDI=int_di(0),
+            maai_list: MaaiDI=whole_di, kouka: KoukaDI=pass_di,
+            taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
+            flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
+            ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
+        self.aura_damage, self.life_damage, self.maai_list = aura_damage, life_damage, maai_list
         self.kouka =kouka
         self.taiou = taiou
         self.flair = flair
@@ -46,9 +51,9 @@ class Card():
             if isinstance(huda, Huda):
                 huda.discard()
             self.close(hoyuusya=hoyuusya)
-        # elif self.type == CT_KOUGEKI:
-        #     from mod.ol.play_kougeki import PlayKougeki
-        #     moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+        elif self.type == CT_KOUGEKI:
+            from mod.ol.play_kougeki import PlayKougeki
+            moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
@@ -60,9 +65,9 @@ class Card():
         elif not self.is_full(delivery=delivery, hoyuusya=hoyuusya):
             popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
             return False
-        # elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
-        #     popup_message.add(text=f"「{self.name}」の適正距離から外れています")
-        #     return False
+        elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
+            popup_message.add(text=f"「{self.name}」の適正距離から外れています")
+            return False
         return True
 
     def close(self, hoyuusya: int) -> None:
@@ -85,24 +90,28 @@ class Card():
                         text, chain = text+","+str(num)+"-"+str(i-1), False
         return text[1:]
 
+    def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
+
+
 class Kougeki(Card):
     def __init__(self, img: Surface, name: str, cond: BoolDI, aura_damage: SuuziDI, life_damage: SuuziDI, maai_list: MaaiDI,
                  taiou: bool = False, zenryoku: bool = False, kirihuda: bool = False, flair: SuuziDI = int_di(0),
                  taiounize: TaiounizeDI = identity_di) -> None:
-        super().__init__(img, name, cond, CT_KOUGEKI,
+        super().__init__(img, name, cond, CT_KOUGEKI, aura_damage=aura_damage, life_damage=life_damage, maai_list=maai_list,
                          kouka=pass_di, taiou=taiou, zenryoku=zenryoku, kirihuda=kirihuda, flair=flair, taiounize=taiounize)
         self.type = CT_KOUGEKI
         self.aura_damage = aura_damage
         self.life_damage = life_damage
         self.maai_list = maai_list
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
-        super().kaiketu(delivery, hoyuusya, huda)
-        from mod.ol.play_kougeki import PlayKougeki
-        moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+    # def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None) -> None:
+    #     super().kaiketu(delivery, hoyuusya, huda)
+    #     from mod.ol.play_kougeki import PlayKougeki
+    #     moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
-    def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
+    # def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
+    #     return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
 class Damage(Card):
     _SCALE_SIZE = 180

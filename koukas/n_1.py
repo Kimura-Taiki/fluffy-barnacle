@@ -44,7 +44,7 @@ n_7 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り
 def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_ISYUKU, kazu=1)
 
-def _taiounize_n_8(kougeki: Kougeki, delivery: Delivery, hoyuusya: int) -> Kougeki:
+def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
     def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
         return max(0, kougeki.aura_damage(delivery, hoyuusya)-1)
@@ -66,7 +66,7 @@ s_2 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_2.png"), name="闇凪
 def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_DUST, kazu=2)
 
-def _taiounize_s_3(kougeki: Kougeki, delivery: Delivery, hoyuusya: int) -> Kougeki:
+def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
     def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
         return max(0, kougeki.aura_damage(delivery, hoyuusya)-2)

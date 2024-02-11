@@ -5,7 +5,7 @@ from typing import Any
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Kougeki
+from mod.card import Kougeki, Card
 from mod.taba import Taba
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -16,7 +16,7 @@ from mod.ol.taiou_taba import make_taiou_taba
 SCALE_SIZE = 180
 
 class PlayKougeki():
-    def __init__(self, kougeki: Kougeki, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
+    def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
         self.kougeki = kougeki
         self.delivery = delivery
         self.hoyuusya = hoyuusya
