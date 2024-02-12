@@ -28,6 +28,7 @@ class OthersBasicAction():
         self.source_huda = huda
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
+        self.hoyuusya = huda.hoyuusya
         self.taba: Taba
 
     def elapse(self) -> None:
@@ -52,7 +53,7 @@ class OthersBasicAction():
         ...
 
     def _mouseup(self, huda: Huda) -> None:
-        huda.koudou(self.delivery, self.delivery.turn_player)
+        huda.koudou(self.delivery, self.hoyuusya)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
 

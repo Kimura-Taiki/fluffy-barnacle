@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
@@ -59,10 +60,17 @@ class Banmen():
         to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         return min(from_utuwa.osame, to_utuwa.max-to_utuwa.osame) >= kazu
 
-    def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
-                             kazu: int=1) -> None:
-        from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
-        to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+    def send_ouka_to_ryouiki(
+            self, hoyuusya: int,
+            from_mine: bool=False, from_code: int=UC_DUST, from_huda: Any | None=None,
+            to_mine: bool=False, to_code: int=UC_DUST, to_huda: Any | None=None,
+            kazu: int=1) -> None:
+        from_utuwa = from_huda if isinstance(
+            from_huda, Youso) else self._utuwa_target(
+                hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
+        to_utuwa = to_huda if isinstance(
+            to_huda, Youso) else self._utuwa_target(
+                hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         real_shift = min(kazu, from_utuwa.osame, to_utuwa.max-to_utuwa.osame)
         from_utuwa.osame -= real_shift
         to_utuwa.osame += real_shift

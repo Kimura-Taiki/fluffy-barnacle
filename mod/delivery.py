@@ -1,6 +1,7 @@
+#                 20                  40                  60                 79
 from typing import Protocol, runtime_checkable, Any, NamedTuple
 
-from mod.const import compatible_with, HANTE
+from mod.const import compatible_with, HANTE, UC_DUST
 from mod.req.request import Request
 
 @runtime_checkable
@@ -13,7 +14,11 @@ class Delivery(Protocol):
     def can_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> bool:
         ...
 
-    def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
+    def send_ouka_to_ryouiki(
+            self, hoyuusya: int,
+            from_mine: bool=False, from_code: int=UC_DUST, from_huda: Any | None=None,
+            to_mine: bool=False, to_code: int=UC_DUST, to_huda: Any | None=None,
+            kazu: int=1) -> None:
         ...
 
     def inject_view(self) -> None:
@@ -41,8 +46,12 @@ class _DuckDelivery():
     def can_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> bool:
         return False
 
-    def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> None:
-        pass
+    def send_ouka_to_ryouiki(
+            self, hoyuusya: int,
+            from_mine: bool=False, from_code: int=UC_DUST, from_huda: Any | None=None,
+            to_mine: bool=False, to_code: int=UC_DUST, to_huda: Any | None=None,
+            kazu: int=1) -> None:
+        ...
 
     def inject_view(self) -> None:
         pass
