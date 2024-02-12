@@ -9,7 +9,7 @@ from mod.controller import controller
 from mod.popup_message import popup_message
 
 class Button(Youso):
-    def __init__(self, img_nega: Surface, img_lighten: Surface, x: int | None=None, y: int | None=None,
+    def __init__(self, img_nega: Surface, img_lighten: Surface, x: int | float | None=None, y: int | float | None=None,
                  mouseup: Callable[[Youso], None]=pass_func) -> None:
         self.img_nega = img_nega
         self.img_lighten = img_lighten

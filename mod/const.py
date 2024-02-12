@@ -50,6 +50,7 @@ FONT_SIZE_POPUP_MESSAGE = 32
 FONT_SIZE_TIMER = 32
 FONT_SIZE_AIHARASUU = 60
 FONT_SIZE_CARD_TITLE = 60
+FONT_SIZE_OSAME_NUM = 120
 
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png").convert_alpha()
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png").convert_alpha()
@@ -63,6 +64,10 @@ IMG_DECISION = pygame.image.load("pictures/decision.png").convert_alpha()
 IMG_DECISION_LIGHTEN = pygame.image.load("pictures/decision_lighten.png").convert_alpha()
 IMG_TURN_END = pygame.image.load("pictures/turn_end.png").convert_alpha()
 IMG_TURN_END_LIGHTEN = pygame.image.load("pictures/turn_end_lighten.png").convert_alpha()
+IMG_OSAME_DUST = pygame.image.load("pictures/osame_dust.png").convert_alpha()
+IMG_OSAME_DUST_LIGHTEN = pygame.image.load("pictures/osame_dust_lighten.png").convert_alpha()
+IMG_OSAME_AURA = pygame.image.load("pictures/osame_aura.png").convert_alpha()
+IMG_OSAME_AURA_LIGHTEN = pygame.image.load("pictures/osame_aura_lighten.png").convert_alpha()
 
 HUDA_SCALE = 0.6
 IMG_OSAME = pygame.image.load("pictures/osame_frame.png").convert_alpha()
