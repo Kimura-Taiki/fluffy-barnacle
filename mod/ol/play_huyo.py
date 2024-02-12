@@ -24,8 +24,12 @@ class PlayHuyo():
         self.source_huda = huda if isinstance(huda, Huda) else None
         self.name = f"付与:{card.name}の使用"
         self.inject_func = delivery.inject_view
-        self.button_dust = Button(img_nega=IMG_OSAME_DUST, img_lighten=IMG_OSAME_DUST_LIGHTEN, x=WX/2-110, y=WY/2-150)
-        self.button_aura = Button(img_nega=IMG_OSAME_AURA, img_lighten=IMG_OSAME_AURA_LIGHTEN, x=WX/2+110, y=WY/2-150)
+        self.button_dust = Button(
+            img_nega=IMG_OSAME_DUST, img_lighten=IMG_OSAME_DUST_LIGHTEN,
+            x=WX/2-110, y=WY/2-150, mouseup=self._mouseup_dust_shift)
+        self.button_aura = Button(
+            img_nega=IMG_OSAME_AURA, img_lighten=IMG_OSAME_AURA_LIGHTEN,
+            x=WX/2+110, y=WY/2-150, mouseup=self._mouseup_aura_shift)
         self.osame = card.osame(delivery, hoyuusya)
         self.dust_num = delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_DUST)
         self.aura_num = delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_AURA)
@@ -46,7 +50,6 @@ class PlayHuyo():
             button.draw()
 
     def get_hover(self) -> Any | None:
-        # return self.button if self.button.is_cursor_on() else view_youso
         return next((button for button in self.buttons if button.is_cursor_on()), view_youso)
 
     def open(self) -> None:
@@ -59,6 +62,18 @@ class PlayHuyo():
 
     def moderate(self, stat: Any) -> None:
         ...
+
+    def _mouseup_dust_shift(self, huda: Huda) -> None:
+        if self.aura_osame > 0 and self.dust_num-self.dust_osame > 0:
+            self.dust_osame += 1
+            self.aura_osame -= 1
+            self._rearrange()
+
+    def _mouseup_aura_shift(self, huda: Huda) -> None:
+        if self.dust_osame > 0 and self.aura_num-self.aura_osame > 0:
+            self.aura_osame += 1
+            self.dust_osame -= 1
+            self._rearrange()
 
 def _rearrange_button(button: Button, img_nega: Surface, img_lighten: Surface, num: int) -> None:
     button.img_nega = _img_in_number(img_base=img_nega, num=num)
