@@ -17,9 +17,9 @@ class Banmen():
     def __init__(self) -> None:
         self.own_mikoto = Mikoto(hoyuusya=SIMOTE)
         self.enemy_mikoto = Mikoto(hoyuusya=KAMITE)
-        self.maai = Utuwa(img=IMG_MAAI_AREA, hoyuusya=HANTE, num=10, x=WX-200, y=310, max=10)
-        self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, num=0, x=WX-30, y=310)
-        self.zyogai = Utuwa(img=IMG_ZYOGAI_AREA, hoyuusya=HANTE, num=50)
+        self.maai = Utuwa(img=IMG_MAAI_AREA, hoyuusya=HANTE, osame=10, x=WX-200, y=310, max=10)
+        self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, osame=0, x=WX-30, y=310)
+        self.zyogai = Utuwa(img=IMG_ZYOGAI_AREA, hoyuusya=HANTE, osame=50)
         li: list[Listener] = [self.own_mikoto, self.enemy_mikoto, self.maai, self.dust]
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
         for listener in self.listeners:
@@ -57,15 +57,15 @@ class Banmen():
                              kazu: int=1) -> bool:
         from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
         to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
-        return min(from_utuwa.num, to_utuwa.max-to_utuwa.num) >= kazu
+        return min(from_utuwa.osame, to_utuwa.max-to_utuwa.osame) >= kazu
 
     def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int,
                              kazu: int=1) -> None:
         from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
         to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
-        real_shift = min(kazu, from_utuwa.num, to_utuwa.max-to_utuwa.num)
-        from_utuwa.num -= real_shift
-        to_utuwa.num += real_shift
+        real_shift = min(kazu, from_utuwa.osame, to_utuwa.max-to_utuwa.osame)
+        from_utuwa.osame -= real_shift
+        to_utuwa.osame += real_shift
 
     def inject_main_phase(self) -> None:
         from mod.popup_message import popup_message
@@ -85,15 +85,13 @@ class Banmen():
             return self.get_hover()
         from mod.req.req_ouka import ReqOuka
         if isinstance(request, ReqOuka):
-            return self._utuwa_target(hoyuusya=request.hoyuusya, is_mine=request.is_mine, utuwa_code=request.utuwa_code).num
+            return self._utuwa_target(hoyuusya=request.hoyuusya, is_mine=request.is_mine, utuwa_code=request.utuwa_code).osame
         from mod.req.req_taba import ReqTaba
         if isinstance(request, ReqTaba):
             return None
         return None
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
-        # tpl = (hoyuusya, is_mine)
-        # mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
                            UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life, UC_SYUUTYUU: mikoto.syuutyuu,
@@ -102,8 +100,6 @@ class Banmen():
         return target
     
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Taba:
-        # tpl = (hoyuusya, is_mine)
-        # mikoto = self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         if not (target := {TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
                            TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
@@ -111,7 +107,7 @@ class Banmen():
         return target
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
-        return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).num
+        return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).osame
     
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)

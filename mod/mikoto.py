@@ -31,11 +31,11 @@ class Mikoto():
                                      Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, hoyuusya=hoyuusya),
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-210, max=2)
-        self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, num=0, x=330, y=WY-210, max=1)
-        self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, num=3, x=310, y=WY-150, max=5)
-        self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, num=0, x=310, y=WY-90)
-        self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, num=10, x=310, y=WY-30)
+        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-210, max=2)
+        self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, osame=0, x=330, y=WY-210, max=1)
+        self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, osame=3, x=310, y=WY-150, max=5)
+        self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-90)
+        self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, osame=10, x=310, y=WY-30)
         for listener in self.tenko():
             listener.hoyuusya = self.hoyuusya
 
@@ -43,7 +43,7 @@ class Mikoto():
         self.gottena.selected.core_view.elapse()
         self.gottena.elapse()
         self.syuutyuu.draw()
-        if self.isyuku.num:
+        if self.isyuku.osame:
             self.isyuku.isyuku_draw()
         self.aura.draw()
         self.flair.draw()
