@@ -10,7 +10,7 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECIS
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
-from mod.taba import Taba
+from mod.youso import Youso
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
@@ -63,13 +63,13 @@ class PlayHuyo():
     def moderate(self, stat: Any) -> None:
         ...
 
-    def _mouseup_dust_shift(self, huda: Huda) -> None:
+    def _mouseup_dust_shift(self, youso: Youso) -> None:
         if self.aura_osame > 0 and self.dust_num-self.dust_osame > 0:
             self.dust_osame += 1
             self.aura_osame -= 1
             self._rearrange()
 
-    def _mouseup_aura_shift(self, huda: Huda) -> None:
+    def _mouseup_aura_shift(self, youso: Youso) -> None:
         if self.dust_osame > 0 and self.aura_num-self.aura_osame > 0:
             self.aura_osame += 1
             self.dust_osame -= 1
