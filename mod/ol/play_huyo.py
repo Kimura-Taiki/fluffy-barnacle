@@ -36,7 +36,8 @@ class PlayHuyo():
         self.dust_osame = min(self.dust_num, self.osame)
         self.aura_osame = min(self.aura_num, self.osame-self.dust_osame)
         self._rearrange()
-        self.button_decision = Button(img_nega=IMG_DECISION, img_lighten=IMG_DECISION_LIGHTEN)
+        self.button_decision = Button(
+            img_nega=IMG_DECISION, img_lighten=IMG_DECISION_LIGHTEN, mouseup=self._mouseup_decision)
         self.buttons = [self.button_dust, self.button_aura, self.button_decision]
 
     def _rearrange(self) -> None:
@@ -74,6 +75,10 @@ class PlayHuyo():
             self.aura_osame += 1
             self.dust_osame -= 1
             self._rearrange()
+
+    def _mouseup_decision(self, youso: Youso) -> None:
+        popup_message.add("hohohoo-i")
+        ...
 
 def _rearrange_button(button: Button, img_nega: Surface, img_lighten: Surface, num: int) -> None:
     button.img_nega = _img_in_number(img_base=img_nega, num=num)

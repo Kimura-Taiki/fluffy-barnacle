@@ -29,4 +29,4 @@ class Button(Youso):
 
     def _mousedown(self) -> None:
         controller.active = self
-        popup_message.add(text="ボタンを押したよ")
+        # popup_message.add(text="ボタンを押したよ")
