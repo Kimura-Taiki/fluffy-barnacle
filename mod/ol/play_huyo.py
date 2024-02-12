@@ -6,7 +6,7 @@ from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
-    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA
+    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -19,6 +19,9 @@ from mod.ol.button import Button
 class PlayHuyo():
     def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
         self.card = card
+        if not isinstance(huda, Huda):
+            raise ValueError(f"Invalid huda: {huda}")
+        self.huda = huda
         self.delivery = delivery
         self.hoyuusya = hoyuusya
         self.source_huda = huda if isinstance(huda, Huda) else None
@@ -77,8 +80,13 @@ class PlayHuyo():
             self._rearrange()
 
     def _mouseup_decision(self, youso: Youso) -> None:
-        popup_message.add("hohohoo-i")
-        ...
+        self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya,
+            from_mine=False, from_code=UC_DUST, to_huda=self.huda, kazu=self.dust_osame)
+        self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya,
+            from_mine=True, from_code=UC_AURA, to_huda=self.huda, kazu=self.aura_osame)
+        self.huda.usage = USAGE_DEPLOYED
+        self.huda.discard()
+        moderator.pop()
 
 def _rearrange_button(button: Button, img_nega: Surface, img_lighten: Surface, num: int) -> None:
     button.img_nega = _img_in_number(img_base=img_nega, num=num)
