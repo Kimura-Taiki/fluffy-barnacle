@@ -12,6 +12,8 @@ class Youso():
         self.x = x
         self.y = y
         self.delivery: Delivery = duck_delivery
+        self.osame = 0
+        self.max = 99
         self.hoyuusya: int = HANTE
         self.draw: Callable[..., None]
         self.hover: Callable[..., None]
