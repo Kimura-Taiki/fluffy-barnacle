@@ -2,7 +2,7 @@
 from typing import Any, Callable
 
 from mod.const import compatible_with, pass_func, PH_NONE, PH_START, PH_MAIN, PH_END, opponent, side_name,\
-    POP_START_PHASE_FINISHED, POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED
+    POP_START_PHASE_FINISHED, POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED, SIMOTE
 
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -31,20 +31,41 @@ class TurnProgression():
         moderator.append(MainPhase(inject_func=self.main_inject))
         self.turn = 1
         self.phase = PH_MAIN
+        self.delivery.turn_player = SIMOTE
+        print(f"ターンプレイヤーを{side_name(self.delivery.turn_player)}にしたよ")
         self.reset_name()
 
     def close(self) -> PopStat:
         return PopStat()
 
     def moderate(self, stat: PopStat) -> None:
-        if stat.code == POP_MAIN_PHASE_FINISHED:
-            self.turn += 1
-            self.delivery.turn_player = opponent(self.delivery.turn_player)
-            self.reset_name()
-            moderator.append(StartPhase(inject_func=self.inject_func))
-        elif stat.code == POP_START_PHASE_FINISHED:
-            self.reset_name()
-            moderator.append(MainPhase(inject_func=self.main_inject))
+        if (func := {POP_MAIN_PHASE_FINISHED: self._finished_main_phase,
+                     POP_START_PHASE_FINISHED: self._finished_start_phase}.get(stat.code, None)):
+        # if (func := {POP_MAIN_PHASE_FINISHED: self._finished_main_phase, POP_START_PHASE_FINISHED: self._finished_start_phase
+        #         }.get(stat.code, None)) is not None:
+            func()
+        else:
+            raise ValueError(f"Invalid stat.code: {stat}")
+        # if stat.code == POP_MAIN_PHASE_FINISHED:
+        #     self.turn += 1
+        #     self.delivery.turn_player = opponent(self.delivery.turn_player)
+        #     self.reset_name()
+        #     moderator.append(StartPhase(inject_func=self.inject_func))
+        #     popup_message.add("MPF")
+        # elif stat.code == POP_START_PHASE_FINISHED:
+        #     self.reset_name()
+        #     moderator.append(MainPhase(inject_func=self.main_inject))
+        #     popup_message.add("SPF")
+
+    def _finished_main_phase(self) -> None:
+        self.turn += 1
+        self.delivery.turn_player = opponent(self.delivery.turn_player)
+        self.reset_name()
+        moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
+
+    def _finished_start_phase(self) -> None:
+        self.reset_name()
+        moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
 
     def reset_name(self) -> None:
         self.name = f"{self.turn}ターン目 {side_name(self.delivery.turn_player)}"

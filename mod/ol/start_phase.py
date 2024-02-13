@@ -1,6 +1,6 @@
 from typing import Callable, Any
 
-from mod.const import pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_START_PHASE_FINISHED
+from mod.const import pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_START_PHASE_FINISHED, UC_ZYOGAI, UC_SYUUTYUU, side_name
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.ol.button import Button
@@ -13,17 +13,24 @@ class StartPhase():
         self.name = "開始フェイズ"
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
+        self.hoyuusya = delivery.turn_player
         self.button = Button(img_nega=IMG_TURN_END, img_lighten=IMG_TURN_END_LIGHTEN, mouseup=self._mouseup_turn_end)
 
     def elapse(self) -> None:
         ...
 
-    def get_hover(self) -> Any | None:
+    def get_hover(self) -> Youso | None:
         return None
 
     def open(self) -> None:
-        popup_message.add("StartPhase.openへ到着したよ")
-        ...
+        popup_message.add(f"{side_name(self.hoyuusya)}のターンです")
+        self.delivery.send_ouka_to_ryouiki(
+            hoyuusya=self.hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU)
+        popup_message.add("集中力を１得ます")
+        for _ in range(2):
+            self.delivery.hand_draw(hoyuusya=self.hoyuusya, is_mine=True)
+        popup_message.add("カードを２枚引きます")
+        moderator.pop()
 
     def close(self) -> PopStat:
         return PopStat(POP_START_PHASE_FINISHED)
