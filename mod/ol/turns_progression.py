@@ -1,10 +1,13 @@
 #                 20                  40                  60                 79
 from typing import Any, Callable
 
-from mod.const import compatible_with, pass_func, PH_NONE, PH_MAIN, opponent, side_name
+from mod.const import compatible_with, pass_func, PH_NONE, PH_START, PH_MAIN, PH_END, opponent, side_name,\
+    POP_START_PHASE_FINISHED, POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED
+
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery, duck_delivery
+from mod.ol.start_phase import StartPhase
 from mod.ol.main_phase import MainPhase
 from mod.ol.over_layer import OverLayer
 from mod.ol.pop_stat import PopStat
@@ -34,12 +37,15 @@ class TurnProgression():
         return PopStat()
 
     def moderate(self, stat: PopStat) -> None:
-        if self.phase == PH_MAIN:
+        if stat.code == POP_MAIN_PHASE_FINISHED:
             self.turn += 1
             self.delivery.turn_player = opponent(self.delivery.turn_player)
             self.reset_name()
+            moderator.append(StartPhase(inject_func=self.inject_func))
+        elif stat.code == POP_START_PHASE_FINISHED:
+            self.reset_name()
             moderator.append(MainPhase(inject_func=self.main_inject))
-        
+
     def reset_name(self) -> None:
         self.name = f"{self.turn}ターン目 {side_name(self.delivery.turn_player)}"
 

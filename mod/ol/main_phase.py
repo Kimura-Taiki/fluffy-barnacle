@@ -2,7 +2,7 @@ import pygame
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import compatible_with, pass_func, screen, WX, WY, IMG_TURN_END, IMG_TURN_END_LIGHTEN
+from mod.const import compatible_with, pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_MAIN_PHASE_FINISHED
 from mod.ol.over_layer import OverLayer
 from mod.youso import Youso
 from mod.popup_message import popup_message
@@ -30,7 +30,7 @@ class MainPhase():
 
     def close(self) -> PopStat:
         popup_message.add(text="ターンを終了します")
-        return PopStat()
+        return PopStat(POP_MAIN_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
         ...
