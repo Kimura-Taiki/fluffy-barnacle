@@ -12,6 +12,7 @@ from mod.huda import Huda
 from mod.controller import controller
 from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
 from mod.ol.undo_mouse import make_undo_youso
+from mod.ol.pop_stat import PopStat
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
@@ -46,10 +47,10 @@ class OthersBasicAction():
         for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
             self.taba[i].koudou = v
 
-    def close(self) -> int:
-        return 0
+    def close(self) -> PopStat:
+        return PopStat()
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...
 
     def _mouseup(self, huda: Huda) -> None:

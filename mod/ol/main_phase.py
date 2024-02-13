@@ -10,6 +10,7 @@ from mod.delivery import Delivery, duck_delivery
 from mod.controller import controller
 from mod.moderator import moderator
 from mod.ol.button import Button
+from mod.ol.pop_stat import PopStat
 
 class MainPhase():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -27,11 +28,11 @@ class MainPhase():
     def open(self) -> None:
         ...
 
-    def close(self) -> int:
+    def close(self) -> PopStat:
         popup_message.add(text="ターンを終了します")
-        return 0
+        return PopStat()
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...
 
     def _mouseup_turn_end(self, youso: Youso) -> None:

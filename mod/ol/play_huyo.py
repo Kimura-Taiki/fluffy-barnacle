@@ -15,6 +15,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.button import Button
+from mod.ol.pop_stat import PopStat
 
 class PlayHuyo():
     def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
@@ -59,12 +60,12 @@ class PlayHuyo():
     def open(self) -> None:
         ...
 
-    def close(self) -> int:
+    def close(self) -> PopStat:
         popup_message.add("解決した！？")
         self.card.close(hoyuusya=self.hoyuusya)
-        return 0
+        return PopStat()
 
-    def moderate(self, stat: Any) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...
 
     def _mouseup_dust_shift(self, youso: Youso) -> None:

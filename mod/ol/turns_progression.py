@@ -7,6 +7,7 @@ from mod.moderator import moderator
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.main_phase import MainPhase
 from mod.ol.over_layer import OverLayer
+from mod.ol.pop_stat import PopStat
 
 class TurnProgression():
     def __init__(self, delivery: Delivery, main_inject: Callable[[], None]) -> None:
@@ -29,10 +30,10 @@ class TurnProgression():
         self.phase = PH_MAIN
         self.reset_name()
 
-    def close(self) -> Any:
-        ...
+    def close(self) -> PopStat:
+        return PopStat()
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         if self.phase == PH_MAIN:
             self.turn += 1
             self.delivery.turn_player = opponent(self.delivery.turn_player)

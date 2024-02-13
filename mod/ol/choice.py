@@ -10,6 +10,7 @@ from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
+from mod.ol.pop_stat import PopStat
 
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
@@ -38,10 +39,10 @@ class Choice():
     def open(self) -> None:
         ...
 
-    def close(self) -> int:
-        return 0
+    def close(self) -> PopStat:
+        return PopStat()
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...
 
     def _mousedown(self, huda: Huda) -> None:

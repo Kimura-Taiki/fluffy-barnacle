@@ -11,6 +11,7 @@ from mod.controller import controller
 from mod.moderator import moderator
 from mod.youso import Youso
 from mod.req.req_get_hover import ReqGetHover
+from mod.ol.pop_stat import PopStat
 
 _undo_youso = make_undo_youso(text="PlayKougeki")
 
@@ -29,10 +30,10 @@ class ViewBanmen():
     def open(self) -> None:
         ...
 
-    def close(self) -> int:
-        return 0
+    def close(self) -> PopStat:
+        return PopStat()
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...
 
 compatible_with(ViewBanmen(delivery=duck_delivery), OverLayer)

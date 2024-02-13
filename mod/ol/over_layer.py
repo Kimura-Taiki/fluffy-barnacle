@@ -2,6 +2,7 @@ from typing import Callable, Protocol, Any, runtime_checkable
 
 from mod.const import pass_func
 from mod.delivery import Delivery, duck_delivery
+from mod.ol.pop_stat import PopStat
 
 @runtime_checkable
 class OverLayer(Protocol):
@@ -18,8 +19,8 @@ class OverLayer(Protocol):
     def open(self) -> None:
         ...
 
-    def close(self) -> Any:
+    def close(self) -> PopStat:
         ...
 
-    def moderate(self, stat: int) -> None:
+    def moderate(self, stat: PopStat) -> None:
         ...

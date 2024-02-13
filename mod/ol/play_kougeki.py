@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 from typing import Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -12,6 +12,7 @@ from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.uke_taba import make_uke_taba
 from mod.ol.taiou_taba import make_taiou_taba
+from mod.ol.pop_stat import PopStat
 
 SCALE_SIZE = 180
 
@@ -41,14 +42,16 @@ class PlayKougeki():
                                       delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.taiou_taba = make_taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
 
-    def close(self) -> int:
+    def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
-        return 0
+        return PopStat()
 
-    def moderate(self, stat: Any) -> None:
-        if not isinstance(stat, tuple) or not isinstance(stat[1], Huda):
+    def moderate(self, stat: PopStat) -> None:
+        if stat.code != POP_TAIOUED:
             return
-        self.taiou_huda = stat[1]
+        if not isinstance(stat.huda, Huda):
+            raise ValueError(f"Invalid stat: {stat}")
+        self.taiou_huda = stat.huda
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
