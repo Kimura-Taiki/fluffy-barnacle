@@ -3,15 +3,17 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable, Protocol, Any, runtime_checkable
 from copy import copy
+from itertools import product
 
-from mod.const import HUDA_SCALE, pass_func, WX, WY, UC_DUST, TC_TEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, screen,\
-    IMG_GRAY_LAYER
+from mod.const import HUDA_SCALE, pass_func, WX, WY, UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, screen,\
+    IMG_GRAY_LAYER, POP_HUYO_ELAPSED
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 from mod.taba import Taba
 from mod.ol.view_banmen import view_youso
+from mod.moderator import moderator
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
@@ -41,9 +43,6 @@ class _NeoTabaFactory(TabaFactory):
         return taba
 
 class RemoveOsame():
-    name: str = "------"
-    inject_func: Callable[[], None] = pass_func
-    delivery: Delivery = duck_delivery
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:
         self.delivery = delivery
         self.hoyuusya = hoyuusya
@@ -59,10 +58,11 @@ class RemoveOsame():
         return self.huyo_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        ...
+        if not self.huyo_taba:
+            moderator.pop()
 
     def close(self) -> PopStat:
-        return PopStat()
+        return PopStat(POP_HUYO_ELAPSED)
 
     def moderate(self, stat: PopStat) -> None:
         ...
@@ -72,14 +72,17 @@ def _huyo_taba(delivery: Delivery, hoyuusya: int) -> Taba:
     for proxy_huda in proxy_taba:
         if not isinstance(proxy_huda, _ProxyHuda):
             raise ValueError(f"Invalid huda: {proxy_huda}")
-        proxy_huda
+        print(proxy_huda)
+    return proxy_taba
 
 def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    if not isinstance(tehuda := delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba):
-        raise ValueError(f"Invalid tehuda: {tehuda}")
-    if not isinstance(kirihuda := delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_KIRIHUDA), Taba):
-        raise ValueError(f"Invalid kirihuda: {kirihuda}")
-    return [huda for huda in tehuda+kirihuda if huda.usage == USAGE_DEPLOYED]
+    return [
+        huda
+        for is_mine, taba_code in product([False, True], [TC_SUTEHUDA, TC_KIRIHUDA])
+        if isinstance(taba := delivery.taba_target(hoyuusya=hoyuusya, is_mine=is_mine, taba_code=taba_code), Taba)
+        for huda in taba
+        if huda.usage == USAGE_DEPLOYED
+    ]
 
 def _huyo_factory() -> _NeoTabaFactory:
     return _NeoTabaFactory(inject_kwargs={
