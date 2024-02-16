@@ -3,12 +3,12 @@ from typing import Callable
 from functools import partial
 from itertools import product
 
-from mod.const import WX, WY, UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, POP_HAKI_DID
+from mod.const import WX, WY, UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, POP_HAKIZI_DID
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 from mod.taba import Taba
-from mod.ol.haki import Haki
+from mod.ol.hakizi import Hakizi
 from mod.moderator import moderator
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
@@ -69,6 +69,6 @@ def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
     huda.withdraw()
     if base.osame == 0:
         base.usage = USAGE_USED
-        moderator.append(Haki(huda=base))
+        moderator.append(Hakizi(huda=base))
         return
     pop_func()

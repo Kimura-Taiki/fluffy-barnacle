@@ -1,14 +1,14 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import pass_func, POP_HAKI_DID
+from mod.const import pass_func, POP_HAKIZI_DID
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.huda import Huda
 from mod.moderator import moderator
 from mod.popup_message import popup_message
 
-class Haki():
+class Hakizi():
     def __init__(self, huda: Huda) -> None:
         self.huda = huda
         self.delivery = huda.delivery
@@ -27,7 +27,7 @@ class Haki():
         moderator.pop()
 
     def close(self) -> PopStat:
-        return PopStat(POP_HAKI_DID)
+        return PopStat(POP_HAKIZI_DID)
 
     def moderate(self, stat: PopStat) -> None:
         ...
