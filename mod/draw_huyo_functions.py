@@ -7,9 +7,6 @@ from mod.const import IMG_OSAME, draw_aiharasuu, USAGE_DEPLOYED
 from mod.huda import Huda
 
 def draw_huyo(huda: Huda) -> None:
-    if huda.usage == huda.pre_usage and huda.osame == huda.pre_osame:
-        return
-    huda.pre_usage, huda.pre_osame = huda.usage, huda.osame
     if huda.usage != USAGE_DEPLOYED:
         huda.rearrange(angle=huda.angle, x=huda.x, y=huda.y)
         return

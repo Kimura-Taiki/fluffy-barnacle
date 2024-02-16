@@ -2,7 +2,7 @@ import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
 from math import sin, cos, radians
-from typing import Callable
+from typing import Callable, NamedTuple
 
 from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA, HUDA_SCALE
 from mod.youso import Youso
@@ -12,6 +12,10 @@ from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
 
+class _DrawParams(NamedTuple):
+    usage: int = -1
+    osame: int = -1
+
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
                  **kwargs: Callable[..., None]) -> None:
@@ -19,9 +23,8 @@ class Huda(Youso):
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
         self.usage = USAGE_UNUSED
-        self.pre_usage = self.usage
         self.osame = 0
-        self.pre_osame = 0
+        self.draw_params = _DrawParams()
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
@@ -49,12 +52,17 @@ class Huda(Youso):
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         return None
+    
+    def redraw(self) -> None:
+        self.draw_params = _DrawParams()
 
     def detail_draw(self) -> None:
         screen.blit(source=self.img_nega, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-        self._draw_huyo()
+        if self.draw_params != self._draw_params():
+            self.draw_params = self._draw_params()
+            self._draw_huyo()
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:
@@ -91,6 +99,9 @@ class Huda(Youso):
     def _draw_huyo(self) -> None:
         from mod.draw_huyo_functions import draw_huyo
         draw_huyo(self)
+
+    def _draw_params(self) -> _DrawParams:
+        return _DrawParams(usage=self.usage, osame=self.osame)
 
     @property
     def img_rz_topleft(self) -> Vector2:

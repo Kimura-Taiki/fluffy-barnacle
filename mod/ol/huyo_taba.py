@@ -40,7 +40,7 @@ def huyo_taba(delivery: Delivery, hoyuusya: int, pop_func: Callable[[], None]) -
     for proxy_huda in proxy_taba:
         if not isinstance(proxy_huda, _ProxyHuda):
             raise ValueError(f"Invalid huda: {proxy_huda}")
-        proxy_huda.pre_osame = -1
+        proxy_huda.redraw()
     return proxy_taba
 
 def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
