@@ -56,7 +56,7 @@ class Card():
                 huda.discard()
             self.close(hoyuusya=hoyuusya)
         elif self.type == CT_KOUGEKI:
-            from mod.ol.play_kougeki import PlayKougeki
+            from mod.ol.play_kougeki.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
         elif self.type == CT_HUYO:
             from mod.ol.play_huyo import PlayHuyo

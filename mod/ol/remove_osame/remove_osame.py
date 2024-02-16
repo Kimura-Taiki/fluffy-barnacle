@@ -7,7 +7,7 @@ from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 from mod.ol.view_banmen import view_youso
 from mod.moderator import moderator
-from mod.ol.huyo_taba import huyo_taba
+from mod.ol.remove_osame.huyo_taba import huyo_taba
 
 class RemoveOsame():
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:

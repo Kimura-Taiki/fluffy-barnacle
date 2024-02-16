@@ -12,7 +12,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
 from mod.kihondousa import can_zensin, zensin, can_yadosi, yadosi
-from mod.ol.play_kougeki import PlayKougeki
+from mod.ol.play_kougeki.play_kougeki import PlayKougeki
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i

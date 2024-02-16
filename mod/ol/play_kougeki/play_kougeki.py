@@ -10,8 +10,8 @@ from mod.taba import Taba
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
-from mod.ol.uke_taba import make_uke_taba
-from mod.ol.taiou_taba import make_taiou_taba
+from mod.ol.play_kougeki.uke_taba import make_uke_taba
+from mod.ol.play_kougeki.taiou_taba import make_taiou_taba
 from mod.ol.pop_stat import PopStat
 
 SCALE_SIZE = 180

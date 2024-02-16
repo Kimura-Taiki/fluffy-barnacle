@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 from typing import Callable, Any
 
 from mod.const import pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_START_PHASE_FINISHED, UC_ZYOGAI, UC_SYUUTYUU, side_name,\
@@ -5,7 +6,7 @@ from mod.const import pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_START_P
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.ol.button import Button
-from mod.ol.remove_osame import RemoveOsame
+from mod.ol.remove_osame.remove_osame import RemoveOsame
 from mod.moderator import moderator
 from mod.youso import Youso
 from mod.popup_message import popup_message

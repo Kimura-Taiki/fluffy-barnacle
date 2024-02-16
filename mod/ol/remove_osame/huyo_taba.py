@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 from typing import Callable
 from functools import partial
 from itertools import product
