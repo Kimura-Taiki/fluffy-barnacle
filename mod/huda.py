@@ -4,8 +4,7 @@ from pygame.math import Vector2
 from math import sin, cos, radians
 from typing import Callable
 
-from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, IMG_OSAME, TC_SUTEHUDA,\
-    HUDA_SCALE, draw_aiharasuu
+from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA, HUDA_SCALE
 from mod.youso import Youso
 from mod.delivery import Delivery
 from mod.kihondousa import pass_koudou
@@ -90,22 +89,8 @@ class Huda(Youso):
             self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
 
     def _draw_huyo(self) -> None:
-        from pygame.surface import Surface
-        from pygame.locals import SRCALPHA
-        from pygame.math import Vector2
-        import pygame
-        from mod.const import IMG_OSAME, draw_aiharasuu
-        if self.usage == self.pre_usage and self.osame == self.pre_osame:
-            return
-        self.pre_usage, self.pre_osame = self.usage, self.osame
-        if self.usage != USAGE_DEPLOYED:
-            self.rearrange(angle=self.angle, x=self.x, y=self.y)
-            return
-        img_osame = Surface(self.img_nega.get_size(), flags=SRCALPHA)
-        img_osame.blit(source=IMG_OSAME, dest=[0, 0])
-        draw_aiharasuu(surface=img_osame, dest=Vector2(5, 0), num=self.osame)
-        img_rz_osame = pygame.transform.rotozoom(surface=img_osame, angle=self.angle, scale=self.scale)
-        self.img_rz.blit(source=img_rz_osame, dest=[0, 0])
+        from mod.draw_huyo_functions import draw_huyo
+        draw_huyo(self)
 
     @property
     def img_rz_topleft(self) -> Vector2:
