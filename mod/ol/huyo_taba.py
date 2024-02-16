@@ -40,7 +40,7 @@ def huyo_taba(delivery: Delivery, hoyuusya: int, pop_func: Callable[[], None]) -
     for proxy_huda in proxy_taba:
         if not isinstance(proxy_huda, _ProxyHuda):
             raise ValueError(f"Invalid huda: {proxy_huda}")
-        print(proxy_huda)
+        proxy_huda.pre_osame = -1
     return proxy_taba
 
 def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
@@ -63,9 +63,7 @@ def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
         raise ValueError(f"Invalid huda: {huda}")
     base = huda.base
     base.delivery.send_ouka_to_ryouiki(hoyuusya=base.hoyuusya, from_huda=base, to_mine=False, to_code=UC_DUST)
-    print("減数")
     if base.osame == 0:
         base.usage = USAGE_USED
-        print("ゼロになった")
     huda.withdraw()
     pop_func()

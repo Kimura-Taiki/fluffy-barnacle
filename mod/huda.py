@@ -20,8 +20,9 @@ class Huda(Youso):
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
         self.usage = USAGE_UNUSED
+        self.pre_usage = self.usage
         self.osame = 0
-        self._pre_osame = 0
+        self.pre_osame = 0
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
@@ -39,14 +40,9 @@ class Huda(Youso):
             if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
                 inside = not inside
         return inside
-    
+
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
         img_intermediate = self.img_nega.copy()
-        # from mod.const import MS_MINCHO_COL, side_name
-        # img_intermediate.blit(source=MS_MINCHO_COL(side_name(self.hoyuusya), 64, (0, 0, 0)), dest=(0, 200))
-        if self.usage == USAGE_DEPLOYED:
-            img_intermediate.blit(source=IMG_OSAME, dest=[0, 0])
-            draw_aiharasuu(surface=img_intermediate, dest=Vector2(5, 0), num=self.osame)
         self.img_rz = pygame.transform.rotozoom(surface=img_intermediate, angle=angle, scale=scale)
         self.angle = angle
         self.scale = scale
@@ -59,8 +55,7 @@ class Huda(Youso):
         screen.blit(source=self.img_nega, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-        if self.osame != self._pre_osame:
-            self.rearrange(x=self.x, y=self.y, angle=self.angle)
+        self._draw_huyo()
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:
@@ -93,6 +88,24 @@ class Huda(Youso):
             self.usage = USAGE_USED
         else:
             self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
+
+    def _draw_huyo(self) -> None:
+        from pygame.surface import Surface
+        from pygame.locals import SRCALPHA
+        from pygame.math import Vector2
+        import pygame
+        from mod.const import IMG_OSAME, draw_aiharasuu
+        if self.usage == self.pre_usage and self.osame == self.pre_osame:
+            return
+        self.pre_usage, self.pre_osame = self.usage, self.osame
+        if self.usage != USAGE_DEPLOYED:
+            self.rearrange(angle=self.angle, x=self.x, y=self.y)
+            return
+        img_osame = Surface(self.img_nega.get_size(), flags=SRCALPHA)
+        img_osame.blit(source=IMG_OSAME, dest=[0, 0])
+        draw_aiharasuu(surface=img_osame, dest=Vector2(5, 0), num=self.osame)
+        img_rz_osame = pygame.transform.rotozoom(surface=img_osame, angle=self.angle, scale=self.scale)
+        self.img_rz.blit(source=img_rz_osame, dest=[0, 0])
 
     @property
     def img_rz_topleft(self) -> Vector2:
