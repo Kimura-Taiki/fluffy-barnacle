@@ -42,6 +42,8 @@ class Huda(Youso):
     
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
         img_intermediate = self.img_nega.copy()
+        # from mod.const import MS_MINCHO_COL, side_name
+        # img_intermediate.blit(source=MS_MINCHO_COL(side_name(self.hoyuusya), 64, (0, 0, 0)), dest=(0, 200))
         if self.usage == USAGE_DEPLOYED:
             img_intermediate.blit(source=IMG_OSAME, dest=[0, 0])
             draw_aiharasuu(surface=img_intermediate, dest=Vector2(5, 0), num=self.osame)
@@ -58,7 +60,7 @@ class Huda(Youso):
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
         if self.osame != self._pre_osame:
-            self.rearrange(x=self.x, y=self.y)
+            self.rearrange(x=self.x, y=self.y, angle=self.angle)
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:

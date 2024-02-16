@@ -61,7 +61,6 @@ class PlayHuyo():
         ...
 
     def close(self) -> PopStat:
-        popup_message.add("解決した！？")
         self.card.close(hoyuusya=self.hoyuusya)
         return PopStat()
 
@@ -85,8 +84,15 @@ class PlayHuyo():
             from_mine=False, from_code=UC_DUST, to_huda=self.huda, kazu=self.dust_osame)
         self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya,
             from_mine=True, from_code=UC_AURA, to_huda=self.huda, kazu=self.aura_osame)
+        moderator.pop()
+        # return
         self.huda.usage = USAGE_DEPLOYED
         self.huda.discard()
+        h = self.huda
+        print(type(h.draw))
+        print("元関数:", h.draw.func)
+        print("固定引数:", h.draw.args)
+        # self.huda.rearrange()
         moderator.pop()
 
 def _rearrange_button(button: Button, img_nega: Surface, img_lighten: Surface, num: int) -> None:

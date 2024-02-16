@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from typing import Callable, Any
 from functools import partial
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
+from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
     , CT_KOUDOU, UC_DUST, USAGE_DEPLOYED
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
@@ -51,7 +51,6 @@ class Card():
                                           kazu=self.flair(delivery, hoyuusya))
         if self.type == CT_KOUDOU:
             self.kouka(delivery, hoyuusya)
-            # from mod.huda import Huda
             from mod.huda import Huda
             if isinstance(huda, Huda):
                 huda.discard()
@@ -59,8 +58,7 @@ class Card():
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
-        else:
-            popup_message.add("付与用のOverLayerを開くよ")
+        elif self.type == CT_HUYO:
             from mod.ol.play_huyo import PlayHuyo
             moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
