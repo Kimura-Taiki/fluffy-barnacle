@@ -7,6 +7,7 @@ from mod.tf.taba_factory import TabaFactory
 from mod.moderator import moderator
 from mod.ol.play_taiou import PlayTaiou
 from mod.delivery import Delivery
+from mod.popup_message import popup_message
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i

@@ -63,17 +63,21 @@ class Card():
             moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
+        return not self.kirihuda or delivery.ouka_count(
+            hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
 
-    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
+    def can_play(self, delivery: Delivery, hoyuusya: int, popup: bool=False) -> bool:
         if not self.cond(delivery, hoyuusya):
-            popup_message.add(text=f"「{self.name}」の使用条件を満たしていません")
+            if popup:
+                popup_message.add(text=f"「{self.name}」の使用条件を満たしていません")
             return False
         elif not self.is_full(delivery=delivery, hoyuusya=hoyuusya):
-            popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
+            if popup:
+                popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
             return False
         elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
-            popup_message.add(text=f"「{self.name}」の適正距離から外れています")
+            if popup:
+                popup_message.add(text=f"「{self.name}」の適正距離から外れています")
             return False
         return True
 

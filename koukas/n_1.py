@@ -1,5 +1,6 @@
 import pygame
 from copy import copy
+from functools import partial
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO
 from mod.card import Card, auto_di, int_di, dima_di
@@ -57,8 +58,12 @@ n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い
 def EOF(delivery: Delivery, hoyuusya: int) -> None:
     raise EOFError("よしっ！")
 
+# def _hakizi_n_9(delivery: Delivery, hoyuusya: int) -> None:
+_atk_n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
+                aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(2, 3))
+
 n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠", cond=auto_di, type=CT_HUYO,
-           osame=int_di(2), suki=auto_di, hakizi=EOF)
+           osame=int_di(2), suki=auto_di, hakizi=partial(_atk_n_9.kaiketu, huda=None))
 
 s_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))

@@ -51,7 +51,7 @@ def _mouseup(huda: Huda) -> None:
     {3: _use_card, 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda=huda)
 
 def _use_card(huda: Huda) -> None:
-    if not huda.can_play():
+    if not huda.can_play(popup=True):
         return
     popup_message.add(text=f"手札から「{huda.card.name}」を使います")
     huda.play()

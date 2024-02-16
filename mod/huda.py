@@ -84,11 +84,11 @@ class Huda(Youso):
     def play(self) -> None:
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
-    def can_play(self) -> bool:
+    def can_play(self, popup: bool=False) -> bool:
         if self.usage == USAGE_USED:
             popup_message.add(text=f"「{self.card.name}」は使用済みです")
             return False
-        return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)
+        return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
     def discard(self) -> None:
         if self.card.kirihuda:
