@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any, runtime_checkable
 
-from mod.const import pass_func, screen, IMG_GRAY_LAYER, POP_HUYO_ELAPSED
+from mod.const import pass_func, screen, IMG_GRAY_LAYER, POP_HUYO_ELAPSED, POP_HAKI_DID
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
@@ -32,7 +32,9 @@ class RemoveOsame():
         return PopStat(POP_HUYO_ELAPSED)
 
     def moderate(self, stat: PopStat) -> None:
-        ...
+        if stat.code == POP_HAKI_DID:
+            if not self.huyo_taba:
+                moderator.pop()
 
     def _pop(self) -> None:
         if not self.huyo_taba:

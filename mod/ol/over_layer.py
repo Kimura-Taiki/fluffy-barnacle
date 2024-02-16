@@ -1,4 +1,5 @@
-from typing import Callable, Protocol, Any, runtime_checkable
+#                 20                  40                  60                 79
+from typing import Callable, Any, runtime_checkable, Protocol
 
 from mod.const import pass_func
 from mod.delivery import Delivery, duck_delivery

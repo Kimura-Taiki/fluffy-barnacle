@@ -3,11 +3,13 @@ from typing import Callable
 from functools import partial
 from itertools import product
 
-from mod.const import WX, WY, UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED
+from mod.const import WX, WY, UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, POP_HAKI_DID
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 from mod.taba import Taba
+from mod.ol.haki import Haki
+from mod.moderator import moderator
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
@@ -64,7 +66,9 @@ def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
         raise ValueError(f"Invalid huda: {huda}")
     base = huda.base
     base.delivery.send_ouka_to_ryouiki(hoyuusya=base.hoyuusya, from_huda=base, to_mine=False, to_code=UC_DUST)
+    huda.withdraw()
     if base.osame == 0:
         base.usage = USAGE_USED
-    huda.withdraw()
+        moderator.append(Haki(huda=base))
+        return
     pop_func()
