@@ -125,5 +125,5 @@ class Damage(Card):
         return delivery.can_ouka_to_ryouiki(
             hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code, to_mine=False, to_code=self.to_code, kazu=self.dmg)
 
-    def can_play(self, delivery: Delivery, hoyuusya: int) -> bool:
+    def can_play(self, delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool:
         return True

@@ -11,7 +11,7 @@ HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY-150
 
-class _ProxyHuda(Huda):
+class ProxyHuda(Huda):
     def __init__(self, base: Huda) -> None:
         base_attributes = vars(base)
         for key, value in base_attributes.items():
@@ -30,6 +30,6 @@ class ProxyTabaFactory(TabaFactory):
         taba.view_inject_kwargs = self.view_inject_kwargs
         taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
         for huda in hudas:
-            proxy_huda = _ProxyHuda(base=huda)
+            proxy_huda = ProxyHuda(base=huda)
             taba.append(proxy_huda)
         return taba
