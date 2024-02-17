@@ -9,13 +9,17 @@ from mod.taba import Taba
 from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
-from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
+# from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
+from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.pop_stat import PopStat
 from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.card import Card
 
-_card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
-    "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
+# _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
+#     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
+
+_cards: list[Card] = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
 
 _undo_youso = make_undo_youso(text="OthersBasicAction")
 
@@ -36,10 +40,11 @@ class OthersBasicAction():
         return self.taba.get_hover_huda() or _undo_youso
 
     def open(self) -> None:
-        bac = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
-        self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
-        for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
-            self.taba[i].koudou = v
+        factory = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
+        # self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
+        # for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
+        #     self.taba[i].koudou = v
+        self.taba = factory.maid_by_cards(cards=_cards, hoyuusya=self.delivery.turn_player)
 
     def close(self) -> PopStat:
         return PopStat()
@@ -48,7 +53,8 @@ class OthersBasicAction():
         ...
 
     def _mouseup(self, huda: Huda) -> None:
-        huda.koudou(self.delivery, self.hoyuusya)
+        # huda.koudou(self.delivery, self.hoyuusya)
+        huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
 
