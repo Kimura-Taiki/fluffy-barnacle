@@ -24,10 +24,12 @@ class Hakizi():
 
     def open(self) -> None:
         self.huda.card.hakizi(self.delivery, self.hoyuusya)
-        moderator.pop()
+        if moderator.last_layer() == self:
+            moderator.pop()
 
     def close(self) -> PopStat:
         return PopStat(POP_HAKIZI_DID)
 
     def moderate(self, stat: PopStat) -> None:
+        moderator.pop()
         ...

@@ -44,4 +44,7 @@ class Moderator():
             img_nega.blit(source=mozi, dest=[0, i*(FONT_SIZE_STACK_LOG+4)])
         screen.blit(source=img_nega, dest=[0, 0])
 
+    def last_layer(self) -> OverLayer:
+        return self.stack[-1]
+
 moderator = Moderator()

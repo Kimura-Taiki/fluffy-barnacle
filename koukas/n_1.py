@@ -55,10 +55,6 @@ def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
 
-def EOF(delivery: Delivery, hoyuusya: int) -> None:
-    raise EOFError("よしっ！")
-
-# def _hakizi_n_9(delivery: Delivery, hoyuusya: int) -> None:
 _atk_n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
                 aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(2, 3))
 

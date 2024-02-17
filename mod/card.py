@@ -58,6 +58,7 @@ class Card():
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+            popup_message.add("Card.kaiketuのif節が終了")
         elif self.type == CT_HUYO:
             from mod.ol.play_huyo import PlayHuyo
             moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
