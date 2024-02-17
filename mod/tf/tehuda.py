@@ -4,15 +4,14 @@ from pygame.math import Vector2
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
-    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, UC_AURA, UC_FLAIR, UC_MAAI
+    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA
 from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import OthersBasicAction
-from mod.kihondousa import can_zensin, zensin, can_yadosi, yadosi
-from mod.ol.play_kougeki.play_kougeki import PlayKougeki
+from mod.kihondousa import zensin_card, yadosi_card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -57,10 +56,9 @@ def _use_card(huda: Huda) -> None:
     huda.play()
 
 def _yadosi(huda: Huda) -> None:
-    if not can_yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
-        popup_message.add(text="宿せません！")
+    if not yadosi_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
-    yadosi(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
+    yadosi_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _basic(huda: Huda) -> None:
@@ -68,10 +66,9 @@ def _basic(huda: Huda) -> None:
     moderator.append(over_layer=OthersBasicAction(huda=huda, inject_func=huda.delivery.inject_view))
 
 def _zensin(huda: Huda) -> None:
-    if not can_zensin(delivery=huda.delivery, hoyuusya=huda.hoyuusya):
-        popup_message.add(text="前進できません！")
+    if not zensin_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
-    zensin(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
+    zensin_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:
