@@ -49,7 +49,8 @@ class Card():
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
-        if self.type == CT_KOUDOU:
+        from mod.kihondousa import KihonDousaCard
+        if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
             self.kouka(delivery, hoyuusya)
             from mod.huda import Huda
             if isinstance(huda, Huda):
@@ -58,7 +59,6 @@ class Card():
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
-            popup_message.add("Card.kaiketuのif節が終了")
         elif self.type == CT_HUYO:
             from mod.ol.play_huyo import PlayHuyo
             moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
