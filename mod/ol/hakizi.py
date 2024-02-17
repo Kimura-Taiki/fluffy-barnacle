@@ -32,4 +32,3 @@ class Hakizi():
 
     def moderate(self, stat: PopStat) -> None:
         moderator.pop()
-        ...

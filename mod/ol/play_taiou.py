@@ -22,12 +22,13 @@ class PlayTaiou():
 
     def open(self) -> None:
         self.huda.card.kaiketu(delivery=self.huda.delivery, hoyuusya=self.huda.hoyuusya, huda=self.huda)
-        moderator.pop()
+        if moderator.last_layer() == self:
+            moderator.pop()
 
     def close(self) -> PopStat:
         return PopStat(code=POP_TAIOUED, huda=self.huda)
 
     def moderate(self, stat: PopStat) -> None:
-        ...
+        moderator.pop()
 
 # compatible_with(, OverLayer)
