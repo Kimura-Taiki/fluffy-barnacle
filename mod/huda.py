@@ -7,10 +7,12 @@ from typing import Callable, NamedTuple
 from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA, HUDA_SCALE
 from mod.youso import Youso
 from mod.delivery import Delivery
-from mod.kihondousa import pass_koudou
 from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
+
+def _pass_koudou(delivery: Delivery, hoyuusya: int) -> None:
+    pass
 
 class _DrawParams(NamedTuple):
     usage: int = -1
@@ -26,7 +28,6 @@ class Huda(Youso):
         self.osame = 0
         self.draw_params = _DrawParams()
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
-        self.koudou: Callable[[Delivery, int], None] = pass_koudou
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
