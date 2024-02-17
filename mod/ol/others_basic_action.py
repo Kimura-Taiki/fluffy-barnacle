@@ -1,7 +1,7 @@
 import pygame
 from typing import Callable
 
-from mod.const import compatible_with, WX, WY, pass_func, screen, IMG_GRAY_LAYER, BRIGHT, TC_HUSEHUDA
+from mod.const import compatible_with, pass_func, screen, IMG_GRAY_LAYER, TC_HUSEHUDA
 from mod.delivery import Delivery, duck_delivery
 from mod.moderator import moderator
 from mod.ol.over_layer import OverLayer
@@ -9,15 +9,11 @@ from mod.taba import Taba
 from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
-# from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.pop_stat import PopStat
 from mod.ol.proxy_taba_factory import ProxyTabaFactory
 from mod.card import Card
-
-# _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
-#     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
 
 _cards: list[Card] = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
 
@@ -41,9 +37,6 @@ class OthersBasicAction():
 
     def open(self) -> None:
         factory = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
-        # self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
-        # for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
-        #     self.taba[i].koudou = v
         self.taba = factory.maid_by_cards(cards=_cards, hoyuusya=self.delivery.turn_player)
 
     def close(self) -> PopStat:
@@ -53,7 +46,6 @@ class OthersBasicAction():
         ...
 
     def _mouseup(self, huda: Huda) -> None:
-        # huda.koudou(self.delivery, self.hoyuusya)
         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
         moderator.pop()
