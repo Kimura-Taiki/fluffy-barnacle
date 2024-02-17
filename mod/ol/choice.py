@@ -5,18 +5,12 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHU
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
-# from mod.tf.taba_factory import TabaFactory
 from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.ol.proxy_taba_factory import ProxyTabaFactory
-
-HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
-HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
-HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
-SCALE_SIZE = 180
 
 class Choice():
     def __init__(self, cards: list[Card], delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:

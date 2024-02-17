@@ -6,17 +6,13 @@ from mod.delivery import Delivery, duck_delivery
 from mod.moderator import moderator
 from mod.ol.over_layer import OverLayer
 from mod.taba import Taba
-from mod.tf.taba_factory import TabaFactory
 from mod.youso import Youso
 from mod.huda import Huda
 from mod.controller import controller
 from mod.kihondousa import zensin, ridatu, koutai, matoi, yadosi
 from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.pop_stat import PopStat
-
-HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
-HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2
-HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
+from mod.ol.proxy_taba_factory import ProxyTabaFactory
 
 _card_list = [pygame.image.load(f"pictures/{i}.png").convert_alpha() for i in [
     "kihon_zensin", "kihon_ridatu", "kihon_koutai", "kihon_matoi", "kihon_yadosi"]]
@@ -40,9 +36,7 @@ class OthersBasicAction():
         return self.taba.get_hover_huda() or _undo_youso
 
     def open(self) -> None:
-        bac = TabaFactory(inject_kwargs={
-            "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": self._mouseup
-            }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
+        bac = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
         self.taba = bac.maid_by_files(surfaces=_card_list, hoyuusya=self.delivery.turn_player)
         for i, v in enumerate([zensin, ridatu, koutai, matoi, yadosi]):
             self.taba[i].koudou = v
