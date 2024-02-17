@@ -8,6 +8,7 @@ from mod.moderator import moderator
 from mod.ol.play_taiou import PlayTaiou
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
+from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
@@ -28,9 +29,8 @@ def make_taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
     return taiou_taba
 
 def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
-    return TabaFactory(inject_kwargs={
-        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouseup
-        }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
+    return ProxyTabaFactory(inject_kwargs={
+        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouseup})
 
 def _taiou_mouseup(huda: Huda) -> None:
     global taiou_taba, origin_list
