@@ -1,6 +1,6 @@
 from typing import Callable
 
-from mod.const import WX, WY, TC_TEHUDA, TC_KIRIHUDA, opponent
+from mod.const import TC_TEHUDA, TC_KIRIHUDA
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.moderator import moderator
@@ -9,9 +9,8 @@ from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 
-def _taiou_factory(mouseup: Callable[[Huda], None]) -> ProxyTabaFactory:
-    return ProxyTabaFactory(inject_kwargs={
-        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouseup})
+def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
+    return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
 
 def _taiou_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
@@ -22,13 +21,9 @@ def _taiou_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
         if huda.card.taiou and huda.can_play()
     ]
 
-def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
-    proxy_taba = _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
-    for proxy_huda in proxy_taba:
-        if not isinstance(proxy_huda, ProxyHuda):
-            raise ValueError(f"Invalid huda: {proxy_huda}")
-        proxy_huda.redraw()
-    return proxy_taba
+def _taiou_factory(mouseup: Callable[[Huda], None]) -> ProxyTabaFactory:
+    return ProxyTabaFactory(inject_kwargs={
+        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouseup})
 
 def _taiou_mouseup(huda: Huda) -> None:
     if not isinstance(huda, ProxyHuda):
