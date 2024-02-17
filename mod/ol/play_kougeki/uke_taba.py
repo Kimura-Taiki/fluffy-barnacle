@@ -12,15 +12,18 @@ from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 
-def make_uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
+def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
     factory = _uke_factory(mouse_up=mouseup)
-    _ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=kougeki.aura_damage(
+    return factory.maid_by_cards(cards=(_uke_cards(card=kougeki, delivery=delivery, hoyuusya=hoyuusya)), hoyuusya=hoyuusya)
+
+def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
+    ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=card.aura_damage(
         delivery, hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
-    can_receive_aura = _ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
-    _ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=kougeki.life_damage(
+    ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=card.life_damage(
         delivery, hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-    return factory.maid_by_cards(cards=([_ad_card, _ld_card] if can_receive_aura else [_ld_card]), hoyuusya=hoyuusya)
+    can_receive_aura = ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
+    return [ad_card, ld_card] if can_receive_aura else [ld_card]
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
     return ProxyTabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y)

@@ -12,7 +12,9 @@ from mod.moderator import moderator
 from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 
 def huyo_taba(delivery: Delivery, hoyuusya: int, pop_func: Callable[[], None]) -> Taba:
-    return _huyo_factory(pop_func=pop_func).maid_by_hudas(hudas=_huyo_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+    return _huyo_factory(
+        pop_func=pop_func).maid_by_hudas(hudas=_huyo_hudas(
+            delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
 
 def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [

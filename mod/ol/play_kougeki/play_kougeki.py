@@ -10,7 +10,7 @@ from mod.taba import Taba
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
-from mod.ol.play_kougeki.uke_taba import make_uke_taba
+from mod.ol.play_kougeki.uke_taba import uke_taba
 from mod.ol.play_kougeki.taiou_taba import taiou_taba
 from mod.ol.pop_stat import PopStat
 
@@ -38,8 +38,8 @@ class PlayKougeki():
         return self.uke_taba.get_hover_huda() or self.taiou_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
-                                      delivery=self.delivery, hoyuusya=self.hoyuusya)
+        self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
+                                 delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
 
     def close(self) -> PopStat:
@@ -57,10 +57,9 @@ class PlayKougeki():
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
             self._discard_source()
             return
-        print(self.taiou_huda.card.name)
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
-        self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
-                                      delivery=self.delivery, hoyuusya=self.hoyuusya)
+        self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
+                                 delivery=self.delivery, hoyuusya=self.hoyuusya)
 
     def _discard_source(self) -> None:
         if self.source_huda:
