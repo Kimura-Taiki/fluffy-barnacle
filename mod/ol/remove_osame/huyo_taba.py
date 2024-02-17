@@ -24,9 +24,7 @@ def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     ]
 
 def _huyo_factory(pop_func: Callable[[], None]) -> ProxyTabaFactory:
-    return ProxyTabaFactory(inject_kwargs={
-        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown,
-        "mouseup": partial(_huyo_mouseup, pop_func=pop_func)})
+    return ProxyTabaFactory(inject_kwargs={"mouseup": partial(_huyo_mouseup, pop_func=pop_func)})
 
 def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
     if not isinstance(huda, ProxyHuda):

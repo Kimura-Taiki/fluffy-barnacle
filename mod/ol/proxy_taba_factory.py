@@ -21,7 +21,8 @@ class ProxyHuda(Huda):
 class ProxyTabaFactory(TabaFactory):
     def __init__(self, inject_kwargs: dict[str, Callable[[Huda], None]], huda_x: Callable[[int, int], float]=HAND_X,
                  huda_y: Callable[[int, int], float]=HAND_Y, huda_angle: Callable[[int, int], float]=HAND_ANGLE) -> None:
-        super().__init__(inject_kwargs, huda_x, huda_y, huda_angle)
+        base_inject_kwargs = {"draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown}
+        super().__init__(base_inject_kwargs | inject_kwargs, huda_x, huda_y, huda_angle)
         self.kamite_funcs = self.simote_funcs
 
     def maid_by_hudas(self, hudas: list[Huda], hoyuusya: int) -> Taba:

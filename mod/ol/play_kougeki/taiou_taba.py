@@ -22,8 +22,7 @@ def _taiou_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     ]
 
 def _taiou_factory(mouseup: Callable[[Huda], None]) -> ProxyTabaFactory:
-    return ProxyTabaFactory(inject_kwargs={
-        "draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown, "mouseup": mouseup})
+    return ProxyTabaFactory(inject_kwargs={"mouseup": mouseup})
 
 def _taiou_mouseup(huda: Huda) -> None:
     if not isinstance(huda, ProxyHuda):
