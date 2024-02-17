@@ -7,12 +7,11 @@ from mod.moderator import moderator
 from mod.ol.pop_stat import PopStat
 
 class PlayTaiou():
-    name = "対応時にstat戻り値を与える為の空OverLayer"
-
     def __init__(self, huda: Huda) -> None:
         self.huda = huda
         self.delivery = huda.delivery
         self.inject_func = huda.delivery.inject_view
+        self.name = f"{huda.card.name}の対応時効果"
 
     def elapse(self) -> None:
         ...

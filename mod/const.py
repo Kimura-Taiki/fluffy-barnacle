@@ -3,6 +3,18 @@ from pygame.locals import FULLSCREEN
 from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable, Any, Protocol
+from inspect import signature
+
+def print_signature(title: str, obj: Any) -> None:
+    print(title)
+    # 引数情報を取得
+    args = signature(obj).parameters.values()
+    for arg in args:
+        print(f"Parameter {arg.name} Type: {arg.annotation}")
+    # 戻り値の情報を取得
+    return_type = signature(obj).return_annotation
+    print(f"Return Type: {return_type}")
+
 
 def pass_func(any: Any=None) -> None:
     pass

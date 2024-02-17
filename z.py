@@ -1,6 +1,13 @@
-my_list = [2, 3, 4]
+class Graecia:
+    class_name = ""
+    def __init__(self, name: str) -> None:
+        self.name = self.class_name+" "+name
 
-# リストの先頭に要素 1 を挿入
-my_list.insert(0, 1)
+def make_class(name: str) -> type[Graecia]:
+    class Concrete(Graecia):
+        class_name = name
+    return Concrete
 
-print(my_list)
+Alpha = make_class(name="Alpha")
+a1 = Alpha(name="Aburakatabura")
+print(a1.name)
