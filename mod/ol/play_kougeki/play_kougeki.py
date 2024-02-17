@@ -11,7 +11,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.play_kougeki.uke_taba import make_uke_taba
-from mod.ol.play_kougeki.taiou_taba import make_taiou_taba
+from mod.ol.play_kougeki.taiou_taba import taiou_taba
 from mod.ol.pop_stat import PopStat
 
 SCALE_SIZE = 180
@@ -38,12 +38,9 @@ class PlayKougeki():
         return self.uke_taba.get_hover_huda() or self.taiou_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        # if not self.kougeki.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=True):
-        #     moderator.pop()
-        #     return
         self.uke_taba = make_uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                       delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self.taiou_taba = make_taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
+        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
 
     def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
