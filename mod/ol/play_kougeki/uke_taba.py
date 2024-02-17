@@ -10,9 +10,7 @@ from mod.card import Damage, Card
 from mod.popup_message import popup_message
 from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 
-HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-110*(j-1)+220*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
-HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
 def make_uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
