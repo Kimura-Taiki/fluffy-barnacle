@@ -26,8 +26,6 @@ class Kaiketu():
 
     def open(self) -> None:
         self.inject_dih(self.delivery, self.hoyuusya, self.huda)
-        if moderator.last_layer() == self:
-            moderator.pop()
 
     def close(self) -> PopStat:
         return PopStat(code=self.inject_code, huda=self.huda)
