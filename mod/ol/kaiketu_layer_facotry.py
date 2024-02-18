@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Any, Callable
 
+from mod.const import POP_OK
 from mod.huda import Huda
 from mod.moderator import moderator
 from mod.ol.pop_stat import PopStat
@@ -34,7 +35,8 @@ class Kaiketu():
     def moderate(self, stat: PopStat) -> None:
         moderator.pop()
 
-def kaiketu_layer_factory(name: str, code: int, dih: Callable[[Delivery, int, Huda], None]) -> type[Kaiketu]:
+def kaiketu_layer_factory(name: str, code: int=POP_OK, dih: Callable[
+    [Delivery, int, Huda], None]=lambda delivery, hoyuusya, huda: None) -> type[Kaiketu]:
     class ConcreteKaiketu(Kaiketu):
         inject_name = name
         inject_code = code

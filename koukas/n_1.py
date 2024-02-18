@@ -27,8 +27,8 @@ def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
 def _kouka_n_6_2(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=False, to_code=UC_MAAI, kazu=1)
 
-tkn61 = TempKoudou(name="潜り", cond=auto_di, kouka=_kouka_n_6_1, todo=[[False, UC_MAAI, False, UC_DUST, 1]])
-tkn62 = TempKoudou(name="離脱", cond=auto_di, kouka=_kouka_n_6_2, todo=[[False, UC_DUST, False, UC_MAAI, 1]])
+tkn61 = TempKoudou(name="歩法：潜り", cond=auto_di, kouka=_kouka_n_6_1, todo=[[False, UC_MAAI, False, UC_DUST, 1]])
+tkn62 = TempKoudou(name="歩法：離脱", cond=auto_di, kouka=_kouka_n_6_2, todo=[[False, UC_DUST, False, UC_MAAI, 1]])
 
 def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
