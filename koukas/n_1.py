@@ -59,7 +59,7 @@ _atk_n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="�
                 aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(2, 3))
 
 n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠", cond=auto_di, type=CT_HUYO,
-           osame=int_di(2), suki=auto_di, hakizi=partial(_atk_n_9.kaiketu, huda=None))
+           osame=int_di(2), suki=auto_di, hakizi=_atk_n_9)
 
 s_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))

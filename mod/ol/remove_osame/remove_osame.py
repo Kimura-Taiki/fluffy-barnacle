@@ -32,8 +32,7 @@ class RemoveOsame():
         return PopStat(POP_HUYO_ELAPSED)
 
     def moderate(self, stat: PopStat) -> None:
-        if stat.code == POP_HAKIZI_DID:
-            self._pop()
+        self._pop()
 
     def _pop(self) -> None:
         if not self.huyo_taba:

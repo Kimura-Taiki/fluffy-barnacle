@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from pygame.surface import Surface
 from pygame.math import Vector2
-from typing import Callable, Any
+from typing import Callable, Any, Optional
 from functools import partial
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
@@ -31,7 +31,7 @@ class Card():
             maai_list: MaaiDI=whole_di,
             kouka: KoukaDI=pass_di,
             osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
-            tenkaizi: KoukaDI=pass_di, hakizi: KoukaDI=pass_di,
+            tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
             taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
             flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
             ) -> None:

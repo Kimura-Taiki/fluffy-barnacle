@@ -7,7 +7,6 @@ from mod.const import UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_U
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.taba import Taba
-# from mod.ol.hakizi import Hakizi
 from mod.moderator import moderator
 from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
 from mod.ol.kaiketu_layer_facotry import kaiketu_layer_factory
@@ -37,11 +36,7 @@ def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
     huda.withdraw()
     if base.osame == 0:
         base.usage = USAGE_USED
-        moderator.append(Hakizi(huda=base))
+        if huda.card.hakizi:
+            huda.card.hakizi.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
         return
     pop_func()
-
-def _dih(delivery: Delivery, hoyuusya: int, huda: Huda) -> None:
-    huda.card.hakizi(delivery, hoyuusya)
-
-Hakizi = kaiketu_layer_factory(name="の破棄時効果", code=POP_HAKIZI_DID, dih=_dih)
