@@ -7,7 +7,8 @@ from mod.card import Card, auto_di, int_di, dima_di
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
-from mod.ol.choice import Choice
+# from mod.ol.choice import Choice
+from mod.ol.choice import choice_layer
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(1), maai_list=dima_di(5, 9))
@@ -32,7 +33,8 @@ tkn62 = TempKoudou(name="離脱", cond=auto_di, kouka=_kouka_n_6_2, todo=[[False
 
 def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
-    moderator.append(over_layer=Choice(cards=[tkn61, tkn62], delivery=delivery, hoyuusya=hoyuusya))
+    moderator.append(over_layer=choice_layer(cards=[tkn61, tkn62], delivery=delivery, hoyuusya=hoyuusya))
+    # moderator.append(over_layer=Choice(cards=[tkn61, tkn62], delivery=delivery, hoyuusya=hoyuusya))
 
 n_6 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_6)
 
