@@ -1,15 +1,17 @@
 #                 20                  40                  60                 79
 from typing import Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.delivery import Delivery
+from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 
 class MonoChoiceLayer():
-    def __init__(self, name: str, taba: Taba, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
+    def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
+                 duck_delivery, hoyuusya: int=HANTE, huda: Any | None=None
+                 ) -> None:
         self.name = name
         self.taba = taba
         self.delivery = delivery
@@ -33,4 +35,17 @@ class MonoChoiceLayer():
     def moderate(self, stat: PopStat) -> None:
         ...
 
+# def mc_layer_factory(name: str, code: int, dih: Callable[[Delivery, int, Huda], None]) -> type[MonoChoiceLayer]:
+#     class ConcreteMnonoChoiceLayer(MonoChoiceLayer):
+#         inject_name = name
+#         inject_code = code
+#         def __init__(self, huda: Huda) -> None:
+#             super().__init__(huda)
+#             self.inject_dih = dih
+#     return ConcreteMnonoChoiceLayer
+
+
+
 # compatible_with(, OverLayer)
+        
+
