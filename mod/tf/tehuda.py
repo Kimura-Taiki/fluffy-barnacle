@@ -10,7 +10,8 @@ from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.ol.others_basic_action import OthersBasicAction
+# from mod.ol.others_basic_action import OthersBasicAction
+from mod.ol.others_basic_action import others_basic_action_layer
 from mod.kihondousa import zensin_card, yadosi_card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
@@ -61,9 +62,12 @@ def _yadosi(huda: Huda) -> None:
     yadosi_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
+# def _basic(huda: Huda) -> None:
+#     popup_message.add(text="その他基本動作です")
+#     moderator.append(over_layer=OthersBasicAction(huda=huda, inject_func=huda.delivery.inject_view))
 def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")
-    moderator.append(over_layer=OthersBasicAction(huda=huda, inject_func=huda.delivery.inject_view))
+    moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda))
 
 def _zensin(huda: Huda) -> None:
     if not zensin_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):

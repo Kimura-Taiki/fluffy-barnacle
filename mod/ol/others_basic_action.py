@@ -34,35 +34,35 @@ def others_basic_action_layer(delivery: Delivery, hoyuusya: int, huda: Any | Non
     mcl.other_hover = make_undo_youso(text="OthersBasicAction")
     return mcl
 
-class OthersBasicAction():
-    def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
-        self.name = "基本動作の選択"
-        self.source_huda = huda
-        self.inject_func: Callable[[], None] = inject_func
-        self.delivery = delivery
-        self.hoyuusya = huda.hoyuusya
-        self.taba: Taba
+# class OthersBasicAction():
+#     def __init__(self, huda: Huda, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
+#         self.name = "基本動作の選択"
+#         self.source_huda = huda
+#         self.inject_func: Callable[[], None] = inject_func
+#         self.delivery = delivery
+#         self.hoyuusya = huda.hoyuusya
+#         self.taba: Taba
 
-    def elapse(self) -> None:
-        screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
-        self.taba.elapse()
+#     def elapse(self) -> None:
+#         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
+#         self.taba.elapse()
 
-    def get_hover(self) -> Youso | None:
-        return self.taba.get_hover_huda() or _undo_youso
+#     def get_hover(self) -> Youso | None:
+#         return self.taba.get_hover_huda() or _undo_youso
 
-    def open(self) -> None:
-        factory = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
-        self.taba = factory.maid_by_cards(cards=_cards, hoyuusya=self.delivery.turn_player)
+#     def open(self) -> None:
+#         factory = ProxyTabaFactory(inject_kwargs={"mouseup": self._mouseup})
+#         self.taba = factory.maid_by_cards(cards=_cards, hoyuusya=self.delivery.turn_player)
 
-    def close(self) -> PopStat:
-        return PopStat()
+#     def close(self) -> PopStat:
+#         return PopStat()
 
-    def moderate(self, stat: PopStat) -> None:
-        ...
+#     def moderate(self, stat: PopStat) -> None:
+#         ...
 
-    def _mouseup(self, huda: Huda) -> None:
-        huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
-        moderator.pop()
+#     def _mouseup(self, huda: Huda) -> None:
+#         huda.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya)
+#         self.delivery.send_huda_to_ryouiki(huda=self.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
+#         moderator.pop()
 
-compatible_with(OthersBasicAction(Huda(img=pygame.Surface((16, 16)))), OverLayer)
+# compatible_with(OthersBasicAction(Huda(img=pygame.Surface((16, 16)))), OverLayer)
