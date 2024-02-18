@@ -14,10 +14,6 @@ from mod.ol.pop_stat import PopStat
 
 def _mouseup(huda: Huda, mcl: MonoChoiceLayer) -> None:
     moderator.append(ChoiceKaiketu(huda=huda))
-    # huda.card.kaiketu(delivery=mcl.delivery, hoyuusya=mcl.hoyuusya)
-    # if mcl.source_huda:
-    #     mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
-    # moderator.pop()
 
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     if mcl.source_huda:

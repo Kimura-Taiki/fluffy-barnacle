@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
@@ -36,18 +36,9 @@ class MonoChoiceLayer():
         return PopStat()
 
     def moderate(self, stat: PopStat) -> None:
+        if stat.code == POP_VIEWED_BANMEN:
+            return
         self.moderate_func(self, stat)
-
-# def mc_layer_factory(name: str, code: int, dih: Callable[[Delivery, int, Huda], None]) -> type[MonoChoiceLayer]:
-#     class ConcreteMnonoChoiceLayer(MonoChoiceLayer):
-#         inject_name = name
-#         inject_code = code
-#         def __init__(self, huda: Huda) -> None:
-#             super().__init__(huda)
-#             self.inject_dih = dih
-#     return ConcreteMnonoChoiceLayer
-
-
 
 # compatible_with(, OverLayer)
         

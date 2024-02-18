@@ -51,11 +51,8 @@ class Card():
                                           kazu=self.flair(delivery, hoyuusya))
         from mod.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
-            self.kouka(delivery, hoyuusya)
-            from mod.huda import Huda
-            if isinstance(huda, Huda):
-                huda.discard()
-            self.close(hoyuusya=hoyuusya)
+            from mod.ol.play_koudou import PlayKoudou
+            moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))

@@ -1,7 +1,7 @@
 from typing import Any
 from functools import partial
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, POP_VIEWED_BANMEN
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.over_layer import OverLayer
@@ -31,7 +31,7 @@ class ViewBanmen():
         ...
 
     def close(self) -> PopStat:
-        return PopStat()
+        return PopStat(POP_VIEWED_BANMEN)
 
     def moderate(self, stat: PopStat) -> None:
         ...

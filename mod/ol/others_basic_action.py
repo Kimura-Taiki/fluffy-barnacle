@@ -18,9 +18,6 @@ _cards: list[Card] = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_
 
 def _mouseup(huda: Huda, mcl: MonoChoiceLayer) -> None:
     moderator.append(KihondousaKaiketu(huda=huda))
-    # huda.card.kaiketu(delivery=mcl.delivery, hoyuusya=mcl.hoyuusya)
-    # mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
-    # moderator.pop()
 
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
