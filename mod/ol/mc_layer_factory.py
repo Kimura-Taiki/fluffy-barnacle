@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
@@ -12,7 +12,7 @@ class MonoChoiceLayer():
     def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
                  duck_delivery, hoyuusya: int=HANTE, huda: Any | None=None,
                  moderate: Callable[['MonoChoiceLayer', PopStat], None]=
-                 lambda mcl, stat: None) -> None:
+                 lambda mcl, stat: None, code: int=POP_OK) -> None:
         self.name = name
         self.taba = taba
         self.delivery = delivery
@@ -21,6 +21,7 @@ class MonoChoiceLayer():
         self.inject_func = delivery.inject_view
         self.other_hover = view_youso
         self.moderate_func = moderate
+        self.code = code
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
@@ -33,7 +34,7 @@ class MonoChoiceLayer():
         ...
 
     def close(self) -> PopStat:
-        return PopStat()
+        return PopStat(code=self.code, huda=self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
         if stat.code == POP_VIEWED_BANMEN:

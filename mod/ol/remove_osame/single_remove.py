@@ -2,7 +2,7 @@
 from itertools import product
 from typing import Any
 
-from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_USED
+from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_USED, POP_HUYO_ELAPSED
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.taba import Taba
@@ -39,8 +39,8 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
 
 def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
-                          moderate=_moderate)
+                          moderate=_moderate, code=POP_HUYO_ELAPSED)
     factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
-    mcl.taba = factory.maid_by_cards(cards=_huyo_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+    mcl.taba = factory.maid_by_hudas(hudas=_huyo_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
     return mcl
 

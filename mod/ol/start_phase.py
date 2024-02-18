@@ -10,6 +10,7 @@ from mod.ol.remove_osame.remove_osame import RemoveOsame
 from mod.moderator import moderator
 from mod.youso import Youso
 from mod.popup_message import popup_message
+from mod.ol.remove_osame.single_remove import single_remove_layer
 
 class StartPhase():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -31,6 +32,7 @@ class StartPhase():
             hoyuusya=self.hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU)
         popup_message.add("集中力を１得ます")
         moderator.append(RemoveOsame(delivery=self.delivery, hoyuusya=self.hoyuusya))
+        # moderator.append(single_remove_layer(delivery=self.delivery, hoyuusya=self.hoyuusya))
 
     def close(self) -> PopStat:
         return PopStat(POP_START_PHASE_FINISHED)
