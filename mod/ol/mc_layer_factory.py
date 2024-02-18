@@ -18,13 +18,14 @@ class MonoChoiceLayer():
         self.hoyuusya = hoyuusya
         self.source_huda = huda if isinstance(huda, Huda) else None
         self.inject_func = delivery.inject_view
+        self.other_hover = view_youso
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.taba.elapse()
 
     def get_hover(self) -> Any | None:
-        return self.taba.get_hover_huda() or view_youso
+        return self.taba.get_hover_huda() or self.other_hover
 
     def open(self) -> None:
         ...
