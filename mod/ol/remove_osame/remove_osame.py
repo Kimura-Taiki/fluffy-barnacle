@@ -1,13 +1,17 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any, runtime_checkable
 
-from mod.const import pass_func, screen, IMG_GRAY_LAYER, POP_HUYO_ELAPSED, POP_HAKIZI_DID
+from mod.const import pass_func, screen, IMG_GRAY_LAYER, POP_HUYO_ELAPSED, POP_HAKIZI_DID, USAGE_USED, UC_DUST
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 from mod.ol.view_banmen import view_youso
 from mod.moderator import moderator
 from mod.ol.remove_osame.huyo_taba import huyo_taba
+from mod.huda import Huda
+from mod.ol.mc_layer_factory import MonoChoiceLayer
+from mod.ol.proxy_taba_factory import ProxyHuda, ProxyTabaFactory
+
 
 class RemoveOsame():
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:

@@ -1,19 +1,15 @@
 #                 20                  40                  60                 79
-from typing import Callable
-from functools import partial
 from itertools import product
+from typing import Any
 
-from mod.const import UC_DUST, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED, POP_HAKIZI_DID
+from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_USED
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.taba import Taba
+from mod.ol.proxy_taba_factory import ProxyHuda, ProxyTabaFactory
 from mod.moderator import moderator
-from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
-
-def huyo_taba(delivery: Delivery, hoyuusya: int, pop_func: Callable[[], None]) -> Taba:
-    return _huyo_factory(
-        pop_func=pop_func).maid_by_hudas(hudas=_huyo_hudas(
-            delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+from mod.ol.mc_layer_factory import MonoChoiceLayer
+from mod.ol.pop_stat import PopStat
 
 def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
@@ -24,10 +20,7 @@ def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
         if huda.usage == USAGE_DEPLOYED
     ]
 
-def _huyo_factory(pop_func: Callable[[], None]) -> ProxyTabaFactory:
-    return ProxyTabaFactory(inject_kwargs={"mouseup": partial(_huyo_mouseup, pop_func=pop_func)})
-
-def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
+def _mouseup(huda: Huda) -> None:
     if not isinstance(huda, ProxyHuda):
         raise ValueError(f"Invalid huda: {huda}")
     base = huda.base
@@ -37,5 +30,17 @@ def _huyo_mouseup(huda: Huda, pop_func: Callable[[], None]) -> None:
         base.usage = USAGE_USED
         if huda.card.hakizi:
             huda.card.hakizi.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
-        return
-    pop_func()
+            return
+    moderator.append(MonoChoiceLayer())
+    moderator.pop()
+
+def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
+    moderator.pop()
+
+def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
+    mcl = MonoChoiceLayer(name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
+                          moderate=_moderate)
+    factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
+    mcl.taba = factory.maid_by_cards(cards=_huyo_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+    return mcl
+
