@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
-from typing import Callable, Any
+from typing import Callable
 
-from mod.const import pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_START_PHASE_FINISHED, UC_ZYOGAI, UC_SYUUTYUU, side_name,\
+from mod.const import pass_func, POP_START_PHASE_FINISHED, UC_ZYOGAI, UC_SYUUTYUU, side_name,\
     POP_HUYO_ELAPSED, POP_RESHUFFLED, enforce
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat

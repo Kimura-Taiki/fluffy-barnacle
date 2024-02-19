@@ -1,5 +1,4 @@
 #                 20                  40                  60                 79
-from typing import Any
 from random import shuffle
 
 from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED,\
@@ -7,8 +6,6 @@ from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED,\
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda import Huda
-from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
-from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
 from mod.card import Card, auto_di, Damage
 from mod.ol.mc_layer_factory import MonoChoiceLayer
