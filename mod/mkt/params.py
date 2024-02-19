@@ -7,6 +7,3 @@ class Params():
 
     def __str__(self) -> str:
         return f"Params{vars(self)}"
-
-p1 = Params()
-print(p1)
