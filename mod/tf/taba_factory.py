@@ -30,10 +30,7 @@ class TabaFactory():
             self.kamite_funcs = self.simote_funcs
 
     def maid_by_files(self, surfaces: list[Surface], hoyuusya: int) -> Taba:
-        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
-        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
-        taba.view_inject_kwargs = self.view_inject_kwargs
-        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
+        taba = self._empty_taba(hoyuusya=hoyuusya)
         for i in surfaces:
             huda = Huda(img=i)
             huda.hoyuusya = hoyuusya
@@ -41,10 +38,7 @@ class TabaFactory():
         return taba
 
     def maid_by_cards(self, cards: list[Card], hoyuusya: int) -> Taba:
-        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
-        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
-        taba.view_inject_kwargs = self.view_inject_kwargs
-        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
+        taba = self._empty_taba(hoyuusya=hoyuusya)
         for card in cards:
             huda = Huda(img=card.img)
             huda.hoyuusya = hoyuusya
@@ -53,14 +47,18 @@ class TabaFactory():
         return taba
 
     def maid_by_hudas(self, hudas: list[Huda], hoyuusya: int) -> Taba:
-        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
-        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
-        taba.view_inject_kwargs = self.view_inject_kwargs
-        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
+        taba = self._empty_taba(hoyuusya=hoyuusya)
         for huda in hudas:
             proxy_huda = copy(huda)
             proxy_huda.base = huda
             taba.append(proxy_huda)
+        return taba
+
+    def _empty_taba(self, hoyuusya: int) -> Taba:
+        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
+        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
+        taba.view_inject_kwargs = self.view_inject_kwargs
+        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
         return taba
 
     def _rearrange_huda(self, taba: Taba, hoyuusya: int) -> None:
