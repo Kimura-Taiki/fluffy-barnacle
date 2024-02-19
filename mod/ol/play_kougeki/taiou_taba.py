@@ -4,10 +4,9 @@ from mod.const import TC_TEHUDA, TC_KIRIHUDA, POP_TAIOUED
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.moderator import moderator
-# from mod.ol.play_taiou import PlayTaiou
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
-from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.tf.taba_factory import TabaFactory
 from mod.ol.kaiketu_layer_facotry import kaiketu_layer_factory
 
 def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
@@ -22,8 +21,8 @@ def _taiou_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
         if huda.card.taiou and huda.can_play()
     ]
 
-def _taiou_factory(mouseup: Callable[[Huda], None]) -> ProxyTabaFactory:
-    return ProxyTabaFactory(inject_kwargs={"mouseup": mouseup})
+def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
+    return TabaFactory(inject_kwargs={"mouseup": mouseup}, is_ol=True)
 
 def _taiou_mouseup(huda: Huda) -> None:
     moderator.append(over_layer=PlayTaiou(huda=huda.base))

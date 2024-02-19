@@ -8,7 +8,7 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.card import Damage, Card
 from mod.popup_message import popup_message
-from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.tf.taba_factory import TabaFactory
 
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 
@@ -26,7 +26,7 @@ def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
     return [ad_card, ld_card] if can_receive_aura else [ld_card]
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
-    return ProxyTabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y)
+    return TabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y, is_ol=True)
 
 def _uke_mouseup(huda: Huda, kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> None:
     huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya)

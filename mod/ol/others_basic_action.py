@@ -7,7 +7,7 @@ from mod.moderator import moderator
 from mod.huda import Huda
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.undo_mouse import make_undo_youso
-from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.tf.taba_factory import TabaFactory
 from mod.card import Card
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
@@ -24,7 +24,7 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
 def others_basic_action_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="基本動作の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
                           moderate=_moderate)
-    factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
+    factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
     mcl.taba = factory.maid_by_cards(cards=_cards, hoyuusya=hoyuusya)
     mcl.other_hover = make_undo_youso(text="OthersBasicAction")
     return mcl

@@ -6,7 +6,7 @@ from mod.huda import Huda
 from mod.card import Card
 from mod.moderator import moderator
 from mod.delivery import Delivery
-from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.tf.taba_factory import TabaFactory
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 
@@ -21,6 +21,6 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
 def choice_layer(cards: list[Card], delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="効果の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
                           moderate=_moderate)
-    factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
+    factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
     mcl.taba = factory.maid_by_cards(cards=cards, hoyuusya=hoyuusya)
     return mcl
