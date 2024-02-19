@@ -2,6 +2,7 @@
 from pygame.surface import Surface
 from typing import Callable
 from functools import partial
+from copy import copy
 
 from mod.const import WX, WY, SIMOTE, KAMITE
 from mod.huda import Huda
@@ -49,6 +50,17 @@ class TabaFactory():
             huda.hoyuusya = hoyuusya
             huda.card = card
             taba.append(huda)
+        return taba
+
+    def maid_by_hudas(self, hudas: list[Huda], hoyuusya: int) -> Taba:
+        taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
+        taba.main_phase_inject_kwargs = self.main_phase_inject_kwargs
+        taba.view_inject_kwargs = self.view_inject_kwargs
+        taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
+        for huda in hudas:
+            proxy_huda = copy(huda)
+            proxy_huda.base = huda
+            taba.append(proxy_huda)
         return taba
 
     def _rearrange_huda(self, taba: Taba, hoyuusya: int) -> None:
