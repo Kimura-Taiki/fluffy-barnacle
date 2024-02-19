@@ -33,17 +33,14 @@ _reshuffle_card = Card(img=IMG_BOOL_ZE, name="再構成", cond=auto_di, type=CT_
 _pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di)
 _cards = [_reshuffle_card, _pass_card]
 
-# def _mouseup(huda: Huda) -> None:
-#     huda.card.kaiketu(huda.delivery, huda.hoyuusya)
+def _mouseup(huda: Huda) -> None:
+    huda.card.kaiketu(huda.delivery, huda.hoyuusya)
 
-# def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
-#     mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
-#     moderator.pop()
+def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
+    moderator.pop()
 
-# def others_basic_action_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
-#     mcl = MonoChoiceLayer(name="基本動作の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
-#                           moderate=_moderate)
-#     factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
-#     mcl.taba = factory.maid_by_cards(cards=_cards, hoyuusya=hoyuusya)
-#     mcl.other_hover = make_undo_youso(text="OthersBasicAction")
-#     return mcl
+def reshuffle_layer(delivery: Delivery, hoyuusya: int) -> MonoChoiceLayer:
+    mcl = MonoChoiceLayer(name="再構成の選択", delivery=delivery, hoyuusya=hoyuusya, moderate=_moderate)
+    factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
+    mcl.taba = factory.maid_by_cards(cards=_cards, hoyuusya=hoyuusya)
+    return mcl
