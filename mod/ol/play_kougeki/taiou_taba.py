@@ -3,11 +3,8 @@ from typing import Callable
 from mod.const import TC_TEHUDA, TC_KIRIHUDA, POP_TAIOUED
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.moderator import moderator
 from mod.delivery import Delivery
-from mod.popup_message import popup_message
 from mod.tf.taba_factory import TabaFactory
-from mod.ol.kaiketu_layer_facotry import kaiketu_layer_factory
 
 def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
     return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
@@ -26,9 +23,3 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
 
 def _taiou_mouseup(huda: Huda) -> None:
     huda.card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda.base, code=POP_TAIOUED)
-#     moderator.append(over_layer=PlayTaiou(huda=huda.base))
-
-# def _dih(delivery: Delivery, hoyuusya: int, huda: Huda) -> None:
-#     huda.card.kaiketu(delivery, hoyuusya, huda=huda)
-
-# PlayTaiou = kaiketu_layer_factory(name="の対応時効果", code=POP_TAIOUED, dih=_dih)
