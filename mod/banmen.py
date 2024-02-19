@@ -3,7 +3,7 @@ from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU\
-    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU
+    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -45,11 +45,9 @@ class Banmen():
 
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.withdraw()
-        if not (mikoto := {SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya)):
-            raise ValueError(f"Invalid huda.hoyuusya: {huda.hoyuusya}")
-        if not (taba := {TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
-                         TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
-            raise ValueError(f"Invalid taba_code: {taba_code}")
+        mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya), Mikoto)
+        taba = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
+                         TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
         taba.append(huda)
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
@@ -101,17 +99,15 @@ class Banmen():
 
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
-        if not (target := {UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
+        target = enforce({UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
                            UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life, UC_SYUUTYUU: mikoto.syuutyuu,
-                           UC_ISYUKU: mikoto.isyuku}.get(utuwa_code)):
-            raise ValueError(f"Invalid utuwa_code: {utuwa_code}")
+                           UC_ISYUKU: mikoto.isyuku}.get(utuwa_code), Utuwa)
         return target
     
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Taba:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
-        if not (target := {TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
-                           TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code)):
-            raise ValueError(f"Invalid taba_code: {taba_code}")
+        target = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
+                           TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
         return target
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
