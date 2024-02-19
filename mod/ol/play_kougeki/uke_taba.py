@@ -8,7 +8,7 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.card import Damage, Card
 from mod.popup_message import popup_message
-from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
+from mod.ol.proxy_taba_factory import ProxyTabaFactory
 
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 

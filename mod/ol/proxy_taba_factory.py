@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable
 from functools import partial
+from copy import copy
 
 from mod.const import WX, WY
 from mod.huda import Huda
@@ -10,13 +11,6 @@ from mod.taba import Taba
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY-150
-
-class ProxyHuda(Huda):
-    def __init__(self, base: Huda) -> None:
-        base_attributes = vars(base)
-        for key, value in base_attributes.items():
-            setattr(self, key, value)
-        self.base = base
 
 class ProxyTabaFactory(TabaFactory):
     def __init__(self, inject_kwargs: dict[str, Callable[[Huda], None]], huda_x: Callable[[int, int], float]=HAND_X,
@@ -31,6 +25,7 @@ class ProxyTabaFactory(TabaFactory):
         taba.view_inject_kwargs = self.view_inject_kwargs
         taba.rearrange = partial(self._rearrange_huda, taba=taba, hoyuusya=hoyuusya)
         for huda in hudas:
-            proxy_huda = ProxyHuda(base=huda)
+            proxy_huda = copy(huda)
+            proxy_huda.base = huda
             taba.append(proxy_huda)
         return taba

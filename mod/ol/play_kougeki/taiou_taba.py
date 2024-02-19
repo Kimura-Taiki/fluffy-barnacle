@@ -7,7 +7,7 @@ from mod.moderator import moderator
 # from mod.ol.play_taiou import PlayTaiou
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
-from mod.ol.proxy_taba_factory import ProxyTabaFactory, ProxyHuda
+from mod.ol.proxy_taba_factory import ProxyTabaFactory
 from mod.ol.kaiketu_layer_facotry import kaiketu_layer_factory
 
 def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
@@ -26,8 +26,6 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> ProxyTabaFactory:
     return ProxyTabaFactory(inject_kwargs={"mouseup": mouseup})
 
 def _taiou_mouseup(huda: Huda) -> None:
-    if not isinstance(huda, ProxyHuda):
-        raise ValueError(f"Invalid huda: {huda}")
     moderator.append(over_layer=PlayTaiou(huda=huda.base))
 
 def _dih(delivery: Delivery, hoyuusya: int, huda: Huda) -> None:

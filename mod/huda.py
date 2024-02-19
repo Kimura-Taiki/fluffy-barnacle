@@ -29,6 +29,7 @@ class Huda(Youso):
         self.draw_params = _DrawParams()
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
+        self.base: 'Huda' = self
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)

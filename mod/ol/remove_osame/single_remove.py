@@ -6,7 +6,7 @@ from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_U
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.ol.proxy_taba_factory import ProxyHuda, ProxyTabaFactory
+from mod.ol.proxy_taba_factory import ProxyTabaFactory
 from mod.moderator import moderator
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
@@ -21,8 +21,6 @@ def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     ]
 
 def _mouseup(huda: Huda) -> None:
-    if not isinstance(huda, ProxyHuda):
-        raise ValueError(f"Invalid huda: {huda}")
     base = huda.base
     base.delivery.send_ouka_to_ryouiki(hoyuusya=base.hoyuusya, from_huda=base, to_mine=False, to_code=UC_DUST)
     huda.withdraw()
@@ -44,7 +42,7 @@ def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None
     hudas: list[Huda] = (
         huyo_hudas(delivery=delivery, hoyuusya=hoyuusya)
         if taba is None
-        else [proxy.base for proxy in taba if isinstance(proxy, ProxyHuda)])
+        else [proxy.base for proxy in taba])
     mcl.taba = factory.maid_by_hudas(hudas=hudas, hoyuusya=hoyuusya)
     return mcl
 
