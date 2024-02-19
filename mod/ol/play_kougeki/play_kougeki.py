@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 from typing import Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED, POP_OK
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -17,7 +17,7 @@ from mod.ol.pop_stat import PopStat
 SCALE_SIZE = 180
 
 class PlayKougeki():
-    def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
+    def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
         self.kougeki = kougeki
         self.delivery = delivery
         self.hoyuusya = hoyuusya
@@ -27,6 +27,7 @@ class PlayKougeki():
         self.taiou_taba: Taba = Taba()
         self.uke_taba: Taba = Taba()
         self.taiou_huda: Huda | None = None
+        self.code = code
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
@@ -47,7 +48,7 @@ class PlayKougeki():
 
     def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
-        return PopStat()
+        return PopStat(code=self.code, huda=self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
         if stat.code != POP_TAIOUED:

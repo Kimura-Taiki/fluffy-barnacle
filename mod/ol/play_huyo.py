@@ -6,7 +6,7 @@ from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
-    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED
+    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -18,7 +18,7 @@ from mod.ol.button import Button
 from mod.ol.pop_stat import PopStat
 
 class PlayHuyo():
-    def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
+    def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
         self.card = card
         if not isinstance(huda, Huda):
             raise ValueError(f"Invalid huda: {huda}")
@@ -43,6 +43,7 @@ class PlayHuyo():
         self.button_decision = Button(
             img_nega=IMG_DECISION, img_lighten=IMG_DECISION_LIGHTEN, mouseup=self._mouseup_decision)
         self.buttons = [self.button_dust, self.button_aura, self.button_decision]
+        self.code = code
 
     def _rearrange(self) -> None:
         _rearrange_button(button=self.button_dust, img_nega=IMG_OSAME_DUST, img_lighten=IMG_OSAME_DUST_LIGHTEN, num=self.dust_osame)
@@ -62,7 +63,7 @@ class PlayHuyo():
 
     def close(self) -> PopStat:
         self.card.close(hoyuusya=self.hoyuusya)
-        return PopStat()
+        return PopStat(self.code, self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
         ...

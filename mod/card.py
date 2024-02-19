@@ -5,7 +5,7 @@ from typing import Callable, Any, Optional
 from functools import partial
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST, USAGE_DEPLOYED
+    , CT_KOUDOU, UC_DUST, USAGE_DEPLOYED, POP_OK
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -45,20 +45,20 @@ class Card():
         self.kirihuda = kirihuda
         self.taiounize = taiounize
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None, code: int=POP_OK) -> None:
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
         from mod.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
             from mod.ol.play_koudou import PlayKoudou
-            moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+            moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import PlayKougeki
-            moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+            moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_HUYO:
             from mod.ol.play_huyo import PlayHuyo
-            moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda))
+            moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return not self.kirihuda or delivery.ouka_count(
@@ -114,7 +114,7 @@ class Damage(Card):
         draw_aiharasuu(surface=self.img, dest=Vector2(340, 475)/2 - Vector2(self._SCALE_SIZE, self._SCALE_SIZE)/2,
                        num=dmg, size=self._SCALE_SIZE)
 
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> None:
+    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None, code: int = POP_OK) -> None:
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
                                       to_mine=False, to_code=self.to_code, kazu=self.dmg)
 

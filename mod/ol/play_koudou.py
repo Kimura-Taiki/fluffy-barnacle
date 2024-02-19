@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Any
 
+from mod.const import POP_OK
 from mod.huda import Huda
 from mod.card import Card
 from mod.moderator import moderator
@@ -8,13 +9,14 @@ from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 
 class PlayKoudou():
-    def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None) -> None:
+    def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
         self.card = card
         self.delivery = delivery
         self.hoyuusya = hoyuusya
         self.source_huda = huda if isinstance(huda, Huda) else None
         self.name = f"行動:{card.name}の使用"
         self.inject_func = delivery.inject_view
+        self.code = code
 
     def elapse(self) -> None:
         ...
@@ -31,7 +33,7 @@ class PlayKoudou():
         if self.source_huda:
             self.source_huda.discard()
         self.card.close(hoyuusya=self.hoyuusya)
-        return PopStat()
+        return PopStat(self.code, self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
         moderator.pop()

@@ -25,9 +25,10 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouseup}, is_ol=True)
 
 def _taiou_mouseup(huda: Huda) -> None:
-    moderator.append(over_layer=PlayTaiou(huda=huda.base))
+    huda.card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda.base, code=POP_TAIOUED)
+#     moderator.append(over_layer=PlayTaiou(huda=huda.base))
 
-def _dih(delivery: Delivery, hoyuusya: int, huda: Huda) -> None:
-    huda.card.kaiketu(delivery, hoyuusya, huda=huda)
+# def _dih(delivery: Delivery, hoyuusya: int, huda: Huda) -> None:
+#     huda.card.kaiketu(delivery, hoyuusya, huda=huda)
 
-PlayTaiou = kaiketu_layer_factory(name="の対応時効果", code=POP_TAIOUED, dih=_dih)
+# PlayTaiou = kaiketu_layer_factory(name="の対応時効果", code=POP_TAIOUED, dih=_dih)
