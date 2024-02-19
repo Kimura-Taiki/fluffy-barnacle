@@ -1,12 +1,13 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, POP_EMPTY_TABA
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
+from mod.moderator import moderator
 
 class MonoChoiceLayer():
     def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
@@ -31,10 +32,13 @@ class MonoChoiceLayer():
         return self.taba.get_hover_huda() or self.other_hover
 
     def open(self) -> None:
-        ...
+        if not self.taba:
+            moderator.pop()
 
     def close(self) -> PopStat:
-        return PopStat(code=self.code, huda=self.source_huda)
+        if not self.taba:
+            return PopStat(code=POP_EMPTY_TABA)
+        return PopStat(code=self.code, huda=self.source_huda, rest_taba=self.taba)
 
     def moderate(self, stat: PopStat) -> None:
         if stat.code == POP_VIEWED_BANMEN:

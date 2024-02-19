@@ -11,7 +11,7 @@ from mod.moderator import moderator
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 
-def _huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
         huda
         for is_mine, taba_code in product([False, True], [TC_SUTEHUDA, TC_KIRIHUDA])
@@ -31,16 +31,20 @@ def _mouseup(huda: Huda) -> None:
         if huda.card.hakizi:
             huda.card.hakizi.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
             return
-    moderator.append(MonoChoiceLayer())
-    moderator.pop()
+    moderator.last_layer().moderate(PopStat())
 
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     moderator.pop()
 
-def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
+def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None, taba: Taba | None=None) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
                           moderate=_moderate, code=POP_HUYO_ELAPSED)
     factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
-    mcl.taba = factory.maid_by_hudas(hudas=_huyo_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+    # hudas: list[Huda] = huyo_hudas(delivery=delivery, hoyuusya=hoyuusya) if taba == None else [proxy.base for proxy in taba if isinstance(proxy, ProxyHuda)]
+    hudas: list[Huda] = (
+        huyo_hudas(delivery=delivery, hoyuusya=hoyuusya)
+        if taba is None
+        else [proxy.base for proxy in taba if isinstance(proxy, ProxyHuda)])
+    mcl.taba = factory.maid_by_hudas(hudas=hudas, hoyuusya=hoyuusya)
     return mcl
 
