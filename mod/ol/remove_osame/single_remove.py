@@ -37,10 +37,10 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     moderator.pop()
 
 def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None, taba: Taba | None=None) -> MonoChoiceLayer:
-    mcl = MonoChoiceLayer(name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
-                          moderate=_moderate, code=POP_HUYO_ELAPSED)
+    mcl = MonoChoiceLayer(
+        name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
+        moderate=_moderate, code=POP_HUYO_ELAPSED)
     factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
-    # hudas: list[Huda] = huyo_hudas(delivery=delivery, hoyuusya=hoyuusya) if taba == None else [proxy.base for proxy in taba if isinstance(proxy, ProxyHuda)]
     hudas: list[Huda] = (
         huyo_hudas(delivery=delivery, hoyuusya=hoyuusya)
         if taba is None
