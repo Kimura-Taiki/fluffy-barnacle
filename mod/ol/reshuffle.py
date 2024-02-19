@@ -2,25 +2,22 @@
 from typing import Any
 from random import shuffle
 
-from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED, IMG_BOOL_ZE, IMG_BOOL_HI
+from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED, IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU, enforce
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda import Huda
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
-from mod.card import Card, KoukaDI, auto_di, CT_KOUDOU
+from mod.card import Card, auto_di
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 
 def _reshuffle_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    if not isinstance(taba1 := delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_YAMAHUDA), Taba):
-        raise EOFError
-    if not isinstance(taba2 := delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_HUSEHUDA), Taba):
-        raise EOFError
-    if not isinstance(taba3 := delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba):
-        raise EOFError
+    taba1 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_YAMAHUDA), Taba)
+    taba2 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_HUSEHUDA), Taba)
+    taba3 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
     moto = list(taba1)+list(taba2)+[huda for huda in taba3 if huda.usage != USAGE_DEPLOYED]
     shuffle(moto)
     return moto

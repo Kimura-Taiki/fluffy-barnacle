@@ -10,6 +10,7 @@ from mod.tf.taba_factory import TabaFactory
 from mod.moderator import moderator
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
+from mod.ol.reshuffle import reshuffle_layer
 
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [

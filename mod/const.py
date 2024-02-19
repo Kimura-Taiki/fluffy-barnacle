@@ -2,8 +2,15 @@ import pygame
 from pygame.locals import FULLSCREEN
 from pygame.surface import Surface
 from pygame.math import Vector2
-from typing import Callable, Any, Protocol
+from typing import Callable, Any, TypeVar
 from inspect import signature
+
+T = TypeVar('T')
+
+def enforce(__object: Any, __type: type[T]) -> T:
+    if not isinstance(__object, __type):
+        raise ValueError(f"{__object} is not an instance of {__type.__name__}")
+    return __object
 
 def print_signature(title: str, obj: Any) -> None:
     print(title)
