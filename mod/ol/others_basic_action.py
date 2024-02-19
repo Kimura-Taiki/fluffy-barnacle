@@ -18,6 +18,7 @@ def _mouseup(huda: Huda) -> None:
     huda.card.kaiketu(huda.delivery, huda.hoyuusya)
 
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
+    mcl.delivery.params(mcl.hoyuusya).played_standard = True
     mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
     moderator.pop()
 
