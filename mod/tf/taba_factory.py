@@ -8,10 +8,16 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.card import Card
 
+HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
+HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
+HAND_Y: Callable[[int, int], float] = lambda i, j: WY-150
+
 class TabaFactory():
     def __init__(self, inject_kwargs: dict[str, Callable[[Huda], None]],
-                 huda_x: Callable[[int, int], float], huda_y: Callable[[int, int], float],
-                 huda_angle: Callable[[int, int], float]) -> None:
+                 huda_x: Callable[[int, int], float]=HAND_X,
+                 huda_y: Callable[[int, int], float]=HAND_Y,
+                 huda_angle: Callable[[int, int], float]=HAND_ANGLE,
+                 is_ol: bool=False) -> None:
         self.inject_kwargs = inject_kwargs
         self.main_phase_inject_kwargs = inject_kwargs
         self.view_inject_kwargs = {"draw": inject_kwargs.get("draw", Huda.default_draw), "hover": Huda.detail_draw}
@@ -19,6 +25,8 @@ class TabaFactory():
             lambda i, j: huda_x(i, j), lambda i, j: huda_y(i, j), lambda i, j: huda_angle(i, j))
         self.kamite_funcs: tuple[Callable[[int, int], float], Callable[[int, int], float], Callable[[int, int], float]] = (
             lambda i, j: WX-huda_x(i, j), lambda i, j: WY-huda_y(i, j), lambda i, j: huda_angle(i, j)+180.0)
+        if is_ol:
+            self.kamite_funcs = self.simote_funcs
 
     def maid_by_files(self, surfaces: list[Surface], hoyuusya: int) -> Taba:
         taba = Taba(hoyuusya=hoyuusya, inject=self._inject)
