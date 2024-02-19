@@ -6,7 +6,7 @@ from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_U
 from mod.delivery import Delivery
 from mod.huda import Huda
 from mod.taba import Taba
-from mod.ol.proxy_taba_factory import ProxyTabaFactory
+from mod.tf.taba_factory import TabaFactory
 from mod.moderator import moderator
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
@@ -38,7 +38,7 @@ def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None
     mcl = MonoChoiceLayer(
         name="償却する付与の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
         moderate=_moderate, code=POP_HUYO_ELAPSED)
-    factory = ProxyTabaFactory(inject_kwargs={"mouseup": _mouseup})
+    factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
     hudas: list[Huda] = (
         huyo_hudas(delivery=delivery, hoyuusya=hoyuusya)
         if taba is None
