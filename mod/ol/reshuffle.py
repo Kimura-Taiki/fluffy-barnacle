@@ -1,0 +1,41 @@
+#                 20                  40                  60                 79
+from typing import Any
+
+from mod.const import TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED
+from mod.delivery import Delivery
+from mod.moderator import moderator
+from mod.huda import Huda
+from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
+from mod.ol.undo_mouse import make_undo_youso
+from mod.tf.taba_factory import TabaFactory
+from mod.card import Card, KoukaDI
+from mod.ol.mc_layer_factory import MonoChoiceLayer
+from mod.ol.pop_stat import PopStat
+from mod.taba import Taba
+
+_cards: list[Card] = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
+
+def _reshuffle_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    if not isinstance(taba1 := delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_HUSEHUDA), Taba):
+        raise EOFError
+    if not isinstance(taba2 := delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba):
+        raise EOFError
+    return list(taba1)+[huda for huda in taba2 if huda.usage != USAGE_DEPLOYED]
+
+def _reshuffle(delivery: Delivery, hoyuusya: int) -> None:
+    ...    
+
+def _mouseup(huda: Huda) -> None:
+    huda.card.kaiketu(huda.delivery, huda.hoyuusya)
+
+def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
+    mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    moderator.pop()
+
+def others_basic_action_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None) -> MonoChoiceLayer:
+    mcl = MonoChoiceLayer(name="基本動作の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
+                          moderate=_moderate)
+    factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
+    mcl.taba = factory.maid_by_cards(cards=_cards, hoyuusya=hoyuusya)
+    mcl.other_hover = make_undo_youso(text="OthersBasicAction")
+    return mcl
