@@ -1,13 +1,6 @@
-class Graecia:
-    class_name = ""
-    def __init__(self, name: str) -> None:
-        self.name = self.class_name+" "+name
+from random import shuffle
 
-def make_class(name: str) -> type[Graecia]:
-    class Concrete(Graecia):
-        class_name = name
-    return Concrete
-
-Alpha = make_class(name="Alpha")
-a1 = Alpha(name="Aburakatabura")
-print(a1.name)
+li = list(range(10))
+print(li)
+shuffle(li)
+print(li)

@@ -125,6 +125,9 @@ IMG_FT_AI_SYUUTYUU = pygame.image.load("pictures/ft_ai_syuutyuu.png").convert_al
 IMG_FT_ARROW = pygame.image.load("pictures/ft_arrow.png").convert_alpha()
 IMG_FT_OUKA = pygame.image.load("pictures/ft_ouka.png").convert_alpha()
 
+IMG_BOOL_ZE = pygame.image.load("pictures/bool_ze.png").convert_alpha()
+IMG_BOOL_HI = pygame.image.load("pictures/bool_hi.png").convert_alpha()
+
 HANTE = 0
 SIMOTE = 1
 KAMITE = 2
