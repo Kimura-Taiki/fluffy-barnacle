@@ -13,6 +13,7 @@ from mod.taba import Taba
 from mod.delivery import Delivery, Listener
 from mod.moderator import moderator
 from mod.req.request import Request
+from mod.mkt.params import Params
 
 class Banmen():
     def __init__(self) -> None:
@@ -121,6 +122,10 @@ class Banmen():
     def _mikoto_target(self, hoyuusya: int, is_mine: bool) -> Mikoto:
         tpl = (hoyuusya, is_mine)
         return self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto
+
+    def params(self, hoyuusya: int) -> Params:
+        mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(hoyuusya), Mikoto)
+        return mikoto.params
 
 
 compatible_with(obj=Banmen(), protocol=Delivery)
