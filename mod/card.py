@@ -34,6 +34,7 @@ class Card():
             aura_damage: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
             life_damage: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
             maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
+            after: Optional['Card']=None,
             kouka: KoukaDI=pass_di,
             osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
             tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
@@ -44,6 +45,7 @@ class Card():
         self.aura_damage, self.aura_bar = aura_damage, aura_bar
         self.life_damage, self.life_bar = life_damage, life_bar
         self.maai_list, self.nontaiouble = maai_list, taiouble
+        self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
         self.taiou = taiou

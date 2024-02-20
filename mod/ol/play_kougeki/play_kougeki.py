@@ -2,7 +2,8 @@
 from pygame.math import Vector2
 from typing import Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED, POP_OK
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED, POP_OK,\
+    enforce, POP_AFTER_ATTACKED
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -51,8 +52,10 @@ class PlayKougeki():
         return PopStat(code=self.code, huda=self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
-        if stat.code != POP_TAIOUED:
-            return
+        enforce({POP_TAIOUED: self._taioued,
+                 POP_AFTER_ATTACKED: self._after_attacked}.get(stat.code), type(self._taioued))(stat)
+        
+    def _taioued(self, stat: PopStat) -> None:
         if not isinstance(stat.huda, Huda):
             raise ValueError(f"Invalid stat: {stat}")
         self.taiou_huda = stat.huda
@@ -64,10 +67,17 @@ class PlayKougeki():
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
+        
+    def _after_attacked(self, stat: PopStat) -> None:
+        moderator.pop()
 
     def _discard_source(self) -> None:
         if self.source_huda:
             self.source_huda.discard()
+        if self.kougeki.after:
+            self.kougeki.after.kaiketu(
+                delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
+            return
         moderator.pop()
 
 # compatible_with(, OverLayer)

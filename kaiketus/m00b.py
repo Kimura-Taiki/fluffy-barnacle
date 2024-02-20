@@ -21,6 +21,11 @@ n_2 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_2.png"), name="桜刀
 n_3 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_3.png"), name="瞬霊式", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(5, 5), taiouble=nega_dic)
 
+def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA, kazu=1)
+
+_aan4 = TempKoudou(name="返し斬り：攻撃後", cond=auto_di, kouka=_kouka_n_4, todo=[[False, UC_DUST, True, UC_AURA, 1]])
+
 n_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_4.png"), name="返し斬り", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage=int_di(2), life_damage=int_di(1), maai_list=dima_di(3, 4))
+              aura_damage=int_di(2), life_damage=int_di(1), maai_list=dima_di(3, 4), after=_aan4)
 
