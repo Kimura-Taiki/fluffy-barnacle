@@ -38,7 +38,9 @@ class Card():
             flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
             ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
-        self.aura_damage, self.life_damage, self.maai_list = aura_damage, life_damage, maai_list
+        self.aura_damage, self.aura_bar = aura_damage, aura_bar
+        self.life_damage, self.life_bar = life_damage, life_bar
+        self.maai_list = maai_list
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
         self.taiou = taiou
