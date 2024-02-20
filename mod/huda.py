@@ -87,13 +87,13 @@ class Huda(Youso):
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
     def can_play(self, popup: bool=False) -> bool:
-        if self.delivery.params(self.hoyuusya).played_zenryoku:
+        if self.delivery.m_params(self.hoyuusya).played_zenryoku:
             popup_message.add(text=f"既に全力行動しています")
             return False
         elif self.usage == USAGE_USED:
             popup_message.add(text=f"「{self.card.name}」は使用済みです")
             return False
-        elif self.card.zenryoku and self.delivery.params(self.hoyuusya).played_standard:
+        elif self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard:
             popup_message.add(text=f"既に標準行動しています")
             return False
         return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)

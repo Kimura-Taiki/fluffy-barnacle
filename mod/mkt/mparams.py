@@ -1,4 +1,4 @@
-class Params():
+class MParams():
     def __init__(self) -> None:
         self.start_turn()
 
@@ -7,4 +7,4 @@ class Params():
         self.played_standard = False
 
     def __str__(self) -> str:
-        return f"Params{vars(self)}"
+        return f"MParams{vars(self)}"

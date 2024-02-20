@@ -53,14 +53,14 @@ def _use_card(huda: Huda) -> None:
     if not huda.can_play(popup=True):
         return
     popup_message.add(text=f"手札から「{huda.card.name}」を使います")
-    huda.delivery.params(huda.hoyuusya).played_standard = True
+    huda.delivery.m_params(huda.hoyuusya).played_standard = True
     huda.play()
 
 def _yadosi(huda: Huda) -> None:
     if not yadosi_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
     yadosi_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
-    huda.delivery.params(huda.hoyuusya).played_standard = True
+    huda.delivery.m_params(huda.hoyuusya).played_standard = True
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _basic(huda: Huda) -> None:
@@ -71,7 +71,7 @@ def _zensin(huda: Huda) -> None:
     if not zensin_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
     zensin_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
-    huda.delivery.params(huda.hoyuusya).played_standard = True
+    huda.delivery.m_params(huda.hoyuusya).played_standard = True
     huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
 
 def _drag(huda: Huda) -> None:

@@ -17,7 +17,7 @@ from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
 from kaiketus.m00a import n_5, n_6, n_7, n_8, n_9, s_1, s_2, s_3, s_4
 from kaiketus.m00b import n_1, n_2, n_3, n_4
-from mod.mkt.params import Params
+from mod.mkt.mparams import MParams
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
@@ -40,7 +40,7 @@ class Mikoto():
         self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, osame=10, x=310, y=WY-30)
         for listener in self.tenko():
             listener.hoyuusya = self.hoyuusya
-        self.params = Params()
+        self.m_params = MParams()
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()

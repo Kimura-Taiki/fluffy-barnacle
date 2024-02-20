@@ -3,7 +3,7 @@ from typing import Protocol, runtime_checkable, Any, NamedTuple
 
 from mod.const import compatible_with, HANTE, UC_DUST
 from mod.req.request import Request
-from mod.mkt.params import Params
+from mod.mkt.mparams import MParams
 
 @runtime_checkable
 class Delivery(Protocol):
@@ -37,7 +37,7 @@ class Delivery(Protocol):
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
         ...
 
-    def params(self, hoyuusya: int) -> Params:
+    def m_params(self, hoyuusya: int) -> MParams:
         ...
 
 class _DuckDelivery():
@@ -72,8 +72,8 @@ class _DuckDelivery():
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
         ...
 
-    def params(self, hoyuusya: int) -> Params:
-        return Params()
+    def m_params(self, hoyuusya: int) -> MParams:
+        return MParams()
 
 
 duck_delivery = _DuckDelivery()
