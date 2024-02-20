@@ -5,18 +5,19 @@ from mod.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
+from mod.card import Card
 
-def taiou_taba(delivery: Delivery, hoyuusya: int) -> Taba:
-    return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya), hoyuusya=hoyuusya)
+def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card) -> Taba:
+    return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya, kougeki=kougeki), hoyuusya=hoyuusya)
 
-def _taiou_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+def _taiou_hudas(delivery: Delivery, hoyuusya: int, kougeki: Card) -> list[Huda]:
     return [
         huda
         for taba_code in [TC_TEHUDA, TC_KIRIHUDA]
         if isinstance(taba := delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=taba_code), Taba)
         for huda in taba
-        if huda.card.taiou and huda.can_play()
-    ]
+        if huda.card.taiou and huda.can_play() and kougeki.nontaiouble(delivery, hoyuusya, huda.card) 
+        ]
 
 def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouseup}, is_ol=True)

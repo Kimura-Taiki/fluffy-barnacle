@@ -44,7 +44,7 @@ class PlayKougeki():
             return
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya)
+        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki)
 
     def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
