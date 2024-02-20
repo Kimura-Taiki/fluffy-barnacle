@@ -56,9 +56,7 @@ class PlayKougeki():
                  POP_AFTER_ATTACKED: self._after_attacked}.get(stat.code), type(self._taioued))(stat)
         
     def _taioued(self, stat: PopStat) -> None:
-        if not isinstance(stat.huda, Huda):
-            raise ValueError(f"Invalid stat: {stat}")
-        self.taiou_huda = stat.huda
+        self.taiou_huda = enforce(stat.huda, Huda)
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
