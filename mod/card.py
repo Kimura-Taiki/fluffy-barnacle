@@ -16,6 +16,7 @@ SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
 TaiounizeDI = Callable[['Card', Delivery, int], 'Card']
 auto_di: BoolDI = lambda delivery, hoyuusya: True
+nega_di: BoolDI = lambda delivery, hoyuusya: False
 pass_di: KoukaDI = lambda delivery, hoyuusya: None
 int_di: Callable[[int], SuuziDI] = lambda i: lambda delivery, hoyuusya: i
 whole_di: MaaiDI = lambda delivery, hoyuusya: [True]*11
@@ -27,7 +28,8 @@ identity_di: TaiounizeDI = lambda i, j, k: i
 class Card():
     def __init__(
             self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
-            aura_damage: SuuziDI = int_di(0), life_damage: SuuziDI=int_di(0),
+            aura_damage: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
+            life_damage: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
             maai_list: MaaiDI=whole_di,
             kouka: KoukaDI=pass_di,
             osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,

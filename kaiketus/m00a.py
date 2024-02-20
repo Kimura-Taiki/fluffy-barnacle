@@ -1,6 +1,5 @@
 import pygame
 from copy import copy
-from functools import partial
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO,\
     enforce, TC_TEHUDA, TC_SUTEHUDA
