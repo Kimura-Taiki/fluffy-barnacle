@@ -1,12 +1,5 @@
-class Params():
-    def __init__(self) -> None:
-        self.start_turn()
-
-    def start_turn(self) -> None:
-        self.played_zenryoku = False
-
-    def __str__(self) -> str:
-        return f"Params{vars(self)}"
-
-p1 = Params()
-print(p1)
+li = list(range(10))
+# fe = list(li)
+for i in (fe := list(li)):
+    li.remove(i)
+    print(i, li, fe)

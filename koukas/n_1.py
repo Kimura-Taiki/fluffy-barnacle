@@ -2,12 +2,14 @@ import pygame
 from copy import copy
 from functools import partial
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO,\
+    enforce, TC_TEHUDA, TC_SUTEHUDA
 from mod.card import Card, auto_di, int_di, dima_di
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
+from mod.taba import Taba
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(1), maai_list=dima_di(5, 9))
@@ -20,6 +22,9 @@ n_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_3.png"), name="牽制
 
 n_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_4.png"), name="背中刺し", cond=auto_di, type=CT_KOUGEKI,
               aura_damage=int_di(3), life_damage=int_di(2), maai_list=dima_di(1, 1))
+
+n_5 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_5.png"), name="二刀一閃", cond=auto_di, type=CT_KOUGEKI,
+           aura_damage=int_di(4), life_damage=int_di(2), maai_list=dima_di(2, 3), zenryoku=True)
 
 def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=1)
@@ -84,3 +89,10 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    for huda in list(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba)):
+        delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_SYUUTYUU, to_mine=False, to_code=UC_ZYOGAI, kazu=2)
+
+s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="奪イノ茨", cond=auto_di, type=CT_KOUDOU,
+           kouka=_kouka_s_4, zenryoku=True)
