@@ -15,8 +15,8 @@ from mod.mkt.huse_sute_view import HuseSuteView
 from mod.taba import Taba
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
-from kaiketus.m00a import n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9, s_1, s_2, s_3, s_4
-from kaiketus.m00b import n_1
+from kaiketus.m00a import n_5, n_6, n_7, n_8, n_9, s_1, s_2, s_3, s_4
+from kaiketus.m00b import n_1, n_2, n_3, n_4
 from mod.mkt.params import Params
 
 class Mikoto():

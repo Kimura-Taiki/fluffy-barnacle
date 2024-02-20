@@ -23,7 +23,7 @@ def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
     ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=card.life_damage(
         delivery, hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
     can_receive_aura = ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
-    return [ad_card, ld_card] if can_receive_aura and not card.aura_bar else [ld_card]
+    return [ad_card, ld_card] if can_receive_aura and not card.aura_bar(delivery, hoyuusya) else [ld_card]
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y, is_ol=True)

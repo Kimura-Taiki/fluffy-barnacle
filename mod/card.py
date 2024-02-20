@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from pygame.surface import Surface
 from pygame.math import Vector2
-from typing import Callable, Any, Optional
+from typing import Callable, Any, Optional, Type
 from functools import partial
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
@@ -11,12 +11,15 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 
 BoolDI = Callable[[Delivery, int], bool]
+BoolDIC = Callable[[Delivery, int, 'Card'], bool]
 KoukaDI = Callable[[Delivery, int], None]
 SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
 TaiounizeDI = Callable[['Card', Delivery, int], 'Card']
 auto_di: BoolDI = lambda delivery, hoyuusya: True
 nega_di: BoolDI = lambda delivery, hoyuusya: False
+auto_dic: BoolDIC = lambda delivery, hoyuusya, card: True
+nega_dic: BoolDIC = lambda delivery, hoyuusya, card: False
 pass_di: KoukaDI = lambda delivery, hoyuusya: None
 int_di: Callable[[int], SuuziDI] = lambda i: lambda delivery, hoyuusya: i
 whole_di: MaaiDI = lambda delivery, hoyuusya: [True]*11
@@ -30,7 +33,7 @@ class Card():
             self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
             aura_damage: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
             life_damage: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
-            maai_list: MaaiDI=whole_di,
+            maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
             kouka: KoukaDI=pass_di,
             osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
             tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
@@ -40,7 +43,7 @@ class Card():
         self.img, self.name, self.cond, self.type = img, name, cond, type
         self.aura_damage, self.aura_bar = aura_damage, aura_bar
         self.life_damage, self.life_bar = life_damage, life_bar
-        self.maai_list = maai_list
+        self.maai_list, self.nontaiouble = maai_list, taiouble
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
         self.taiou = taiou
