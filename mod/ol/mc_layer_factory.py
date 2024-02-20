@@ -1,17 +1,19 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, POP_EMPTY_TABA
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, POP_EMPTY_TABA, enforce
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 from mod.moderator import moderator
+from mod.card import Card
 
 class MonoChoiceLayer():
     def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
                  duck_delivery, hoyuusya: int=HANTE, huda: Any | None=None,
+                 card: Card | None=None,
                  moderate: Callable[['MonoChoiceLayer', PopStat], None]=
                  lambda mcl, stat: None, code: int=POP_OK) -> None:
         self.name = name
@@ -19,6 +21,7 @@ class MonoChoiceLayer():
         self.delivery = delivery
         self.hoyuusya = hoyuusya
         self.source_huda = huda if isinstance(huda, Huda) else None
+        self.card = card
         self.inject_func = delivery.inject_view
         self.other_hover = view_youso
         self.moderate_func = moderate
