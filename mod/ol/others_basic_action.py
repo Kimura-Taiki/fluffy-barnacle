@@ -18,8 +18,8 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     mcl.delivery.m_params(mcl.hoyuusya).played_standard = True
     if mcl.mode == OBAL_KIHONDOUSA:
         mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
-    # elif mcl.mode == OBAL_USE_CARD:
-    #     mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
+    elif mcl.mode == OBAL_USE_CARD:
+        mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
     moderator.pop()
 
 def others_basic_action_layer(

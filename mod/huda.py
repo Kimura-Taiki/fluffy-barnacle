@@ -99,10 +99,11 @@ class Huda(Youso):
         return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
     def discard(self) -> None:
-        if self.card.kirihuda:
-            self.usage = USAGE_USED
-        else:
-            self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
+        ...
+        # if self.card.kirihuda:
+        #     self.usage = USAGE_USED
+        # else:
+        #     self.delivery.send_huda_to_ryouiki(huda=self, is_mine=True, taba_code=TC_SUTEHUDA)
 
     def _draw_huyo(self) -> None:
         from mod.draw_huyo_functions import draw_huyo
