@@ -14,6 +14,7 @@ from mod.delivery import Delivery, Listener
 from mod.moderator import moderator
 from mod.req.request import Request
 from mod.mkt.mparams import MParams
+from mod.bparams import BParams
 
 class Banmen():
     def __init__(self) -> None:
@@ -28,6 +29,7 @@ class Banmen():
             listener.delivery = self
         self.tabas = [listener for listener in self.listeners if isinstance(listener, Taba)]
         self.turn_player = SIMOTE
+        self.b_params = BParams()
 
     def get_hover(self) -> Youso | None:
         if y2 := self.own_mikoto.get_hover():
@@ -126,6 +128,7 @@ class Banmen():
     def m_params(self, hoyuusya: int) -> MParams:
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(hoyuusya), Mikoto)
         return mikoto.m_params
+
 
 
 compatible_with(obj=Banmen(), protocol=Delivery)

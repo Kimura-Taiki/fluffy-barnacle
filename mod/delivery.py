@@ -4,10 +4,12 @@ from typing import Protocol, runtime_checkable, Any, NamedTuple
 from mod.const import compatible_with, HANTE, UC_DUST
 from mod.req.request import Request
 from mod.mkt.mparams import MParams
+from mod.bparams import BParams
 
 @runtime_checkable
 class Delivery(Protocol):
     turn_player: int
+    b_params: BParams
 
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         ...
@@ -43,6 +45,7 @@ class Delivery(Protocol):
 class _DuckDelivery():
     def __init__(self) -> None:
         self.turn_player = HANTE
+        self.bparams = BParams()
 
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         pass
