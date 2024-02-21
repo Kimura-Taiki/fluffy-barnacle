@@ -81,7 +81,7 @@ def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
 def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
     def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
-        return max(0, kougeki.aura_damage(delivery, hoyuusya)-2)
+        return kougeki.aura_damage(delivery, hoyuusya)-2
     taiounized.aura_damage = aura_damage
     return taiounized
 

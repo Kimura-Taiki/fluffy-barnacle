@@ -11,6 +11,7 @@ from mod.popup_message import popup_message
 from mod.tf.taba_factory import TabaFactory
 
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
+_0DAMAGE = Damage(img=IMG_AURA_DAMAGE, name="打ち消されました", dmg=0, from_code=UC_AURA, to_code=UC_DUST)
 
 def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
@@ -23,6 +24,8 @@ def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
     ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=card.life_damage(
         delivery, hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
     can_receive_aura = ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
+    if card.aura_bar(delivery, hoyuusya) and card.life_bar(delivery, hoyuusya):
+        return [_0DAMAGE]
     return [ad_card, ld_card] if can_receive_aura and not card.aura_bar(delivery, hoyuusya) else [ld_card]
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
@@ -32,3 +35,4 @@ def _uke_mouseup(huda: Huda, kougeki: Card, discard_source: Callable[[], None], 
     huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya)
     popup_message.add(f"{side_name(hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
     discard_source()
+
