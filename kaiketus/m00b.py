@@ -25,8 +25,7 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA, kazu=1)
 
 def _cond_n_4(delivery: Delivery, hoyuusya: int) -> bool:
-    return False
-    # return delivery.b_params.during_taiou
+    return delivery.b_params.during_taiou
 
 _aan4 = TempKoudou(name="返し斬り：攻撃後", cond=_cond_n_4, kouka=_kouka_n_4, todo=[[False, UC_DUST, True, UC_AURA, 1]])
 

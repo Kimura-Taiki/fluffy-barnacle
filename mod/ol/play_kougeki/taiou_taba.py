@@ -19,6 +19,6 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouseup}, is_ol=True)
 
 def _taiou_mouseup(huda: Huda) -> None:
-    # huda.delivery.b_params.during_taiou = True
+    huda.delivery.b_params.during_taiou = True
     popup_message.add(f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います")
     huda.card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda.base, code=POP_TAIOUED)

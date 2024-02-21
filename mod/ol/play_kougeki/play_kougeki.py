@@ -60,6 +60,7 @@ class PlayKougeki():
         ...
 
     def _taioued(self, stat: PopStat) -> None:
+        self.delivery.b_params.during_taiou = False
         self.taiou_huda = enforce(stat.huda, Huda)
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
