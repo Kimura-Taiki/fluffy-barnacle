@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any, runtime_checkable
 
-from mod.const import pass_func, POP_HUYO_ELAPSED, POP_EMPTY_TABA
+from mod.const import pass_func, POP_HUYO_ELAPSED
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.moderator import moderator
@@ -27,9 +27,7 @@ class RemoveOsame():
         return PopStat(POP_HUYO_ELAPSED)
 
     def moderate(self, stat: PopStat) -> None:
-        print("hoihoi")
         if not stat.rest_taba:
-        # if stat.code == POP_EMPTY_TABA:
             moderator.pop()
         else:
             moderator.append(single_remove_layer(delivery=self.delivery, hoyuusya=self.hoyuusya, taba=stat.rest_taba))

@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Callable, Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, POP_EMPTY_TABA, enforce
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, enforce
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
@@ -17,7 +17,6 @@ class MonoChoiceLayer():
                  moderate: Callable[['MonoChoiceLayer', PopStat], None]=
                  lambda mcl, stat: None, code: int=POP_OK) -> None:
         self.name = name
-        print(f"MCL:{name} を作成しました")
         self.taba = taba
         self.delivery = delivery
         self.hoyuusya = hoyuusya
@@ -42,9 +41,6 @@ class MonoChoiceLayer():
             self.taba[0].mouseup()
 
     def close(self) -> PopStat:
-        print(f"MCL:{self.name} を解放しました")
-        # if not self.taba:
-        #     return PopStat(code=POP_EMPTY_TABA)
         return PopStat(code=self.code, huda=self.source_huda, rest_taba=self.taba)
 
     def moderate(self, stat: PopStat) -> None:
