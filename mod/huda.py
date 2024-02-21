@@ -96,6 +96,10 @@ class Huda(Youso):
         elif self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard:
             popup_message.add(text=f"既に標準行動しています")
             return False
+        elif not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya):
+            if popup:
+                popup_message.add(text=f"「{self.card.name}」に費やすフレアが足りません")
+            return False
         return True
 
     def can_play(self, popup: bool=False) -> bool:

@@ -40,9 +40,9 @@ class PlayKougeki():
         return self.uke_taba.get_hover_huda() or self.taiou_taba.get_hover_huda() or view_youso
 
     def open(self) -> None:
-        # if not self.kougeki.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=True):
-        #     moderator.pop()
-        #     return
+        if not self.kougeki.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=True):
+            moderator.pop()
+            return
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki)
