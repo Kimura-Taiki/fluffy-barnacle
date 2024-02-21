@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 from typing import Any
 
-from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED, POP_OK,\
+from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, POP_TAIOUED, POP_OK,\
     enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
@@ -14,8 +14,6 @@ from mod.delivery import Delivery
 from mod.ol.play_kougeki.uke_taba import uke_taba
 from mod.ol.play_kougeki.taiou_taba import taiou_taba
 from mod.ol.pop_stat import PopStat
-
-SCALE_SIZE = 180
 
 class PlayKougeki():
     def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK,) -> None:
@@ -29,7 +27,6 @@ class PlayKougeki():
         self.uke_taba: Taba = Taba()
         self.taiou_huda: Huda | None = None
         self.code = code
-        # self.getaiouen = getaiouen
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
@@ -46,8 +43,9 @@ class PlayKougeki():
             return
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki,
-                                     getaiouen=self.code==POP_TAIOUED)
+        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki)
+        if self.code == POP_TAIOUED:
+            self.taiou_taba.clear()
 
     def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
@@ -66,13 +64,12 @@ class PlayKougeki():
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
-            # self._discard_source()
             moderator.pop()
             return
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
-        
+
     def _after_attacked(self, stat: PopStat) -> None:
         moderator.pop()
 

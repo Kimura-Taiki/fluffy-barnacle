@@ -45,7 +45,7 @@ class Delivery(Protocol):
 class _DuckDelivery():
     def __init__(self) -> None:
         self.turn_player = HANTE
-        self.bparams = BParams()
+        self.b_params = BParams()
 
     def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
         pass

@@ -8,9 +8,9 @@ from mod.tf.taba_factory import TabaFactory
 from mod.card import Card
 from mod.popup_message import popup_message
 
-def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card, getaiouen: bool) -> Taba:
+def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card) -> Taba:
     return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(
-        hudas=[] if getaiouen else _taiou_hudas(delivery=delivery, hoyuusya=hoyuusya, kougeki=kougeki), hoyuusya=hoyuusya)
+        hudas=_taiou_hudas(delivery=delivery, hoyuusya=hoyuusya, kougeki=kougeki), hoyuusya=hoyuusya)
 
 def _taiou_hudas(delivery: Delivery, hoyuusya: int, kougeki: Card) -> list[Huda]:
     return [
@@ -25,5 +25,6 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouseup}, is_ol=True)
 
 def _taiou_mouseup(huda: Huda) -> None:
+    # huda.delivery.b_params.during_taiou = True
     popup_message.add(f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います")
     huda.card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda.base, code=POP_TAIOUED)
