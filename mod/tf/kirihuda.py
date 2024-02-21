@@ -8,7 +8,7 @@ from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
-from mod.ol.others_basic_action import others_basic_action_layer, obal_func
+from mod.ol.others_basic_action import obal_func
 from mod.card import Card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 600/i

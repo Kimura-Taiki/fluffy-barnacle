@@ -16,11 +16,11 @@ def obal_func(cards: list[Card]=[], text: str="", mode: int=OBAL_KIHONDOUSA) -> 
     def func(huda: Huda) -> None:
         if len(cards) == 1 and not cards[0].can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
             return
-        if not huda.can_standard(popup=True):
+        if not huda.can_standard(popup=True, is_zenryoku=mode==OBAL_USE_CARD):
             return
         if text:
             popup_message.add(text=text)
-        moderator.append(over_layer=others_basic_action_layer(
+        moderator.append(over_layer=_others_basic_action_layer(
             delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=cards, mode=mode))
     return func
 
@@ -41,7 +41,7 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
             mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
     moderator.pop()
 
-def others_basic_action_layer(
+def _others_basic_action_layer(
         delivery: Delivery, hoyuusya: int, huda: Any | None=None, cards:
         list[Card]=[], mode: int=OBAL_KIHONDOUSA) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(
