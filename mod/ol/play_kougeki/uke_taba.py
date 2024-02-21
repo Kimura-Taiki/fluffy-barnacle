@@ -11,7 +11,7 @@ from mod.popup_message import popup_message
 from mod.tf.taba_factory import TabaFactory
 
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
-_0DAMAGE = Damage(img=IMG_AURA_DAMAGE, name="打ち消されました", dmg=0, from_code=UC_AURA, to_code=UC_DUST)
+_0DAMAGE = Damage(img=IMG_AURA_DAMAGE, name="打ち消しました", dmg=0, from_code=UC_AURA, to_code=UC_DUST)
 
 def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
     mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)

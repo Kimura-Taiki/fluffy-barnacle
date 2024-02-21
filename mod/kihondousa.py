@@ -15,6 +15,7 @@ class KihonDousaCard(Card):
         cond: BoolDI = lambda delivery, hoyuusya: delivery.can_ouka_to_ryouiki(
             hoyuusya=hoyuusya, from_mine=from_mine, from_code=from_code,
             to_mine=to_mine, to_code=to_code)
+        print(name, cond)
         super().__init__(img=img, name=name, cond=cond)
         def dousa(delivery: Delivery, hoyuusya: int) -> None:
             popup_message.add(f"{name}をします")

@@ -59,6 +59,7 @@ class Banmen():
                              kazu: int=1) -> bool:
         from_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
         to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
+        print(min(from_utuwa.osame, to_utuwa.max-to_utuwa.osame) >= kazu, f"min({from_utuwa.osame}, {to_utuwa.max}-{to_utuwa.osame}) >= {kazu}")
         return min(from_utuwa.osame, to_utuwa.max-to_utuwa.osame) >= kazu
 
     def send_ouka_to_ryouiki(

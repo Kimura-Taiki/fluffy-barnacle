@@ -8,6 +8,7 @@ from mod.const import WX, WY, SIMOTE, KAMITE
 from mod.huda import Huda
 from mod.taba import Taba
 from mod.card import Card
+from mod.delivery import Delivery
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
@@ -37,10 +38,12 @@ class TabaFactory():
             taba.append(huda)
         return taba
 
-    def maid_by_cards(self, cards: list[Card], hoyuusya: int) -> Taba:
+    def maid_by_cards(self, cards: list[Card], delivery: Delivery | None=None, hoyuusya: int=0) -> Taba:
         taba = self._empty_taba(hoyuusya=hoyuusya)
         for card in cards:
             huda = Huda(img=card.img)
+            if delivery:
+                huda.delivery = delivery
             huda.hoyuusya = hoyuusya
             huda.card = card
             taba.append(huda)
