@@ -58,6 +58,7 @@ class Card():
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
+            popup_message.add("切り札のコスト支払い")
         from mod.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
             from mod.ol.play_koudou import PlayKoudou
@@ -80,6 +81,8 @@ class Card():
             return False
         elif not self.is_full(delivery=delivery, hoyuusya=hoyuusya):
             if popup:
+                popup_message.add(text=f"自フレア{delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR)}")
+                popup_message.add(text=f"要フレア{self.flair(delivery, hoyuusya)}")
                 popup_message.add(text=f"「{self.name}」に費やすフレアが足りません")
             return False
         elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
