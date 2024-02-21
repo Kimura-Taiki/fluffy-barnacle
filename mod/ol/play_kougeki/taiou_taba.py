@@ -1,12 +1,6 @@
-from typing import Callable
-
+#                 20                  40                  60                 79
 from mod.const import TC_TEHUDA, TC_KIRIHUDA, POP_TAIOUED, side_name
-from mod.huda import Huda
-from mod.taba import Taba
-from mod.delivery import Delivery
-from mod.tf.taba_factory import TabaFactory
-from mod.card import Card
-from mod.popup_message import popup_message
+from mod.classes import Card, Huda, Taba, Delivery, TabaFactory, Callable, popup_message
 
 def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card) -> Taba:
     return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(
