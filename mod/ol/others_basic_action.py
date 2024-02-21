@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import Any
 
-from mod.const import TC_HUSEHUDA
+from mod.const import TC_HUSEHUDA, OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda import Huda
@@ -21,7 +21,7 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
 
 def others_basic_action_layer(
         delivery: Delivery, hoyuusya: int, huda: Any | None=None, cards:
-        list[Card]=[]) -> MonoChoiceLayer:
+        list[Card]=[], mode: int=OBAL_KIHONDOUSA) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="基本動作の選択", delivery=delivery, hoyuusya=
                           hoyuusya, huda=huda,moderate=_moderate)
     factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
