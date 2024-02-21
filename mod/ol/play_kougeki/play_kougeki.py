@@ -66,8 +66,8 @@ class PlayKougeki():
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
-            self._discard_source()
-            # moderator.pop()
+            # self._discard_source()
+            moderator.pop()
             return
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
@@ -77,8 +77,6 @@ class PlayKougeki():
         moderator.pop()
 
     def _discard_source(self) -> None:
-        # if self.source_huda:
-        #     self.source_huda.discard()
         if self.kougeki.after:
             self.kougeki.after.kaiketu(
                 delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
