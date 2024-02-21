@@ -10,7 +10,7 @@ from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.ol.others_basic_action import others_basic_action_layer
+from mod.ol.others_basic_action import others_basic_action_layer, obal_func
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.card import Card
 
@@ -45,20 +45,25 @@ def _active(huda: Huda) -> None:
             int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
-def _obal_func(cards: list[Card]=[], text: str="", mode: int=OBAL_KIHONDOUSA) -> Callable[[Huda], None]:
-    def func(huda: Huda) -> None:
-        if len(cards) == 1 and not cards[0].can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
-            return
-        if text:
-            popup_message.add(text=text)
-        moderator.append(over_layer=others_basic_action_layer(
-            delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=cards, mode=mode))
-    return func
+# def _obal_func(cards: list[Card]=[], text: str="", mode: int=OBAL_KIHONDOUSA) -> Callable[[Huda], None]:
+#     def func(huda: Huda) -> None:
+#         if len(cards) == 1 and not cards[0].can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
+#             return
+#         if text:
+#             popup_message.add(text=text)
+#         moderator.append(over_layer=others_basic_action_layer(
+#             delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=cards, mode=mode))
+#     return func
 
-_yadosi = _obal_func(cards=[yadosi_card])
-_basic = _obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
-_zensin = _obal_func(cards=[zensin_card])
-_use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: _obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
+# _yadosi = _obal_func(cards=[yadosi_card])
+# _basic = _obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
+# _zensin = _obal_func(cards=[zensin_card])
+# _use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: _obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
+
+_yadosi = obal_func(cards=[yadosi_card])
+_basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
+_zensin = obal_func(cards=[zensin_card])
+_use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 
 def _mouseup(huda: Huda) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord

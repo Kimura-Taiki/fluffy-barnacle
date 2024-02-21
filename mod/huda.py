@@ -91,13 +91,13 @@ class Huda(Youso):
             if popup:
                 popup_message.add(text=f"既に全力行動しています")
             return False
-        elif self.usage == USAGE_USED:
-            if popup:
-                popup_message.add(text=f"「{self.card.name}」は使用済みです")
-            return False
         elif self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard:
             if popup:
                 popup_message.add(text=f"既に標準行動しています")
+            return False
+        elif self.usage == USAGE_USED:
+            if popup:
+                popup_message.add(text=f"「{self.card.name}」は使用済みです")
             return False
         elif not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya):
             if popup:
@@ -116,8 +116,9 @@ class Huda(Youso):
         #     popup_message.add(text=f"既に標準行動しています")
         #     return False
         # return self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
-        popup_message.add(f"can_standartは{self.can_standard()}です")
-        popup_message.add(f"can_playは{self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)}です")
+        if popup:
+            popup_message.add(f"can_standartは{self.can_standard()}です")
+            popup_message.add(f"can_playは{self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya)}です")
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
     def discard(self) -> None:
