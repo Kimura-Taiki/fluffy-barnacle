@@ -37,6 +37,8 @@ class MonoChoiceLayer():
     def open(self) -> None:
         if not self.taba:
             moderator.pop()
+        elif len(self.taba) == 1:
+            self.taba[0].mouseup()
 
     def close(self) -> PopStat:
         if not self.taba:

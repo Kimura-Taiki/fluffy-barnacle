@@ -59,9 +59,7 @@ def _use_card(huda: Huda) -> None:
 def _yadosi(huda: Huda) -> None:
     if not yadosi_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
-    yadosi_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
-    huda.delivery.m_params(huda.hoyuusya).played_standard = True
-    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=[yadosi_card]))
 
 def _basic(huda: Huda) -> None:
     popup_message.add(text="その他基本動作です")
@@ -70,9 +68,7 @@ def _basic(huda: Huda) -> None:
 def _zensin(huda: Huda) -> None:
     if not zensin_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
         return
-    zensin_card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya)
-    huda.delivery.m_params(huda.hoyuusya).played_standard = True
-    huda.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=[zensin_card]))
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
