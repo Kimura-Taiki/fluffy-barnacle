@@ -13,7 +13,7 @@ from mod.card import Card
 class MonoChoiceLayer():
     def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
                  duck_delivery, hoyuusya: int=HANTE, huda: Any | None=None,
-                 card: Card | None=None,
+                 mode: int=0, 
                  moderate: Callable[['MonoChoiceLayer', PopStat], None]=
                  lambda mcl, stat: None, code: int=POP_OK) -> None:
         self.name = name
@@ -21,7 +21,7 @@ class MonoChoiceLayer():
         self.delivery = delivery
         self.hoyuusya = hoyuusya
         self.source_huda = huda if isinstance(huda, Huda) else None
-        self.card = card
+        self.mode = mode
         self.inject_func = delivery.inject_view
         self.other_hover = view_youso
         self.moderate_func = moderate
