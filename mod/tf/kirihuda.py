@@ -49,10 +49,8 @@ def _mouseup(huda: Huda) -> None:
     _use_card(huda=huda)
 
 def _use_card(huda: Huda) -> None:
-    popup_message.add("UseCheckStart")
     if not huda.can_play(popup=True):
         return
-    popup_message.add("UseCheckEnd")
     popup_message.add(text=f"切り札から「{huda.card.name}」を使います")
     huda.play()
 

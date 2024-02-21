@@ -88,13 +88,16 @@ class Huda(Youso):
 
     def can_standard(self, popup: bool=False) -> bool:
         if self.delivery.m_params(self.hoyuusya).played_zenryoku:
-            popup_message.add(text=f"既に全力行動しています")
+            if popup:
+                popup_message.add(text=f"既に全力行動しています")
             return False
         elif self.usage == USAGE_USED:
-            popup_message.add(text=f"「{self.card.name}」は使用済みです")
+            if popup:
+                popup_message.add(text=f"「{self.card.name}」は使用済みです")
             return False
         elif self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard:
-            popup_message.add(text=f"既に標準行動しています")
+            if popup:
+                popup_message.add(text=f"既に標準行動しています")
             return False
         elif not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya):
             if popup:

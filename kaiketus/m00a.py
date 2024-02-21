@@ -94,4 +94,4 @@ def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_SYUUTYUU, to_mine=False, to_code=UC_ZYOGAI, kazu=2)
 
 s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_4, zenryoku=True, flair=int_di(99))
+           kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1))
