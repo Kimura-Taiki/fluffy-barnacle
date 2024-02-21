@@ -26,7 +26,6 @@ class MonoChoiceLayer():
         self.other_hover = view_youso
         self.moderate_func = moderate
         self.code = code
-        print(name, delivery, hoyuusya, huda)
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])

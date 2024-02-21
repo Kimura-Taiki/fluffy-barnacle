@@ -52,7 +52,6 @@ def _others_basic_action_layer(
     if mode == OBAL_KIHONDOUSA:
         mcl.taba = factory.maid_by_cards(cards=cards, delivery=delivery, hoyuusya=hoyuusya)
         hhh = mcl.taba[0]
-        print("hhh", hhh, hhh.card.name, hhh.delivery, hhh.hoyuusya)
     elif mode == OBAL_USE_CARD:
         mcl.taba = factory.maid_by_hudas(hudas=[enforce(huda, Huda)], hoyuusya=hoyuusya)
     mcl.other_hover = make_undo_youso(text="OthersBasicAction")
