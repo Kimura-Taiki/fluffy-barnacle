@@ -27,5 +27,5 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
 _aan4 = TempKoudou(name="返し斬り：攻撃後", cond=auto_di, kouka=_kouka_n_4, todo=[[False, UC_DUST, True, UC_AURA, 1]])
 
 n_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_4.png"), name="返し斬り", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage=int_di(2), life_damage=int_di(1), maai_list=dima_di(3, 4), after=_aan4)
+              aura_damage=int_di(2), life_damage=int_di(1), maai_list=dima_di(3, 4), after=_aan4, taiou=True)
 

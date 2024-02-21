@@ -30,8 +30,6 @@ class PlayKoudou():
             moderator.pop()
 
     def close(self) -> PopStat:
-        if self.source_huda:
-            self.source_huda.discard()
         self.card.close(hoyuusya=self.hoyuusya)
         return PopStat(self.code, self.source_huda)
 

@@ -86,7 +86,6 @@ class PlayHuyo():
         self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya,
             from_mine=True, from_code=UC_AURA, to_huda=self.huda, kazu=self.aura_osame)
         self.huda.usage = USAGE_DEPLOYED
-        self.huda.discard()
         moderator.pop()
 
 def _rearrange_button(button: Button, img_nega: Surface, img_lighten: Surface, num: int) -> None:

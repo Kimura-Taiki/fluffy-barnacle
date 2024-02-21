@@ -3,7 +3,7 @@ from pygame.math import Vector2
 from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, TC_SUTEHUDA, side_name, POP_TAIOUED, POP_OK,\
-    enforce, POP_AFTER_ATTACKED
+    enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN
 from mod.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
@@ -18,7 +18,7 @@ from mod.ol.pop_stat import PopStat
 SCALE_SIZE = 180
 
 class PlayKougeki():
-    def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
+    def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK,) -> None:
         self.kougeki = kougeki
         self.delivery = delivery
         self.hoyuusya = hoyuusya
@@ -29,6 +29,7 @@ class PlayKougeki():
         self.uke_taba: Taba = Taba()
         self.taiou_huda: Huda | None = None
         self.code = code
+        # self.getaiouen = getaiouen
 
     def elapse(self) -> None:
         screen.blit(source=self.kougeki.img, dest=-Vector2(self.kougeki.img.get_size())/2+Vector2(WX, WY)/2)
@@ -45,22 +46,28 @@ class PlayKougeki():
             return
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
-        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki)
+        self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki,
+                                     getaiouen=self.code==POP_TAIOUED)
 
     def close(self) -> PopStat:
         self.kougeki.close(hoyuusya=self.hoyuusya)
         return PopStat(code=self.code, huda=self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
-        enforce({POP_TAIOUED: self._taioued,
+        enforce({POP_VIEWED_BANMEN: self._viewed_banmen,
+                 POP_TAIOUED: self._taioued,
                  POP_AFTER_ATTACKED: self._after_attacked}.get(stat.code), type(self._taioued))(stat)
-        
+
+    def _viewed_banmen(self, stat: PopStat) -> None:
+        ...
+
     def _taioued(self, stat: PopStat) -> None:
         self.taiou_huda = enforce(stat.huda, Huda)
         self.taiou_taba.clear()
         if not self.kougeki.maai_cond(delivery=self.delivery, hoyuusya=self.hoyuusya):
             popup_message.add(text=f"{side_name(self.hoyuusya)}の「{self.kougeki.name}」が適正距離から外れました")
             self._discard_source()
+            # moderator.pop()
             return
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
@@ -70,8 +77,8 @@ class PlayKougeki():
         moderator.pop()
 
     def _discard_source(self) -> None:
-        if self.source_huda:
-            self.source_huda.discard()
+        # if self.source_huda:
+        #     self.source_huda.discard()
         if self.kougeki.after:
             self.kougeki.after.kaiketu(
                 delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
