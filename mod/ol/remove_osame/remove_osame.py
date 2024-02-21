@@ -27,7 +27,9 @@ class RemoveOsame():
         return PopStat(POP_HUYO_ELAPSED)
 
     def moderate(self, stat: PopStat) -> None:
-        if stat.code == POP_EMPTY_TABA:
+        print("hoihoi")
+        if not stat.rest_taba:
+        # if stat.code == POP_EMPTY_TABA:
             moderator.pop()
         else:
             moderator.append(single_remove_layer(delivery=self.delivery, hoyuusya=self.hoyuusya, taba=stat.rest_taba))

@@ -58,6 +58,10 @@ class Card():
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
+        if not self.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
+            from mod.ol.mc_layer_factory import MonoChoiceLayer
+            moderator.append(over_layer=MonoChoiceLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
+            return
         from mod.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
             from mod.ol.play_koudou import PlayKoudou
