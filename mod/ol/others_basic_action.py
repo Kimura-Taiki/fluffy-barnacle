@@ -5,14 +5,11 @@ from mod.const import TC_HUSEHUDA
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda import Huda
-from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
 from mod.card import Card
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
-
-_cards: list[Card] = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
 
 def _mouseup(huda: Huda) -> None:
     huda.card.kaiketu(huda.delivery, huda.hoyuusya)
@@ -24,7 +21,7 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
 
 def others_basic_action_layer(
         delivery: Delivery, hoyuusya: int, huda: Any | None=None, cards:
-        list[Card]=_cards) -> MonoChoiceLayer:
+        list[Card]=[]) -> MonoChoiceLayer:
     mcl = MonoChoiceLayer(name="基本動作の選択", delivery=delivery, hoyuusya=
                           hoyuusya, huda=huda,moderate=_moderate)
     factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)

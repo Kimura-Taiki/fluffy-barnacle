@@ -11,7 +11,7 @@ from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.ol.others_basic_action import others_basic_action_layer
-from mod.kihondousa import zensin_card, yadosi_card
+from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.card import Card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
@@ -49,18 +49,18 @@ def _obal_func(cards: list[Card], text: str="") -> Callable[[Huda], None]:
     def func(huda: Huda) -> None:
         if len(cards) == 1 and not cards[0].can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
             return
-        # if text:
-        #     popup_message.add(text=text)
+        if text:
+            popup_message.add(text=text)
         moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=cards))
     return func
 
 _yadosi = _obal_func(cards=[yadosi_card])
+_basic = _obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
 _zensin = _obal_func(cards=[zensin_card])
 
 def _mouseup(huda: Huda) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
-    # {3: _use_card, 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda=huda)
     {3: _use_card, 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda)
 
 def _use_card(huda: Huda) -> None:
@@ -69,20 +69,6 @@ def _use_card(huda: Huda) -> None:
     popup_message.add(text=f"手札から「{huda.card.name}」を使います")
     huda.delivery.m_params(huda.hoyuusya).played_standard = True
     huda.play()
-
-# def _yadosi(huda: Huda) -> None:
-#     if not yadosi_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
-#         return
-#     moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=[yadosi_card]))
-
-def _basic(huda: Huda) -> None:
-    popup_message.add(text="その他基本動作です")
-    moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda))
-
-# def _zensin(huda: Huda) -> None:
-#     if not zensin_card.can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
-#         return
-#     moderator.append(over_layer=others_basic_action_layer(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=[zensin_card]))
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
