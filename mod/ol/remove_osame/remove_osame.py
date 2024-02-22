@@ -6,6 +6,7 @@ from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.moderator import moderator
 from mod.ol.remove_osame.single_remove import single_remove_layer
+from mod.popup_message import popup_message
 
 class RemoveOsame():
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:
@@ -21,6 +22,7 @@ class RemoveOsame():
         return None
 
     def open(self) -> None:
+        popup_message.add("付与の納を償却します")
         moderator.append(single_remove_layer(delivery=self.delivery, hoyuusya=self.hoyuusya))
 
     def close(self) -> PopStat:

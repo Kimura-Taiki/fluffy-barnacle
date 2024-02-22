@@ -42,6 +42,9 @@ class StartPhase():
         moderator.append(reshuffle_layer(delivery=self.delivery, hoyuusya=self.hoyuusya))
 
     def _reshuffled(self) -> None:
+        if self.delivery.b_params.turn_count <= 2:
+            moderator.pop()
+            return
         for _ in range(2):
             self.delivery.hand_draw(hoyuusya=self.hoyuusya, is_mine=True)
         popup_message.add("カードを２枚引きます")

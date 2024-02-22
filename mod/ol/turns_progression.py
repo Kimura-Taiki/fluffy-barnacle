@@ -19,7 +19,6 @@ class TurnProgression():
         self.main_inject = main_inject
         self.phase = PH_NONE
         self.delivery: Delivery = delivery
-        self.turn = 1
 
     def elapse(self) -> None:
         ...
@@ -29,7 +28,7 @@ class TurnProgression():
 
     def open(self) -> None:
         moderator.append(MainPhase(inject_func=self.main_inject))
-        self.turn = 1
+        self.delivery.b_params.turn_count = 1
         self.phase = PH_MAIN
         self.delivery.turn_player = SIMOTE
         print(f"ターンプレイヤーを{side_name(self.delivery.turn_player)}にしたよ")
@@ -46,7 +45,7 @@ class TurnProgression():
             raise ValueError(f"Invalid stat.code: {stat}")
 
     def _finished_main_phase(self) -> None:
-        self.turn += 1
+        self.delivery.b_params.turn_count += 1
         self.delivery.turn_player = opponent(self.delivery.turn_player)
         self.reset_name()
         moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
@@ -56,6 +55,6 @@ class TurnProgression():
         moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
 
     def reset_name(self) -> None:
-        self.name = f"{self.turn}ターン目 {side_name(self.delivery.turn_player)}"
+        self.name = f"{self.delivery.b_params.turn_count}ターン目 {side_name(self.delivery.turn_player)}"
 
 compatible_with(TurnProgression(delivery=duck_delivery, main_inject=pass_func), OverLayer)

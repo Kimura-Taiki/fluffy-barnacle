@@ -9,6 +9,7 @@ from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 from mod.moderator import moderator
 from mod.card import Card
+from mod.popup_message import popup_message
 
 class MonoChoiceLayer():
     def __init__(self, name: str="", taba: Taba=Taba(), delivery: Delivery=
@@ -35,6 +36,7 @@ class MonoChoiceLayer():
         return self.taba.get_hover_huda() or self.other_hover
 
     def open(self) -> None:
+        popup_message.add(f"{self.name} です")
         if not self.taba:
             moderator.pop()
         elif len(self.taba) == 1:
