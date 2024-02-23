@@ -13,6 +13,7 @@ from mod.moderator import moderator
 from mod.ol.others_basic_action import obal_func
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.card import Card
+from mod.kd.action_circle import mousedown
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -29,9 +30,9 @@ def _draw(huda: Huda) -> None:
     else:
         huda.available_draw()
 
-def _mousedown(huda: Huda) -> None:
-    controller.active = huda
-    controller.hold_coord = Vector2(pygame.mouse.get_pos())
+# def _mousedown(huda: Huda) -> None:
+#     controller.active = huda
+#     controller.hold_coord = Vector2(pygame.mouse.get_pos())
 
 def _active(huda: Huda) -> None:
     huda.detail_draw()
@@ -63,5 +64,5 @@ def _drag(huda: Huda) -> None:
     huda.img_rz.set_alpha(255)
 
 tehuda_factory = TabaFactory(inject_kwargs={
-    "draw": _draw, "hover": Huda.detail_draw, "mousedown": _mousedown, "active": _active, "mouseup": _mouseup, "drag": _drag
+    "draw": _draw, "hover": Huda.detail_draw, "mousedown": mousedown, "active": _active, "mouseup": _mouseup, "drag": _drag
     }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)

@@ -9,13 +9,15 @@ from mod.classes import Callable, Card, controller, popup_message
 from mod.mkt.utuwa import Utuwa
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.others_basic_action import obal_func
+from mod.kd.action_circle import mousedown
 
 def _mousedown(utuwa: Utuwa) -> None:
     if utuwa.osame == 0:
         popup_message.add("集中力が0です")
         return
-    controller.active = utuwa
-    controller.hold_coord = Vector2(pygame.mouse.get_pos())
+    mousedown(youso=utuwa)
+    # controller.active = utuwa
+    # controller.hold_coord = Vector2(pygame.mouse.get_pos())
 
 def _active(utuwa: Utuwa) -> None:
     # huda.detail_draw()
