@@ -10,10 +10,11 @@ from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.continuous import Continuous
+# from mod.huda import Huda
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
-BoolDII = Callable[[Delivery, int, int], bool]
+# BoolDIH = Callable[[Delivery, int, 'Huda'], bool]
 KoukaDI = Callable[[Delivery, int], None]
 SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
