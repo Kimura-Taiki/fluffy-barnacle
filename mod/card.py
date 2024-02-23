@@ -9,6 +9,7 @@ from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
+from mod.continuous import Continuous
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -38,6 +39,7 @@ class Card():
             kouka: KoukaDI=pass_di,
             osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
             tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
+            cfs: list[Continuous]=[],
             taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
             flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
             ) -> None:
@@ -48,6 +50,7 @@ class Card():
         self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
+        self.cfs = cfs
         self.taiou = taiou
         self.flair = flair
         self.zenryoku = zenryoku
