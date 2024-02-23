@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import pass_func, POP_START_PHASE_FINISHED, UC_ZYOGAI, UC_SYUUTYUU, side_name,\
-    POP_HUYO_ELAPSED, POP_RESHUFFLED, enforce
+    POP_HUYO_ELAPSED, POP_RESHUFFLED, enforce, SIMOTE, KAMITE
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.ol.remove_osame.remove_osame import RemoveOsame
@@ -26,6 +26,9 @@ class StartPhase():
 
     def open(self) -> None:
         popup_message.add(f"{side_name(self.hoyuusya)}のターンです")
+        self.delivery.b_params.start_turn()
+        self.delivery.m_params(hoyuusya=SIMOTE).start_turn()
+        self.delivery.m_params(hoyuusya=KAMITE).start_turn()
         self.delivery.send_ouka_to_ryouiki(
             hoyuusya=self.hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU)
         popup_message.add("集中力を１得ます")
