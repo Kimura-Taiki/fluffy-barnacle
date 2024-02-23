@@ -31,7 +31,7 @@ def active(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
 def _use_card(card: Card) -> Callable[[Youso], None]:
-    return obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
+    return obal_func(cards=[card], name=f"手札「{card.name}」の使用", text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 
 def _not_card(youso: Youso) -> None:
     popup_message.add("集中力はカードではありません")
@@ -40,8 +40,8 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
     {3: _use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card,
-     2: obal_func(cards=[yadosi_card], mode=mode),
-     1: obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です", mode=mode)
+     2: obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode),
+     1: obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)
      }.get(int((diff_coord.angle_to([0, 0])+225)/90),
-           obal_func(cards=[zensin_card], mode=mode))(youso)
+           obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode))(youso)
 

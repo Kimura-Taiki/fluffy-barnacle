@@ -52,6 +52,7 @@ class PlayKougeki():
         return PopStat(code=self.code, huda=self.source_huda)
 
     def moderate(self, stat: PopStat) -> None:
+        print(stat)
         enforce({POP_VIEWED_BANMEN: self._viewed_banmen,
                  POP_TAIOUED: self._taioued,
                  POP_AFTER_ATTACKED: self._after_attacked}.get(stat.code), type(self._taioued))(stat)

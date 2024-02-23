@@ -21,12 +21,13 @@ class MonoChoiceLayer():
         self.taba = taba
         self.delivery = delivery
         self.hoyuusya = hoyuusya
-        self.source_huda = huda if isinstance(huda, Huda) else None
+        self.source_huda = huda.base if isinstance(huda, Huda) else None
         self.mode = mode
         self.inject_func = delivery.inject_view
         self.other_hover = view_youso
         self.moderate_func = moderate
         self.code = code
+        print(self.name, "の属性", vars(self))
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
