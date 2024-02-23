@@ -6,7 +6,6 @@ from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
     ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_CARD, enforce,\
     OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD
 from mod.classes import Callable, Card, Youso, Huda, popup_message, controller
-from mod.mkt.utuwa import Utuwa
 from mod.ol.others_basic_action import obal_func
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 
@@ -26,13 +25,11 @@ def active(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     elif rr > 62500:
         controller.active = None
     else:
-        source = {3: ACTION_CIRCLE_CARD if mode == OBAL_KIHONDOUSA else ACTION_CIRCLE_NEUTRAL, 2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
+        source = {3: ACTION_CIRCLE_CARD if mode == OBAL_KIHONDOUSA else ACTION_CIRCLE_NEUTRAL,
+                  2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(
+                      int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
-# _yadosi = obal_func(cards=[yadosi_card])
-# _basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
-# _zensin = obal_func(cards=[zensin_card])
-# _use_card: Callable[[Card], Callable[[Youso], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 def _use_card(card: Card) -> Callable[[Youso], None]:
     return obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 

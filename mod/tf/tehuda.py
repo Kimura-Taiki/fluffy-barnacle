@@ -3,16 +3,10 @@ import pygame
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import WX, WY, screen, BRIGHT, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_CARD, ACTION_CIRCLE_BASIC \
-    , ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_YADOSI, TC_HUSEHUDA, OBAL_KIHONDOUSA, OBAL_USE_CARD
+from mod.const import WX, WY, screen, BRIGHT
 from mod.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
-from mod.popup_message import popup_message
-from mod.moderator import moderator
-from mod.ol.others_basic_action import obal_func
-from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
-from mod.card import Card
 from mod.kd.action_circle import mousedown, active, mouseup
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
@@ -29,32 +23,6 @@ def _draw(huda: Huda) -> None:
         return None
     else:
         huda.available_draw()
-
-# def _mousedown(huda: Huda) -> None:
-#     controller.active = huda
-#     controller.hold_coord = Vector2(pygame.mouse.get_pos())
-
-# def _active(huda: Huda) -> None:
-#     huda.detail_draw()
-#     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-#     if (rr := diff_coord.length_squared()) < 50:
-#         screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-#     elif rr > 62500:
-#         controller.data_transfer = huda
-#     else:
-#         source = {3: ACTION_CIRCLE_CARD, 2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(
-#             int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
-#         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
-
-# _yadosi = obal_func(cards=[yadosi_card])
-# _basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
-# _zensin = obal_func(cards=[zensin_card])
-# _use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
-
-# def _mouseup(huda: Huda) -> None:
-#     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-#     if diff_coord.length_squared() < 50: return
-#     {3: _use_card(huda.card), 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda)
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
