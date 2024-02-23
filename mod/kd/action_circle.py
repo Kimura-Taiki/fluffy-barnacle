@@ -7,7 +7,7 @@ from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
     OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD
 from mod.classes import Callable, Card, Youso, Huda, popup_message, controller
 from mod.ol.others_basic_action import obal_func
-from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
+from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 
 def mousedown(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     if mode == OBAL_SYUUTYUU and youso.osame == 0:

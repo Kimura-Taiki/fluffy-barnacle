@@ -63,7 +63,7 @@ class Card():
             from mod.ol.mc_layer_factory import MonoChoiceLayer
             moderator.append(over_layer=MonoChoiceLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
             return
-        from mod.kihondousa import KihonDousaCard
+        from mod.kd.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
             from mod.ol.play_koudou import PlayKoudou
             moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
