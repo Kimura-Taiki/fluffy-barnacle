@@ -1,7 +1,8 @@
 #                 20                  40                  60                 79
 from typing import Any, Callable
 
-from mod.const import TC_HUSEHUDA, TC_SUTEHUDA, OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD, USAGE_USED, enforce
+from mod.const import TC_HUSEHUDA, TC_SUTEHUDA, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
+    OBAL_USE_CARD, USAGE_USED, enforce, UC_SYUUTYUU, UC_ZYOGAI
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda import Huda
@@ -32,6 +33,7 @@ def _mouseup(huda: Huda) -> None:
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
     mcl.delivery.m_params(mcl.hoyuusya).played_standard = True
     if mcl.mode == OBAL_KIHONDOUSA:
+        print(f"mcl.modeは{mcl.mode}です")
         mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
     elif mcl.mode == OBAL_USE_CARD:
         source_huda = enforce(mcl.source_huda, Huda)
@@ -41,6 +43,10 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
             source_huda.usage = USAGE_USED
         else:
             mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
+    elif mcl.mode == OBAL_SYUUTYUU:
+        mcl.delivery.send_ouka_to_ryouiki(
+            hoyuusya=mcl.hoyuusya, from_mine=True, from_code=UC_SYUUTYUU,
+            to_mine=False, to_code=UC_ZYOGAI)
     moderator.pop()
 
 def _others_basic_action_layer(

@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 from mod.const import screen, IMG_SYUUTYUU_AREA, ACTION_CIRCLE_NEUTRAL,\
     ACTION_CIRCLE_YADOSI, ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN,\
-    pass_func, BRIGHT
+    pass_func, BRIGHT, OBAL_SYUUTYUU
 from mod.classes import Callable, Card, controller, popup_message
 from mod.mkt.utuwa import Utuwa
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
@@ -31,9 +31,9 @@ def _active(utuwa: Utuwa) -> None:
             int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
-_yadosi = obal_func(cards=[yadosi_card])
-_basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
-_zensin = obal_func(cards=[zensin_card])
+_yadosi = obal_func(cards=[yadosi_card], mode=OBAL_SYUUTYUU)
+_basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です", mode=OBAL_SYUUTYUU)
+_zensin = obal_func(cards=[zensin_card], mode=OBAL_SYUUTYUU)
 # _use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 
 def _no_card(utuwa: Utuwa) -> None:
