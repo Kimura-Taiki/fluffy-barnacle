@@ -11,17 +11,19 @@ from mod.card import Card
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 from mod.popup_message import popup_message
+from mod.youso import Youso
 
-def obal_func(cards: list[Card]=[], text: str="", mode: int=OBAL_KIHONDOUSA) -> Callable[[Huda], None]:
-    def func(huda: Huda) -> None:
-        if len(cards) == 1 and not cards[0].can_play(delivery=huda.delivery, hoyuusya=huda.hoyuusya, popup=True):
+def obal_func(cards: list[Card]=[], text: str="", mode: int=OBAL_KIHONDOUSA) -> Callable[[Youso], None]:
+    def func(youso: Youso) -> None:
+        if len(cards) == 1 and not cards[0].can_play(delivery=youso.delivery, hoyuusya=youso.hoyuusya, popup=True):
             return
-        if not huda.can_standard(popup=True, is_zenryoku=mode==OBAL_USE_CARD):
+        if isinstance(youso, Huda) and not youso.can_standard(popup=True, is_zenryoku=mode==OBAL_USE_CARD):
             return
         if text:
             popup_message.add(text=text)
         moderator.append(over_layer=_others_basic_action_layer(
-            delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda, cards=cards, mode=mode))
+            delivery=youso.delivery, hoyuusya=youso.hoyuusya, huda=youso if
+            isinstance(youso, Huda) else None,cards=cards, mode=mode))
     return func
 
 def _mouseup(huda: Huda) -> None:

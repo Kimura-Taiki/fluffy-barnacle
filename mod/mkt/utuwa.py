@@ -1,3 +1,4 @@
+import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
@@ -17,6 +18,11 @@ class Utuwa(Youso):
         self.osame = osame
         self.max = max
         self.draw = partial(self._draw)
+
+    def is_cursor_on(self) -> bool:
+        mx, my = pygame.mouse.get_pos()
+        [hx, hy] = Vector2(self.img.get_size())/2
+        return self.x-hx <= mx and mx <= self.x+hx and self.y-hy <= my and my <= self.y+hy
 
     def _draw(self) -> None:
         screen.blit(source=self.img, dest=-Vector2(self.img.get_size())/2+[self.x, self.y])

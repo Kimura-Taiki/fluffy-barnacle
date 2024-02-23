@@ -13,6 +13,7 @@ from mod.mkt.huse_sute_view import HuseSuteView
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.youso import Youso
 from mod.mkt.mparams import MParams
+from mod.mkt.syuutyuu import syuutyuu_utuwa
 
 class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
@@ -29,11 +30,12 @@ class Mikoto():
                                      Gottenon(core_view=HuseSuteView(husehuda=self.husehuda, sutehuda=self.sutehuda, hoyuusya=hoyuusya),
                                               name="伏せ札・捨て札", x=140, y=WY-90),
                                      Gottenon(core_view=self.kirihuda, name="切り札", x=140, y=WY-30)])
-        self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-210, max=2)
+        self.syuutyuu = syuutyuu_utuwa(hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-210)
         self.isyuku = Utuwa(img=IMG_ISYUKU_AREA, hoyuusya=self.hoyuusya, osame=0, x=330, y=WY-210, max=1)
         self.aura = Utuwa(img=IMG_AURA_AREA, hoyuusya=self.hoyuusya, osame=3, x=310, y=WY-150, max=5)
         self.flair = Utuwa(img=IMG_FLAIR_AREA, hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-90)
         self.life = Utuwa(img=IMG_LIFE_AREA, hoyuusya=self.hoyuusya, osame=10, x=310, y=WY-30)
+        self.utuwas = [self.syuutyuu, self.aura, self.flair, self.life]
         for listener in self.tenko():
             listener.hoyuusya = self.hoyuusya
         self.m_params = MParams()
@@ -51,6 +53,8 @@ class Mikoto():
     def get_hover(self) -> Youso | None:
         if y1 := self.gottena.get_hover_gotten():
             return y1
+        if y2 := next((utuwa for utuwa in self.utuwas if utuwa.is_cursor_on()), None):
+            return y2
         else:
             return self.gottena.selected.core_view.get_hover_huda()
 
