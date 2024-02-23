@@ -31,7 +31,6 @@ def _mouseup(huda: Huda) -> None:
     huda.card.kaiketu(huda.delivery, huda.hoyuusya, huda.base)
 
 def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
-    print(f"{mcl.name}._moderate", f"mode={mcl.mode}", f"code={mcl.code}", stat)
     mcl.delivery.m_params(mcl.hoyuusya).played_standard = True
     if mcl.mode == OBAL_KIHONDOUSA:
         mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_HUSEHUDA)
@@ -42,7 +41,6 @@ def _moderate(mcl: MonoChoiceLayer, stat: PopStat) -> None:
         if source_huda.card.kirihuda:
             source_huda.usage = USAGE_USED
         else:
-            print("kokohasire")
             mcl.delivery.send_huda_to_ryouiki(huda=mcl.source_huda, is_mine=True, taba_code=TC_SUTEHUDA)
     elif mcl.mode == OBAL_SYUUTYUU:
         mcl.delivery.send_ouka_to_ryouiki(
