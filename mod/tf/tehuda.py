@@ -13,7 +13,7 @@ from mod.moderator import moderator
 from mod.ol.others_basic_action import obal_func
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.card import Card
-from mod.kd.action_circle import mousedown
+from mod.kd.action_circle import mousedown, active, mouseup
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -34,27 +34,27 @@ def _draw(huda: Huda) -> None:
 #     controller.active = huda
 #     controller.hold_coord = Vector2(pygame.mouse.get_pos())
 
-def _active(huda: Huda) -> None:
-    huda.detail_draw()
-    diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-    if (rr := diff_coord.length_squared()) < 50:
-        screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
-    elif rr > 62500:
-        controller.data_transfer = huda
-    else:
-        source = {3: ACTION_CIRCLE_CARD, 2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(
-            int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
-        screen.blit(source=source, dest=controller.hold_coord-[250, 250])
+# def _active(huda: Huda) -> None:
+#     huda.detail_draw()
+#     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
+#     if (rr := diff_coord.length_squared()) < 50:
+#         screen.blit(source=ACTION_CIRCLE_NEUTRAL, dest=controller.hold_coord-[250, 250])
+#     elif rr > 62500:
+#         controller.data_transfer = huda
+#     else:
+#         source = {3: ACTION_CIRCLE_CARD, 2: ACTION_CIRCLE_YADOSI, 1: ACTION_CIRCLE_BASIC}.get(
+#             int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
+#         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
-_yadosi = obal_func(cards=[yadosi_card])
-_basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
-_zensin = obal_func(cards=[zensin_card])
-_use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
+# _yadosi = obal_func(cards=[yadosi_card])
+# _basic = obal_func(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card], text="その他基本動作です")
+# _zensin = obal_func(cards=[zensin_card])
+# _use_card: Callable[[Card], Callable[[Huda], None]] = lambda card: obal_func(cards=[card], text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
 
-def _mouseup(huda: Huda) -> None:
-    diff_coord = pygame.mouse.get_pos()-controller.hold_coord
-    if diff_coord.length_squared() < 50: return
-    {3: _use_card(huda.card), 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda)
+# def _mouseup(huda: Huda) -> None:
+#     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
+#     if diff_coord.length_squared() < 50: return
+#     {3: _use_card(huda.card), 2: _yadosi, 1: _basic}.get(int((diff_coord.angle_to([0, 0])+225)/90), _zensin)(huda)
 
 def _drag(huda: Huda) -> None:
     gpv2 = Vector2(pygame.mouse.get_pos())
@@ -64,5 +64,5 @@ def _drag(huda: Huda) -> None:
     huda.img_rz.set_alpha(255)
 
 tehuda_factory = TabaFactory(inject_kwargs={
-    "draw": _draw, "hover": Huda.detail_draw, "mousedown": mousedown, "active": _active, "mouseup": _mouseup, "drag": _drag
+    "draw": _draw, "hover": Huda.detail_draw, "mousedown": mousedown, "active": active, "mouseup": mouseup, "drag": _drag
     }, huda_x=HAND_X, huda_y=HAND_Y, huda_angle=HAND_ANGLE)
