@@ -4,13 +4,14 @@ from functools import partial
 from typing import Callable
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO,\
-    enforce, TC_TEHUDA, TC_SUTEHUDA
-from mod.card import Card, auto_di, int_di, dima_di, nega_dic
+    enforce, TC_TEHUDA, TC_SUTEHUDA, CF_ATTACK_CORRECTION
+from mod.card import Card, auto_di, int_di, dima_di, nega_dic, BoolDII
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
 from mod.taba import Taba
+from mod.continuous import Continuous
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=int_di(0), aura_bar=auto_di, life_damage=int_di(1), maai_list=dima_di(4, 5))
@@ -66,8 +67,19 @@ def _aura_damage_7(delivery: Delivery, hoyuusya: int) -> int:
 n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_8.png"), name="光の刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=_aura_damage_7, life_damage=int_di(1), maai_list=dima_di(3, 5))
 
+def _taiounize_cfs_n_9(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(kougeki)
+    def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
+        return max(0, kougeki.aura_damage(delivery, hoyuusya)+1)
+    taiounized.aura_damage = aura_damage
+    return taiounized
+
+_cond_n_9: BoolDII = lambda delivery, atk_h, cf_h: atk_h == cf_h
+_cfs_n_9 = Continuous("精霊連携", CF_ATTACK_CORRECTION, cond=_cond_n_9, taiounize=_taiounize_cfs_n_9)
+print(_cfs_n_9)
+
 n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_9.png"), name="精霊連携", cond=auto_di, type=CT_HUYO,
-           osame=int_di(3), zenryoku=True)
+           osame=int_di(3), cfs=[_cfs_n_9], zenryoku=True)
 
 s_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_1.png"), name="光満ちる一刀", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=int_di(4), life_damage=int_di(3), maai_list=dima_di(3, 4), kirihuda=True, flair=int_di(5))
@@ -94,3 +106,5 @@ s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_3.png"), name="精霊
 
 s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI,
            aura_damage=int_di(2), life_damage=int_di(2), maai_list=dima_di(3, 5), kirihuda=True, flair=int_di(2))
+
+
