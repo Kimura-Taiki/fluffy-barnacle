@@ -47,11 +47,9 @@ def _others_basic_action_layer(
     mcl = MonoChoiceLayer(
         name="基本動作の選択", delivery=delivery, hoyuusya=hoyuusya, huda=huda,
         mode=mode, moderate=_moderate)
-#                 20                  40                  60                 79
     factory = TabaFactory(inject_kwargs={"mouseup": _mouseup}, is_ol=True)
-    if mode == OBAL_KIHONDOUSA:
+    if mode == OBAL_KIHONDOUSA or mode == OBAL_SYUUTYUU:
         mcl.taba = factory.maid_by_cards(cards=cards, delivery=delivery, hoyuusya=hoyuusya)
-        hhh = mcl.taba[0]
     elif mode == OBAL_USE_CARD:
         mcl.taba = factory.maid_by_hudas(hudas=[enforce(huda, Huda)], hoyuusya=hoyuusya)
     mcl.other_hover = make_undo_youso(text="OthersBasicAction")
