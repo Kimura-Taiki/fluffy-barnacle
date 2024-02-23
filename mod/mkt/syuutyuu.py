@@ -5,19 +5,19 @@ from pygame.math import Vector2
 from mod.const import screen, IMG_SYUUTYUU_AREA, ACTION_CIRCLE_NEUTRAL,\
     ACTION_CIRCLE_YADOSI, ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN,\
     pass_func, BRIGHT, OBAL_SYUUTYUU
-from mod.classes import Callable, Card, controller, popup_message
+from mod.classes import partial, Callable, Card, controller, popup_message
 from mod.mkt.utuwa import Utuwa
 from mod.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 from mod.ol.others_basic_action import obal_func
 from mod.kd.action_circle import mousedown
 
-def _mousedown(utuwa: Utuwa) -> None:
-    if utuwa.osame == 0:
-        popup_message.add("集中力が0です")
-        return
-    mousedown(youso=utuwa)
-    # controller.active = utuwa
-    # controller.hold_coord = Vector2(pygame.mouse.get_pos())
+# def _mousedown(utuwa: Utuwa) -> None:
+#     # if utuwa.osame == 0:
+#     #     popup_message.add("集中力が0です")
+#     #     return
+#     mousedown(youso=utuwa, mode=OBAL_SYUUTYUU)
+#     # controller.active = utuwa
+#     # controller.hold_coord = Vector2(pygame.mouse.get_pos())
 
 def _active(utuwa: Utuwa) -> None:
     # huda.detail_draw()
@@ -51,7 +51,8 @@ def syuutyuu_utuwa(hoyuusya: int, osame: int, x: int, y: int) -> Utuwa:
 #                 20                  40                  60                 79
     return Utuwa(
         img=IMG_SYUUTYUU_AREA, hoyuusya=hoyuusya, osame=osame, x=x, y=y, max=2,
-        mousedown=_mousedown, active=_active, mouseup=_mouseup)
+        # mousedown=_mousedown, active=_active, mouseup=_mouseup)
+        mousedown=partial(mousedown, mode=OBAL_SYUUTYUU), active=_active, mouseup=_mouseup)
 
 
 # self.syuutyuu = Utuwa(img=IMG_SYUUTYUU_AREA, hoyuusya=self.hoyuusya, osame=0, x=310, y=WY-210, max=2)
