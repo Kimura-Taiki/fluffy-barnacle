@@ -1,13 +1,10 @@
 #                 20                  40                  60                 79
-import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
-from math import sin, cos, radians
-from typing import Callable, NamedTuple, TYPE_CHECKING
+from typing import Callable
 
-from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA, HUDA_SCALE
+from mod.const import nie, USAGE_UNUSED, USAGE_USED, HUDA_SCALE
 from mod.youso import Youso
-from mod.delivery import Delivery
 from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
@@ -32,7 +29,6 @@ class Huda(Youso):
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
         self.angle = angle
-        self.scale = scale
         self.x = int(x)
         self.y = int(y)
         self.huda_draw.rearrange(x=x, y=y, angle=angle)
@@ -42,7 +38,7 @@ class Huda(Youso):
         if self.draw_params == (dp := DrawParams.made_by_huda(huda=self)):
             return
         self.draw_params = dp
-        self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
+        self.rearrange(angle=self.angle, x=self.x, y=self.y)
 
     def detail_draw(self) -> None:
         self.huda_draw.detail_draw()
