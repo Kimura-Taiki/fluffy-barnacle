@@ -51,7 +51,8 @@ class Huda(Youso):
         return inside
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
-        self._draw_huyo()
+        from mod.huda_add_draw import detail
+        self.img_detail = detail(huda=self)
         img_intermediate = self.img_detail.copy()
         self.img_rz = pygame.transform.rotozoom(surface=img_intermediate, angle=angle, scale=scale)
         self.angle = angle
@@ -70,7 +71,7 @@ class Huda(Youso):
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
         if self.draw_params != self._draw_params():
             self.draw_params = self._draw_params()
-            self._draw_huyo()
+            self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
     def shadow_draw(self) -> None:
@@ -114,9 +115,9 @@ class Huda(Youso):
     def can_play(self, popup: bool=False) -> bool:
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
-    def _draw_huyo(self) -> None:
-        from mod.huda_add_draw import add_draw
-        add_draw(self)
+    # def _draw_huyo(self) -> None:
+    #     from mod.huda_add_draw import add_draw
+    #     add_draw(self)
 
     def _draw_params(self) -> _DrawParams:
         return _DrawParams(
