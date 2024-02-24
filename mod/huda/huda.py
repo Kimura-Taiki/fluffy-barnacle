@@ -52,7 +52,7 @@ class Huda(Youso):
         self.y = int(y)
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         return None
-    
+
     def detail_draw(self) -> None:
         screen.blit(source=self.img_detail, dest=[0, 0])
 
