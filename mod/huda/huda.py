@@ -20,8 +20,6 @@ class Huda(Youso):
         super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
-        self.img_detail = img.copy()
-        self.img_rz = img.copy()
         self.usage = USAGE_UNUSED
         self.osame = 0
         self.draw_params = DrawParams()
@@ -46,8 +44,6 @@ class Huda(Youso):
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
         from mod.huda.huda_add_draw import img_detail
-        self.img_detail = img_detail(huda=self)
-        self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=scale)
         self.angle = angle
         self.scale = scale
         self.x = int(x)
@@ -61,10 +57,6 @@ class Huda(Youso):
             return
         self.draw_params = dp
         self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
-        huda_draw.img_detail = self.img_detail
-        huda_draw.img_rz = self.img_rz
-        huda_draw.img_rz_topleft = self.img_rz_topleft
-        huda_draw.vertices = self.vertices
 
     def detail_draw(self) -> None:
         self.huda_draw.detail_draw()
@@ -77,28 +69,6 @@ class Huda(Youso):
 
     def available_draw(self) -> None:
         self.huda_draw.available_draw()
-
-    # def detail_draw(self) -> None:
-    #     screen.blit(source=self.img_detail, dest=[0, 0])
-
-    # def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-    #     if self.draw_params != (dp := DrawParams.made_by_huda(huda=self)):
-    #         self.draw_params = dp
-    #         self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
-    #     screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
-
-    # def shadow_draw(self) -> None:
-    #     pygame.draw.polygon(surface=screen, color=BLACK, points=self.vertices, width=0)
-    #     self.img_rz.set_alpha(192)
-    #     self.default_draw()
-    #     self.img_rz.set_alpha(255)
-
-    # def available_draw(self) -> None:
-    #     if controller.hover == self:
-    #         pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
-    #         self.default_draw(offset=[0, -40])
-    #     else:
-    #         self.default_draw()
 
     def mousedown(self) -> None:
         controller.active = self
@@ -122,7 +92,3 @@ class Huda(Youso):
 
     def can_play(self, popup: bool=False) -> bool:
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
-
-    @property
-    def img_rz_topleft(self) -> Vector2:
-        return self.dest-Vector2(self.img_rz.get_size())/2

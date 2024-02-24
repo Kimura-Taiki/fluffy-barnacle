@@ -16,7 +16,7 @@ HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: 4.0
 def _draw(huda: Huda) -> None:
     huda.default_draw()
     IMG_YAMAHUDA.set_alpha(64)
-    screen.blit(source=IMG_YAMAHUDA, dest=huda.img_rz_topleft)
+    screen.blit(source=IMG_YAMAHUDA, dest=huda.huda_draw.img_rz_topleft)
     IMG_YAMAHUDA.set_alpha(255)
 
 yamahuda_factory = TabaFactory(inject_kwargs={

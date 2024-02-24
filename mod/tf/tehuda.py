@@ -25,11 +25,12 @@ def _draw(huda: Huda) -> None:
         huda.available_draw()
 
 def _drag(huda: Huda) -> None:
+    img_rz = huda.huda_draw.img_rz
     gpv2 = Vector2(pygame.mouse.get_pos())
     pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.vertices], 20)
-    huda.img_rz.set_alpha(192)
-    screen.blit(source=huda.img_rz, dest=gpv2-Vector2(huda.img_rz.get_size())/2)
-    huda.img_rz.set_alpha(255)
+    img_rz.set_alpha(192)
+    screen.blit(source=img_rz, dest=gpv2-Vector2(img_rz.get_size())/2)
+    img_rz.set_alpha(255)
 
 tehuda_factory = TabaFactory(inject_kwargs={
     "draw": _draw, "hover": Huda.detail_draw, "mousedown": mousedown, "active": active, "mouseup": mouseup, "drag": _drag
