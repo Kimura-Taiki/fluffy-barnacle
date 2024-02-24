@@ -27,7 +27,7 @@ def _draw(huda: Huda) -> None:
 def _drag(huda: Huda) -> None:
     img_rz = huda.huda_draw.img_rz
     gpv2 = Vector2(pygame.mouse.get_pos())
-    pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.vertices], 20)
+    pygame.draw.polygon(screen, BRIGHT, [gpv2-huda.dest+i for i in huda.huda_draw.vertices], 20)
     img_rz.set_alpha(192)
     screen.blit(source=img_rz, dest=gpv2-Vector2(img_rz.get_size())/2)
     img_rz.set_alpha(255)

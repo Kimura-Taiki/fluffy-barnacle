@@ -21,6 +21,16 @@ class HudaDraw():
         self.huda = huda
         self.rearrange(x=x, y=y, angle=angle)
 
+    def is_cursor_on(self) -> bool:
+        inside = False
+        mx, my = pygame.mouse.get_pos()
+        for i in range(4):
+            x1, y1 = self.vertices[i]
+            x2, y2 = self.vertices[(i+1) % 4]
+            if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
+                inside = not inside
+        return inside
+
     def detail_draw(self) -> None:
         screen.blit(source=self.img_detail, dest=[0, 0])
 

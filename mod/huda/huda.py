@@ -28,27 +28,14 @@ class Huda(Youso):
         self.huda_draw = HudaDraw(x=x, y=y, angle=angle, update_func=self._update_func, huda=self)
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
-    def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
-        rad = radians(-self.angle)
-        return Vector2(int(self.x+(cos(rad)*x-sin(rad)*y)*self.scale), int(self.y+(sin(rad)*x+cos(rad)*y)*self.scale))
-
     def is_cursor_on(self) -> bool:
-        inside = False
-        mx, my = pygame.mouse.get_pos()
-        for i in range(4):
-            x1, y1 = self.vertices[i]
-            x2, y2 = self.vertices[(i+1) % 4]
-            if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
-                inside = not inside
-        return inside
+        return self.huda_draw.is_cursor_on()
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
-        from mod.huda.huda_add_draw import img_detail
         self.angle = angle
         self.scale = scale
         self.x = int(x)
         self.y = int(y)
-        self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         self.huda_draw.rearrange(x=x, y=y, angle=angle)
         return None
 
