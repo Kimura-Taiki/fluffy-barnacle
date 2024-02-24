@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 import pygame
 from copy import copy
 

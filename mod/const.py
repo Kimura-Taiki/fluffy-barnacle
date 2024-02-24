@@ -22,7 +22,6 @@ def print_signature(title: str, obj: Any) -> None:
     return_type = signature(obj).return_annotation
     print(f"Return Type: {return_type}")
 
-
 def pass_func(any: Any=None) -> None:
     pass
 
@@ -89,6 +88,7 @@ IMG_OSAME_AURA = pygame.image.load("pictures/osame_aura.png").convert_alpha()
 IMG_OSAME_AURA_LIGHTEN = pygame.image.load("pictures/osame_aura_lighten.png").convert_alpha()
 
 HUDA_SCALE = 0.6
+IMG_ATTACK_STAT = pygame.image.load("pictures/attack_stat.png").convert_alpha()
 IMG_OSAME = pygame.image.load("pictures/osame_frame.png").convert_alpha()
 IMG_USED = pygame.image.load("pictures/img_used.png").convert_alpha()
 IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()

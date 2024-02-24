@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
@@ -17,6 +18,8 @@ def _pass_koudou(delivery: Delivery, hoyuusya: int) -> None:
 class _DrawParams(NamedTuple):
     usage: int = -1
     osame: int = -1
+    aura_damage: int = -1
+    life_damage: int = -1
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
@@ -109,11 +112,17 @@ class Huda(Youso):
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
     def _draw_huyo(self) -> None:
-        from mod.draw_huyo_functions import draw_huyo
-        draw_huyo(self)
+        # from mod.huda_add_draw import draw_huyo
+        # draw_huyo(self)
+        from mod.huda_add_draw import add_draw
+        add_draw(self)
 
     def _draw_params(self) -> _DrawParams:
-        return _DrawParams(usage=self.usage, osame=self.osame)
+        return _DrawParams(
+            usage=self.usage, osame=self.osame, aura_damage=self.card.
+            aura_damage(self.delivery, self.hoyuusya), life_damage=self.card.
+            life_damage(self.delivery, self.hoyuusya))
+#                 20                  40                  60                 79
 
     @property
     def img_rz_topleft(self) -> Vector2:
