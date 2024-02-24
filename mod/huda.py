@@ -15,12 +15,6 @@ from mod.popup_message import popup_message
 def _pass_koudou(delivery: Delivery, hoyuusya: int) -> None:
     pass
 
-    # def _draw_params(self) -> _DrawParams:
-    #     return _DrawParams(
-    #         usage=self.usage, osame=self.osame, aura_damage=self.card.
-    #         aura_damage(self.delivery, self.hoyuusya), life_damage=self.card.
-    #         life_damage(self.delivery, self.hoyuusya))
-
 class _DrawParams(NamedTuple):
     usage: int = -1
     osame: int = -1
@@ -79,10 +73,8 @@ class Huda(Youso):
         screen.blit(source=self.img_detail, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-        if self.draw_params != _DrawParams.made_by_huda(huda=self):
-            self.draw_params = _DrawParams.made_by_huda(huda=self)
-        # if self.draw_params != self._draw_params():
-        #     self.draw_params = self._draw_params()
+        if self.draw_params != (dp := _DrawParams.made_by_huda(huda=self)):
+            self.draw_params = dp
             self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
         screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
 
@@ -121,13 +113,6 @@ class Huda(Youso):
 
     def can_play(self, popup: bool=False) -> bool:
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
-
-    # def _draw_params(self) -> _DrawParams:
-    #     return _DrawParams(
-    #         usage=self.usage, osame=self.osame, aura_damage=self.card.
-    #         aura_damage(self.delivery, self.hoyuusya), life_damage=self.card.
-    #         life_damage(self.delivery, self.hoyuusya))
-#                 20                  40                  60                 79
 
     @property
     def img_rz_topleft(self) -> Vector2:
