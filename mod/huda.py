@@ -89,23 +89,18 @@ class Huda(Youso):
     def play(self) -> None:
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
-    def can_standard(self, popup: bool=False, is_zenryoku: bool=False) -> bool:
-        if self.delivery.m_params(self.hoyuusya).played_zenryoku:
-            if popup:
-                popup_message.add(text=f"既に全力行動しています")
-            return False
-        elif is_zenryoku and self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard:
-            if popup:
-                popup_message.add(text=f"既に標準行動しています")
-            return False
-        elif self.usage == USAGE_USED:
-            if popup:
-                popup_message.add(text=f"「{self.card.name}」は使用済みです")
-            return False
-        elif not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya):
-            if popup:
-                popup_message.add(text=f"「{self.card.name}」に費やすフレアが足りません")
-            return False
+    def can_standard(self, popup: bool = False, is_zenryoku: bool = False) -> bool:
+        checks = [
+            (self.delivery.m_params(self.hoyuusya).played_zenryoku, "既に全力行動しています"),
+            (is_zenryoku and self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard, "既に標準行動しています"),
+            (self.usage == USAGE_USED, f"「{self.card.name}」は使用済みです"),
+            (not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya), f"「{self.card.name}」に費やすフレアが足りません")
+        ]
+        for condition, message in checks:
+            if condition:
+                if popup:
+                    popup_message.add(message)
+                return False
         return True
 
     def can_play(self, popup: bool=False) -> bool:
