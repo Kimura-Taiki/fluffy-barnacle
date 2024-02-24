@@ -27,12 +27,14 @@ class Huda(Youso):
         super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
         self.img_nega = img
+        self.img_detail = img.copy()
+        self.img_rz = img.copy()
         self.usage = USAGE_UNUSED
         self.osame = 0
         self.draw_params = _DrawParams()
-        self.rearrange(angle=angle, scale=scale, x=x, y=y)
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
+        self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)
@@ -49,7 +51,8 @@ class Huda(Youso):
         return inside
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
-        img_intermediate = self.img_nega.copy()
+        self._draw_huyo()
+        img_intermediate = self.img_detail.copy()
         self.img_rz = pygame.transform.rotozoom(surface=img_intermediate, angle=angle, scale=scale)
         self.angle = angle
         self.scale = scale
@@ -62,7 +65,7 @@ class Huda(Youso):
         self.draw_params = _DrawParams()
 
     def detail_draw(self) -> None:
-        screen.blit(source=self.img_nega, dest=[0, 0])
+        screen.blit(source=self.img_detail, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
         if self.draw_params != self._draw_params():
@@ -112,8 +115,6 @@ class Huda(Youso):
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
 
     def _draw_huyo(self) -> None:
-        # from mod.huda_add_draw import draw_huyo
-        # draw_huyo(self)
         from mod.huda_add_draw import add_draw
         add_draw(self)
 
