@@ -5,7 +5,7 @@ from typing import Any, Callable
 from mod.const import UC_MAAI, UC_AURA, UC_DUST, UC_FLAIR
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
-from mod.card import BoolDI, Card
+from mod.card.card import BoolDI, Card
 
 LOAD_SURFACE: Callable[[str], Surface] = lambda i: pygame.image.load(f"pictures/kihon_{i}.png").convert_alpha()
 

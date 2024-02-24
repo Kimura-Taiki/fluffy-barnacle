@@ -8,7 +8,7 @@ from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba
 from mod.moderator import moderator
-from mod.card import Card
+from mod.card.card import Card
 from mod.popup_message import popup_message
 
 class MonoChoiceLayer():

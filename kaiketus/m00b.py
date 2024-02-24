@@ -6,7 +6,7 @@ from typing import Callable
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO,\
     enforce, TC_TEHUDA, TC_SUTEHUDA, CF_ATTACK_CORRECTION
-from mod.card import Card, auto_di, int_di, dima_di, nega_dic
+from mod.card.card import Card, auto_di, int_di, dima_di, nega_dic
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator

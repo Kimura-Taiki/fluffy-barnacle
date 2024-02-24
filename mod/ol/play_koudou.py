@@ -3,7 +3,7 @@ from typing import Any
 
 from mod.const import POP_OK
 from mod.huda.huda import Huda
-from mod.card import Card
+from mod.card.card import Card
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat

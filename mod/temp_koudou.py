@@ -5,7 +5,7 @@ from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUK
     , IMG_FT_MAAI, IMG_FT_DUST, IMG_FT_ZYOGAI, IMG_FT_AI_AURA, IMG_FT_AI_FLAIR, IMG_FT_AI_LIFE, IMG_FT_AI_SYUUTYUU\
     , IMG_FT_ZI_AURA, IMG_FT_ZI_FLAIR, IMG_FT_ZI_LIFE, IMG_FT_ZI_SYUUTYUU, UC_MAAI, UC_DUST, UC_ZYOGAI\
     , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU, CT_KOUDOU
-from mod.card import Card, BoolDI, KoukaDI
+from mod.card.card import Card, BoolDI, KoukaDI
 
 class TempKoudou(Card):
     def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list[Any]]=[]) -> None:

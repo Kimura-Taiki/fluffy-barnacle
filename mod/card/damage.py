@@ -5,7 +5,7 @@ from typing import Any
 
 from mod.const import draw_aiharasuu, POP_OK
 from mod.delivery import Delivery
-from mod.card import Card, auto_di
+from mod.card.card import Card, auto_di
 
 class Damage(Card):
     _SCALE_SIZE = 180

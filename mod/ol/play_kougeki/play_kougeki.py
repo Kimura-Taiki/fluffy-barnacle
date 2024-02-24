@@ -6,7 +6,7 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name
     enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN
 from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Card
+from mod.card.card import Card
 from mod.taba import Taba
 from mod.popup_message import popup_message
 from mod.moderator import moderator

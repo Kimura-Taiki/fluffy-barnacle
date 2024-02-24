@@ -5,12 +5,12 @@ from typing import Callable
 
 from mod.const import nie, USAGE_UNUSED, USAGE_USED, HUDA_SCALE
 from mod.youso import Youso
-from mod.card import Card, auto_di
+from mod.card.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.huda.draw_params import DrawParams
 from mod.huda.huda_draw import HudaDraw
-from mod.card_func import is_meet_conditions
+from mod.card.card_func import is_meet_conditions
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,

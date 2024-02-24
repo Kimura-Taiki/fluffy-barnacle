@@ -1,7 +1,7 @@
 from typing import Callable, Any
 from functools import partial
 
-from mod.card import Card
+from mod.card.card import Card
 from mod.youso import Youso
 from mod.huda.huda import Huda
 from mod.taba import Taba

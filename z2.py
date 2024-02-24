@@ -3,7 +3,7 @@ import sys
 
 # 画像の読み込み
 # life = pygame.image.load("pictures/area_life.png")
-from mod.card import auto_di, pass_di
+from mod.card.card import auto_di, pass_di
 from mod.temp_koudou import TempKoudou
 from mod.const import UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR
 tc = TempKoudou(name="潜り", cond=auto_di, kouka=pass_di, todo=[

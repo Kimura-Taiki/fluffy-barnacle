@@ -1,16 +1,14 @@
 #                 20                  40                  60                 79
 from pygame.surface import Surface
-from pygame.math import Vector2
-from typing import Callable, Any, Optional, Type
-from functools import partial
+from typing import Callable, Any, Optional
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, draw_aiharasuu, UC_MAAI, TC_SUTEHUDA, SIMOTE, KAMITE, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST, USAGE_DEPLOYED, POP_OK
+from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
+    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.continuous import Continuous
-from mod.card_func import maai_text, is_meet_conditions
+from mod.card.card_func import maai_text, is_meet_conditions
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -62,7 +60,6 @@ class Card():
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
-        ggg = self.cond(delivery, hoyuusya)
         if not self.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
             from mod.ol.mc_layer_factory import MonoChoiceLayer
             moderator.append(over_layer=MonoChoiceLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))

@@ -7,7 +7,7 @@ from copy import copy
 from mod.const import WX, WY, SIMOTE, KAMITE
 from mod.huda.huda import Huda
 from mod.taba import Taba
-from mod.card import Card
+from mod.card.card import Card
 from mod.delivery import Delivery
 
 HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0

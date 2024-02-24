@@ -7,8 +7,8 @@ from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda.huda import Huda
 from mod.tf.taba_factory import TabaFactory
-from mod.card import Card, auto_di
-from mod.damage import Damage
+from mod.card.card import Card, auto_di
+from mod.card.damage import Damage
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 from mod.taba import Taba

@@ -9,7 +9,7 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECIS
     FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK
 from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
-from mod.card import Card
+from mod.card.card import Card
 from mod.youso import Youso
 from mod.popup_message import popup_message
 from mod.moderator import moderator

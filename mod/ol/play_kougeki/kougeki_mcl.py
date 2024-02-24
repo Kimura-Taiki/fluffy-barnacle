@@ -7,7 +7,7 @@ from mod.moderator import moderator
 from mod.huda.huda import Huda
 from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
-from mod.card import Card, Damage
+from mod.card.card import Card, Damage
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
 

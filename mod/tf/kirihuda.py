@@ -9,7 +9,7 @@ from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.ol.others_basic_action import obal_func
-from mod.card import Card
+from mod.card.card import Card
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 600/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
