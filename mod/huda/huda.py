@@ -12,6 +12,7 @@ from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.huda.draw_params import DrawParams
+from mod.huda.huda_draw import HudaDraw
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
@@ -27,6 +28,8 @@ class Huda(Youso):
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
+        self.huda_draw = HudaDraw(img_detail=self.img_detail, img_rz=self.img_rz, img_rz_topleft=self.img_rz_topleft,
+                                  vertices=self.vertices, update_func=self._update_func, huda=self)
 
     def rotated_verticle(self, x:int | float, y:int | float) -> Vector2:
         rad = radians(-self.angle)
@@ -53,27 +56,49 @@ class Huda(Youso):
         self.vertices = [self.rotated_verticle(i[0], i[1]) for i in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
         return None
 
+    def _update_func(self, huda_draw: HudaDraw) -> None:
+        if self.draw_params == (dp := DrawParams.made_by_huda(huda=self)):
+            return
+        self.draw_params = dp
+        self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
+        huda_draw.img_detail = self.img_detail
+        huda_draw.img_rz = self.img_rz
+        huda_draw.img_rz_topleft = self.img_rz_topleft
+        huda_draw.vertices = self.vertices
+
     def detail_draw(self) -> None:
-        screen.blit(source=self.img_detail, dest=[0, 0])
+        self.huda_draw.detail_draw()
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-        if self.draw_params != (dp := DrawParams.made_by_huda(huda=self)):
-            self.draw_params = dp
-            self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
-        screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
+        self.huda_draw.default_draw(offset=offset)
 
     def shadow_draw(self) -> None:
-        pygame.draw.polygon(surface=screen, color=BLACK, points=self.vertices, width=0)
-        self.img_rz.set_alpha(192)
-        self.default_draw()
-        self.img_rz.set_alpha(255)
+        self.huda_draw.shadow_draw()
 
     def available_draw(self) -> None:
-        if controller.hover == self:
-            pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
-            self.default_draw(offset=[0, -40])
-        else:
-            self.default_draw()
+        self.huda_draw.available_draw()
+
+    # def detail_draw(self) -> None:
+    #     screen.blit(source=self.img_detail, dest=[0, 0])
+
+    # def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
+    #     if self.draw_params != (dp := DrawParams.made_by_huda(huda=self)):
+    #         self.draw_params = dp
+    #         self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
+    #     screen.blit(source=self.img_rz, dest=self.img_rz_topleft+offset)
+
+    # def shadow_draw(self) -> None:
+    #     pygame.draw.polygon(surface=screen, color=BLACK, points=self.vertices, width=0)
+    #     self.img_rz.set_alpha(192)
+    #     self.default_draw()
+    #     self.img_rz.set_alpha(255)
+
+    # def available_draw(self) -> None:
+    #     if controller.hover == self:
+    #         pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
+    #         self.default_draw(offset=[0, -40])
+    #     else:
+    #         self.default_draw()
 
     def mousedown(self) -> None:
         controller.active = self

@@ -2,19 +2,20 @@ import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
 
-from typing import Callable
+from typing import Callable, Any
 
 from mod.const import screen, BLACK, BRIGHT
 from mod.controller import controller
 
 class HudaDraw():
     def __init__(self, img_detail: Surface, img_rz: Surface, img_rz_topleft: Vector2, vertices: list[Vector2],
-                 update_func: Callable[['HudaDraw'], None]) -> None:
+                 update_func: Callable[['HudaDraw'], None], huda: Any) -> None:
         self.img_detail = img_detail
         self.img_rz = img_rz
         self.img_rz_topleft = img_rz_topleft
         self.vertices = vertices
         self.update_func = update_func
+        self.huda = huda
 
     def detail_draw(self) -> None:
         screen.blit(source=self.img_detail, dest=[0, 0])
@@ -30,7 +31,7 @@ class HudaDraw():
         self.img_rz.set_alpha(255)
 
     def available_draw(self) -> None:
-        if controller.hover == self:
+        if controller.hover == self.huda:
             pygame.draw.polygon(screen, BRIGHT, [i+[0, -40] for i in self.vertices], 20)
             self.default_draw(offset=[0, -40])
         else:
