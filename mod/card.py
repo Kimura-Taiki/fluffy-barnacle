@@ -10,7 +10,7 @@ from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.continuous import Continuous
-from mod.card_func import maai_text
+from mod.card_func import maai_text, is_meet_conditions
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -83,15 +83,11 @@ class Card():
             hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_FLAIR) >= self.flair(delivery, hoyuusya)
 
     def can_play(self, delivery: Delivery, hoyuusya: int, popup: bool=False) -> bool:
-        if not self.cond(delivery, hoyuusya):
-            if popup:
-                popup_message.add(text=f"「{self.name}」の使用条件を満たしていません")
-            return False
-        elif self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya):
-            if popup:
-                popup_message.add(text=f"「{self.name}」の適正距離から外れています")
-            return False
-        return True
+        checks: list[tuple[bool, str]] = [
+            (not self.cond(delivery, hoyuusya), f"「{self.name}」の使用条件を満たしていません"),
+            (self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya), f"「{self.name}」の適正距離から外れています")
+        ]
+        return is_meet_conditions(checks=checks, popup=popup)
 
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")

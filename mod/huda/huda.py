@@ -10,6 +10,7 @@ from mod.controller import controller
 from mod.popup_message import popup_message
 from mod.huda.draw_params import DrawParams
 from mod.huda.huda_draw import HudaDraw
+from mod.card_func import is_meet_conditions
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
@@ -59,18 +60,13 @@ class Huda(Youso):
         self.card.kaiketu(delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self)
 
     def can_standard(self, popup: bool = False, is_zenryoku: bool = False) -> bool:
-        checks = [
+        checks: list[tuple[bool, str]] = [
             (self.delivery.m_params(self.hoyuusya).played_zenryoku, "既に全力行動しています"),
             (is_zenryoku and self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard, "既に標準行動しています"),
             (self.usage == USAGE_USED, f"「{self.card.name}」は使用済みです"),
             (not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya), f"「{self.card.name}」に費やすフレアが足りません")
         ]
-        for condition, message in checks:
-            if condition:
-                if popup:
-                    popup_message.add(message)
-                return False
-        return True
+        return is_meet_conditions(checks=checks, popup=popup)
 
     def can_play(self, popup: bool=False) -> bool:
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
