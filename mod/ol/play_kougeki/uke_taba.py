@@ -6,7 +6,8 @@ from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.huda.huda import Huda
 from mod.taba import Taba
-from mod.card import Damage, Card
+from mod.card import Card
+from mod.damage import Damage
 from mod.popup_message import popup_message
 from mod.tf.taba_factory import TabaFactory
 
