@@ -11,7 +11,7 @@ def img_detail(huda: 'Huda') -> Surface:
         huda.card.type, _others_detail)(huda)
 
 def _others_detail(huda: 'Huda') -> Surface:
-    return huda.img_nega.copy()
+    return huda.huda_draw.img_nega.copy()
 
 def _kougeki_detail(huda: 'Huda') -> Surface:
     if huda.delivery.is_duck():
@@ -20,7 +20,7 @@ def _kougeki_detail(huda: 'Huda') -> Surface:
     kirihuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA), Taba)
     if not huda in tehuda and not huda in kirihuda:
         return _others_detail(huda=huda)
-    detail = huda.img_nega.copy()
+    detail = huda.huda_draw.img_nega.copy()
     detail.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
     if huda.card.aura_bar(huda.delivery, huda.hoyuusya):
         ...
@@ -35,7 +35,7 @@ def _kougeki_detail(huda: 'Huda') -> Surface:
 def _huyo_detail(huda: 'Huda') -> Surface:
     if huda.usage != USAGE_DEPLOYED:
         return _others_detail(huda=huda)
-    detail = huda.img_nega.copy()
+    detail = huda.huda_draw.img_nega.copy()
     detail.blit(source=IMG_OSAME, dest=[0, 0])
     draw_aiharasuu(surface=detail, dest=Vector2(5, 0), num=huda.osame)
     return detail

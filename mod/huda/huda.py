@@ -19,13 +19,12 @@ class Huda(Youso):
                  **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
-        self.img_nega = img
         self.usage = USAGE_UNUSED
         self.osame = 0
         self.draw_params = DrawParams()
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
-        self.huda_draw = HudaDraw(x=x, y=y, angle=angle, update_func=self._update_func, huda=self)
+        self.huda_draw = HudaDraw(img=img, x=x, y=y, angle=angle, update_func=self._update_func, huda=self)
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
     def is_cursor_on(self) -> bool:

@@ -1,3 +1,4 @@
+#                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
@@ -9,17 +10,17 @@ from mod.const import screen, BLACK, BRIGHT, HUDA_SCALE
 from mod.controller import controller
 
 class HudaDraw():
-    def __init__(self, x: int | float, y: int | float, angle: float, 
+    def __init__(self, img: Surface, x: int | float, y: int | float, angle: float, 
                  update_func: Callable[['HudaDraw'], None], huda: Any) -> None:
         self.x = int(x)
         self.y = int(y)
+        self.img_nega = img
         self.img_detail = Surface((16, 16))
         self.img_rz = Surface((16, 16))
         self.img_rz_topleft = Vector2(0, 0)
         self.vertices = [Vector2(0, 0)]*4
         self.update_func = update_func
         self.huda = huda
-        self.rearrange(x=x, y=y, angle=angle)
 
     def is_cursor_on(self) -> bool:
         inside = False
