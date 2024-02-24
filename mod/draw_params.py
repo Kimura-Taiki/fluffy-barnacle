@@ -1,7 +1,9 @@
 
 #                 20                  40                  60                 79
-from typing import NamedTuple
-from mod.huda import Huda
+from typing import NamedTuple, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from mod.huda import Huda
 
 class DrawParams(NamedTuple):
     usage: int = -1

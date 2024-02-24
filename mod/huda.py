@@ -11,21 +11,7 @@ from mod.delivery import Delivery
 from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
-# from mod.draw_params import DrawParams
-
-# class _DrawParams(NamedTuple):
-#     usage: int = -1
-#     osame: int = -1
-#     aura_damage: int = -1
-#     life_damage: int = -1
-
-#     @classmethod
-#     def made_by_huda(cls, huda: 'Huda') -> '_DrawParams':
-#         return _DrawParams(
-#             usage=huda.usage, osame=huda.osame, aura_damage=huda.card.
-#             aura_damage(huda.delivery, huda.hoyuusya), life_damage=huda.card.
-#             life_damage(huda.delivery, huda.hoyuusya))
-
+from mod.draw_params import DrawParams
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
@@ -37,7 +23,6 @@ class Huda(Youso):
         self.img_rz = img.copy()
         self.usage = USAGE_UNUSED
         self.osame = 0
-        from mod.draw_params import DrawParams
         self.draw_params = DrawParams()
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
@@ -72,7 +57,6 @@ class Huda(Youso):
         screen.blit(source=self.img_detail, dest=[0, 0])
 
     def default_draw(self, offset: Vector2 | tuple[int, int] | list[int]=(0, 0)) -> None:
-        from mod.draw_params import DrawParams
         if self.draw_params != (dp := DrawParams.made_by_huda(huda=self)):
             self.draw_params = dp
             self.rearrange(angle=self.angle, scale=self.scale, x=self.x, y=self.y)
