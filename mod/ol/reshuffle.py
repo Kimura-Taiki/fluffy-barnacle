@@ -5,7 +5,7 @@ from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED,\
     IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU, enforce, POP_RESHUFFLED, IMG_LIFE_DAMAGE, UC_LIFE, UC_FLAIR, opponent
 from mod.delivery import Delivery
 from mod.moderator import moderator
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 from mod.card import Card, auto_di, Damage
 from mod.ol.mc_layer_factory import MonoChoiceLayer

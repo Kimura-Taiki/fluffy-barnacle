@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, Callable
 
 if TYPE_CHECKING:
     from mod.card import TaiounizeDI  # 循環import回避のために追加
-    from mod.huda import Huda
+    from mod.huda.huda import Huda
 from mod.delivery import Delivery
 BoolDII = Callable[[Delivery, int, int], bool]
 auto_dih: BoolDII = lambda delivery, atk_h, cf_h: True

@@ -1,21 +1,19 @@
 #                 20                  40                  60                 79
-import pygame
 from pygame.surface import Surface
-from pygame.locals import SRCALPHA
 from pygame.math import Vector2
 
 from mod.const import IMG_OSAME, draw_aiharasuu, USAGE_DEPLOYED, enforce,\
-    TC_TEHUDA, TC_KIRIHUDA, IMG_ATTACK_STAT, CT_KOUGEKI, CT_HUYO, MS_MINCHO_COL, BLACK
+    TC_TEHUDA, TC_KIRIHUDA, IMG_ATTACK_STAT, CT_KOUGEKI, CT_HUYO
 from mod.classes import Huda, Taba
 
-def detail(huda: Huda) -> Surface:
+def img_detail(huda: 'Huda') -> Surface:
     return {CT_KOUGEKI: _kougeki_detail, CT_HUYO: _huyo_detail}.get(
         huda.card.type, _others_detail)(huda)
 
-def _others_detail(huda: Huda) -> Surface:
+def _others_detail(huda: 'Huda') -> Surface:
     return huda.img_nega.copy()
 
-def _kougeki_detail(huda: Huda) -> Surface:
+def _kougeki_detail(huda: 'Huda') -> Surface:
     if huda.delivery.is_duck():
         return _others_detail(huda=huda)
     tehuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_TEHUDA), Taba)
@@ -34,7 +32,7 @@ def _kougeki_detail(huda: Huda) -> Surface:
         draw_aiharasuu(surface=detail, dest=Vector2(38, 405), num=huda.card.life_damage(huda.delivery, huda.hoyuusya))
     return detail
 
-def _huyo_detail(huda: Huda) -> Surface:
+def _huyo_detail(huda: 'Huda') -> Surface:
     if huda.usage != USAGE_DEPLOYED:
         return _others_detail(huda=huda)
     detail = huda.img_nega.copy()

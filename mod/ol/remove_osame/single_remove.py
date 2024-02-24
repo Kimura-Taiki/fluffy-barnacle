@@ -4,7 +4,7 @@ from typing import Any
 
 from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_USED, POP_HUYO_ELAPSED
 from mod.delivery import Delivery
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.taba import Taba
 from mod.tf.taba_factory import TabaFactory
 from mod.moderator import moderator

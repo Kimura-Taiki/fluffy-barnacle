@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from typing import Callable
 
 from mod.const import WX, WY, screen, KIRIHUDA_CIRCLE_NEUTRAL, KIRIHUDA_CIRCLE_CARD, USAGE_USED, IMG_USED, SIMOTE, OBAL_USE_CARD
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message

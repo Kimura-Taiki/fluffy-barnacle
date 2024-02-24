@@ -4,7 +4,7 @@ from pygame.math import Vector2
 from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.controller import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.kd.action_circle import mousedown, active, mouseup

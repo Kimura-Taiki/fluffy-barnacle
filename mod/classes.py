@@ -3,7 +3,7 @@ from functools import partial
 
 from mod.card import Card
 from mod.youso import Youso
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory

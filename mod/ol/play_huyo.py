@@ -7,7 +7,7 @@ from typing import Any
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
     FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
 from mod.youso import Youso

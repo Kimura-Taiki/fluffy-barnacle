@@ -2,7 +2,7 @@
 from typing import Callable, Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, HANTE, POP_VIEWED_BANMEN, POP_OK, enforce
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat

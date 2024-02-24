@@ -3,7 +3,7 @@ import pygame
 from pygame.surface import Surface
 from pygame.math import Vector2
 from math import sin, cos, radians
-from typing import Callable, NamedTuple
+from typing import Callable, NamedTuple, TYPE_CHECKING
 
 from mod.const import screen, nie, BRIGHT, BLACK, USAGE_UNUSED, USAGE_USED, TC_SUTEHUDA, HUDA_SCALE
 from mod.youso import Youso
@@ -43,8 +43,8 @@ class Huda(Youso):
         return inside
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
-        from mod.huda.huda_add_draw import detail
-        self.img_detail = detail(huda=self)
+        from mod.huda.huda_add_draw import img_detail
+        self.img_detail = img_detail(huda=self)
         self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=scale)
         self.angle = angle
         self.scale = scale

@@ -2,7 +2,7 @@ from pygame.surface import Surface
 from typing import NamedTuple
 
 from mod.const import TC_INVALID, compatible_with
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.req.request import Request
 
 _duck_huda = Huda(img=Surface((16, 16)))

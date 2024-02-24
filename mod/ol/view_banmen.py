@@ -5,7 +5,7 @@ from mod.const import screen, IMG_GRAY_LAYER, compatible_with, POP_VIEWED_BANMEN
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.over_layer import OverLayer
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.popup_message import popup_message
 from mod.controller import controller
 from mod.moderator import moderator

@@ -8,7 +8,7 @@ from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
 from mod.controller import controller
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.taba import Taba
 from mod.delivery import Delivery, Listener
 from mod.moderator import moderator

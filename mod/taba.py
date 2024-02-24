@@ -2,7 +2,7 @@ from typing import Callable
 from functools import partial
 
 from mod.const import nie, compatible_with, SIMOTE, pass_func
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.mkt.core_view import CoreView
 

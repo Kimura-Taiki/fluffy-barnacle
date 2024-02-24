@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import WX, WY, screen, IMG_YAMAHUDA
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 42

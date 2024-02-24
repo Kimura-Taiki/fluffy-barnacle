@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from mod.huda import Huda
+from mod.huda.huda import Huda
 
 @runtime_checkable
 class CoreView(Protocol):

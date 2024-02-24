@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import WX, WY, screen, IMG_BACK
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 
 HAND_X: Callable[[int, int], int | float] = lambda i, j: 340+286/2

@@ -4,7 +4,7 @@ from functools import partial
 from mod.const import WX, WY, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, side_name
 from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.taba import Taba
 from mod.card import Damage, Card
 from mod.popup_message import popup_message

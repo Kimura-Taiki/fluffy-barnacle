@@ -4,7 +4,7 @@ from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, POP_TAIOUED, POP_OK,\
     enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card import Card
 from mod.taba import Taba

@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import WX, WY, USAGE_DEPLOYED
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.tf.taba_factory import TabaFactory
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 80-80*max(0, i-4)/i

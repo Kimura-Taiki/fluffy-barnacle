@@ -3,7 +3,7 @@
 from typing import NamedTuple, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from mod.huda import Huda
+    from mod.huda.huda import Huda
 
 class DrawParams(NamedTuple):
     usage: int = -1

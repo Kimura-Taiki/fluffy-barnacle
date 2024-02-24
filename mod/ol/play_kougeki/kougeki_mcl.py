@@ -4,7 +4,7 @@ from typing import Any
 from mod.const import TC_HUSEHUDA, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE
 from mod.delivery import Delivery
 from mod.moderator import moderator
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
 from mod.card import Card, Damage

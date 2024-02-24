@@ -5,7 +5,7 @@ from functools import partial
 from copy import copy
 
 from mod.const import WX, WY, SIMOTE, KAMITE
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.taba import Taba
 from mod.card import Card
 from mod.delivery import Delivery

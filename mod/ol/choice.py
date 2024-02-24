@@ -2,7 +2,7 @@
 from typing import Any
 
 from mod.const import TC_SUTEHUDA
-from mod.huda import Huda
+from mod.huda.huda import Huda
 from mod.card import Card
 from mod.moderator import moderator
 from mod.delivery import Delivery
