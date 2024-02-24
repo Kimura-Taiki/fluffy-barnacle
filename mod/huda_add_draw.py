@@ -15,7 +15,7 @@ def add_draw(huda: Huda) -> None:
 def draw_kougeki(huda: Huda) -> None:
     tehuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_TEHUDA), Taba)
     kirihuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA), Taba)
-    if not huda in tehuda or not huda in kirihuda:
+    if not huda in tehuda and not huda in kirihuda:
         huda.rearrange(angle=huda.angle, x=huda.x, y=huda.y)
         return
     img_stat = Surface(huda.img_nega.get_size(), flags=SRCALPHA)
