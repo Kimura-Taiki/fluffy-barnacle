@@ -11,7 +11,7 @@ from mod.delivery import Delivery
 from mod.card import Card, auto_di
 from mod.controller import controller
 from mod.popup_message import popup_message
-from mod.draw_params import DrawParams
+from mod.huda.draw_params import DrawParams
 
 class Huda(Youso):
     def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
@@ -43,7 +43,7 @@ class Huda(Youso):
         return inside
 
     def rearrange(self, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0) -> bool | None:
-        from mod.huda_add_draw import detail
+        from mod.huda.huda_add_draw import detail
         self.img_detail = detail(huda=self)
         self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=scale)
         self.angle = angle
