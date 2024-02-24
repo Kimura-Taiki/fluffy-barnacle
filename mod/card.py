@@ -10,11 +10,10 @@ from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.continuous import Continuous
-# from mod.huda import Huda
+from mod.card_func import maai_text
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
-# BoolDIH = Callable[[Delivery, int, 'Huda'], bool]
 KoukaDI = Callable[[Delivery, int], None]
 SuuziDI = Callable[[Delivery, int], int]
 MaaiDI = Callable[[Delivery, int], list[bool]]
@@ -96,23 +95,6 @@ class Card():
 
     def close(self, hoyuusya: int) -> None:
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
-
-    def maai_text(self, bool_list: list[bool]) -> str:
-        bool_list.append(False)
-        text = ""
-        num = -1
-        chain = False
-        for i, b in enumerate(bool_list):
-            if b:
-                if not chain:
-                    num, chain = i, True
-            else:
-                if chain:
-                    if i == num+1:
-                        text, chain = text+","+str(num), False
-                    else:
-                        text, chain = text+","+str(num)+"-"+str(i-1), False
-        return text[1:]
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
