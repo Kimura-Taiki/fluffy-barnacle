@@ -128,6 +128,9 @@ class Banmen():
     def m_params(self, hoyuusya: int) -> MParams:
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(hoyuusya), Mikoto)
         return mikoto.m_params
+    
+    def is_duck(self) -> bool:
+        return False
 
 
 

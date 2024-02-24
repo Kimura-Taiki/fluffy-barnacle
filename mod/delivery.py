@@ -42,6 +42,9 @@ class Delivery(Protocol):
     def m_params(self, hoyuusya: int) -> MParams:
         ...
 
+    def is_duck(self) -> bool:
+        ...
+
 class _DuckDelivery():
     def __init__(self) -> None:
         self.turn_player = HANTE
@@ -77,6 +80,9 @@ class _DuckDelivery():
 
     def m_params(self, hoyuusya: int) -> MParams:
         return MParams()
+    
+    def is_duck(self) -> bool:
+        return True
 
 
 duck_delivery = _DuckDelivery()
