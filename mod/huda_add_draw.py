@@ -5,7 +5,7 @@ from pygame.locals import SRCALPHA
 from pygame.math import Vector2
 
 from mod.const import IMG_OSAME, draw_aiharasuu, USAGE_DEPLOYED, enforce,\
-    TC_TEHUDA, TC_KIRIHUDA, IMG_ATTACK_STAT, CT_KOUGEKI, CT_HUYO
+    TC_TEHUDA, TC_KIRIHUDA, IMG_ATTACK_STAT, CT_KOUGEKI, CT_HUYO, MS_MINCHO_COL, BLACK
 from mod.classes import Huda, Taba
 
 def add_draw(huda: Huda) -> None:
@@ -20,6 +20,14 @@ def draw_kougeki(huda: Huda) -> None:
         return
     img_stat = Surface(huda.img_nega.get_size(), flags=SRCALPHA)
     img_stat.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
+    if huda.card.aura_bar(huda.delivery, huda.hoyuusya):
+        ...
+    else:
+        draw_aiharasuu(surface=img_stat, dest=Vector2(-2, 375), num=huda.card.aura_damage(huda.delivery, huda.hoyuusya))
+    if huda.card.life_bar(huda.delivery, huda.hoyuusya):
+        ...
+    else:
+        draw_aiharasuu(surface=img_stat, dest=Vector2(38, 405), num=huda.card.life_damage(huda.delivery, huda.hoyuusya))
     img_rz_stat = pygame.transform.rotozoom(surface=img_stat, angle=huda.angle, scale=huda.scale)
     huda.img_rz.blit(source=img_rz_stat, dest=[0, 0])
 
