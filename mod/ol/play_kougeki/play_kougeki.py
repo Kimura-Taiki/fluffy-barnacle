@@ -41,7 +41,7 @@ class PlayKougeki():
         if not self.kougeki.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=True):
             moderator.pop()
             return
-        self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
+        self.uke_taba = uke_taba(kougeki=self.kougeki,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
         self.taiou_taba = taiou_taba(delivery=self.delivery, hoyuusya=self.hoyuusya, kougeki=self.kougeki)
         if self.code == POP_TAIOUED:
@@ -69,11 +69,10 @@ class PlayKougeki():
             moderator.pop()
             return
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
-        self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
+        self.uke_taba = uke_taba(kougeki=self.kougeki,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
         
     def _received(self, stat: PopStat) -> None:
-        # raise EOFError("PlayKougeki.receivedに来たぞ")
         if self.kougeki.after:
             self.kougeki.after.kaiketu(
                 delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
@@ -81,13 +80,6 @@ class PlayKougeki():
         moderator.pop()
 
     def _after_attacked(self, stat: PopStat) -> None:
-        moderator.pop()
-
-    def _discard_source(self) -> None:
-        if self.kougeki.after:
-            self.kougeki.after.kaiketu(
-                delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
-            return
         moderator.pop()
 
 # compatible_with(, OverLayer)

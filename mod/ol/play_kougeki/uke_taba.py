@@ -14,8 +14,8 @@ from mod.tf.taba_factory import TabaFactory
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY/2-150
 _0DAMAGE = Damage(img=IMG_AURA_DAMAGE, name="打ち消しました", dmg=0, from_code=UC_AURA, to_code=UC_DUST)
 
-def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> Taba:
-    mouseup = partial(_uke_mouseup, kougeki=kougeki, discard_source=discard_source, delivery=delivery, hoyuusya=hoyuusya)
+def uke_taba(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Taba:
+    mouseup = partial(_uke_mouseup, kougeki=kougeki, delivery=delivery, hoyuusya=hoyuusya)
     factory = _uke_factory(mouse_up=mouseup)
     return factory.maid_by_cards(cards=(_uke_cards(card=kougeki, delivery=delivery, hoyuusya=hoyuusya)), hoyuusya=hoyuusya)
 
@@ -34,16 +34,15 @@ def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
             return [ad_card, ld_card] if is_receivable else [ld_card]
 
 def _ad_card(dmg: int) -> Damage:
-    return Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=dmg, from_code=UC_AURA, to_code=UC_DUST)
+    return Damage(img=IMG_AURA_DAMAGE, name="オーラで防ぎました", dmg=dmg, from_code=UC_AURA, to_code=UC_DUST)
 
 def _ld_card(dmg: int) -> Damage:
-    return Damage(img=IMG_LIFE_DAMAGE, name="オーラで受けました", dmg=dmg, from_code=UC_LIFE, to_code=UC_FLAIR)
+    return Damage(img=IMG_LIFE_DAMAGE, name="ライフで受けました", dmg=dmg, from_code=UC_LIFE, to_code=UC_FLAIR)
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y, is_ol=True)
 
-def _uke_mouseup(huda: Huda, kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> None:
+def _uke_mouseup(huda: Huda, kougeki: Card, delivery: Delivery, hoyuusya: int) -> None:
     popup_message.add(f"{side_name(hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
     huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_RECEIVED)
-    # discard_source()
 
