@@ -3,7 +3,7 @@ from pygame.math import Vector2
 from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, POP_TAIOUED, POP_OK,\
-    enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN
+    enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED
 from mod.huda.huda import Huda
 from mod.ol.view_banmen import view_youso
 from mod.card.card import Card
@@ -54,6 +54,7 @@ class PlayKougeki():
     def moderate(self, stat: PopStat) -> None:
         enforce({POP_VIEWED_BANMEN: self._viewed_banmen,
                  POP_TAIOUED: self._taioued,
+                 POP_RECEIVED: self._received,
                  POP_AFTER_ATTACKED: self._after_attacked}.get(stat.code), type(self._taioued))(stat)
 
     def _viewed_banmen(self, stat: PopStat) -> None:
@@ -70,6 +71,9 @@ class PlayKougeki():
         self.kougeki = self.taiou_huda.card.taiounize(self.kougeki, self.delivery, self.hoyuusya)
         self.uke_taba = uke_taba(kougeki=self.kougeki, discard_source=self._discard_source,
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
+        
+    def _received(self, stat: PopStat) -> None:
+        raise EOFError("PlayKougeki.receivedに来たぞ")
 
     def _after_attacked(self, stat: PopStat) -> None:
         moderator.pop()

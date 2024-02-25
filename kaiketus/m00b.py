@@ -4,7 +4,7 @@ from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_AURA,\
     UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, TC_KIRIHUDA, enforce,\
-    USAGE_UNUSED, TG_2_OR_MORE_DAMAGE
+    USAGE_UNUSED, TG_2_OR_MORE_DAMAGE, USAGE_USED
 from mod.card.card import Card, auto_di, int_di, dima_di, nega_dic
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
@@ -110,8 +110,11 @@ def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     Taba) if huda.card.name == "煌めきの乱舞"), None)):
         popup_message.add(f"切り札「煌めきの乱舞」が見つかりませんでした")
         return
+    if huda.usage != USAGE_USED:
+        return
     huda.usage = USAGE_UNUSED
     popup_message.add(f"切り札「煌めきの乱舞」が再起しました")
+    print("再起自体は成功している")
 
 _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="即再起：煌めきの乱舞", cond=auto_di, type=CT_KOUDOU,
                   kouka=_kouka_s_4)
