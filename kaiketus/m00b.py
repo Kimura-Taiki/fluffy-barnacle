@@ -2,13 +2,18 @@
 import pygame
 from copy import copy
 
-from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO
+from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_AURA,\
+    UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, TC_KIRIHUDA, enforce,\
+    USAGE_UNUSED, TG_2_OR_MORE_DAMAGE
 from mod.card.card import Card, auto_di, int_di, dima_di, nega_dic
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
-from mod.coous.attack_correction import AttackCorrection, BoolDII, Attack
+from mod.coous.attack_correction import AttackCorrection, BoolDII, mine_cf, Attack
+from mod.coous.trigger import Trigger, auto_dii
+from mod.taba import Taba
+from mod.popup_message import popup_message
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))
@@ -71,8 +76,7 @@ def _taiounize_cfs_n_9(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> At
     taiounized.aura_damage_func = aura_damage_func
     return taiounized
 
-_cond_n_9: BoolDII = lambda delivery, atk_h, cf_h: atk_h == cf_h
-_cfs_n_9 = AttackCorrection(name="精霊連携", cond=_cond_n_9, taiounize=_taiounize_cfs_n_9)
+_cfs_n_9 = AttackCorrection(name="精霊連携", cond=mine_cf, taiounize=_taiounize_cfs_n_9)
 
 n_9 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_9.png"), name="精霊連携", cond=auto_di, type=CT_HUYO,
            osame=int_di(3), cfs=[_cfs_n_9], zenryoku=True)
@@ -100,7 +104,22 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_3.png"), name="精霊たちの風", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI,
-           aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 5), kirihuda=True, flair=int_di(2))
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    if not (huda := next((huda for huda in enforce(
+    delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
+    Taba) if huda.card.name == "煌めきの乱舞"), None)):
+        popup_message.add(f"切り札「煌めきの乱舞」が見つかりませんでした")
+        return
+    huda.usage = USAGE_UNUSED
+    popup_message.add(f"切り札「煌めきの乱舞」が再起しました")
 
+_saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="即再起：煌めきの乱舞", cond=auto_di, type=CT_KOUDOU,
+                  kouka=_kouka_s_4)
 
+_cfs_s_4 = Trigger(name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE, effect=_saiki_s_4)
+
+#                 20                  40                  60                 79
+s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name=
+    "煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI, aura_damage_func=int_di(2),
+    life_damage_func=int_di(2), maai_list=dima_di(3, 5), kirihuda=True, flair=
+    int_di(2), cfs=[_cfs_s_4])
