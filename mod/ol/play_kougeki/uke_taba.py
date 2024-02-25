@@ -22,10 +22,16 @@ def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delive
 def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
     aura_damage = card.aura_damage(delivery=delivery, hoyuusya=hoyuusya)
     life_damage = card.life_damage(delivery=delivery, hoyuusya=hoyuusya)
-    return [_0DAMAGE] if life_damage is None else [_ld_card(dmg=enforce(life_damage, int))] \
-    if aura_damage is None else [_ad_card(dmg=enforce(aura_damage, int))] \
-    if _ad_card(dmg=enforce(aura_damage, int)).can_damage(delivery=delivery, hoyuusya=hoyuusya) else \
-    [_ld_card(dmg=enforce(life_damage, int))]
+    if aura_damage is None:
+        return [_0DAMAGE] if life_damage is None else [_ld_card(dmg=life_damage)]
+    else:
+        ad_card = _ad_card(dmg=aura_damage)
+        if life_damage is None:
+            return [ad_card]
+        else:
+            ld_card = _ld_card(dmg=life_damage)
+            is_receivable = ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
+            return [ad_card, ld_card] if is_receivable else [ld_card]
 
 def _ad_card(dmg: int) -> Damage:
     return Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=dmg, from_code=UC_AURA, to_code=UC_DUST)
