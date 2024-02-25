@@ -92,18 +92,12 @@ class Card():
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
-    @property
-    def aura_damage(self) -> SuuziDI:
-        return self.aura_damage_func
-    
-    @aura_damage.setter
-    def aura_damage(self, value: SuuziDI) -> None:
-        self.aura_damage_func = value
+    def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
+        if self.aura_bar(delivery, hoyuusya) == True:
+            return None
+        return self.aura_damage_func(delivery, hoyuusya)
 
-    @property
-    def life_damage(self) -> SuuziDI:
-        return self.life_damage_func
-    
-    @life_damage.setter
-    def life_damage(self, value: SuuziDI) -> None:
-        self.life_damage_func = value
+    def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
+        if self.life_bar(delivery, hoyuusya) == True:
+            return None
+        return self.life_damage_func(delivery, hoyuusya)

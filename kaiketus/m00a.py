@@ -52,9 +52,9 @@ def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
 
 def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
-    def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
-        return max(0, kougeki.aura_damage(delivery, hoyuusya)-1)
-    taiounized.aura_damage = aura_damage
+    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
+        return kougeki.aura_damage_func(delivery, hoyuusya)-1
+    taiounized.aura_damage_func = aura_damage_func
     return taiounized
 
 n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
@@ -81,9 +81,9 @@ def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
 
 def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
-    def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
-        return kougeki.aura_damage(delivery, hoyuusya)-2
-    taiounized.aura_damage = aura_damage
+    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
+        return kougeki.aura_damage_func(delivery, hoyuusya)-2
+    taiounized.aura_damage_func = aura_damage_func
     return taiounized
 
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,

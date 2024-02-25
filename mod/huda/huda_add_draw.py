@@ -22,14 +22,10 @@ def _kougeki_detail(huda: 'Huda') -> Surface:
         return _others_detail(huda=huda)
     detail = huda.huda_draw.img_nega.copy()
     detail.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
-    if huda.card.aura_bar(huda.delivery, huda.hoyuusya):
-        ...
-    else:
-        draw_aiharasuu(surface=detail, dest=Vector2(-2, 375), num=huda.card.aura_damage(huda.delivery, huda.hoyuusya))
-    if huda.card.life_bar(huda.delivery, huda.hoyuusya):
-        ...
-    else:
-        draw_aiharasuu(surface=detail, dest=Vector2(38, 405), num=huda.card.life_damage(huda.delivery, huda.hoyuusya))
+    if (ad := huda.card.aura_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+        draw_aiharasuu(surface=detail, dest=Vector2(-2, 375), num=ad)
+    if (ld := huda.card.life_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+        draw_aiharasuu(surface=detail, dest=Vector2(38, 405), num=ld)
     return detail
 
 def _huyo_detail(huda: 'Huda') -> Surface:

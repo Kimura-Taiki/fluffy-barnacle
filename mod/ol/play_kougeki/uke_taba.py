@@ -1,7 +1,7 @@
 from typing import Callable
 from functools import partial
 
-from mod.const import WX, WY, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, side_name
+from mod.const import WX, WY, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, side_name, enforce
 from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.huda.huda import Huda
@@ -20,14 +20,18 @@ def uke_taba(kougeki: Card, discard_source: Callable[[], None], delivery: Delive
     return factory.maid_by_cards(cards=(_uke_cards(card=kougeki, delivery=delivery, hoyuusya=hoyuusya)), hoyuusya=hoyuusya)
 
 def _uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
-    ad_card = Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=card.aura_damage(
-        delivery, hoyuusya), from_code=UC_AURA, to_code=UC_DUST)
-    ld_card = Damage(img=IMG_LIFE_DAMAGE, name="ライフに通しました", dmg=card.life_damage(
-        delivery, hoyuusya), from_code=UC_LIFE, to_code=UC_FLAIR)
-    can_receive_aura = ad_card.can_damage(delivery=delivery, hoyuusya=hoyuusya)
-    if card.aura_bar(delivery, hoyuusya) and card.life_bar(delivery, hoyuusya):
-        return [_0DAMAGE]
-    return [ad_card, ld_card] if can_receive_aura and not card.aura_bar(delivery, hoyuusya) else [ld_card]
+    aura_damage = card.aura_damage(delivery=delivery, hoyuusya=hoyuusya)
+    life_damage = card.life_damage(delivery=delivery, hoyuusya=hoyuusya)
+    return [_0DAMAGE] if life_damage is None else [_ld_card(dmg=enforce(life_damage, int))] \
+    if aura_damage is None else [_ad_card(dmg=enforce(aura_damage, int))] \
+    if _ad_card(dmg=enforce(aura_damage, int)).can_damage(delivery=delivery, hoyuusya=hoyuusya) else \
+    [_ld_card(dmg=enforce(life_damage, int))]
+
+def _ad_card(dmg: int) -> Damage:
+    return Damage(img=IMG_AURA_DAMAGE, name="オーラで受けました", dmg=dmg, from_code=UC_AURA, to_code=UC_DUST)
+
+def _ld_card(dmg: int) -> Damage:
+    return Damage(img=IMG_LIFE_DAMAGE, name="オーラで受けました", dmg=dmg, from_code=UC_LIFE, to_code=UC_FLAIR)
 
 def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y, is_ol=True)

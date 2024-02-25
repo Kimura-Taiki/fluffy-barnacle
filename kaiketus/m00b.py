@@ -70,9 +70,9 @@ n_8 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_8.png"), name="光の
 
 def _taiounize_cfs_n_9(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
-    def aura_damage(delivery: Delivery, hoyuusya: int) -> int:
-        return max(0, kougeki.aura_damage(delivery, hoyuusya)+1)
-    taiounized.aura_damage = aura_damage
+    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
+        return kougeki.aura_damage_func(delivery, hoyuusya)+1
+    taiounized.aura_damage_func = aura_damage_func
     return taiounized
 
 _cond_n_9: BoolDII = lambda delivery, atk_h, cf_h: atk_h == cf_h
