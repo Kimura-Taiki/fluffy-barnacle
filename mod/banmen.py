@@ -145,7 +145,7 @@ class Banmen():
         def is_d_and_u(huda: Huda) -> bool:
             return is_deployed(huda) or is_used(huda)
         def is_cond(cf: Continuous, huda: Huda) -> bool:
-            return cf.type == type and cf.cond(self, huda.hoyuusya, hoyuusya)
+            return cf.type == type and cf.cond(self, hoyuusya, huda.hoyuusya)
         st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
         sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
         kt_cfs = [cf for huda in kt if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
