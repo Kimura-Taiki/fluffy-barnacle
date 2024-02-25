@@ -1,18 +1,17 @@
 #                 20                  40                  60                 79
-from typing import Protocol, runtime_checkable, Callable
+from typing import Callable, TypeVar, Any
 
 from mod.const import CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
-from mod.coous.continuous import BoolDII, auto_dii
+from mod.coous.continuous import Continuous, BoolDII, auto_dii
 
-TaiounizeDI = Callable[['_Karte', Delivery, int], '_Karte']
+__all__ = ['BoolDII']
 
-@runtime_checkable
-class _Karte(Protocol):
-    taiounize: TaiounizeDI
+_T = TypeVar('_T')
+TaiounizeDI = Callable[[_T, Delivery, int], _T]
 
-class AttackCorrection():
-    def __init__(self, name: str, cond: BoolDII=auto_dii, taiounize: TaiounizeDI | None=None) -> None:
+class AttackCorrection(Continuous):
+    def __init__(self, name: str, cond: BoolDII=auto_dii, taiounize: TaiounizeDI[Any] | None=None) -> None:
         self.name = name
         self.type = CF_ATTACK_CORRECTION
         self.cond = cond

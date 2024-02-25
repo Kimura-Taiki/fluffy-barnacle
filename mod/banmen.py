@@ -15,6 +15,7 @@ from mod.moderator import moderator
 from mod.req.request import Request
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
+from mod.coous.continuous import Continuous
 
 class Banmen():
     def __init__(self) -> None:
@@ -133,7 +134,6 @@ class Banmen():
         return False
     
     def cfs(self, type: int, hoyuusya: int) -> list[Any]:
-        from mod.continuous.continuous import Continuous
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
         sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
         kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
