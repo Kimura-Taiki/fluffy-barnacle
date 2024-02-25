@@ -54,6 +54,7 @@ class TabaFactory():
         for huda in hudas:
             proxy_huda = copy(huda)
             proxy_huda.base = huda
+            proxy_huda.huda_draw = copy(huda.huda_draw)
             taba.append(proxy_huda)
         return taba
 
