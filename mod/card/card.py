@@ -10,7 +10,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.coous.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
-from mod.card.damage_calculator import aura_damage, life_damage
+from mod.coous.attack_correction import aura_damage, life_damage
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
