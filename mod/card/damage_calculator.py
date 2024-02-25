@@ -13,7 +13,7 @@ class Attack(Protocol):
 
 @runtime_checkable
 class Coous(Protocol):
-    taiounize: Callable[[Attack, Delivery, int], Attack] | None
+    taiounize: Callable[[Attack, Delivery, int], Attack]
 
 def aura_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
     if not isinstance(atk, Attack) or atk.aura_bar(delivery, hoyuusya) == True:
@@ -34,7 +34,5 @@ def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
 def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
     kougeki = copy(atk)
     for cf in (cf for cf in cfs if isinstance(cf, Coous)):
-        if not cf.taiounize:
-            raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
     return kougeki
