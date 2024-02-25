@@ -31,8 +31,8 @@ identity_di: TaiounizeDI = lambda i, j, k: i
 class Card():
     def __init__(
             self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
-            aura_damage: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
-            life_damage: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
+            aura_damage_func: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
+            life_damage_func: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
             maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
             after: Optional['Card']=None,
             kouka: KoukaDI=pass_di,
@@ -43,8 +43,8 @@ class Card():
             flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
             ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
-        self.aura_damage, self.aura_bar = aura_damage, aura_bar
-        self.life_damage, self.life_bar = life_damage, life_bar
+        self.aura_damage_func, self.aura_bar = aura_damage_func, aura_bar
+        self.life_damage_func, self.life_bar = life_damage_func, life_bar
         self.maai_list, self.nontaiouble = maai_list, taiouble
         self.after = after
         self.kouka =kouka
@@ -91,3 +91,19 @@ class Card():
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
+
+    @property
+    def aura_damage(self) -> SuuziDI:
+        return self.aura_damage_func
+    
+    @aura_damage.setter
+    def aura_damage(self, value: SuuziDI) -> None:
+        self.aura_damage_func = value
+
+    @property
+    def life_damage(self) -> SuuziDI:
+        return self.life_damage_func
+    
+    @life_damage.setter
+    def life_damage(self, value: SuuziDI) -> None:
+        self.life_damage_func = value
