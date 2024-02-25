@@ -2,8 +2,8 @@
 from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU\
-    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce
+    , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
+    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -131,6 +131,22 @@ class Banmen():
     
     def is_duck(self) -> bool:
         return False
+    
+    def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+        st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
+        sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
+        kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
+        kf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_KIRIHUDA)
+        def is_deployed(huda: Huda) -> bool:
+            return huda.card.type == CT_HUYO and huda.usage == USAGE_DEPLOYED
+        def is_used(huda: Huda) -> bool:
+            return huda.card. type == CT_KOUDOU and huda.usage == USAGE_USED
+        st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
+        sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
+        kt_cfs = [cf for huda in kt if is_deployed(huda) or is_used(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
+        kf_cfs = [cf for huda in kf if is_deployed(huda) or is_used(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
+        return st_cfs+sf_cfs+kt_cfs+kf_cfs
+
 
 
 

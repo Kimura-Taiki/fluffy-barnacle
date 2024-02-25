@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from typing import Callable, Any, Optional
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK
+    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -95,6 +95,10 @@ class Card():
     def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         if self.aura_bar(delivery, hoyuusya) == True:
             return None
+        # gg = delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)
+        # from mod.const import enforce
+        # from mod.continuous import Continuous
+        # kk = enforce(gg, Continuous)
         return self.aura_damage_func(delivery, hoyuusya)
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:

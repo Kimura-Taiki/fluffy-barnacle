@@ -45,6 +45,9 @@ class Delivery(Protocol):
     def is_duck(self) -> bool:
         ...
 
+    def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+        ...
+
 class _DuckDelivery():
     def __init__(self) -> None:
         self.turn_player = HANTE
@@ -83,6 +86,9 @@ class _DuckDelivery():
     
     def is_duck(self) -> bool:
         return True
+
+    def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+        return []
 
 
 duck_delivery = _DuckDelivery()
