@@ -6,6 +6,7 @@ from typing import Any
 from mod.const import draw_aiharasuu, POP_OK, UC_LIFE
 from mod.delivery import Delivery
 from mod.card.card import Card, auto_di
+from mod.coous.damage_2_or_more import damage_2_or_more
 
 class Damage(Card):
     _SCALE_SIZE = 180
@@ -23,7 +24,7 @@ class Damage(Card):
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
                                       to_mine=False, to_code=self.to_code, kazu=self.dmg)
         if self.dmg >= 2 and self.from_code == UC_LIFE:
-            raise EOFError("2以上のライフダメージ")
+            damage_2_or_more(delivery=delivery, hoyuusya=hoyuusya)
 
     def can_damage(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.can_ouka_to_ryouiki(
