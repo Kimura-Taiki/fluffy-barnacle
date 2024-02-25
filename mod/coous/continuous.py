@@ -3,6 +3,7 @@ from typing import Callable, Protocol, runtime_checkable
 
 from mod.delivery import Delivery
 BoolDII = Callable[[Delivery, int, int], bool]
+'''BoolDIIは盤面(Delivery), 永続札の保有者(int), 呼び出した者(int)の３引数構成'''
 auto_dii: BoolDII = lambda delivery, atk_h, cf_h: True
 mine_cf: BoolDII = lambda delivery, atk_h, cf_h: atk_h == cf_h
 
