@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from pygame.surface import Surface
 from typing import Callable, Any, Optional
+from copy import copy
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
     , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, CF_ATTACK_CORRECTION
@@ -95,13 +96,28 @@ class Card():
     def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         if self.aura_bar(delivery, hoyuusya) == True:
             return None
-        # gg = delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)
-        # from mod.const import enforce
+        if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+            return self.aura_damage_func(delivery, hoyuusya)
         # from mod.continuous import Continuous
-        # kk = enforce(gg, Continuous)
-        return self.aura_damage_func(delivery, hoyuusya)
+        # kougeki = copy(self)
+        # for cf in (cf for cf in cfs if isinstance(cf, Continuous)):
+        #     if not cf.taiounize:
+        #         raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
+        #     kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
+        kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+        return kougeki.aura_damage_func(delivery, hoyuusya)
+
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         if self.life_bar(delivery, hoyuusya) == True:
             return None
         return self.life_damage_func(delivery, hoyuusya)
+    
+    def _applied_kougeki(self, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> 'Card':
+        from mod.continuous import Continuous
+        kougeki = copy(self)
+        for cf in (cf for cf in cfs if isinstance(cf, Continuous)):
+            if not cf.taiounize:
+                raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
+            kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
+        return kougeki

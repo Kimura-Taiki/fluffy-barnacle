@@ -128,11 +128,12 @@ class Banmen():
     def m_params(self, hoyuusya: int) -> MParams:
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(hoyuusya), Mikoto)
         return mikoto.m_params
-    
+
     def is_duck(self) -> bool:
         return False
     
     def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+        from mod.continuous import Continuous
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
         sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
         kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
@@ -141,10 +142,14 @@ class Banmen():
             return huda.card.type == CT_HUYO and huda.usage == USAGE_DEPLOYED
         def is_used(huda: Huda) -> bool:
             return huda.card. type == CT_KOUDOU and huda.usage == USAGE_USED
-        st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
-        sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
-        kt_cfs = [cf for huda in kt if is_deployed(huda) or is_used(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
-        kf_cfs = [cf for huda in kf if is_deployed(huda) or is_used(huda) for cf in huda.card.cfs if cf.cond(self, huda.hoyuusya, hoyuusya)]
+        def is_d_and_u(huda: Huda) -> bool:
+            return is_deployed(huda) and is_used(huda)
+        def is_cond(cf: Continuous, huda: Huda) -> bool:
+            return cf.type == type and cf.cond(self, huda.hoyuusya, hoyuusya)
+        st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        kt_cfs = [cf for huda in kt if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        kf_cfs = [cf for huda in kf if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
         return st_cfs+sf_cfs+kt_cfs+kf_cfs
 
 
