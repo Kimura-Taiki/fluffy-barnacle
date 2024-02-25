@@ -7,6 +7,8 @@ from mod.const import draw_aiharasuu, POP_OK, UC_LIFE, opponent
 from mod.delivery import Delivery
 from mod.card.card import Card, auto_di
 from mod.coous.damage_2_or_more import damage_2_or_more
+from mod.moderator import moderator
+from mod.card.play_damage import PlayDamage
 
 class Damage(Card):
     _SCALE_SIZE = 180
@@ -21,10 +23,11 @@ class Damage(Card):
                        num=dmg, size=self._SCALE_SIZE)
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None, code: int = POP_OK) -> None:
-        delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
-                                      to_mine=False, to_code=self.to_code, kazu=self.dmg)
-        if self.dmg >= 2 and self.from_code == UC_LIFE:
-            damage_2_or_more(delivery=delivery, hoyuusya=opponent(hoyuusya))
+        moderator.append(PlayDamage(damage=self, delivery=delivery, hoyuusya=hoyuusya, code=code))
+        # delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=self.from_code,
+        #                               to_mine=False, to_code=self.to_code, kazu=self.dmg)
+        # if self.dmg >= 2 and self.from_code == UC_LIFE:
+        #     damage_2_or_more(delivery=delivery, hoyuusya=opponent(hoyuusya))
 
     def can_damage(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.can_ouka_to_ryouiki(

@@ -73,7 +73,12 @@ class PlayKougeki():
                                  delivery=self.delivery, hoyuusya=self.hoyuusya)
         
     def _received(self, stat: PopStat) -> None:
-        raise EOFError("PlayKougeki.receivedに来たぞ")
+        # raise EOFError("PlayKougeki.receivedに来たぞ")
+        if self.kougeki.after:
+            self.kougeki.after.kaiketu(
+                delivery=self.delivery, hoyuusya=self.hoyuusya, huda=self.source_huda, code=POP_AFTER_ATTACKED)
+            return
+        moderator.pop()
 
     def _after_attacked(self, stat: PopStat) -> None:
         moderator.pop()

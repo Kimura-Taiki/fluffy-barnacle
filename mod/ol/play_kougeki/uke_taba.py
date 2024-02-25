@@ -1,7 +1,7 @@
 from typing import Callable
 from functools import partial
 
-from mod.const import WX, WY, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, side_name, enforce
+from mod.const import WX, WY, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, side_name, enforce, POP_RECEIVED
 from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.huda.huda import Huda
@@ -43,7 +43,7 @@ def _uke_factory(mouse_up: Callable[[Huda], None]) -> TabaFactory:
     return TabaFactory(inject_kwargs={"mouseup": mouse_up}, huda_y=HAND_Y, is_ol=True)
 
 def _uke_mouseup(huda: Huda, kougeki: Card, discard_source: Callable[[], None], delivery: Delivery, hoyuusya: int) -> None:
-    huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya)
     popup_message.add(f"{side_name(hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
-    discard_source()
+    huda.card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_RECEIVED)
+    # discard_source()
 

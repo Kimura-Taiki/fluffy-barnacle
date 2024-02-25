@@ -1,16 +1,22 @@
 #                 20                  40                  60                 79
-from typing import Any
+from typing import Any, Protocol, runtime_checkable
 
 from mod.const import POP_OK, UC_LIFE, opponent
-from mod.card.damage import Damage
+# from mod.card.damage import Damage
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
 from mod.coous.damage_2_or_more import damage_2_or_more
 
+@runtime_checkable
+class _DamageArrow(Protocol):
+    from_code: int
+    to_code: int
+    dmg: int
+
 class PlayDamage():
-    def __init__(self, damage: Damage, delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> None:
-        self.damage = damage
+    def __init__(self, damage: _DamageArrow, delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> None:
+        self.da = damage
         self.delivery = delivery
         self.hoyuusya = hoyuusya
         self.name = f"Damage：{damage.from_code}から{damage.to_code}へ{damage.dmg}点"
@@ -24,9 +30,9 @@ class PlayDamage():
         return None
 
     def open(self) -> None:
-        self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya, from_mine=False, from_code=self.damage.from_code,
-                                      to_mine=False, to_code=self.damage.to_code, kazu=self.damage.dmg)
-        if self.damage.dmg >= 2 and self.damage.from_code == UC_LIFE:
+        self.delivery.send_ouka_to_ryouiki(hoyuusya=self.hoyuusya, from_mine=False, from_code=self.da.from_code,
+                                      to_mine=False, to_code=self.da.to_code, kazu=self.da.dmg)
+        if self.da.dmg >= 2 and self.da.from_code == UC_LIFE:
             damage_2_or_more(delivery=self.delivery, hoyuusya=opponent(self.hoyuusya))
         if moderator.last_layer() == self:
             moderator.pop()
