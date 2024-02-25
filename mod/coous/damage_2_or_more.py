@@ -1,15 +1,21 @@
 #                 20                  40                  60                 79
 from mod.const import CF_TRIGGER, TG_2_OR_MORE_DAMAGE, enforce
+from mod.const import CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
 from mod.coous.trigger import Trigger
 
 def damage_2_or_more(delivery: Delivery, hoyuusya: int) -> None:
     # cfs = [enforce(cf, Trigger) for cf in delivery.cfs(type=CF_TRIGGER,
     #     hoyuusya=hoyuusya) if enforce(cf, Trigger).trigger == TG_2_OR_MORE_DAMAGE]
-    raise EOFError("まずは")
+    # raise EOFError("まずは")
     effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
         type=CF_TRIGGER, hoyuusya=hoyuusya) if enforce(cf, Trigger).trigger
         == TG_2_OR_MORE_DAMAGE]
+    print("Effects", effects)
+    print("Delivery", delivery)
+    print("Hoyuusya", hoyuusya)
+    print("cfs_atk", delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya))
+    print("cfs_tgr", delivery.cfs(type=CF_TRIGGER, hoyuusya=hoyuusya))
     if len(effects) == 0:
         ...
     elif len(effects) == 1:

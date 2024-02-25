@@ -143,7 +143,7 @@ class Banmen():
         def is_used(huda: Huda) -> bool:
             return huda.card. type == CT_KOUDOU and huda.usage == USAGE_USED
         def is_d_and_u(huda: Huda) -> bool:
-            return is_deployed(huda) and is_used(huda)
+            return is_deployed(huda) or is_used(huda)
         def is_cond(cf: Continuous, huda: Huda) -> bool:
             return cf.type == type and cf.cond(self, huda.hoyuusya, hoyuusya)
         st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
