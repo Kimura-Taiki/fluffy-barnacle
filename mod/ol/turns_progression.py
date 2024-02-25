@@ -38,11 +38,16 @@ class TurnProgression():
         return PopStat()
 
     def moderate(self, stat: PopStat) -> None:
-        if (func := {POP_MAIN_PHASE_FINISHED: self._finished_main_phase,
-                     POP_START_PHASE_FINISHED: self._finished_start_phase}.get(stat.code, None)):
+        if (func := {POP_START_PHASE_FINISHED: self._finished_start_phase,
+                     POP_MAIN_PHASE_FINISHED: self._finished_main_phase,
+                     POP_END_PHASE_FINISHED: self._finished_end_phase}.get(stat.code, None)):
             func()
         else:
             raise ValueError(f"Invalid stat.code: {stat}")
+
+    def _finished_start_phase(self) -> None:
+        self.reset_name()
+        moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
 
     def _finished_main_phase(self) -> None:
         self.delivery.b_params.turn_count += 1
@@ -50,9 +55,8 @@ class TurnProgression():
         self.reset_name()
         moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
 
-    def _finished_start_phase(self) -> None:
-        self.reset_name()
-        moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
+    def _finished_end_phase(self) -> None:
+        raise EOFError("end of _finished_end_phase")
 
     def reset_name(self) -> None:
         self.name = f"{self.delivery.b_params.turn_count}ターン目 {side_name(self.delivery.turn_player)}"
