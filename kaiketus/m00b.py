@@ -12,7 +12,7 @@ from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
 from mod.taba import Taba
-from mod.continuous import Continuous, BoolDII
+from mod.continuous.continuous import Continuous, BoolDII
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))

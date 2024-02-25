@@ -8,7 +8,7 @@ from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.continuous import Continuous
+from mod.coous.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
 from mod.card.damage_calculator import aura_damage, life_damage
 

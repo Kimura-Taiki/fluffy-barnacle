@@ -133,7 +133,7 @@ class Banmen():
         return False
     
     def cfs(self, type: int, hoyuusya: int) -> list[Any]:
-        from mod.continuous import Continuous
+        from mod.continuous.continuous import Continuous
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
         sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
         kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
