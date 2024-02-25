@@ -114,7 +114,6 @@ def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
         return
     huda.usage = USAGE_UNUSED
     popup_message.add(f"切り札「煌めきの乱舞」が再起しました")
-    print("再起自体は成功している")
 
 _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="即再起：煌めきの乱舞", cond=auto_di, type=CT_KOUDOU,
                   kouka=_kouka_s_4)

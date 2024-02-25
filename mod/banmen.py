@@ -141,7 +141,6 @@ class Banmen():
         def is_deployed(huda: Huda) -> bool:
             return huda.card.type == CT_HUYO and huda.usage == USAGE_DEPLOYED
         def is_used(huda: Huda) -> bool:
-            # return huda.card.type == CT_KOUDOU and huda.usage == USAGE_USED
             return huda.usage == USAGE_USED
         def is_d_and_u(huda: Huda) -> bool:
             return is_deployed(huda) or is_used(huda)

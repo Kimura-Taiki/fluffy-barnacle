@@ -2,7 +2,6 @@
 from typing import Any, Protocol, runtime_checkable
 
 from mod.const import POP_OK, UC_LIFE, opponent
-# from mod.card.damage import Damage
 from mod.moderator import moderator
 from mod.delivery import Delivery
 from mod.ol.pop_stat import PopStat
