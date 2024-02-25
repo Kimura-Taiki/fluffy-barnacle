@@ -98,20 +98,16 @@ class Card():
             return None
         if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
             return self.aura_damage_func(delivery, hoyuusya)
-        # from mod.continuous import Continuous
-        # kougeki = copy(self)
-        # for cf in (cf for cf in cfs if isinstance(cf, Continuous)):
-        #     if not cf.taiounize:
-        #         raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
-        #     kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
         kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
         return kougeki.aura_damage_func(delivery, hoyuusya)
-
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         if self.life_bar(delivery, hoyuusya) == True:
             return None
-        return self.life_damage_func(delivery, hoyuusya)
+        if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+            return self.life_damage_func(delivery, hoyuusya)
+        kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+        return kougeki.life_damage_func(delivery, hoyuusya)
     
     def _applied_kougeki(self, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> 'Card':
         from mod.continuous import Continuous
