@@ -1,19 +1,10 @@
-from typing import Protocol, Callable, Any, runtime_checkable
+#                 20                  40                  60                 79
+from typing import Any
 from copy import copy
 
-from mod.const import CF_ATTACK_CORRECTION, enforce
+from mod.const import CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
-
-@runtime_checkable
-class Attack(Protocol):
-    aura_bar: Callable[[Delivery, int], bool]
-    life_bar: Callable[[Delivery, int], bool]
-    aura_damage_func: Callable[[Delivery, int], int]
-    life_damage_func: Callable[[Delivery, int], int]
-
-@runtime_checkable
-class Coous(Protocol):
-    taiounize: Callable[[Attack, Delivery, int], Attack]
+from mod.coous.attack_correction import AttackCorrection, Attack
 
 def aura_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
     if not isinstance(atk, Attack) or atk.aura_bar(delivery, hoyuusya) == True:
@@ -33,6 +24,6 @@ def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
 
 def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
     kougeki = copy(atk)
-    for cf in (cf for cf in cfs if isinstance(cf, Coous)):
+    for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
     return kougeki
