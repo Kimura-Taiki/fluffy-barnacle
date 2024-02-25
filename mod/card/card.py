@@ -4,12 +4,13 @@ from typing import Callable, Any, Optional
 from copy import copy
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, CF_ATTACK_CORRECTION
+    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, CF_ATTACK_CORRECTION, enforce
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
+from mod.card.damage_func import aura_damage, life_damage
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -93,27 +94,33 @@ class Card():
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
+    # def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
+    #     if self.aura_bar(delivery, hoyuusya) == True:
+    #         return None
+    #     if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+    #         return self.aura_damage_func(delivery, hoyuusya)
+    #     kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+    #     return kougeki.aura_damage_func(delivery, hoyuusya)
+
+    # def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
+    #     if self.life_bar(delivery, hoyuusya) == True:
+    #         return None
+    #     if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+    #         return self.life_damage_func(delivery, hoyuusya)
+    #     kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+    #     return kougeki.life_damage_func(delivery, hoyuusya)
+    
+    # def _applied_kougeki(self, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> 'Card':
+    #     from mod.continuous import Continuous
+    #     kougeki = copy(self)
+    #     for cf in (cf for cf in cfs if isinstance(cf, Continuous)):
+    #         if not cf.taiounize:
+    #             raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
+    #         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
+    #     return kougeki
+
     def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
-        if self.aura_bar(delivery, hoyuusya) == True:
-            return None
-        if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
-            return self.aura_damage_func(delivery, hoyuusya)
-        kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
-        return kougeki.aura_damage_func(delivery, hoyuusya)
+        return aura_damage(atk=self, delivery=delivery, hoyuusya=hoyuusya)
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
-        if self.life_bar(delivery, hoyuusya) == True:
-            return None
-        if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
-            return self.life_damage_func(delivery, hoyuusya)
-        kougeki = self._applied_kougeki(cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
-        return kougeki.life_damage_func(delivery, hoyuusya)
-    
-    def _applied_kougeki(self, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> 'Card':
-        from mod.continuous import Continuous
-        kougeki = copy(self)
-        for cf in (cf for cf in cfs if isinstance(cf, Continuous)):
-            if not cf.taiounize:
-                raise ValueError("Card.aura_damageでcf.taiounize未設定だったね")
-            kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
-        return kougeki
+        return life_damage(atk=self, delivery=delivery, hoyuusya=hoyuusya)
