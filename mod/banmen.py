@@ -3,7 +3,7 @@ from typing import Any
 
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
-    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU
+    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.youso import Youso
@@ -115,6 +115,8 @@ class Banmen():
         return target
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
+        if utuwa_code == UC_TATUZIN:
+            return self.b_params.tatuzin_no_maai
         return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).osame
     
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
