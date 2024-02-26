@@ -1,12 +1,12 @@
 #                 20                  40                  60                 79
 from typing import runtime_checkable, Protocol
 
-from mod.const import UC_LIFE, opponent
+from mod.const import UC_LIFE, opponent, TG_2_OR_MORE_DAMAGE
 from mod.classes import Card, Huda, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
 from mod.ol.mc_layer_factory import MonoChoiceLayer
 from mod.ol.pop_stat import PopStat
-from mod.coous.damage_2_or_more import damage_2_or_more
+from mod.coous.trigger import solve_trigger_effect
 
 @runtime_checkable
 class _DamageArrow(Protocol):
@@ -21,7 +21,7 @@ def _mouseup(huda: Huda) -> None:
     huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=False, from_code=da.from_code,
                                     to_mine=False, to_code=da.to_code, kazu=da.dmg)
     if da.dmg >= 2 and da.from_code == UC_LIFE:
-        damage_2_or_more(delivery=huda.delivery, hoyuusya=opponent(huda.hoyuusya))
+        solve_trigger_effect(delivery=huda.delivery, hoyuusya=opponent(huda.hoyuusya), trigger=TG_2_OR_MORE_DAMAGE)
     if moderator.last_layer() == layer:
         moderator.pop()
 

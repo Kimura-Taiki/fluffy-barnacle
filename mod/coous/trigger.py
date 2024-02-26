@@ -2,7 +2,7 @@
 from typing import Callable, Any, runtime_checkable, Protocol
 from copy import copy
 
-from mod.const import CF_TRIGGER
+from mod.const import CF_TRIGGER, enforce
 from mod.delivery import Delivery
 from mod.coous.continuous import Continuous, BoolDII, auto_dii, mine_cf
 
@@ -24,3 +24,13 @@ class Trigger(Continuous):
     def __str__(self) -> str:
         return f"Continuous{vars(self)}"
 
+def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int) -> None:
+    effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
+        type=CF_TRIGGER, hoyuusya=hoyuusya) if enforce(cf, Trigger).trigger
+        == trigger]
+    if len(effects) == 0:
+        ...
+    elif len(effects) == 1:
+        effects[0].kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=0)
+    else:
+        raise EOFError("誘発する効果が２つ以上になったね")
