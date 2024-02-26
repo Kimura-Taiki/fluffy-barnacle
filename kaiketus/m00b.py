@@ -14,7 +14,7 @@ from mod.coous.attack_correction import AttackCorrection, BoolDII, mine_cf, Atta
 from mod.coous.trigger import Trigger, auto_dii
 from mod.taba import Taba
 from mod.popup_message import popup_message
-from kaiketus.temp import saiki_trigger
+from mod.coous.saiki import saiki_trigger
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))

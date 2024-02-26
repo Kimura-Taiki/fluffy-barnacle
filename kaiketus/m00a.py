@@ -12,7 +12,7 @@ from mod.ol.choice import choice_layer
 from mod.taba import Taba
 from mod.coous.trigger import Trigger, BoolDII, auto_dii, mine_cf
 from mod.popup_message import popup_message
-from kaiketus.temp import saiki_trigger
+from mod.coous.saiki import saiki_trigger
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
