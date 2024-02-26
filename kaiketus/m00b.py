@@ -104,19 +104,23 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_3.png"), name="精霊たちの風", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
-    if not (huda := next((huda for huda in enforce(
-    delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
-    Taba) if huda.card.name == "煌めきの乱舞"), None)):
-        popup_message.add(f"切り札「煌めきの乱舞」が見つかりませんでした")
-        return
-    if huda.usage != USAGE_USED:
-        return
-    huda.usage = USAGE_UNUSED
-    popup_message.add(f"切り札「煌めきの乱舞」が再起しました")
+# def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+#     if not (huda := next((huda for huda in enforce(
+#     delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
+#     Taba) if huda.card.name == "煌めきの乱舞"), None)):
+#         popup_message.add(f"切り札「煌めきの乱舞」が見つかりませんでした")
+#         return
+#     if huda.usage != USAGE_USED:
+#         return
+#     huda.usage = USAGE_UNUSED
+#     popup_message.add(f"切り札「煌めきの乱舞」が再起しました")
 
+from kaiketus.temp import saiki_kouka
+
+# _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="即再起：煌めきの乱舞", cond=auto_di, type=CT_KOUDOU,
+#                   kouka=_kouka_s_4)
 _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name="即再起：煌めきの乱舞", cond=auto_di, type=CT_KOUDOU,
-                  kouka=_kouka_s_4)
+                  kouka=saiki_kouka(card_name="煌めきの乱舞"))
 
 _cfs_s_4 = Trigger(name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE, effect=_saiki_s_4)
 
