@@ -31,20 +31,21 @@ identity_di: TaiounizeDI = lambda i, j, k: i
 
 #                 20                  40                  60                 79
 class Card():
-    def __init__(
-            self, img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI,
-            aura_damage_func: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
-            life_damage_func: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
-            maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
-            after: Optional['Card']=None,
-            kouka: KoukaDI=pass_di,
-            osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
-            tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
-            cfs: list[Continuous]=[],
-            taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
-            flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
-            ) -> None:
+    def __init__(self, 
+    img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI, megami: int=0, 
+    aura_damage_func: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
+    life_damage_func: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
+    maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
+    after: Optional['Card']=None,
+    kouka: KoukaDI=pass_di,
+    osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
+    tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
+    cfs: list[Continuous]=[],
+    taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
+    flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
+    ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
+        self.megami = megami
         self.aura_damage_func, self.aura_bar = aura_damage_func, aura_bar
         self.life_damage_func, self.life_bar = life_damage_func, life_bar
         self.maai_list, self.nontaiouble = maai_list, taiouble
