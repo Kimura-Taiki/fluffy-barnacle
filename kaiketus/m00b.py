@@ -14,6 +14,7 @@ from mod.coous.attack_correction import AttackCorrection, BoolDII, mine_cf, Atta
 from mod.coous.trigger import Trigger, auto_dii
 from mod.taba import Taba
 from mod.popup_message import popup_message
+from kaiketus.temp import saiki_trigger
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))
@@ -104,15 +105,9 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_3.png"), name="精霊たちの風", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-from kaiketus.temp import saiki_kouka, saiki_card, saiki_trigger
+_cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png",
+            name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE)
 
-# _saiki_s_4 = enforce(saiki_card(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png", name="煌めきの乱舞"), Card)
-
-# _cfs_s_4 = Trigger(name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE, effect=_saiki_s_4)
-
-_cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png", name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE)
-
-#                 20                  40                  60                 79
 s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name=
     "煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI, aura_damage_func=int_di(2),
     life_damage_func=int_di(2), maai_list=dima_di(3, 5), kirihuda=True, flair=
