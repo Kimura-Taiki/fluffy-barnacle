@@ -3,12 +3,14 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Any
 
-from mod.const import draw_aiharasuu, POP_OK, UC_LIFE, opponent
+from mod.const import draw_aiharasuu, POP_OK
+# , UC_LIFE, opponent
 from mod.delivery import Delivery
 from mod.card.card import Card, auto_di
-from mod.coous.damage_2_or_more import damage_2_or_more
+# from mod.coous.damage_2_or_more import damage_2_or_more
 from mod.moderator import moderator
 from mod.card.play_damage import PlayDamage
+from mod.card.damage_layer import damage_layer
 
 class Damage(Card):
     _SCALE_SIZE = 180
@@ -23,7 +25,8 @@ class Damage(Card):
                        num=dmg, size=self._SCALE_SIZE)
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None = None, code: int = POP_OK) -> None:
-        moderator.append(PlayDamage(damage=self, delivery=delivery, hoyuusya=hoyuusya, code=code))
+        # moderator.append(PlayDamage(damage=self, delivery=delivery, hoyuusya=hoyuusya, code=code))
+        moderator.append(damage_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, code=code))
 
     def can_damage(self, delivery: Delivery, hoyuusya: int) -> bool:
         return delivery.can_ouka_to_ryouiki(
