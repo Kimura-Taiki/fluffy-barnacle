@@ -7,8 +7,9 @@ from mod.const import compatible_with, pass_func, PH_NONE, PH_START, PH_MAIN, PH
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.delivery import Delivery, duck_delivery
-from mod.ol.start_phase import StartPhase
-from mod.ol.main_phase import MainPhase
+from mod.ol.turns_progression.start_phase import StartPhase
+from mod.ol.turns_progression.main_phase import MainPhase
+from mod.ol.turns_progression.end_phase import EndPhase
 from mod.ol.over_layer import OverLayer
 from mod.ol.pop_stat import PopStat
 
@@ -53,10 +54,11 @@ class TurnProgression():
         self.delivery.b_params.turn_count += 1
         self.delivery.turn_player = opponent(self.delivery.turn_player)
         self.reset_name()
-        moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
+        moderator.append(EndPhase(delivery=self.delivery, inject_func=self.inject_func))
 
     def _finished_end_phase(self) -> None:
-        raise EOFError("end of _finished_end_phase")
+        # raise EOFError("end of _finished_end_phase")
+        moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
 
     def reset_name(self) -> None:
         self.name = f"{self.delivery.b_params.turn_count}ターン目 {side_name(self.delivery.turn_player)}"

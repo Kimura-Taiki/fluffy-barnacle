@@ -7,8 +7,8 @@ from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.ol.main_phase import MainPhase
-from mod.ol.turns_progression import TurnProgression
+from mod.ol.turns_progression.main_phase import MainPhase
+from mod.ol.turns_progression.turns_progression import TurnProgression
 
 banmen = Banmen()
 # banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=5)

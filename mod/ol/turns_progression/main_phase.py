@@ -29,7 +29,6 @@ class MainPhase():
         ...
 
     def close(self) -> PopStat:
-        popup_message.add(text="ターンを終了します")
         return PopStat(POP_MAIN_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
