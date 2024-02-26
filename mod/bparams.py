@@ -2,6 +2,7 @@ class BParams():
     def __init__(self) -> None:
         self.start_turn()
         self.turn_count = 1
+        self.tatuzin_no_maai = 2
 
     def start_turn(self) -> None:
         self.during_taiou = False
