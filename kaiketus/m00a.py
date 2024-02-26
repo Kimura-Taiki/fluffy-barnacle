@@ -91,16 +91,16 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-from kaiketus.temp import saiki_kouka, saiki_card
+from kaiketus.temp import saiki_kouka, saiki_card, saiki_trigger
 
-# _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-#                   kouka=saiki_kouka(card_name="奪イノ茨"))
-_saiki_s_4 = enforce(saiki_card(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png", name="奪イノ茨"), Card)
+# _saiki_s_4 = enforce(saiki_card(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png", name="奪イノ茨"), Card)
 
 _cond_s_4: BoolDII = lambda delivery, call_h, cf_h: mine_cf(delivery, call_h, cf_h) and\
     delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
 
-_cfs_s_4 = Trigger(name="奪イノ茨", cond=_cond_s_4, trigger=TG_END_PHASE, effect=_saiki_s_4)
+# _cfs_s_4 = Trigger(name="奪イノ茨", cond=_cond_s_4, trigger=TG_END_PHASE, effect=_saiki_s_4)
+
+_cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png", name="奪イノ茨", cond=_cond_s_4, trigger=TG_END_PHASE)
 
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     for huda in list(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba)):
