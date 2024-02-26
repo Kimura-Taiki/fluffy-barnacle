@@ -3,13 +3,15 @@ import pygame
 from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO,\
-    enforce, TC_TEHUDA, TC_SUTEHUDA
+    enforce, TC_TEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_USED, USAGE_UNUSED, TG_END_PHASE
 from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
 from mod.taba import Taba
+from mod.coous.trigger import Trigger, BoolDII, auto_dii, mine_cf
+from mod.popup_message import popup_message
 
 n_1 = Card(img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -89,10 +91,29 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
+def _s_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    if not (huda := next((huda for huda in enforce(
+    delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
+    Taba) if huda.card.name == "奪イノ茨"), None)):
+        popup_message.add(f"切り札「奪イノ茨」が見つかりませんでした")
+        return
+    if huda.usage != USAGE_USED:
+        return
+    huda.usage = USAGE_UNUSED
+    popup_message.add(f"切り札「奪イノ茨」が再起しました")
+
+_saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="即再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
+                  kouka=_s_s_4)
+
+_cond_s_4: BoolDII = lambda delivery, call_h, cf_h: mine_cf(delivery, call_h, cf_h) and\
+    delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
+
+_cfs_s_4 = Trigger(name="奪イノ茨", cond=_cond_s_4, trigger=TG_END_PHASE, effect=_saiki_s_4)
+
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     for huda in list(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba)):
         delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_SYUUTYUU, to_mine=False, to_code=UC_ZYOGAI, kazu=2)
 
 s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1))
+           kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1), cfs=[_cfs_s_4])
