@@ -13,7 +13,7 @@ BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
 auto_di: BoolDI = lambda delivery, hoyuusya: True
 
-def saiki_kouka(card_name: str) -> KoukaDI:
+def _saiki_kouka(card_name: str) -> KoukaDI:
     def func(delivery: Delivery, hoyuusya: int) -> None:
         if not (huda := next((huda for huda in enforce(
             delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
@@ -32,11 +32,11 @@ class _ProtCard(Protocol):
                  kouka: Callable[[Delivery, int], None]) -> None:
         ...
 
-def saiki_card(cls: type[_ProtCard], file_name: str, name: str) -> Any:
+def _saiki_card(cls: type[_ProtCard], file_name: str, name: str) -> Any:
     return cls(img=pygame.image.load(file_name), name="再起："+name,
-    cond=auto_di, type=CT_KOUDOU, kouka=saiki_kouka(card_name=name))
+    cond=auto_di, type=CT_KOUDOU, kouka=_saiki_kouka(card_name=name))
 
 def saiki_trigger(cls: type[_ProtCard], file_name: str, name: str,
                   cond: BoolDII, trigger: int) -> Trigger:
-    return Trigger(name=name, cond=cond, trigger=trigger, effect=saiki_card(
+    return Trigger(name=name, cond=cond, trigger=trigger, effect=_saiki_card(
         cls=cls, file_name=file_name, name=name))
