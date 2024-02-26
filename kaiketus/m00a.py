@@ -91,23 +91,11 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-# def _s_s_4(delivery: Delivery, hoyuusya: int) -> None:
-#     if not (huda := next((huda for huda in enforce(
-#     delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
-#     Taba) if huda.card.name == "奪イノ茨"), None)):
-#         popup_message.add(f"切り札「奪イノ茨」が見つかりませんでした")
-#         return
-#     if huda.usage != USAGE_USED:
-#         return
-#     huda.usage = USAGE_UNUSED
-#     popup_message.add(f"切り札「奪イノ茨」が再起しました")
-
-from kaiketus.temp import saiki_kouka
+from kaiketus.temp import saiki_kouka, saiki_card
 
 # _saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-#                   kouka=_s_s_4)
-_saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-                  kouka=saiki_kouka(card_name="奪イノ茨"))
+#                   kouka=saiki_kouka(card_name="奪イノ茨"))
+_saiki_s_4 = enforce(saiki_card(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png", name="奪イノ茨"), Card)
 
 _cond_s_4: BoolDII = lambda delivery, call_h, cf_h: mine_cf(delivery, call_h, cf_h) and\
     delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
