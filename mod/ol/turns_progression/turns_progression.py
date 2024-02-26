@@ -51,13 +51,12 @@ class TurnProgression():
         moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
 
     def _finished_main_phase(self) -> None:
-        self.delivery.b_params.turn_count += 1
-        self.delivery.turn_player = opponent(self.delivery.turn_player)
         self.reset_name()
         moderator.append(EndPhase(delivery=self.delivery, inject_func=self.inject_func))
 
     def _finished_end_phase(self) -> None:
-        # raise EOFError("end of _finished_end_phase")
+        self.delivery.b_params.turn_count += 1
+        self.delivery.turn_player = opponent(self.delivery.turn_player)
         moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
 
     def reset_name(self) -> None:

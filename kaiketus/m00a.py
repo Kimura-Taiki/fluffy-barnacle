@@ -102,7 +102,7 @@ def _s_s_4(delivery: Delivery, hoyuusya: int) -> None:
     huda.usage = USAGE_UNUSED
     popup_message.add(f"切り札「奪イノ茨」が再起しました")
 
-_saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="即再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
+_saiki_s_4 = Card(img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="再起：奪イノ茨", cond=auto_di, type=CT_KOUDOU,
                   kouka=_s_s_4)
 
 _cond_s_4: BoolDII = lambda delivery, call_h, cf_h: mine_cf(delivery, call_h, cf_h) and\
