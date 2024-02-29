@@ -24,13 +24,13 @@ class Trigger(Continuous):
     def __str__(self) -> str:
         return f"Continuous{vars(self)}"
 
-def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int) -> None:
+def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int, code: int=0) -> None:
     effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
         type=CF_TRIGGER, hoyuusya=hoyuusya) if enforce(cf, Trigger).trigger
         == trigger]
     if len(effects) == 0:
         ...
     elif len(effects) == 1:
-        effects[0].kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=0)
+        effects[0].kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=code)
     else:
         raise EOFError("誘発する効果が２つ以上になったね")

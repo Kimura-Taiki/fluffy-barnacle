@@ -1,7 +1,8 @@
 #                 20                  40                  60                 79
 from typing import Callable
 
-from mod.const import pass_func, POP_END_PHASE_FINISHED, TG_END_PHASE
+from mod.const import pass_func, POP_END_PHASE_FINISHED, POP_END_TRIGGERED,\
+    TG_END_PHASE, enforce
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.moderator import moderator
@@ -23,13 +24,17 @@ class EndPhase():
         return None
 
     def open(self) -> None:
-        solve_trigger_effect(delivery=self.delivery, hoyuusya=self.hoyuusya, trigger=TG_END_PHASE)
+        solve_trigger_effect(delivery=self.delivery, hoyuusya=self.hoyuusya, trigger=TG_END_PHASE, code=POP_END_TRIGGERED)
         if moderator.last_layer() == self:
-            moderator.pop()
+            self.moderate(PopStat(code=POP_END_TRIGGERED))
 
     def close(self) -> PopStat:
         popup_message.add(text="ターンを終了します")
         return PopStat(POP_END_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
+        enforce({POP_END_TRIGGERED: self._end_triggered
+                 }.get(stat.code), type(self.moderate))(stat=stat)
+
+    def _end_triggered(self, stat: PopStat) -> None:
         moderator.pop()
