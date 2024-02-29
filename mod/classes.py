@@ -1,6 +1,7 @@
 from typing import Callable, Any
 from functools import partial
 
+from mod.ol.pop_stat import PopStat
 from mod.card.card import Card
 from mod.youso import Youso
 from mod.huda.huda import Huda
@@ -12,5 +13,5 @@ from mod.moderator import moderator
 from mod.controller import controller
 
 __all__ = ['Callable', 'Any', 'partial',
-           'Card', 'Youso', 'Huda', 'Taba', 'Delivery', 'TabaFactory',
+           'PopStat', 'Card', 'Youso', 'Huda', 'Taba', 'Delivery', 'TabaFactory',
            'popup_message', 'moderator', 'controller']
