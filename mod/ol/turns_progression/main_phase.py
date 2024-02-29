@@ -32,6 +32,10 @@ class MainPhase():
         return PopStat(POP_MAIN_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
+        # if stat.code == -1:
+        #     from mod.const import enforce
+        #     from mod.huda.huda import Huda
+        #     popup_message.add(f"{enforce(stat.huda, Huda).card.name}をプレイしたよ")
         ...
 
     def _mouseup_turn_end(self, youso: Youso) -> None:

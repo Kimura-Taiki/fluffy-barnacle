@@ -10,6 +10,7 @@ from mod.moderator import moderator
 from mod.ol.turns_progression.main_phase import MainPhase
 from mod.ol.turns_progression.turns_progression import TurnProgression
 from mod.ol.only_select_layer import OnlySelectLayer
+from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
 
 banmen = Banmen()
 banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_FLAIR, kazu=3)
@@ -18,7 +19,8 @@ banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_ZYOGA
 
 moderator.delivery = banmen
 moderator.append(TurnProgression(delivery=banmen, main_inject=banmen.inject_main_phase))
-moderator.append(OnlySelectLayer(delivery=banmen, name="Hoge"))
+moderator.append(OnlySelectLayer(delivery=banmen, hoyuusya=SIMOTE, name="Hoge", code=-1,
+    lower=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]))
 
 controller.get_hover = lambda : moderator.get_hover() or banmen.get_hover()
 
