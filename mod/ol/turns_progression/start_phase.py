@@ -39,12 +39,12 @@ class StartPhase():
 
     def moderate(self, stat: PopStat) -> None:
         enforce({POP_HUYO_ELAPSED: self._huyo_elapsed,
-                 POP_RESHUFFLED: self._reshuffled}.get(stat.code), type(self.open))()
+                 POP_RESHUFFLED: self._reshuffled}.get(stat.code), type(self.moderate))(stat=stat)
 
-    def _huyo_elapsed(self) -> None:
+    def _huyo_elapsed(self, stat: PopStat) -> None:
         moderator.append(reshuffle_layer(delivery=self.delivery, hoyuusya=self.hoyuusya))
 
-    def _reshuffled(self) -> None:
+    def _reshuffled(self,  stat: PopStat) -> None:
         if self.delivery.b_params.turn_count <= 2:
             moderator.pop()
             return
