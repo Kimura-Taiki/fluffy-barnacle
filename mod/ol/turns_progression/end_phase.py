@@ -2,13 +2,15 @@
 from typing import Callable
 
 from mod.const import pass_func, POP_END_PHASE_FINISHED, POP_END_TRIGGERED,\
-    POP_DISCARDED, TG_END_PHASE, enforce
+    POP_DISCARDED, TG_END_PHASE, enforce, TC_TEHUDA, TC_HUSEHUDA
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.moderator import moderator
 from mod.youso import Youso
 from mod.popup_message import popup_message
 from mod.coous.trigger import solve_trigger_effect
+from mod.ol.only_select_layer import OnlySelectLayer
+from mod.huda.huda import Huda
 
 class EndPhase():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -37,9 +39,17 @@ class EndPhase():
                  }.get(stat.code), type(self.moderate))(stat=stat)
 
     def _end_triggered(self, stat: PopStat) -> None:
-        if moderator.last_layer() == self:
-            self.moderate(PopStat(code=POP_DISCARDED))
+        self._check_discard()
 
     def _discarded(self, stat: PopStat) -> None:
-        popup_message.add(text="ターンを終了します")
-        moderator.pop()
+        self.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_HUSEHUDA)
+        self._check_discard()
+
+    def _check_discard(self) -> None:
+        tehuda = enforce(self.delivery.taba_target(hoyuusya=self.hoyuusya, is_mine=True, taba_code=TC_TEHUDA), list)
+        if len(tehuda) <= self.delivery.b_params.tehuda_max:
+            popup_message.add("ターンを終了します")
+            moderator.pop()
+            return
+        moderator.append(OnlySelectLayer(delivery=self.delivery, hoyuusya=self.
+            hoyuusya, name="超過手札の破棄", lower=tehuda, code=POP_DISCARDED))
