@@ -2,7 +2,7 @@
 from typing import Callable
 
 from mod.const import pass_func, POP_END_PHASE_FINISHED, POP_END_TRIGGERED,\
-    TG_END_PHASE, enforce
+    POP_DISCARDED, TG_END_PHASE, enforce
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.pop_stat import PopStat
 from mod.moderator import moderator
@@ -29,12 +29,17 @@ class EndPhase():
             self.moderate(PopStat(code=POP_END_TRIGGERED))
 
     def close(self) -> PopStat:
-        popup_message.add(text="ターンを終了します")
         return PopStat(POP_END_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
-        enforce({POP_END_TRIGGERED: self._end_triggered
+        enforce({POP_END_TRIGGERED: self._end_triggered,
+                 POP_DISCARDED: self._discarded
                  }.get(stat.code), type(self.moderate))(stat=stat)
 
     def _end_triggered(self, stat: PopStat) -> None:
+        if moderator.last_layer() == self:
+            self.moderate(PopStat(code=POP_DISCARDED))
+
+    def _discarded(self, stat: PopStat) -> None:
+        popup_message.add(text="ターンを終了します")
         moderator.pop()
