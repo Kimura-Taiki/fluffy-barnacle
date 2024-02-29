@@ -1,0 +1,40 @@
+#                 20                  40                  60                 79
+from typing import Callable
+
+from mod.const import enforce, pass_func, POP_OPEN
+from mod.delivery import Delivery
+from mod.ol.pop_stat import PopStat
+from mod.moderator import moderator
+from mod.youso import Youso
+from mod.popup_message import popup_message
+from mod.coous.trigger import solve_trigger_effect
+from mod.ol.only_select_layer import OnlySelectLayer
+from mod.huda.huda import Huda
+
+class PipelineLayer():
+    def __init__(self, name: str, delivery: Delivery, gotoes: dict[int,
+    Callable[['PipelineLayer', PopStat], None]], code: int) -> None:
+        self.name = name
+        self.inject_func = pass_func
+        self.delivery = delivery
+        self.hoyuusya = delivery.turn_player
+        self.gotoes = gotoes
+        self.code = code
+
+    def elapse(self) -> None:
+        ...
+
+    def get_hover(self) -> Youso | None:
+        return None
+
+    def open(self) -> None:
+        self.moderate(PopStat(code=POP_OPEN))
+
+    def close(self) -> PopStat:
+        return PopStat(code=self.code)
+
+    def moderate(self, stat: PopStat) -> None:
+        enforce(self.gotoes.get(stat.code), type(_type_dummy))(self, stat)
+
+def _type_dummy(pipe: PipelineLayer, stat: PopStat) -> None:
+    ...
