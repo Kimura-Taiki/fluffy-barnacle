@@ -2,7 +2,8 @@
 from random import shuffle
 
 from mod.const import TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED,\
-    IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU, enforce, POP_RESHUFFLED, IMG_LIFE_DAMAGE, UC_LIFE, UC_FLAIR, opponent
+    IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU, enforce, opponent, POP_RESHUFFLED,\
+    IMG_LIFE_DAMAGE, UC_LIFE, UC_FLAIR, DMG_RESHUFFLE
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.huda.huda import Huda
@@ -21,7 +22,7 @@ def _reshuffle_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     shuffle(moto)
     return moto
 
-damage = Damage(img=IMG_LIFE_DAMAGE, name="再構成ダメージです", dmg=1, from_code=UC_LIFE, to_code=UC_FLAIR)
+damage = Damage(img=IMG_LIFE_DAMAGE, name="再構成ダメージです", dmg=1, from_code=UC_LIFE, to_code=UC_FLAIR, attr=DMG_RESHUFFLE)
 
 def _reshuffle_kouka(delivery: Delivery, hoyuusya: int) -> None:
     for huda in _reshuffle_hudas(delivery=delivery, hoyuusya=hoyuusya):
