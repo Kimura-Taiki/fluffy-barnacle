@@ -28,6 +28,7 @@ class OnlySelectLayer():
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
         self.lower.elapse()
+        self.upper.elapse()
 
     def get_hover(self) -> Any | None:
         return self.upper.get_hover_huda() or self.lower.get_hover_huda() or\
@@ -57,9 +58,10 @@ def _mouseup(huda: Huda, os_layer: OnlySelectLayer) -> None:
 
 def _factory(os_layer: OnlySelectLayer, huda_y: Callable[[int, int], float]
 ) -> TabaFactory:
-    return TabaFactory(inject_kwargs={"mouseup": partial(_mouseup,
+    facotry = TabaFactory(inject_kwargs={"mouseup": partial(_mouseup,
         os_layer=os_layer)}, huda_x=_HAND_X, huda_y=huda_y, huda_angle=
         _HAND_ANGLE, is_ol=True)
+    return facotry
 
 def _taba_maid_by_any(li: list[Any], factory: TabaFactory, delivery: Delivery,
 hoyuusya: int) -> Taba:

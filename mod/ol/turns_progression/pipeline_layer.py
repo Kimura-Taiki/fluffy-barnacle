@@ -1,8 +1,9 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, pass_func, POP_OPEN
 from mod.classes import Callable, PopStat, Youso, Delivery
+from mod.ol.over_layer import OverLayer
 
-class PipelineLayer():
+class PipelineLayer(OverLayer):
     def __init__(self, name: str, delivery: Delivery, gotoes: dict[int,
     Callable[['PipelineLayer', PopStat], None]], code: int) -> None:
         self.name = name

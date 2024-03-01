@@ -9,7 +9,7 @@ from mod.moderator import moderator
 from mod.delivery import Delivery, duck_delivery
 from mod.ol.turns_progression.start_phase import StartPhase
 from mod.ol.turns_progression.main_phase import MainPhase
-from mod.ol.turns_progression.end_phase import EndPhase
+from mod.ol.turns_progression.end_phase import end_phase_layer
 from mod.ol.over_layer import OverLayer
 from mod.ol.pop_stat import PopStat
 
@@ -52,7 +52,7 @@ class TurnProgression():
 
     def _finished_main_phase(self) -> None:
         self.reset_name()
-        moderator.append(EndPhase(delivery=self.delivery, inject_func=self.inject_func))
+        moderator.append(end_phase_layer(self.delivery))
 
     def _finished_end_phase(self) -> None:
         self.delivery.b_params.turn_count += 1
