@@ -1,16 +1,9 @@
-import pygame
-from pygame.math import Vector2
-from typing import Callable
-
+#                 20                  40                  60                 79
 from mod.const import compatible_with, pass_func, IMG_TURN_END, IMG_TURN_END_LIGHTEN, POP_MAIN_PHASE_FINISHED
+from mod.classes import Callable, PopStat, Youso, moderator
 from mod.ol.over_layer import OverLayer
-from mod.youso import Youso
-from mod.popup_message import popup_message
 from mod.delivery import Delivery, duck_delivery
-from mod.controller import controller
-from mod.moderator import moderator
 from mod.ol.button import Button
-from mod.ol.pop_stat import PopStat
 
 class MainPhase():
     def __init__(self, inject_func: Callable[[], None]=pass_func, delivery: Delivery=duck_delivery) -> None:
@@ -32,10 +25,6 @@ class MainPhase():
         return PopStat(POP_MAIN_PHASE_FINISHED)
 
     def moderate(self, stat: PopStat) -> None:
-        # if stat.code == -1:
-        #     from mod.const import enforce
-        #     from mod.huda.huda import Huda
-        #     popup_message.add(f"{enforce(stat.huda, Huda).card.name}をプレイしたよ")
         ...
 
     def _mouseup_turn_end(self, youso: Youso) -> None:
