@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
-from mod.const import enforce, TC_YAMAHUDA, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE,\
-    UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, DMG_SYOUSOU, POP_OPEN,\
-    POP_SYOUSOU_SELECTED, POP_SYOUSOU_DAMAGED, POP_TURN_DRAWED
+from mod.const import enforce, opponent, TC_YAMAHUDA, IMG_AURA_DAMAGE,\
+    IMG_LIFE_DAMAGE, UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, DMG_SYOUSOU,\
+    POP_OPEN, POP_SYOUSOU_SELECTED, POP_SYOUSOU_DAMAGED, POP_TURN_DRAWED
 from mod.classes import Callable, PopStat, Huda, Delivery, moderator, popup_message
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
@@ -29,7 +29,9 @@ def _draw(layer: PipelineLayer, stat: PopStat) -> None:
             POP_SYOUSOU_SELECTED))
 
 def _syousou_selected(layer: PipelineLayer, stat: PopStat) -> None:
-    enforce(stat.huda, Huda).card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya, code=POP_SYOUSOU_DAMAGED)
+    huda = enforce(stat.huda, Huda)
+    popup_message.add(f"焦燥で{huda.card.name}が削れます")
+    huda.card.kaiketu(delivery=layer.delivery, hoyuusya=opponent(layer.hoyuusya), code=POP_SYOUSOU_DAMAGED)
 
 def _adc() -> Damage:
     return Damage(img=IMG_AURA_DAMAGE, name="オーラ", dmg=1, from_code=UC_AURA, to_code=UC_DUST, attr=DMG_SYOUSOU)

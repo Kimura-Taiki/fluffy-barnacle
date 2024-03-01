@@ -1,11 +1,12 @@
 #                 20                  40                  60                 79
 from mod.const import POP_START_PHASE_FINISHED, POP_OPEN, POP_HUYO_ELAPSED,\
-    POP_RESHUFFLED, UC_ZYOGAI, UC_SYUUTYUU, side_name, SIMOTE, KAMITE,\
-    UC_ISYUKU
+    POP_RESHUFFLED, POP_TURN_DRAWED, UC_ZYOGAI, UC_SYUUTYUU, SIMOTE, KAMITE,\
+    UC_ISYUKU, side_name
 from mod.classes import Callable, PopStat, Delivery, moderator, popup_message
 from mod.ol.remove_osame.remove_osame import RemoveOsame
 from mod.ol.reshuffle import reshuffle_layer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.turns_progression.turn_draw import turn_draw_layer
 
 def _open(layer: PipelineLayer, stat: PopStat) -> None:
     popup_message.add(f"{side_name(layer.hoyuusya)}のターンです")
@@ -34,14 +35,15 @@ def _reshuffled(layer: PipelineLayer,  stat: PopStat) -> None:
     if layer.delivery.b_params.turn_count <= 2:
         moderator.pop()
         return
-    for _ in range(2):
-        layer.delivery.hand_draw(hoyuusya=layer.hoyuusya, is_mine=True)
-    popup_message.add("カードを２枚引きます")
+    moderator.append(turn_draw_layer(layer.delivery))
+
+def _turn_drawed(layer: PipelineLayer,  stat: PopStat) -> None:
     moderator.pop()
 
 start_phase_layer: Callable[[Delivery], PipelineLayer] = lambda delivery:\
     PipelineLayer(name="開始フェイズ", delivery=delivery, gotoes={
         POP_OPEN: _open,
         POP_HUYO_ELAPSED: _huyo_elapsed,
-        POP_RESHUFFLED: _reshuffled
+        POP_RESHUFFLED: _reshuffled,
+        POP_TURN_DRAWED: _turn_drawed
     }, code=POP_START_PHASE_FINISHED)
