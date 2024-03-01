@@ -12,6 +12,7 @@ class PipelineLayer(OverLayer):
         self.hoyuusya = delivery.turn_player
         self.gotoes = gotoes
         self.code = code
+        self.count = 0
 
     def elapse(self) -> None:
         ...
