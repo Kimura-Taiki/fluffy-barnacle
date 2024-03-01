@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import POP_START_PHASE_FINISHED, POP_OPEN, POP_HUYO_ELAPSED,\
-    POP_RESHUFFLED, UC_ZYOGAI, UC_SYUUTYUU, side_name, SIMOTE, KAMITE
+    POP_RESHUFFLED, UC_ZYOGAI, UC_SYUUTYUU, side_name, SIMOTE, KAMITE,\
+    UC_ISYUKU
 from mod.classes import Callable, PopStat, Delivery, moderator, popup_message
 from mod.ol.remove_osame.remove_osame import RemoveOsame
 from mod.ol.reshuffle import reshuffle_layer
@@ -11,10 +12,20 @@ def _open(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.b_params.start_turn()
     layer.delivery.m_params(hoyuusya=SIMOTE).start_turn()
     layer.delivery.m_params(hoyuusya=KAMITE).start_turn()
-    layer.delivery.send_ouka_to_ryouiki(
-        hoyuusya=layer.hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU)
-    popup_message.add("集中力を１得ます")
+    _add_syuutyuu(layer=layer)
     moderator.append(RemoveOsame(delivery=layer.delivery, hoyuusya=layer.hoyuusya))
+
+def _add_syuutyuu(layer: PipelineLayer) -> None:
+    if layer.delivery.ouka_count(hoyuusya=layer.hoyuusya, is_mine=True,
+                                 utuwa_code=UC_ISYUKU) > 0:
+        popup_message.add("畏縮を解除します")
+        layer.delivery.send_ouka_to_ryouiki(hoyuusya=layer.hoyuusya, from_mine=
+            True, from_code=UC_ISYUKU, to_code=UC_ZYOGAI)
+    else:
+        popup_message.add("集中力を１得ます")
+        layer.delivery.send_ouka_to_ryouiki(
+            hoyuusya=layer.hoyuusya, from_mine=False, from_code=UC_ZYOGAI,
+            to_mine=True, to_code=UC_SYUUTYUU)
 
 def _huyo_elapsed(layer: PipelineLayer, stat: PopStat) -> None:
     moderator.append(reshuffle_layer(delivery=layer.delivery, hoyuusya=layer.hoyuusya))
