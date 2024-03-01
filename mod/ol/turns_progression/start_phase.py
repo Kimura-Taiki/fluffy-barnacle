@@ -1,8 +1,9 @@
 #                 20                  40                  60                 79
 from mod.const import POP_START_PHASE_FINISHED, POP_OPEN, POP_HUYO_ELAPSED,\
-    POP_RESHUFFLED, POP_TURN_DRAWED, UC_ZYOGAI, UC_SYUUTYUU, SIMOTE, KAMITE,\
-    UC_ISYUKU, side_name
-from mod.classes import Callable, PopStat, Delivery, moderator, popup_message
+    POP_RESHUFFLE_SELECTED, POP_RESHUFFLED, POP_TURN_DRAWED, UC_ZYOGAI,\
+    UC_SYUUTYUU, SIMOTE, KAMITE, UC_ISYUKU, side_name, enforce
+from mod.classes import Callable, PopStat, Huda, Delivery, moderator,\
+    popup_message
 from mod.ol.remove_osame.remove_osame import RemoveOsame
 from mod.ol.reshuffle import reshuffle_layer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
@@ -14,7 +15,8 @@ def _open(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(hoyuusya=SIMOTE).start_turn()
     layer.delivery.m_params(hoyuusya=KAMITE).start_turn()
     _add_syuutyuu(layer=layer)
-    moderator.append(RemoveOsame(delivery=layer.delivery, hoyuusya=layer.hoyuusya))
+    moderator.append(RemoveOsame(delivery=layer.delivery, hoyuusya=layer.
+                                 hoyuusya))
 
 def _add_syuutyuu(layer: PipelineLayer) -> None:
     if layer.delivery.ouka_count(hoyuusya=layer.hoyuusya, is_mine=True,
@@ -29,7 +31,11 @@ def _add_syuutyuu(layer: PipelineLayer) -> None:
             to_mine=True, to_code=UC_SYUUTYUU)
 
 def _huyo_elapsed(layer: PipelineLayer, stat: PopStat) -> None:
-    moderator.append(reshuffle_layer(delivery=layer.delivery, hoyuusya=layer.hoyuusya))
+    moderator.append(reshuffle_layer(layer.delivery, layer.hoyuusya))
+
+def _reshuffle_selected(layer: PipelineLayer,  stat: PopStat) -> None:
+    enforce(stat.huda, Huda).card.kaiketu(delivery=layer.delivery, hoyuusya=
+        layer.hoyuusya, code=POP_RESHUFFLED)
 
 def _reshuffled(layer: PipelineLayer,  stat: PopStat) -> None:
     if layer.delivery.b_params.turn_count <= 2:
@@ -44,6 +50,7 @@ start_phase_layer: Callable[[Delivery], PipelineLayer] = lambda delivery:\
     PipelineLayer(name="開始フェイズ", delivery=delivery, gotoes={
         POP_OPEN: _open,
         POP_HUYO_ELAPSED: _huyo_elapsed,
+        POP_RESHUFFLE_SELECTED: _reshuffle_selected,
         POP_RESHUFFLED: _reshuffled,
         POP_TURN_DRAWED: _turn_drawed
     }, code=POP_START_PHASE_FINISHED)
