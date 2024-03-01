@@ -1,61 +1,40 @@
 #                 20                  40                  60                 79
-from mod.const import compatible_with, pass_func, PH_NONE, PH_START, PH_MAIN, PH_END, opponent, side_name,\
-    POP_START_PHASE_FINISHED, POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED, SIMOTE
-from mod.classes import Callable, Any, Delivery, PopStat, moderator, popup_message
-from mod.delivery import duck_delivery
+from mod.const import opponent, side_name, POP_OPEN, POP_START_PHASE_FINISHED,\
+    POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED, SIMOTE
+from mod.classes import Callable, Delivery, PopStat, moderator
 from mod.ol.turns_progression.start_phase import start_phase_layer
 from mod.ol.turns_progression.main_phase import MainPhase
 from mod.ol.turns_progression.end_phase import end_phase_layer
-from mod.ol.over_layer import OverLayer
+from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 
-class TurnProgression():
-    def __init__(self, delivery: Delivery, main_inject: Callable[[], None]) -> None:
-        self.name = "1ターン目 下手"
-        self.inject_func: Callable[[], None] = pass_func
-        self.main_inject = main_inject
-        self.phase = PH_NONE
-        self.delivery: Delivery = delivery
+def _open(layer: PipelineLayer, stat: PopStat) -> None:
+    moderator.append(MainPhase(inject_func=layer.inject_func))
+    layer.delivery.b_params.turn_count = 1
+    layer.delivery.turn_player = SIMOTE
+    print(f"ターンプレイヤーを{side_name(layer.delivery.turn_player)}にしたよ")
+    layer.name = _layer_name(delivery=layer.delivery)
 
-    def elapse(self) -> None:
-        ...
+def _start_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    moderator.append(MainPhase(delivery=layer.delivery, inject_func=layer.inject_func))
 
-    def get_hover(self) -> Any | None:
-        ...
+def _main_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    moderator.append(end_phase_layer(layer.delivery))
 
-    def open(self) -> None:
-        moderator.append(MainPhase(inject_func=self.main_inject))
-        self.delivery.b_params.turn_count = 1
-        self.phase = PH_MAIN
-        self.delivery.turn_player = SIMOTE
-        print(f"ターンプレイヤーを{side_name(self.delivery.turn_player)}にしたよ")
-        self.reset_name()
+def _end_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.b_params.turn_count += 1
+    layer.delivery.turn_player = opponent(layer.delivery.turn_player)
+    layer.name = _layer_name(delivery=layer.delivery)
+    moderator.append(start_phase_layer(layer.delivery))
 
-    def close(self) -> PopStat:
-        return PopStat()
+def _layer_name(delivery: Delivery) -> str:
+    return f"{delivery.b_params.turn_count}ターン目 {side_name(delivery.turn_player)}"
 
-    def moderate(self, stat: PopStat) -> None:
-        if (func := {POP_START_PHASE_FINISHED: self._finished_start_phase,
-                     POP_MAIN_PHASE_FINISHED: self._finished_main_phase,
-                     POP_END_PHASE_FINISHED: self._finished_end_phase}.get(stat.code, None)):
-            func()
-        else:
-            raise ValueError(f"Invalid stat.code: {stat}")
-
-    def _finished_start_phase(self) -> None:
-        self.reset_name()
-        moderator.append(MainPhase(delivery=self.delivery, inject_func=self.main_inject))
-
-    def _finished_main_phase(self) -> None:
-        self.reset_name()
-        moderator.append(end_phase_layer(self.delivery))
-
-    def _finished_end_phase(self) -> None:
-        self.delivery.b_params.turn_count += 1
-        self.delivery.turn_player = opponent(self.delivery.turn_player)
-        moderator.append(start_phase_layer(self.delivery))
-        # moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
-
-    def reset_name(self) -> None:
-        self.name = f"{self.delivery.b_params.turn_count}ターン目 {side_name(self.delivery.turn_player)}"
-
-compatible_with(TurnProgression(delivery=duck_delivery, main_inject=pass_func), OverLayer)
+def turns_progression_layer(delivery: Delivery, inject_func: Callable[[], None]) -> PipelineLayer:
+    layer = PipelineLayer(name="終了フェイズ", delivery=delivery, gotoes={
+        POP_OPEN: _open,
+        POP_START_PHASE_FINISHED: _start_phase_finished,
+        POP_MAIN_PHASE_FINISHED: _main_phase_finished,
+        POP_END_PHASE_FINISHED: _end_phase_finished
+    }, code=POP_END_PHASE_FINISHED)
+    layer.inject_func = inject_func
+    return layer
