@@ -1,6 +1,4 @@
 #                 20                  40                  60                 79
-from typing import Callable
-
 from mod.const import enforce, POP_END_PHASE_FINISHED, POP_END_TRIGGERED,\
     POP_DISCARDED, TG_END_PHASE, TC_TEHUDA, TC_HUSEHUDA, POP_OPEN
 from mod.classes import Callable, PopStat, Huda, Delivery, moderator, popup_message
@@ -35,4 +33,4 @@ end_phase_layer: Callable[[Delivery], PipelineLayer] = lambda delivery:\
         POP_OPEN: _open,
         POP_END_TRIGGERED: _end_triggered,
         POP_DISCARDED: _discarded
-    },code=POP_END_PHASE_FINISHED)
+    }, code=POP_END_PHASE_FINISHED)

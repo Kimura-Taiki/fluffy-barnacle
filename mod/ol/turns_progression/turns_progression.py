@@ -1,17 +1,12 @@
 #                 20                  40                  60                 79
-from typing import Any, Callable
-
 from mod.const import compatible_with, pass_func, PH_NONE, PH_START, PH_MAIN, PH_END, opponent, side_name,\
     POP_START_PHASE_FINISHED, POP_MAIN_PHASE_FINISHED, POP_END_PHASE_FINISHED, SIMOTE
-
-from mod.popup_message import popup_message
-from mod.moderator import moderator
-from mod.delivery import Delivery, duck_delivery
-from mod.ol.turns_progression.start_phase import StartPhase
+from mod.classes import Callable, Any, Delivery, PopStat, moderator, popup_message
+from mod.delivery import duck_delivery
+from mod.ol.turns_progression.start_phase import start_phase_layer
 from mod.ol.turns_progression.main_phase import MainPhase
 from mod.ol.turns_progression.end_phase import end_phase_layer
 from mod.ol.over_layer import OverLayer
-from mod.ol.pop_stat import PopStat
 
 class TurnProgression():
     def __init__(self, delivery: Delivery, main_inject: Callable[[], None]) -> None:
@@ -57,7 +52,8 @@ class TurnProgression():
     def _finished_end_phase(self) -> None:
         self.delivery.b_params.turn_count += 1
         self.delivery.turn_player = opponent(self.delivery.turn_player)
-        moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
+        moderator.append(start_phase_layer(self.delivery))
+        # moderator.append(StartPhase(delivery=self.delivery, inject_func=self.inject_func))
 
     def reset_name(self) -> None:
         self.name = f"{self.delivery.b_params.turn_count}ターン目 {side_name(self.delivery.turn_player)}"
