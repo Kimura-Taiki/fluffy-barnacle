@@ -1,7 +1,8 @@
 #                 20                  40                  60                 79
 from typing import runtime_checkable, Protocol
 
-from mod.const import UC_LIFE, opponent, TG_2_OR_MORE_DAMAGE
+from mod.const import UC_LIFE, opponent, TG_1_OR_MORE_DAMAGE,\
+    TG_2_OR_MORE_DAMAGE
 from mod.classes import Card, Huda, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
 from mod.ol.mc_layer_factory import MonoChoiceLayer
@@ -13,6 +14,7 @@ class _DamageArrow(Protocol):
     from_code: int
     to_code: int
     dmg: int
+    attr: int
 
 def _mouseup(huda: Huda) -> None:
     layer = moderator.last_layer()
@@ -20,6 +22,9 @@ def _mouseup(huda: Huda) -> None:
         raise EOFError
     huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_mine=False, from_code=da.from_code,
                                     to_mine=False, to_code=da.to_code, kazu=da.dmg)
+    huda.delivery.b_params.damage_attr = da.attr
+    if da.dmg >= 1 and da.from_code == UC_LIFE:
+        solve_trigger_effect(delivery=huda.delivery, hoyuusya=opponent(huda.hoyuusya), trigger=TG_1_OR_MORE_DAMAGE)
     if da.dmg >= 2 and da.from_code == UC_LIFE:
         solve_trigger_effect(delivery=huda.delivery, hoyuusya=opponent(huda.hoyuusya), trigger=TG_2_OR_MORE_DAMAGE)
     if moderator.last_layer() == layer:

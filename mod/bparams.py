@@ -4,6 +4,7 @@ class BParams():
         self.turn_count = 1
         self.tatuzin_no_maai = 2
         self.tehuda_max = 4
+        self.damage_attr = 0
 
     def start_turn(self) -> None:
         self.during_taiou = False
