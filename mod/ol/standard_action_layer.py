@@ -36,14 +36,17 @@ def _play_standard(layer: PipelineLayer, stat: PopStat) -> None:
 
 #                 20                  40                  60                 79
 def use_card_layer(cards: list[Card], name: str, youso: Youso, mode: int=
-OBAL_KIHONDOUSA, code: int=POP_OK) -> Callable[[Youso], None]:
+OBAL_KIHONDOUSA, code: int=POP_OK) -> PipelineLayer:
     delivery, hoyuusya = youso.delivery, youso.hoyuusya
     li = [card for card in cards if card.can_play(delivery, hoyuusya)]
-    cards[0].can_play(delivery, hoyuusya, True)
     if not li:
-        return _END_LAYER(code=code)
-    if isinstance(youso, Huda) and youso.can_standard(True):
-        return _END_LAYER(code=code)
+        if cards:
+            cards[0].can_play(delivery, hoyuusya, True)
+        else:
+            popup_message.add("集中力はカードではありません")
+        return _END_LAYER(code)
+    if isinstance(youso, Huda) and not youso.can_standard(True):
+        return _END_LAYER(code)
     return PipelineLayer(name="通常の方法によるカードの使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery=delivery,
