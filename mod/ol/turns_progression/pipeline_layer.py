@@ -9,12 +9,13 @@ def _type_dummy(pipe: 'PipelineLayer', stat: PopStat) -> None:
 class PipelineLayer(OverLayer):
     def __init__(self, name: str, delivery: Delivery, hoyuusya: int=-1,
     gotoes: dict[int, Callable[['PipelineLayer', PopStat], None]]={POP_OK:
-    _type_dummy}, code: int=POP_OK) -> None:
+    _type_dummy}, start: PopStat=PopStat(), code: int=POP_OK) -> None:
         self.name = name
         self.inject_func = pass_func
         self.delivery = delivery
         self.hoyuusya = delivery.turn_player if hoyuusya == -1 else hoyuusya
         self.gotoes = gotoes
+        self.start = start._replace(code=POP_OPEN)
         self.code = code
         self.count = 0
 
@@ -25,7 +26,7 @@ class PipelineLayer(OverLayer):
         return None
 
     def open(self) -> None:
-        self.moderate(PopStat(code=POP_OPEN))
+        self.moderate(self.start)
 
     def close(self) -> PopStat:
         return PopStat(code=self.code)
