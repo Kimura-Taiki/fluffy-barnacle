@@ -1,7 +1,8 @@
 #                 20                  40                  60                 79
-from pygame import Surface
+from pygame import Surface, SRCALPHA
 
-from mod.const import screen, WX, WY, IMG_GRAY_LAYER, compatible_with, POP_VIEWED_BANMEN, POP_OK, HANTE
+from mod.const import screen, WX, WY, IMG_GRAY_LAYER, compatible_with, POP_OK,\
+    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
@@ -16,6 +17,7 @@ class OnlySelectLayer():
     def __init__(self, delivery: Delivery, hoyuusya: int=HANTE, name: str="",
     lower: list[Any]=[], upper: list[Any]=[], code: int=POP_OK) -> None:
         self.name = name
+        self.img_title = _img_title(text=name)
         self.inject_func = delivery.inject_view
         self.delivery = delivery
         self.lower = _taba_maid_by_any(li=lower, factory=_factory(os_layer=self
@@ -27,6 +29,7 @@ class OnlySelectLayer():
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
+        screen.blit(source=self.img_title, dest=[0, 0])
         self.lower.elapse()
         self.upper.elapse()
 
@@ -50,6 +53,17 @@ class OnlySelectLayer():
         if stat.code == POP_VIEWED_BANMEN:
             return
         moderator.pop()
+
+def _img_title(text: str) -> Surface:
+    kuro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, BLACK)
+    siro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, WHITE)
+    img = Surface(kuro.get_size(), SRCALPHA)
+    img.blit(source=kuro, dest=[-2, 0])
+    img.blit(source=kuro, dest=[0, -2])
+    img.blit(source=kuro, dest=[2, 0])
+    img.blit(source=kuro, dest=[0, 2])
+    img.blit(source=siro, dest=[0, 0])
+    return img
 
 def _mouseup(huda: Huda, os_layer: OnlySelectLayer) -> None:
     os_layer.select_huda = huda
