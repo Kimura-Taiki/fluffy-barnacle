@@ -1,10 +1,8 @@
 #                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
-from typing import Any, Callable
 from mod.const import UC_MAAI, UC_AURA, UC_DUST, UC_FLAIR, UC_TATUZIN
-from mod.delivery import Delivery
-from mod.popup_message import popup_message
+from mod.classes import Callable, Delivery, popup_message
 from mod.card.card import BoolDI, Card, auto_di
 
 LOAD_SURFACE: Callable[[str], Surface] = lambda i: pygame.image.load(f"pictures/kihon_{i}.png").convert_alpha()
