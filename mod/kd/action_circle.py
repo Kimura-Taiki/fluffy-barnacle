@@ -53,14 +53,14 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     elif int((diff_coord.angle_to([0, 0])+225)/90) == 1:
         moderator.append(standard_basic_action_layer(cards=
             _available_basic_actions(delivery=youso.delivery, hoyuusya=youso.
-            hoyuusya), huda=enforce(youso, Huda), delivery=youso.delivery,
-            hoyuusya=youso.hoyuusya))
+            hoyuusya), huda=enforce(youso, Huda)))
         # obal_func(cards=_available_basic_actions(delivery=youso.delivery,
         #     hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text=
         #     "その他基本動作です", mode=mode)(youso)
 #                 20                  40                  60                 79
     else:
         obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode)(youso)
+
     # {3: _use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card,
     #  2: obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode),
     #  1: obal_func(cards=_available_basic_actions(delivery=youso.delivery, hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)

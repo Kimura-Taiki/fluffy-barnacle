@@ -16,19 +16,18 @@ def _tehuda_kihondousa(layer: PipelineLayer, stat: PopStat) -> None:
     moderator.pop()
 
 #                 20                  40                  60                 79
-def standard_basic_action_layer(cards: list[Card], huda: Huda, delivery:
-Delivery, hoyuusya: int) ->PipelineLayer:
-    return PipelineLayer(name="StandardBasicActionLayer", delivery=delivery,
-        hoyuusya=hoyuusya, gotoes={
-        POP_OPEN: lambda l, s: l.moderate(PopStat(POP_VALIDATED)),
-        POP_VALIDATED: lambda l, s: moderator.append(OnlySelectLayer(delivery=
-            delivery, hoyuusya=hoyuusya, name="基本動作の選択", lower=cards,
-            code=POP_CHOICED)),
-        POP_CHOICED: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery=
-            delivery, hoyuusya=hoyuusya, code=POP_KAIKETUED),
-        POP_KAIKETUED: lambda l, s: _play_standard(l, s, POP_PLAYED_STANDARD),
-        POP_PLAYED_STANDARD: _tehuda_kihondousa
-    }, huda=huda)
+def standard_basic_action_layer(cards: list[Card], huda: Huda) ->PipelineLayer:
+    return PipelineLayer(name="StandardBasicActionLayer", delivery=huda.
+        delivery, hoyuusya=huda.hoyuusya, gotoes={
+POP_OPEN: lambda l, s: l.moderate(PopStat(POP_VALIDATED)),
+POP_VALIDATED: lambda l, s: moderator.append(OnlySelectLayer(delivery=huda.
+    delivery, hoyuusya=huda.hoyuusya, name="基本動作の選択", lower=cards,
+    code=POP_CHOICED)),
+POP_CHOICED: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery=huda.
+    delivery, hoyuusya=huda.hoyuusya, code=POP_KAIKETUED),
+POP_KAIKETUED: lambda l, s: _play_standard(l, s, POP_PLAYED_STANDARD),
+POP_PLAYED_STANDARD: _tehuda_kihondousa
+        }, huda=huda)
 
 # def _others_basic_action_layer(
 #         delivery: Delivery, hoyuusya: int, name: str="", huda: Any | None=None, cards:
