@@ -5,9 +5,10 @@ from pygame.math import Vector2
 from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
     ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_CARD, enforce,\
     OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD
-from mod.classes import Callable, Card, Youso, Huda, Delivery, popup_message, controller
+from mod.classes import Callable, Card, Youso, Huda, Delivery, moderator, popup_message, controller
 from mod.ol.others_basic_action import obal_func
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card
+from mod.ol.standard_action_layer import standard_basic_action_layer
 
 def mousedown(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     if mode == OBAL_SYUUTYUU and youso.osame == 0:
@@ -50,9 +51,13 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     elif int((diff_coord.angle_to([0, 0])+225)/90) == 2:
         obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode)(youso)
     elif int((diff_coord.angle_to([0, 0])+225)/90) == 1:
-        obal_func(cards=_available_basic_actions(delivery=youso.delivery,
-            hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text=
-            "その他基本動作です", mode=mode)(youso)
+        moderator.append(standard_basic_action_layer(cards=
+            _available_basic_actions(delivery=youso.delivery, hoyuusya=youso.
+            hoyuusya), huda=enforce(youso, Huda), delivery=youso.delivery,
+            hoyuusya=youso.hoyuusya))
+        # obal_func(cards=_available_basic_actions(delivery=youso.delivery,
+        #     hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text=
+        #     "その他基本動作です", mode=mode)(youso)
 #                 20                  40                  60                 79
     else:
         obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode)(youso)
