@@ -10,10 +10,11 @@ from mod.card.damage import Damage
 from mod.ol.only_select_layer import OnlySelectLayer
 
 def _reshuffle_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    taba1 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_YAMAHUDA), Taba)
-    taba2 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_HUSEHUDA), Taba)
-    taba3 = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
-    moto = list(taba1)+list(taba2)+[huda for huda in taba3 if huda.usage != USAGE_DEPLOYED]
+    taba1, taba2, taba3 = [enforce(delivery.taba_target(hoyuusya=hoyuusya,
+        is_mine=True, taba_code=taba_code), Taba) for taba_code in
+        [TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA]]
+    moto = list(taba1)+list(taba2)+[
+        huda for huda in taba3 if huda.usage!= USAGE_DEPLOYED]
     shuffle(moto)
     return moto
 
