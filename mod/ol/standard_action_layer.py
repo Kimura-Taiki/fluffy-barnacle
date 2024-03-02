@@ -1,10 +1,19 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OPEN, POP_VALIDATED, POP_CHOICED,\
-    POP_KAIKETUED
+    POP_KAIKETUED, POP_PLAYED_STANDARD, TC_HUSEHUDA
 from mod.classes import PopStat, Card, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
+
+#                 20                  40                  60                 79
+def _play_standard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.m_params(layer.hoyuusya).played_standard = True
+    layer.moderate(stat._replace(code=code))
+
+def _tehuda_kihondousa(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=layer.huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    moderator.pop()
 
 #                 20                  40                  60                 79
 def standard_basic_action_layer(cards: list[Card], huda: Huda, delivery:
@@ -17,7 +26,8 @@ Delivery, hoyuusya: int) ->PipelineLayer:
             code=POP_CHOICED)),
         POP_CHOICED: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery=
             delivery, hoyuusya=hoyuusya, code=POP_KAIKETUED),
-        POP_KAIKETUED: lambda l, s: moderator.pop()
+        POP_KAIKETUED: lambda l, s: _play_standard(l, s, POP_PLAYED_STANDARD),
+        POP_PLAYED_STANDARD: _tehuda_kihondousa
     }, huda=huda)
 
 # def _others_basic_action_layer(
