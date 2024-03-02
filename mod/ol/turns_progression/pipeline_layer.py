@@ -1,15 +1,19 @@
 #                 20                  40                  60                 79
-from mod.const import enforce, pass_func, POP_OPEN
+from mod.const import enforce, pass_func, POP_OK, POP_OPEN
 from mod.classes import Callable, PopStat, Youso, Delivery
 from mod.ol.over_layer import OverLayer
 
+def _type_dummy(pipe: 'PipelineLayer', stat: PopStat) -> None:
+    raise EOFError("gotoesがデフォルト値のままです")
+
 class PipelineLayer(OverLayer):
-    def __init__(self, name: str, delivery: Delivery, gotoes: dict[int,
-    Callable[['PipelineLayer', PopStat], None]], code: int) -> None:
+    def __init__(self, name: str, delivery: Delivery, hoyuusya: int=-1,
+    gotoes: dict[int, Callable[['PipelineLayer', PopStat], None]]={POP_OK:
+    _type_dummy}, code: int=POP_OK) -> None:
         self.name = name
         self.inject_func = pass_func
         self.delivery = delivery
-        self.hoyuusya = delivery.turn_player
+        self.hoyuusya = delivery.turn_player if hoyuusya == -1 else hoyuusya
         self.gotoes = gotoes
         self.code = code
         self.count = 0
@@ -28,6 +32,3 @@ class PipelineLayer(OverLayer):
 
     def moderate(self, stat: PopStat) -> None:
         enforce(self.gotoes.get(stat.code), type(_type_dummy))(self, stat)
-
-def _type_dummy(pipe: PipelineLayer, stat: PopStat) -> None:
-    ...
