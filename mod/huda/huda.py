@@ -13,7 +13,7 @@ from mod.huda.huda_draw import HudaDraw
 from mod.card.card_func import is_meet_conditions
 
 class Huda(Youso):
-    def __init__(self, img: Surface, angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
+    def __init__(self, img: Surface=Surface((16, 16)), angle: float=0.0, scale: float=HUDA_SCALE, x:int | float=0, y:int | float=0,
                  **kwargs: Callable[..., None]) -> None:
         super().__init__(x=x, y=y, **kwargs)
         self.withdraw: Callable[[], None] = nie(text="Huda.withdraw")
