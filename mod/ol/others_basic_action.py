@@ -1,18 +1,11 @@
 #                 20                  40                  60                 79
-from typing import Any, Callable
-
 from mod.const import TC_HUSEHUDA, TC_SUTEHUDA, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
     OBAL_USE_CARD, USAGE_USED, enforce, UC_SYUUTYUU, UC_ZYOGAI, POP_OK
-from mod.delivery import Delivery
-from mod.moderator import moderator
-from mod.huda.huda import Huda
+from mod.classes import Callable, Any, PopStat, Card, Youso, Huda, Delivery,\
+    moderator, popup_message
 from mod.ol.undo_mouse import make_undo_youso
 from mod.tf.taba_factory import TabaFactory
-from mod.card.card import Card
 from mod.ol.mc_layer_factory import MonoChoiceLayer
-from mod.ol.pop_stat import PopStat
-from mod.popup_message import popup_message
-from mod.youso import Youso
 
 def obal_func(cards: list[Card]=[], name: str="", text: str="", mode: int=OBAL_KIHONDOUSA, code: int=POP_OK) -> Callable[[Youso], None]:
     def func(youso: Youso) -> None:
