@@ -31,33 +31,32 @@ def active(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
                       int((diff_coord.angle_to([0, 0])+225)/90), ACTION_CIRCLE_ZENSIN)
         screen.blit(source=source, dest=controller.hold_coord-[250, 250])
 
-def _use_card(card: Card) -> Callable[[Youso], None]:
-    return obal_func(cards=[card], name=f"手札「{card.name}」の使用", text=f"手札から「{card.name}」カードを使います", mode=OBAL_USE_CARD)
-
-def _not_card(youso: Youso) -> None:
-    popup_message.add("集中力はカードではありません")
-
-_available_basic_actions: Callable[[Delivery, int], list[Card]] = lambda delivery, hoyuusya: [card for card in
-    [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card] if card.cond(delivery, hoyuusya)]
-
 def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
-    if int((diff_coord.angle_to([0, 0])+225)/90) == 3:
-        # (_use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card)(youso)
-        moderator.append(use_card_layer(cards=[enforce(youso, Huda).card] if mode==OBAL_KIHONDOUSA else [],
-                                        name="", youso=youso, mode=mode))
-    elif int((diff_coord.angle_to([0, 0])+225)/90) == 2:
-        # obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode)(youso)
-        moderator.append(use_card_layer(cards=[yadosi_card], name="", youso=youso, mode=mode))
-    elif int((diff_coord.angle_to([0, 0])+225)/90) == 1:
-        # obal_func(cards=_available_basic_actions(youso.delivery, youso.hoyuusya),
-        #           name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)(youso)
-        moderator.append(use_card_layer(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card],
-                                        name="", youso=youso, mode=mode))
-    else:
-        # obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode)(youso)
-        moderator.append(use_card_layer(cards=[zensin_card], name="", youso=youso, mode=mode))
+#                 20                  40                  60                 79
+    cards: list[Card] = {
+        3: [enforce(youso, Huda).card] if mode == OBAL_KIHONDOUSA else [],
+        2: [yadosi_card],
+        1: [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
+        }.get(int((diff_coord.angle_to([0, 0])+225)/90),
+           [zensin_card])
+    if int((diff_coord.angle_to([0, 0])+225)/90) == 3 and mode == OBAL_KIHONDOUSA:
+        mode = OBAL_USE_CARD
+    moderator.append(use_card_layer(cards=cards, name="", youso=youso,
+                                    mode=mode))
+
+    # if int((diff_coord.angle_to([0, 0])+225)/90) == 3:
+    #     moderator.append(use_card_layer(cards=[enforce(youso, Huda).card] if mode==OBAL_KIHONDOUSA else [],
+    #                                     name="", youso=youso, mode=mode))
+    # elif int((diff_coord.angle_to([0, 0])+225)/90) == 2:
+    #     moderator.append(use_card_layer(cards=[yadosi_card], name="", youso=youso, mode=mode))
+    # elif int((diff_coord.angle_to([0, 0])+225)/90) == 1:
+    #     moderator.append(use_card_layer(cards=[zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card],
+    #                                     name="", youso=youso, mode=mode))
+    # else:
+    #     moderator.append(use_card_layer(cards=[zensin_card], name="", youso=youso, mode=mode))
+
     # {3: _use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card,
     #  2: obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode),
     #  1: obal_func(cards=_available_basic_actions(youso.delivery, youso.hoyuusya), name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)

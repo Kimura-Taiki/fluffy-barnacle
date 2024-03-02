@@ -25,13 +25,13 @@ class KihonDousaCard(Card):
 
 #                 20                  40                  60                 79
 zensin_booldi: BoolDI = lambda delivery, hoyuusya: delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) < delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI)
-zensin_card = KihonDousaCard(img=LOAD_SURFACE("zensin"), name="前進",
+zensin_card: Card = KihonDousaCard(img=LOAD_SURFACE("zensin"), name="前進",
     from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA,
     add_cond=zensin_booldi)
 ridatu_booldi: BoolDI = lambda delivery, hoyuusya: delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) >= delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI)
-ridatu_card = KihonDousaCard(img=LOAD_SURFACE("ridatu"), name="離脱",
+ridatu_card: Card = KihonDousaCard(img=LOAD_SURFACE("ridatu"), name="離脱",
     from_mine=False, from_code=UC_DUST, to_mine=False, to_code=UC_MAAI,
     add_cond=ridatu_booldi)
-koutai_card = KihonDousaCard(img=LOAD_SURFACE("koutai"), name="後退", from_mine=True, from_code=UC_AURA, to_mine=False, to_code=UC_MAAI)
-matoi_card = KihonDousaCard(img=LOAD_SURFACE("matoi"), name="纏い", from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA)
-yadosi_card = KihonDousaCard(img=LOAD_SURFACE("yadosi"), name="宿し", from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
+koutai_card: Card = KihonDousaCard(img=LOAD_SURFACE("koutai"), name="後退", from_mine=True, from_code=UC_AURA, to_mine=False, to_code=UC_MAAI)
+matoi_card: Card = KihonDousaCard(img=LOAD_SURFACE("matoi"), name="纏い", from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA)
+yadosi_card: Card = KihonDousaCard(img=LOAD_SURFACE("yadosi"), name="宿し", from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)
