@@ -29,7 +29,7 @@ class OnlySelectLayer():
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
-        screen.blit(source=self.img_title, dest=[0, 0])
+        screen.blit(source=self.img_title, dest=[WX/2-self.img_title.get_width()/2, 0])
         self.lower.elapse()
         self.upper.elapse()
 

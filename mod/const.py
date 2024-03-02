@@ -69,7 +69,7 @@ FONT_SIZE_TIMER = 32
 FONT_SIZE_AIHARASUU = 60
 FONT_SIZE_CARD_TITLE = 60
 FONT_SIZE_OSAME_NUM = 120
-FONT_SIZE_TITLE = 60
+FONT_SIZE_TITLE = 48
 
 ACTION_CIRCLE_NEUTRAL = pygame.image.load("pictures/action_circle_neutral.png").convert_alpha()
 ACTION_CIRCLE_CARD = pygame.image.load("pictures/action_circle_card.png").convert_alpha()
