@@ -5,4 +5,4 @@ from mod.const import POP_OK
 class PopStat(NamedTuple):
     code: int = POP_OK
     huda: Any | None = None
-    rest_taba: Any | None = None
+    rest_taba: Any = []
