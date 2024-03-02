@@ -42,9 +42,23 @@ def _available_basic_actions(delivery: Delivery, hoyuusya: int) -> list[Card]:
 def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
-    {3: _use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card,
-     2: obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode),
-     1: obal_func(cards=_available_basic_actions(delivery=youso.delivery, hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)
-     }.get(int((diff_coord.angle_to([0, 0])+225)/90),
-           obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode))(youso)
+    if int((diff_coord.angle_to([0, 0])+225)/90) == 3:
+        if mode == OBAL_KIHONDOUSA:
+            _use_card(enforce(youso, Huda).card)(youso)
+        else:
+            _not_card(youso)
+    elif int((diff_coord.angle_to([0, 0])+225)/90) == 2:
+        obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode)(youso)
+    elif int((diff_coord.angle_to([0, 0])+225)/90) == 1:
+        obal_func(cards=_available_basic_actions(delivery=youso.delivery,
+            hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text=
+            "その他基本動作です", mode=mode)(youso)
+#                 20                  40                  60                 79
+    else:
+        obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode)(youso)
+    # {3: _use_card(enforce(youso, Huda).card) if mode==OBAL_KIHONDOUSA else _not_card,
+    #  2: obal_func(cards=[yadosi_card], name="標準行動：宿し", mode=mode),
+    #  1: obal_func(cards=_available_basic_actions(delivery=youso.delivery, hoyuusya=youso.hoyuusya), name="標準行動：その他基本動作", text="その他基本動作です", mode=mode)
+    #  }.get(int((diff_coord.angle_to([0, 0])+225)/90),
+    #        obal_func(cards=[zensin_card], name="標準行動：前進", mode=mode))(youso)
 
