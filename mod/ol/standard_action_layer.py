@@ -7,6 +7,15 @@ from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 
 #                 20                  40                  60                 79
+def _validate_kihondousa(layer: PipelineLayer, stat: PopStat,
+cards: list[Card], code: int) -> None:
+    li = [card for card in cards if card.cond(layer.delivery, layer.hoyuusya)]
+    if not li and len(li) == 1:
+        popup_message.add(f"「{li[0].name}」の使用条件を満たしていません")
+        moderator.pop()
+        return
+    layer.moderate(stat._replace(code=code, rest_taba=li))
+
 def _play_standard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.m_params(layer.hoyuusya).played_standard = True
     layer.moderate(stat._replace(code=code))
