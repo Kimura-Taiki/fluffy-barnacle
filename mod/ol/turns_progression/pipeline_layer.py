@@ -1,6 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, pass_func, POP_OK, POP_OPEN
-from mod.classes import Callable, PopStat, Card, Huda, Youso, Delivery
+from mod.classes import Callable, Any, PopStat, Card, Huda, Youso, Delivery
 from mod.ol.over_layer import OverLayer
 
 def _type_dummy(pipe: 'PipelineLayer', stat: PopStat) -> None:
@@ -10,7 +10,7 @@ class PipelineLayer(OverLayer):
     def __init__(self, name: str, delivery: Delivery, hoyuusya: int=-1,
     gotoes: dict[int, Callable[['PipelineLayer', PopStat], None]]={POP_OK:
     _type_dummy}, card: Card | None=None, huda: Huda | None=None,
-    code: int=POP_OK) -> None:
+    mode: int=0, code: int=POP_OK) -> None:
         self.name = name
         self.inject_func = pass_func
         self.delivery = delivery
@@ -18,6 +18,7 @@ class PipelineLayer(OverLayer):
         self.gotoes = gotoes
         self.card = card
         self.huda = huda
+        self.mode = mode
         self.code = code
         self.count = 0
 
