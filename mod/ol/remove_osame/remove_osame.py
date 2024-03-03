@@ -1,6 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import pass_func, enforce, POP_OK, POP_HUYO_ELAPSED
-from mod.classes import Callable, Any, PopStat, Delivery, moderator, popup_message
+from mod.classes import Callable, Any, PopStat, Huda, Delivery, moderator, popup_message
 from mod.ol.remove_osame.single_remove import single_remove_layer, huyo_hudas
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
@@ -20,9 +20,8 @@ class RemoveOsame():
 
     def open(self) -> None:
         popup_message.add("付与の納を償却します")
-        moderator.append(single_remove_layer(hudas=huyo_hudas(delivery=self.
-            delivery, hoyuusya=self.hoyuusya), delivery=self.delivery,
-            hoyuusya=self.hoyuusya, code=POP_OK))
+        _append(delivery=self.delivery, hoyuusya=self.hoyuusya, hudas=
+            huyo_hudas(delivery=self.delivery, hoyuusya=self.hoyuusya))
 
     def close(self) -> PopStat:
         return PopStat(POP_HUYO_ELAPSED)
@@ -32,5 +31,9 @@ class RemoveOsame():
         if not stat.rest_taba:
             moderator.pop()
         else:
-            moderator.append(single_remove_layer(hudas=stat.rest_taba, delivery=self.
-                delivery, hoyuusya=self.hoyuusya, code=POP_OK))
+            _append(delivery=self.delivery, hoyuusya=self.hoyuusya,
+                    hudas=stat.rest_taba)
+
+def _append(delivery: Delivery, hoyuusya: int, hudas: list[Huda]) -> None:
+    moderator.append(single_remove_layer(hudas=hudas, delivery=delivery,
+        hoyuusya=hoyuusya, code=POP_OK))
