@@ -1,9 +1,8 @@
 #                 20                  40                  60                 79
 from itertools import product
 
-from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, \
-    USAGE_USED, POP_OK, POP_OPEN, POP_CHOICED,\
-    POP_KAIKETUED, enforce
+from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED,\
+    POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED, enforce
 from mod.classes import PopStat, Huda, Taba, Delivery, moderator
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
@@ -11,8 +10,10 @@ from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
         huda
-        for is_mine, taba_code in product([False, True], [TC_SUTEHUDA, TC_KIRIHUDA])
-        if isinstance(taba := delivery.taba_target(hoyuusya=hoyuusya, is_mine=is_mine, taba_code=taba_code), Taba)
+        for is_mine, taba_code in product([False, True],
+                                          [TC_SUTEHUDA, TC_KIRIHUDA])
+        if isinstance(taba := delivery.taba_target(
+            hoyuusya=hoyuusya, is_mine=is_mine, taba_code=taba_code), Taba)
         for huda in taba
         if huda.usage == USAGE_DEPLOYED
     ]

@@ -4,7 +4,7 @@ from mod.const import POP_START_PHASE_FINISHED, POP_OPEN, POP_HUYO_ELAPSED,\
     UC_SYUUTYUU, SIMOTE, KAMITE, UC_ISYUKU, side_name, enforce
 from mod.classes import Callable, PopStat, Huda, Delivery, moderator,\
     popup_message
-from mod.ol.remove_osame.remove_osame import RemoveOsame, remove_osame_layer
+from mod.ol.remove_osame.remove_osame import remove_osame_layer
 from mod.ol.reshuffle import reshuffle_layer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 from mod.ol.turns_progression.turn_draw import turn_draw_layer
@@ -15,9 +15,7 @@ def _open(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(hoyuusya=SIMOTE).start_turn()
     layer.delivery.m_params(hoyuusya=KAMITE).start_turn()
     _add_syuutyuu(layer=layer)
-    moderator.append(remove_osame_layer(layer=layer))
-    # moderator.append(RemoveOsame(delivery=layer.delivery, hoyuusya=layer.
-    #                              hoyuusya))
+    moderator.append(remove_osame_layer(layer=layer, code=POP_HUYO_ELAPSED))
 
 def _add_syuutyuu(layer: PipelineLayer) -> None:
     if layer.delivery.ouka_count(hoyuusya=layer.hoyuusya, is_mine=True,
