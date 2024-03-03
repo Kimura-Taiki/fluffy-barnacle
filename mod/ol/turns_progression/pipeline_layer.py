@@ -10,7 +10,7 @@ class PipelineLayer(OverLayer):
     def __init__(self, name: str, delivery: Delivery, hoyuusya: int=-1,
     gotoes: dict[int, Callable[['PipelineLayer', PopStat], None]]={POP_OK:
     _type_dummy}, card: Card | None=None, huda: Huda | None=None,
-    mode: int=0, code: int=POP_OK) -> None:
+    rest: list[Huda]=[], mode: int=0, code: int=POP_OK) -> None:
         self.name = name
         self.inject_func = pass_func
         self.delivery = delivery
@@ -18,6 +18,7 @@ class PipelineLayer(OverLayer):
         self.gotoes = gotoes
         self.card = card
         self.huda = huda
+        self.rest = rest
         self.mode = mode
         self.code = code
         self.count = 0
@@ -32,7 +33,7 @@ class PipelineLayer(OverLayer):
         self.moderate(PopStat(POP_OPEN))
 
     def close(self) -> PopStat:
-        return PopStat(code=self.code, huda=self.huda)
+        return PopStat(code=self.code, huda=self.huda, rest_taba=self.rest)
 
     def moderate(self, stat: PopStat) -> None:
         enforce(self.gotoes.get(stat.code), type(_type_dummy))(self, stat)

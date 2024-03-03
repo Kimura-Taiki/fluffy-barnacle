@@ -5,6 +5,8 @@ from mod.ol.remove_osame.single_remove import single_remove_layer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 
+
+
 class RemoveOsame():
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:
         self.delivery = delivery
