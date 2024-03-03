@@ -7,15 +7,10 @@ from typing import Any
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
     FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK
-from mod.huda.huda import Huda
+from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
+    popup_message
 from mod.ol.view_banmen import view_youso
-from mod.card.card import Card
-from mod.youso import Youso
-from mod.popup_message import popup_message
-from mod.moderator import moderator
-from mod.delivery import Delivery
 from mod.ol.button import Button
-from mod.ol.pop_stat import PopStat
 
 class PlayHuyo():
     def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
