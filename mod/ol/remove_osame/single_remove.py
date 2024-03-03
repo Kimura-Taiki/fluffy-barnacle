@@ -6,6 +6,7 @@ from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST,\
 from mod.classes import Any, PopStat, Huda, Taba, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
 from mod.ol.mc_layer_factory import MonoChoiceLayer
+from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:

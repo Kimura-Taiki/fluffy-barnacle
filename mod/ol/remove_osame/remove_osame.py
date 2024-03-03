@@ -1,12 +1,9 @@
 #                 20                  40                  60                 79
-from typing import Callable, Any, runtime_checkable
-
 from mod.const import pass_func, POP_HUYO_ELAPSED
-from mod.delivery import Delivery
-from mod.ol.pop_stat import PopStat
-from mod.moderator import moderator
+from mod.classes import Callable, Any, PopStat, Delivery, moderator, popup_message
 from mod.ol.remove_osame.single_remove import single_remove_layer
-from mod.popup_message import popup_message
+from mod.ol.only_select_layer import OnlySelectLayer
+from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 
 class RemoveOsame():
     def __init__(self, delivery: Delivery, hoyuusya: int) -> None:
