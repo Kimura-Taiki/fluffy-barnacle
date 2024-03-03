@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import TC_TEHUDA, TC_KIRIHUDA, POP_TAIOUED, side_name, OBAL_USE_CARD
 from mod.classes import Card, Huda, Taba, Delivery, TabaFactory, Callable, moderator
-from mod.ol.standard_action_layer import use_card_layer
+from mod.ol.use_card_layer import use_card_layer
 
 def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card) -> Taba:
     return _taiou_factory(mouseup=_taiou_mouseup).maid_by_hudas(

@@ -6,7 +6,7 @@ from typing import Callable
 from mod.const import WX, WY, screen, KIRIHUDA_CIRCLE_NEUTRAL, KIRIHUDA_CIRCLE_CARD, USAGE_USED, IMG_USED, SIMOTE, OBAL_USE_CARD
 from mod.classes import Callable, Huda, moderator, controller
 from mod.tf.taba_factory import TabaFactory
-from mod.ol.standard_action_layer import use_card_layer
+from mod.ol.use_card_layer import use_card_layer
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 600/i
 HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i

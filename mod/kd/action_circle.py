@@ -8,7 +8,7 @@ from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
 from mod.classes import Card, Youso, Huda, moderator, popup_message, controller
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card,\
     matoi_card, yadosi_card
-from mod.ol.standard_action_layer import use_card_layer
+from mod.ol.use_card_layer import use_card_layer
 
 def mousedown(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     if mode == OBAL_SYUUTYUU and youso.osame == 0:
