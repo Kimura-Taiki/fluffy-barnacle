@@ -1,7 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import TC_TEHUDA, TC_KIRIHUDA, POP_TAIOUED, side_name, OBAL_USE_CARD
-from mod.classes import Card, Huda, Taba, Delivery, TabaFactory, Callable, moderator, popup_message
-# from mod.ol.___others_basic_action import obal_func
+from mod.classes import Card, Huda, Taba, Delivery, TabaFactory, Callable, moderator
 from mod.ol.standard_action_layer import use_card_layer
 
 def taiou_taba(delivery: Delivery, hoyuusya: int, kougeki: Card) -> Taba:
@@ -22,11 +21,6 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
 
 def _taiou_mouseup(huda: Huda) -> None:
     huda.delivery.b_params.during_taiou = True
-#                 20                  40                  60                 79
     moderator.append(use_card_layer(cards=[huda.card], name=
         f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」を使います",
         youso=huda, mode=OBAL_USE_CARD, code=POP_TAIOUED))
-    # obal_func(cards=[huda.card], name=f"{side_name(huda.hoyuusya)}の対応「{huda.card.name}」の使用", text=f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います",
-    #           mode=OBAL_USE_CARD, code=POP_TAIOUED)(huda)
-    # popup_message.add(f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います")
-    # huda.card.kaiketu(delivery=huda.delivery, hoyuusya=huda.hoyuusya, huda=huda.base, code=POP_TAIOUED)

@@ -18,15 +18,14 @@ def _choiced(layer: PipelineLayer, stat: PopStat, text: str) -> None:
     enforce(stat.huda, Huda).card.kaiketu(delivery=layer.delivery, hoyuusya=
         layer.hoyuusya, huda=layer.huda, code=POP_KAIKETUED)
 
-        # huda = enforce(layer.huda, Huda)
-        # if huda.card.zenryoku:
-        #     layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
-        # if huda.card.kirihuda:
-        #     huda.usage = USAGE_USED
-        # else:
-        #     layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
-        #                                         taba_code=TC_SUTEHUDA)
-
+def _kaiketued_use_card(layer: PipelineLayer, huda: Huda) -> None:
+    if huda.card.zenryoku:
+        layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
+    if huda.card.kirihuda:
+        huda.usage = USAGE_USED
+    else:
+        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
+                                            taba_code=TC_SUTEHUDA)
 
 def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(layer.hoyuusya).played_standard = True
@@ -35,14 +34,7 @@ def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
             taba_code=TC_HUSEHUDA)
     elif layer.mode == OBAL_USE_CARD:
-        huda = enforce(layer.huda, Huda)
-        if huda.card.zenryoku:
-            layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
-        if huda.card.kirihuda:
-            huda.usage = USAGE_USED
-        else:
-            layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
-                                                taba_code=TC_SUTEHUDA)
+        _kaiketued_use_card(layer=layer, huda=enforce(layer.huda, Huda))
     elif layer.mode == OBAL_SYUUTYUU:
         layer.delivery.send_ouka_to_ryouiki(
             hoyuusya=layer.hoyuusya, from_mine=True, from_code=UC_SYUUTYUU,
