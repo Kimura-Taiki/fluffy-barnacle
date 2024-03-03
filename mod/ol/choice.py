@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OPEN, POP_CHOICED, POP_KAIKETUED
 from mod.classes import Card, Huda, Delivery, moderator
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 
 def choice_layer(cards: list[Card], delivery: Delivery, hoyuusya: int) ->\

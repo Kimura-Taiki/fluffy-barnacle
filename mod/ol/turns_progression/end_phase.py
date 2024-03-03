@@ -4,7 +4,7 @@ from mod.const import enforce, POP_END_PHASE_FINISHED, POP_END_TRIGGERED,\
 from mod.classes import Callable, PopStat, Huda, Delivery, moderator, popup_message
 from mod.coous.trigger import solve_trigger_effect
 from mod.ol.only_select_layer import OnlySelectLayer
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 
 def _open(layer: PipelineLayer, stat: PopStat) -> None:
     solve_trigger_effect(delivery=layer.delivery, hoyuusya=layer.hoyuusya,

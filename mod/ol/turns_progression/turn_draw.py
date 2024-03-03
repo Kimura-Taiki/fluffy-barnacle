@@ -4,7 +4,7 @@ from mod.const import enforce, opponent, TC_YAMAHUDA, IMG_AURA_DAMAGE,\
     POP_OPEN, POP_SYOUSOU_SELECTED, POP_SYOUSOU_DAMAGED, POP_TURN_DRAWED
 from mod.classes import Callable, PopStat, Huda, Delivery, moderator, popup_message
 from mod.ol.only_select_layer import OnlySelectLayer
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.damage import Damage
 
 def _open(layer: PipelineLayer, stat: PopStat) -> None:

@@ -6,7 +6,7 @@ from mod.const import UC_LIFE, opponent, TG_1_OR_MORE_DAMAGE,\
 from mod.classes import Any, Card, Delivery, moderator
 from mod.ol.pop_stat import PopStat
 from mod.coous.trigger import solve_trigger_effect
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 
 @runtime_checkable
 class _DamageArrow(Protocol):

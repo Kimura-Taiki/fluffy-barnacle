@@ -63,7 +63,7 @@ class Card():
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
         if not self.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
-            from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+            from mod.ol.pipeline_layer import PipelineLayer
             moderator.append(PipelineLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, gotoes={
                 POP_OPEN: lambda l, s: popup_message.add(f"！？解決時に「{self.name}」の使用条件を満たしていません！？")
                 }, code=code))

@@ -6,7 +6,7 @@ from mod.classes import Callable, PopStat, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.remove_osame.remove_osame import remove_osame_layer
 from mod.ol.reshuffle import reshuffle_layer
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.turns_progression.turn_draw import turn_draw_layer
 
 def _open(layer: PipelineLayer, stat: PopStat) -> None:

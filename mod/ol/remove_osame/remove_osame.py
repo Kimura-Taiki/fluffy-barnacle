@@ -2,7 +2,7 @@
 from mod.const import POP_OPEN, POP_SINGLE_ELAPSED
 from mod.classes import PopStat, moderator, popup_message
 from mod.ol.remove_osame.single_remove import single_remove_layer, huyo_hudas
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
             
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     popup_message.add("付与の納を償却します")

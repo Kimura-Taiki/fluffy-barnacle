@@ -5,7 +5,7 @@ from mod.classes import Callable, Delivery, PopStat, moderator
 from mod.ol.turns_progression.start_phase import start_phase_layer
 from mod.ol.turns_progression.main_phase import MainPhase
 from mod.ol.turns_progression.end_phase import end_phase_layer
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 
 def _open(layer: PipelineLayer, stat: PopStat) -> None:
     moderator.append(MainPhase(inject_func=layer.inject_func))

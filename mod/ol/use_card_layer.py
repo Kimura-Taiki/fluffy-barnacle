@@ -5,7 +5,7 @@ from mod.const import enforce, POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED,\
 from mod.classes import Callable, PopStat, Card, Youso, Huda, moderator,\
     popup_message
 from mod.delivery import duck_delivery
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 
 _END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(

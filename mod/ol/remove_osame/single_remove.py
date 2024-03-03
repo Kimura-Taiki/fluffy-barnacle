@@ -5,7 +5,7 @@ from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED,\
     POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED, enforce
 from mod.classes import PopStat, Huda, Taba, Delivery, moderator
 from mod.ol.only_select_layer import OnlySelectLayer
-from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+from mod.ol.pipeline_layer import PipelineLayer
 
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
