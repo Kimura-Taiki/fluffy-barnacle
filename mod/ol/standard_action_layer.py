@@ -13,7 +13,22 @@ _END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
         POP_OPEN: lambda l, s: moderator.pop()
     }, code=code)
 
-def _play_standard(layer: PipelineLayer, stat: PopStat) -> None:
+def _choiced(layer: PipelineLayer, stat: PopStat, text: str) -> None:
+    popup_message.add(text)
+    enforce(stat.huda, Huda).card.kaiketu(delivery=layer.delivery, hoyuusya=
+        layer.hoyuusya, huda=layer.huda, code=POP_KAIKETUED)
+
+        # huda = enforce(layer.huda, Huda)
+        # if huda.card.zenryoku:
+        #     layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
+        # if huda.card.kirihuda:
+        #     huda.usage = USAGE_USED
+        # else:
+        #     layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
+        #                                         taba_code=TC_SUTEHUDA)
+
+
+def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(layer.hoyuusya).played_standard = True
     if layer.mode == OBAL_KIHONDOUSA:
         huda = enforce(layer.huda, Huda)
@@ -50,7 +65,6 @@ OBAL_KIHONDOUSA, code: int=POP_OK) -> PipelineLayer:
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery=delivery,
     hoyuusya=hoyuusya, name="基本動作の選択", lower=li, code=POP_CHOICED)),
-POP_CHOICED: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery=delivery,
-    hoyuusya=youso.hoyuusya, huda=youso, code=POP_KAIKETUED),
-POP_KAIKETUED: _play_standard,
+POP_CHOICED: lambda l, s: _choiced(l, s, name),
+POP_KAIKETUED: _kaiketued,
         },huda=youso if isinstance(youso, Huda) else None, mode=mode, code=code)

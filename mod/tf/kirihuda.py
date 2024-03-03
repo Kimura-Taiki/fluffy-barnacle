@@ -48,7 +48,9 @@ def _mouseup(huda: Huda) -> None:
     if diff_coord.length_squared() < 50 or int((diff_coord.angle_to([0, 0])+225)/90) != 3:
         return
     # _use_card(huda.card)(huda)
-    moderator.append(use_card_layer(cards=[huda.card], name="", youso=huda, mode=OBAL_USE_CARD))
+#                 20                  40                  60                 79
+    moderator.append(use_card_layer(cards=[huda.card], name=f"切り札から「{\
+        huda.card.name}」を使います", youso=huda, mode=OBAL_USE_CARD))
     
 
 kirihuda_factory = TabaFactory(inject_kwargs={

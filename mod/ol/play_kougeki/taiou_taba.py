@@ -22,7 +22,10 @@ def _taiou_factory(mouseup: Callable[[Huda], None]) -> TabaFactory:
 
 def _taiou_mouseup(huda: Huda) -> None:
     huda.delivery.b_params.during_taiou = True
-    moderator.append(use_card_layer(cards=[huda.card], name="e;faorjig;oa;o", youso=huda, mode=OBAL_USE_CARD, code=POP_TAIOUED))
+#                 20                  40                  60                 79
+    moderator.append(use_card_layer(cards=[huda.card], name=
+        f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」を使います",
+        youso=huda, mode=OBAL_USE_CARD, code=POP_TAIOUED))
     # obal_func(cards=[huda.card], name=f"{side_name(huda.hoyuusya)}の対応「{huda.card.name}」の使用", text=f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います",
     #           mode=OBAL_USE_CARD, code=POP_TAIOUED)(huda)
     # popup_message.add(f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」カードを使います")
