@@ -1,15 +1,12 @@
 #                 20                  40                  60                 79
 from itertools import product
-from typing import Any
 
-from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST, USAGE_USED, POP_HUYO_ELAPSED
-from mod.delivery import Delivery
-from mod.huda.huda import Huda
-from mod.taba import Taba
+from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, UC_DUST,\
+    USAGE_USED, POP_HUYO_ELAPSED
+from mod.classes import Any, PopStat, Huda, Taba, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
-from mod.moderator import moderator
 from mod.ol.mc_layer_factory import MonoChoiceLayer
-from mod.ol.pop_stat import PopStat
+from mod.ol.turns_progression.pipeline_layer import PipelineLayer
 
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
@@ -46,3 +43,5 @@ def single_remove_layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None
     mcl.taba = factory.maid_by_hudas(hudas=hudas, hoyuusya=hoyuusya)
     return mcl
 
+# def layer(delivery: Delivery, hoyuusya: int, huda: Any | None=None, taba: Taba | None=None) -> PipelineLayer:
+#     return PipelineLayer
