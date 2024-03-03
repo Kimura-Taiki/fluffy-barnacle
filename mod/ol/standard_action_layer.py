@@ -16,7 +16,8 @@ _END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
 def _play_standard(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(layer.hoyuusya).played_standard = True
     if layer.mode == OBAL_KIHONDOUSA:
-        layer.delivery.send_huda_to_ryouiki(huda=layer.huda, is_mine=True,
+        huda = enforce(layer.huda, Huda)
+        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
             taba_code=TC_HUSEHUDA)
     elif layer.mode == OBAL_USE_CARD:
         huda = enforce(layer.huda, Huda)
@@ -25,7 +26,7 @@ def _play_standard(layer: PipelineLayer, stat: PopStat) -> None:
         if huda.card.kirihuda:
             huda.usage = USAGE_USED
         else:
-            layer.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True,
+            layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
                                                 taba_code=TC_SUTEHUDA)
     elif layer.mode == OBAL_SYUUTYUU:
         layer.delivery.send_ouka_to_ryouiki(

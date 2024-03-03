@@ -32,7 +32,7 @@ class PipelineLayer(OverLayer):
         self.moderate(PopStat(POP_OPEN))
 
     def close(self) -> PopStat:
-        return PopStat(code=self.code)
+        return PopStat(code=self.code, huda=self.huda)
 
     def moderate(self, stat: PopStat) -> None:
         enforce(self.gotoes.get(stat.code), type(_type_dummy))(self, stat)
