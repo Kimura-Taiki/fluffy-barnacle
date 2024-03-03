@@ -1,10 +1,9 @@
 #                 20                  40                  60                 79
 from pygame.surface import Surface
 from typing import Callable, Any, Optional
-from copy import copy
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR\
-    , CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, CF_ATTACK_CORRECTION, enforce
+from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR,\
+    CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, POP_OPEN
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -64,8 +63,10 @@ class Card():
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))
         if not self.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
-            from mod.ol.mc_layer_factory import MonoChoiceLayer
-            moderator.append(over_layer=MonoChoiceLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
+            from mod.ol.turns_progression.pipeline_layer import PipelineLayer
+            moderator.append(PipelineLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, gotoes={
+                POP_OPEN: lambda l, s: popup_message.add(f"！？解決時に「{self.name}」の使用条件を満たしていません！？")
+                }, code=code))
             return
         from mod.kd.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
