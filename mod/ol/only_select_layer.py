@@ -38,13 +38,14 @@ class OnlySelectLayer():
             view_youso
 
     def open(self) -> None:
-        popup_message.add(f"{self.name} です")
         if len(self.lower)+len(self.upper) == 0:
             moderator.pop()
         elif len(self.lower) == 1 and len(self.upper) == 0:
             self.lower[0].mouseup()
         elif len(self.lower) == 0 and len(self.upper) == 1:
             self.upper[0].mouseup()
+        else:
+            popup_message.add(f"{self.name} です")
 
     def close(self) -> PopStat:
         return PopStat(code=self.code, huda=self.select_huda, rest_taba=self.lower)
