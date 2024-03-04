@@ -80,12 +80,8 @@ is_detail: bool=True) -> TabaFactory:
 #                 20                  40                  60                 79
     inject: dict[str, Callable[[Huda], None]] = {"mouseup": partial(_mouseup,
         os_layer=os_layer)} | ({} if is_detail else {"hover": pass_func})
-    # inject: dict[str, Callable[[Huda], None]] = {"mouseup": partial(_mouseup, os_layer=os_layer)} | {"hover": pass_func}
     facotry = TabaFactory(inject_kwargs=inject, huda_x=_HAND_X, huda_y=huda_y,
                           huda_angle=_HAND_ANGLE, is_ol=True)
-    # facotry = TabaFactory(inject_kwargs={"mouseup": partial(_mouseup,
-    #     os_layer=os_layer)}, huda_x=_HAND_X, huda_y=huda_y, huda_angle=
-    #     _HAND_ANGLE, is_ol=True)
     return facotry
 
 def _taba_maid_by_any(li: list[Any], factory: TabaFactory, delivery: Delivery,
