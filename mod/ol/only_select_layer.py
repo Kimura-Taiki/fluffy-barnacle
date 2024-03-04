@@ -8,7 +8,8 @@ from mod.const import screen, pass_func, WX, WY, IMG_GRAY_LAYER, IMG_DECISION,\
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
-from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery, moderator, popup_message
+from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery,\
+    moderator, popup_message
 
 _HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 _HAND_Y_UPPER: Callable[[int, int], float] = lambda i, j: WY/2-150
@@ -35,7 +36,8 @@ class OnlySelectLayer():
 
     def elapse(self) -> None:
         screen.blit(source=IMG_GRAY_LAYER, dest=[0, 0])
-        screen.blit(source=self.img_title, dest=[WX/2-self.img_title.get_width()/2, 0])
+        screen.blit(source=self.img_title,
+                    dest=[WX/2-self.img_title.get_width()/2, 0])
         self.lower.elapse()
         self.upper.elapse()
         self.decide.draw()
@@ -56,7 +58,8 @@ class OnlySelectLayer():
                 popup_message.add(f"{self.name} です")
 
     def close(self) -> PopStat:
-        return PopStat(code=self.code, huda=self.select_huda, rest_taba=self.lower)
+        return PopStat(code=self.code, huda=self.select_huda,
+                       rest_taba=self.lower)
 
     def moderate(self, stat: PopStat) -> None:
         if stat.code == POP_VIEWED_BANMEN:
@@ -71,7 +74,9 @@ def _mouseup_decide(huda: Huda, os_layer: OnlySelectLayer) -> None:
 def _decide(is_decide: bool, os_layer: OnlySelectLayer) -> Huda:
     img = IMG_DECISION
     coord = Vector2(WX, WY)*(1 if is_decide else 2)-Vector2(img.get_size())/2
-    return Huda(img=img, scale=1.0, x=coord.x, y=coord.y, draw=Huda.available_draw, mousedown=Huda.mousedown, mouseup=lambda huda: _mouseup_decide(huda, os_layer))
+    return Huda(img=img, scale=1.0, x=coord.x, y=coord.y, draw=Huda.
+        available_draw, mousedown=Huda.mousedown, mouseup=
+        lambda huda: _mouseup_decide(huda, os_layer))
 
 def _img_title(text: str) -> Surface:
     kuro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, BLACK)
@@ -93,7 +98,6 @@ def _mouseup(huda: Huda, os_layer: OnlySelectLayer) -> None:
 
 def _factory(os_layer: OnlySelectLayer, huda_y: Callable[[int, int], float],
 is_detail: bool=True) -> TabaFactory:
-#                 20                  40                  60                 79
     inject: dict[str, Callable[[Huda], None]] = {"mouseup": partial(_mouseup,
         os_layer=os_layer)} | ({} if is_detail else {"hover": pass_func})
     facotry = TabaFactory(inject_kwargs=inject, huda_x=_HAND_X, huda_y=huda_y,
@@ -113,7 +117,3 @@ hoyuusya: int) -> Taba:
                                      hoyuusya)
     else:
         raise ValueError("要素群が適切ではありません", li)
-
-# compatible_with(, OverLayer)
-        
-
