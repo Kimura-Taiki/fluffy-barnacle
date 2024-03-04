@@ -81,7 +81,7 @@ class Card():
             from mod.ol._huyo import play_huyo_layer
             from mod.const import enforce
             from mod.huda.huda import Huda
-            moderator.append(play_huyo_layer(huda=enforce(huda, Huda), code=code))
+            moderator.append(play_huyo_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
         return not self.kirihuda or delivery.ouka_count(

@@ -6,7 +6,7 @@ from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
-    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce
+    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce, IMG_DONOR_DUST, IMG_DONOR_AURA
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.view_banmen import view_youso
@@ -33,16 +33,17 @@ def _youso(layer: PipelineLayer, utuwa_code: int) -> Youso:
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_OSAME_DUST)
-    aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_OSAME_AURA)
+    dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
+    aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-        hoyuusya, upper=[donor.img() for donor in [aura_doner, dust_doner]],
+        hoyuusya, upper=[donor.img() for donor in [dust_doner, aura_doner]],
         code=code))
 
-def play_huyo_layer(huda: Huda, code: int) -> PipelineLayer:
+def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> PipelineLayer:
 #                 20                  40                  60                 79
-    return PipelineLayer(name=f"付与:{huda.card.name}の使用", delivery=huda.
-        delivery, hoyuusya=huda.hoyuusya,gotoes={
+    hd = enforce(huda, Huda)
+    return PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
+        hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_OPEN)
         }, huda=huda, code=code)
 
