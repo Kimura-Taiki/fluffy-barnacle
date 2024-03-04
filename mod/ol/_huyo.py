@@ -28,32 +28,38 @@ class _Donor():
                         [FONT_SIZE_OSAME_NUM/2, FONT_SIZE_OSAME_NUM/2], num=self.donation, size=FONT_SIZE_OSAME_NUM)
         return img_return
 
+    def pour(self, amount: int) -> int:
+        if amount <= 0:
+            return amount
+        self.donation = min(amount, self.youso.osame)
+        return amount-self.donation
+
 def _youso(layer: PipelineLayer, utuwa_code: int) -> Youso:
     return enforce(layer.delivery.utuwa_target(hoyuusya=layer.hoyuusya,
         is_mine=True, utuwa_code=utuwa_code), Youso)
 
-def _donors(layer: PipelineLayer) -> list[_Donor]:
+def _donors(layer: PipelineLayer, amount: int) -> list[_Donor]:
     dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
     aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
+    amount = dust_doner.pour(amount=amount)
+    amount = aura_doner.pour(amount=amount)
     return [dust_doner, aura_doner]
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    # dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
-    # aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-        # hoyuusya, name="納の供出元の選択", upper=[donor.img() for donor in [dust_doner, aura_doner]],
         hoyuusya, name="納の供出元の選択", upper=[enforce(donor, _Donor).img() for
         donor in layer.rest], code=code))
 
-def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> PipelineLayer:
+def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
+                    huda: Any | None, code: int=POP_OK) -> PipelineLayer:
 #                 20                  40                  60                 79
     hd = enforce(huda, Huda)
     layer = PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_OPEN)
         }, huda=huda, code=code)
-    layer.rest = _donors(layer)
+    layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer
 
 
