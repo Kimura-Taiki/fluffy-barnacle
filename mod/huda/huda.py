@@ -22,7 +22,7 @@ class Huda(Youso):
         self.draw_params = DrawParams()
         self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
-        self.huda_draw = HudaDraw(img=img, x=x, y=y, angle=angle, update_func=self._update_func, huda=self)
+        self.huda_draw = HudaDraw(img=img, x=x, y=y, angle=angle, scale=scale, update_func=self._update_func, huda=self)
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
 
     def is_cursor_on(self) -> bool:
@@ -32,7 +32,7 @@ class Huda(Youso):
         self.angle = angle
         self.x = int(x)
         self.y = int(y)
-        self.huda_draw.rearrange(x=x, y=y, angle=angle)
+        self.huda_draw.rearrange(x=x, y=y, angle=angle, scale=scale)
         return None
 
     def _update_func(self, huda_draw: HudaDraw) -> None:

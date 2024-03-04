@@ -10,10 +10,11 @@ from mod.const import screen, BLACK, BRIGHT, HUDA_SCALE
 from mod.controller import controller
 
 class HudaDraw():
-    def __init__(self, img: Surface, x: int | float, y: int | float, angle: float, 
+    def __init__(self, img: Surface, x: int | float, y: int | float, angle: float, scale: float,
                  update_func: Callable[['HudaDraw'], None], huda: Any) -> None:
         self.x = int(x)
         self.y = int(y)
+        self.scale = scale
         self.img_nega = img
         self.img_detail = Surface((16, 16))
         self.img_rz = Surface((16, 16))
@@ -52,12 +53,12 @@ class HudaDraw():
         else:
             self.default_draw()
 
-    def rearrange(self, x: int | float, y: int | float, angle: float) -> None:
+    def rearrange(self, x: int | float, y: int | float, angle: float, scale: float=HUDA_SCALE) -> None:
         from mod.huda.huda_add_draw import img_detail
         self.x = int(x)
         self.y = int(y)
         self.img_detail = img_detail(huda=self.huda)
-        self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=HUDA_SCALE)
+        self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=self.scale)
         self.img_rz_topleft = Vector2(x, y)-Vector2(self.img_rz.get_size())/2
         hx, hy = Vector2(self.img_nega.get_size())/2
         li = [[-hx, -hy], [hx, -hy], [hx, hy], [-hx, hy]]
@@ -65,4 +66,4 @@ class HudaDraw():
 
     def rotated_verticle(self, x: int | float, y: int | float, angle: float) -> Vector2:
         rad = radians(-angle)
-        return Vector2(int(self.x+(cos(rad)*x-sin(rad)*y)*HUDA_SCALE), int(self.y+(sin(rad)*x+cos(rad)*y)*HUDA_SCALE))
+        return Vector2(int(self.x+(cos(rad)*x-sin(rad)*y)*self.scale), int(self.y+(sin(rad)*x+cos(rad)*y)*self.scale))

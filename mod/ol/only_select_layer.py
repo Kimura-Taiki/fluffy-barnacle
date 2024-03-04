@@ -65,14 +65,13 @@ class OnlySelectLayer():
 def _mouseup_decide(huda: Huda, os_layer: OnlySelectLayer) -> None:
     os_layer.select_huda = huda
     os_layer.code = POP_DECIDED
-    huda.withdraw()
     moderator.pop()
 
 def _decide(is_decide: bool, os_layer: OnlySelectLayer) -> Huda:
     img = IMG_DECISION
     coord = Vector2(WX, WY)*(1 if is_decide else 2)-Vector2(img.get_size())/2
     print(is_decide, coord, img, os_layer)
-    return Huda(img=img, x=coord.x, y=coord.y, draw=Huda.available_draw, mouseup=lambda huda: _mouseup_decide(huda, os_layer))
+    return Huda(img=img, scale=1.0, x=coord.x, y=coord.y, draw=Huda.available_draw, mousedown=Huda.mousedown, mouseup=lambda huda: _mouseup_decide(huda, os_layer))
 
 def _img_title(text: str) -> Surface:
     kuro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, BLACK)
