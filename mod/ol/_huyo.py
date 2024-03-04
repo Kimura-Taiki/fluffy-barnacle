@@ -3,6 +3,7 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from pygame.transform import scale
 from typing import Any
+from functools import reduce
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
@@ -42,13 +43,11 @@ def _youso(layer: PipelineLayer, utuwa_code: int) -> Youso:
         is_mine=True, utuwa_code=utuwa_code), Youso)
 
 def _donors(layer: PipelineLayer, amount: int) -> list[_Donor]:
-    dust_doner = _Donor(name="ダスト", youso=_youso(layer, UC_DUST),
-                        img=IMG_DONOR_DUST)
-    aura_doner = _Donor(name="オーラ", youso=_youso(layer, UC_AURA),
-                        img=IMG_DONOR_AURA)
-    amount = dust_doner.pour(amount=amount)
-    amount = aura_doner.pour(amount=amount)
-    return [dust_doner, aura_doner]
+    rest = [_Donor(name="ダスト", youso=_youso(layer, UC_DUST), img=
+        IMG_DONOR_DUST), _Donor(name="オーラ", youso=_youso(layer, UC_AURA),
+        img=IMG_DONOR_AURA)]
+    reduce(lambda acc, donor: donor.pour(acc), rest, amount)
+    return rest
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
