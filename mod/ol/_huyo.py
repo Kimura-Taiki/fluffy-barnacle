@@ -8,7 +8,7 @@ from functools import reduce
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
     FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce, IMG_DONOR_DUST, IMG_DONOR_AURA,\
-    POP_CHOICED, pass_func
+    POP_CHOICED, POP_DECIDED, pass_func
 
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
     popup_message
@@ -73,7 +73,14 @@ def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         break
     layer.moderate(PopStat(code))
         
-
+def _decided(layer: PipelineLayer, stat: PopStat) -> None:
+    rest = [enforce(donor, _Donor) for donor in layer.rest]
+    huda = enforce(layer.huda, Huda)
+    for donor in rest:
+        layer.delivery.send_ouka_to_ryouiki(hoyuusya=layer.hoyuusya, from_huda=
+            donor.youso, to_huda=huda, kazu=donor.donation)
+    huda.usage = USAGE_DEPLOYED
+    moderator.pop()
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
                     huda: Any | None, code: int=POP_OK) -> PipelineLayer:
@@ -82,7 +89,8 @@ def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
     layer = PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
-POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN)
+POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN),
+POP_DECIDED: _decided
         }, huda=huda, code=code)
     layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer

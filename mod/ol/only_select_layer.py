@@ -2,8 +2,9 @@
 from pygame import Surface, SRCALPHA
 from pygame.math import Vector2
 
-from mod.const import screen, WX, WY, IMG_GRAY_LAYER, compatible_with, POP_OK,\
-    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, pass_func, IMG_DECISION, POP_DECIDED
+from mod.const import screen, pass_func, WX, WY, IMG_GRAY_LAYER, IMG_DECISION,\
+    POP_OK, POP_VIEWED_BANMEN, POP_DECIDED, HANTE, MS_MINCHO_COL,\
+        FONT_SIZE_TITLE, WHITE, BLACK
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
@@ -70,7 +71,6 @@ def _mouseup_decide(huda: Huda, os_layer: OnlySelectLayer) -> None:
 def _decide(is_decide: bool, os_layer: OnlySelectLayer) -> Huda:
     img = IMG_DECISION
     coord = Vector2(WX, WY)*(1 if is_decide else 2)-Vector2(img.get_size())/2
-    print(is_decide, coord, img, os_layer)
     return Huda(img=img, scale=1.0, x=coord.x, y=coord.y, draw=Huda.available_draw, mousedown=Huda.mousedown, mouseup=lambda huda: _mouseup_decide(huda, os_layer))
 
 def _img_title(text: str) -> Surface:
@@ -79,7 +79,6 @@ def _img_title(text: str) -> Surface:
     bg = Surface(Vector2(64, 0)+kuro.get_size(), SRCALPHA)
     bg.fill(WHITE)
     bg.set_alpha(192)
-    print(bg.get_size())
     img = Surface(bg.get_size(), SRCALPHA)
     img.blit(source=bg, dest=[0, 0])
     for tpl in [(32-2, 0), (32, -2), (32+2, 0), (32, 2)]:
