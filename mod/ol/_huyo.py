@@ -31,22 +31,30 @@ class _Donor():
 def _youso(layer: PipelineLayer, utuwa_code: int) -> Youso:
     return enforce(layer.delivery.utuwa_target(hoyuusya=layer.hoyuusya,
         is_mine=True, utuwa_code=utuwa_code), Youso)
+
+def _donors(layer: PipelineLayer) -> list[_Donor]:
+    dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
+    aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
+    return [dust_doner, aura_doner]
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
-    aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
+    # dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
+    # aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-        hoyuusya, name="納の供出元の選択", upper=[donor.img() for donor in [dust_doner, aura_doner]],
-        code=code))
+        # hoyuusya, name="納の供出元の選択", upper=[donor.img() for donor in [dust_doner, aura_doner]],
+        hoyuusya, name="納の供出元の選択", upper=[enforce(donor, _Donor).img() for
+        donor in layer.rest], code=code))
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> PipelineLayer:
 #                 20                  40                  60                 79
     hd = enforce(huda, Huda)
-    return PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
+    layer = PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_OPEN)
-        }, huda=huda, rest=[], code=code)
+        }, huda=huda, code=code)
+    layer.rest = _donors(layer)
+    return layer
 
 
 # class PlayHuyo():
