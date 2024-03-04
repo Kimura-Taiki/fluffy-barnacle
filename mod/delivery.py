@@ -33,6 +33,9 @@ class Delivery(Protocol):
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
         ...
 
+    def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
+        ...
+
     def respond(self, request: Request) -> Any | None:
         ...
 
@@ -74,6 +77,9 @@ class _DuckDelivery():
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
         return 0
+
+    def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
+        return None
 
     def respond(self, request: Request) -> Any | None:
         return None

@@ -101,6 +101,9 @@ class Banmen():
             return None
         return None
 
+    def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
+        return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code) 
+
     def _utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Utuwa:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         target = enforce({UC_MAAI: self.maai, UC_DUST: self.dust, UC_ZYOGAI: self.zyogai, UC_AURA: mikoto.aura,
