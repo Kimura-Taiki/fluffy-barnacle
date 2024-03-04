@@ -59,7 +59,9 @@ class HudaDraw():
         self.img_detail = img_detail(huda=self.huda)
         self.img_rz = pygame.transform.rotozoom(surface=self.img_detail, angle=angle, scale=HUDA_SCALE)
         self.img_rz_topleft = Vector2(x, y)-Vector2(self.img_rz.get_size())/2
-        self.vertices = [self.rotated_verticle(x, y, angle) for x, y in [[-170.0, -237.5], [170.0, -237.5], [170.0, 237.5], [-170.0, 237.5]]]
+        hx, hy = Vector2(self.img_nega.get_size())/2
+        li = [[-hx, -hy], [hx, -hy], [hx, hy], [-hx, hy]]
+        self.vertices = [self.rotated_verticle(x, y, angle) for x, y in li]
 
     def rotated_verticle(self, x: int | float, y: int | float, angle: float) -> Vector2:
         rad = radians(-angle)

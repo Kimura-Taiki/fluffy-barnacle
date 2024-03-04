@@ -55,7 +55,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         hoyuusya, name="納の供出元の選択",
         upper=list(TabaFactory().maid_by_tuples(tuples=[(enforce(donor, _Donor).
         name, enforce(donor, _Donor).img()) for donor in layer.rest], delivery=
-        layer.delivery, hoyuusya=layer.hoyuusya)), popup=False, code=code))
+        layer.delivery, hoyuusya=layer.hoyuusya)), decide=True, popup=False, code=code))
 
 def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     name = enforce(stat.huda, Huda).card.name

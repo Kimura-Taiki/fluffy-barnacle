@@ -1,8 +1,9 @@
 #                 20                  40                  60                 79
 from pygame import Surface, SRCALPHA
+from pygame.math import Vector2
 
 from mod.const import screen, WX, WY, IMG_GRAY_LAYER, compatible_with, POP_OK,\
-    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, pass_func
+    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, pass_func, IMG_DECISION, POP_DECIDED
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
@@ -15,8 +16,8 @@ _HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
 class OnlySelectLayer():
     def __init__(self, delivery: Delivery, hoyuusya: int=HANTE, name: str="",
-    lower: list[Any]=[], upper: list[Any]=[], popup: bool=True, code: int=
-    POP_OK) -> None:
+    lower: list[Any]=[], upper: list[Any]=[], decide: bool=False,
+    popup: bool=True, code: int=POP_OK) -> None:
         self.name = name
         self.img_title = _img_title(text=name)
         self.inject_func = delivery.inject_view
@@ -26,6 +27,7 @@ class OnlySelectLayer():
         self.upper = _taba_maid_by_any(li=upper, factory=_factory(os_layer=self
             , huda_y=_HAND_Y_UPPER, is_detail=False), delivery=delivery,
             hoyuusya=hoyuusya)
+        self.decide = _decide(decide, self)
         self.select_huda: Huda | None = None
         self.popup = popup
         self.code = code
@@ -35,10 +37,11 @@ class OnlySelectLayer():
         screen.blit(source=self.img_title, dest=[WX/2-self.img_title.get_width()/2, 0])
         self.lower.elapse()
         self.upper.elapse()
+        self.decide.draw()
 
     def get_hover(self) -> Any | None:
         return self.upper.get_hover_huda() or self.lower.get_hover_huda() or\
-            view_youso
+            (self.decide if self.decide.is_cursor_on() else view_youso)
 
     def open(self) -> None:
         if len(self.lower)+len(self.upper) == 0:
@@ -59,15 +62,30 @@ class OnlySelectLayer():
             return
         moderator.pop()
 
+def _mouseup_decide(huda: Huda, os_layer: OnlySelectLayer) -> None:
+    os_layer.select_huda = huda
+    os_layer.code = POP_DECIDED
+    huda.withdraw()
+    moderator.pop()
+
+def _decide(is_decide: bool, os_layer: OnlySelectLayer) -> Huda:
+    img = IMG_DECISION
+    coord = Vector2(WX, WY)*(1 if is_decide else 2)-Vector2(img.get_size())/2
+    print(is_decide, coord, img, os_layer)
+    return Huda(img=img, x=coord.x, y=coord.y, draw=Huda.available_draw, mouseup=lambda huda: _mouseup_decide(huda, os_layer))
+
 def _img_title(text: str) -> Surface:
     kuro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, BLACK)
     siro = MS_MINCHO_COL(text, FONT_SIZE_TITLE, WHITE)
-    img = Surface(kuro.get_size(), SRCALPHA)
-    img.blit(source=kuro, dest=[-2, 0])
-    img.blit(source=kuro, dest=[0, -2])
-    img.blit(source=kuro, dest=[2, 0])
-    img.blit(source=kuro, dest=[0, 2])
-    img.blit(source=siro, dest=[0, 0])
+    bg = Surface(Vector2(64, 0)+kuro.get_size(), SRCALPHA)
+    bg.fill(WHITE)
+    bg.set_alpha(192)
+    print(bg.get_size())
+    img = Surface(bg.get_size(), SRCALPHA)
+    img.blit(source=bg, dest=[0, 0])
+    for tpl in [(32-2, 0), (32, -2), (32+2, 0), (32, 2)]:
+        img.blit(source=siro, dest=tpl)
+    img.blit(source=kuro, dest=[32, 0])
     return img
 
 def _mouseup(huda: Huda, os_layer: OnlySelectLayer) -> None:
