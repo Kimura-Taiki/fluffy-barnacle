@@ -6,7 +6,9 @@ from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
-    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce, IMG_DONOR_DUST, IMG_DONOR_AURA
+    FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce, IMG_DONOR_DUST, IMG_DONOR_AURA,\
+    POP_CHOICED
+
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.view_banmen import view_youso
@@ -50,14 +52,29 @@ def _donors(layer: PipelineLayer, amount: int) -> list[_Donor]:
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    # moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-    #     hoyuusya, name="納の供出元の選択", upper=[enforce(donor, _Donor).img() for
-    #     donor in layer.rest], code=code))
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
         hoyuusya, name="納の供出元の選択",
         upper=list(TabaFactory().maid_by_tuples(tuples=[(enforce(donor, _Donor).
         name, enforce(donor, _Donor).img()) for donor in layer.rest], delivery=
         layer.delivery, hoyuusya=layer.hoyuusya)), popup=False, code=code))
+
+def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    name = enforce(stat.huda, Huda).card.name
+    rest = [enforce(donor, _Donor) for donor in layer.rest]
+    found_donor = next((donor for donor in rest if donor.name == name), None)
+    if not found_donor or found_donor.donation >= found_donor.youso.osame:
+        layer.moderate(PopStat(code))
+        return
+    for donor in rest:
+        if donor == found_donor or donor.donation <= 0 or found_donor.donation\
+        >= found_donor.youso.osame:
+            continue
+        donor.donation -= 1
+        found_donor.donation += 1
+        break
+    layer.moderate(PopStat(code))
+        
+
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
                     huda: Any | None, code: int=POP_OK) -> PipelineLayer:
@@ -65,7 +82,8 @@ def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
     hd = enforce(huda, Huda)
     layer = PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
-POP_OPEN: lambda l, s: _open(l, s, POP_OPEN)
+POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
+POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN)
         }, huda=huda, code=code)
     layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer
