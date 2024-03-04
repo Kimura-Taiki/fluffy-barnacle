@@ -17,7 +17,8 @@ from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 
 class _Donor():
-    def __init__(self, youso: Youso, img: Surface) -> None:
+    def __init__(self, name: str, youso: Youso, img: Surface) -> None:
+        self.name = name
         self.youso = youso
         self.img_nega = img
         self.donation = 0
@@ -39,17 +40,24 @@ def _youso(layer: PipelineLayer, utuwa_code: int) -> Youso:
         is_mine=True, utuwa_code=utuwa_code), Youso)
 
 def _donors(layer: PipelineLayer, amount: int) -> list[_Donor]:
-    dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
-    aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
+    dust_doner = _Donor(name="ダスト", youso=_youso(layer, UC_DUST),
+                        img=IMG_DONOR_DUST)
+    aura_doner = _Donor(name="オーラ", youso=_youso(layer, UC_AURA),
+                        img=IMG_DONOR_AURA)
     amount = dust_doner.pour(amount=amount)
     amount = aura_doner.pour(amount=amount)
     return [dust_doner, aura_doner]
 #                 20                  40                  60                 79
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    # moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
+    #     hoyuusya, name="納の供出元の選択", upper=[enforce(donor, _Donor).img() for
+    #     donor in layer.rest], code=code))
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-        hoyuusya, name="納の供出元の選択", upper=[enforce(donor, _Donor).img() for
-        donor in layer.rest], code=code))
+        hoyuusya, name="納の供出元の選択",
+        upper=list(TabaFactory().maid_by_tuples(tuples=[(enforce(donor, _Donor).
+        name, enforce(donor, _Donor).img()) for donor in layer.rest], delivery=
+        layer.delivery, hoyuusya=layer.hoyuusya)), code=code))
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
                     huda: Any | None, code: int=POP_OK) -> PipelineLayer:
