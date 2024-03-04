@@ -15,7 +15,7 @@ HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 HAND_Y: Callable[[int, int], float] = lambda i, j: WY-150
 
 class TabaFactory():
-    def __init__(self, inject_kwargs: dict[str, Callable[[Huda], None]],
+    def __init__(self, inject_kwargs: dict[str, Callable[[Huda], None]]={},
                  huda_x: Callable[[int, int], float]=HAND_X,
                  huda_y: Callable[[int, int], float]=HAND_Y,
                  huda_angle: Callable[[int, int], float]=HAND_ANGLE,
@@ -35,6 +35,16 @@ class TabaFactory():
         for i in surfaces:
             huda = Huda(img=i)
             huda.hoyuusya = hoyuusya
+            taba.append(huda)
+        return taba
+
+    def maid_by_tuples(self, tuples: list[tuple[str, Surface]], delivery: Delivery, hoyuusya: int) -> Taba:
+        taba = self._empty_taba(hoyuusya=hoyuusya)
+        for name, surface in tuples:
+            huda = Huda(img=surface)
+            huda.delivery, huda.hoyuusya = delivery, hoyuusya
+            from mod.card.card import auto_di
+            huda.card = Card(img=surface, name=name, cond=auto_di)
             taba.append(huda)
         return taba
 

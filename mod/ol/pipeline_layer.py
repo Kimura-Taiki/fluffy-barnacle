@@ -10,7 +10,7 @@ class PipelineLayer(OverLayer):
     def __init__(self, name: str, delivery: Delivery, hoyuusya: int=-1,
     gotoes: dict[int, Callable[['PipelineLayer', PopStat], None]]={POP_OK:
     _type_dummy}, card: Card | None=None, huda: Huda | None=None,
-    rest: list[Huda]=[], mode: int=0, code: int=POP_OK) -> None:
+    rest: list[Any]=[], mode: int=0, code: int=POP_OK) -> None:
         self.name = name
         self.inject_func = pass_func
         self.delivery = delivery

@@ -12,6 +12,7 @@ from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
 from mod.ol.view_banmen import view_youso
 from mod.mkt.utuwa import Utuwa
 from mod.ol.button import Button
+from mod.tf.taba_factory import TabaFactory
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 
@@ -36,7 +37,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     dust_doner = _Donor(youso=_youso(layer, UC_DUST), img=IMG_DONOR_DUST)
     aura_doner = _Donor(youso=_youso(layer, UC_AURA), img=IMG_DONOR_AURA)
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
-        hoyuusya, upper=[donor.img() for donor in [dust_doner, aura_doner]],
+        hoyuusya, name="納の供出元の選択", upper=[donor.img() for donor in [dust_doner, aura_doner]],
         code=code))
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> PipelineLayer:
@@ -45,7 +46,7 @@ def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int, huda: Any | N
     return PipelineLayer(name=f"付与:{hd.card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_OPEN)
-        }, huda=huda, code=code)
+        }, huda=huda, rest=[], code=code)
 
 
 # class PlayHuyo():
