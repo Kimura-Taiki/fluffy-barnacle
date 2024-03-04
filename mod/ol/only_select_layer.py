@@ -15,7 +15,8 @@ _HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
 class OnlySelectLayer():
     def __init__(self, delivery: Delivery, hoyuusya: int=HANTE, name: str="",
-    lower: list[Any]=[], upper: list[Any]=[], code: int=POP_OK) -> None:
+    lower: list[Any]=[], upper: list[Any]=[], popup: bool=True, code: int=
+    POP_OK) -> None:
         self.name = name
         self.img_title = _img_title(text=name)
         self.inject_func = delivery.inject_view
@@ -25,6 +26,7 @@ class OnlySelectLayer():
         self.upper = _taba_maid_by_any(li=upper, factory=_factory(os_layer=self
             , huda_y=_HAND_Y_UPPER), delivery=delivery, hoyuusya=hoyuusya)
         self.select_huda: Huda | None = None
+        self.popup = popup
         self.code = code
 
     def elapse(self) -> None:
@@ -45,7 +47,8 @@ class OnlySelectLayer():
         elif len(self.lower) == 0 and len(self.upper) == 1:
             self.upper[0].mouseup()
         else:
-            popup_message.add(f"{self.name} です")
+            if self.popup:
+                popup_message.add(f"{self.name} です")
 
     def close(self) -> PopStat:
         return PopStat(code=self.code, huda=self.select_huda, rest_taba=self.lower)

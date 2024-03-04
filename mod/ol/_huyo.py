@@ -57,7 +57,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         hoyuusya, name="納の供出元の選択",
         upper=list(TabaFactory().maid_by_tuples(tuples=[(enforce(donor, _Donor).
         name, enforce(donor, _Donor).img()) for donor in layer.rest], delivery=
-        layer.delivery, hoyuusya=layer.hoyuusya)), code=code))
+        layer.delivery, hoyuusya=layer.hoyuusya)), popup=False, code=code))
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
                     huda: Any | None, code: int=POP_OK) -> PipelineLayer:
