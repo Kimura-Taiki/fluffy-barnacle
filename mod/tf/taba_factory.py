@@ -20,6 +20,8 @@ class TabaFactory():
                  huda_y: Callable[[int, int], float]=HAND_Y,
                  huda_angle: Callable[[int, int], float]=HAND_ANGLE,
                  is_ol: bool=False) -> None:
+        # from mod.const import pass_func
+        # self.inject_kwargs = {"draw": Huda.available_draw, "hover": pass_func, "mousedown": Huda.mousedown} | inject_kwargs
         self.inject_kwargs = {"draw": Huda.available_draw, "hover": Huda.detail_draw, "mousedown": Huda.mousedown} | inject_kwargs
         self.main_phase_inject_kwargs = inject_kwargs
         self.view_inject_kwargs = {"draw": inject_kwargs.get("draw", Huda.default_draw), "hover": Huda.detail_draw}

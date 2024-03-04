@@ -7,7 +7,7 @@ from typing import Any
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, IMG_DECISION, IMG_DECISION_LIGHTEN,\
     IMG_OSAME_DUST, IMG_OSAME_DUST_LIGHTEN, IMG_OSAME_AURA, IMG_OSAME_AURA_LIGHTEN, draw_aiharasuu,\
     FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED, POP_OK, POP_OPEN, enforce, IMG_DONOR_DUST, IMG_DONOR_AURA,\
-    POP_CHOICED
+    POP_CHOICED, pass_func
 
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator,\
     popup_message

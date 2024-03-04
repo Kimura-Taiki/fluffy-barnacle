@@ -2,7 +2,7 @@
 from pygame import Surface, SRCALPHA
 
 from mod.const import screen, WX, WY, IMG_GRAY_LAYER, compatible_with, POP_OK,\
-    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK
+    POP_VIEWED_BANMEN, HANTE, MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, pass_func
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
@@ -24,7 +24,8 @@ class OnlySelectLayer():
         self.lower = _taba_maid_by_any(li=lower, factory=_factory(os_layer=self
             , huda_y=_HAND_Y_LOWER), delivery=delivery, hoyuusya=hoyuusya)
         self.upper = _taba_maid_by_any(li=upper, factory=_factory(os_layer=self
-            , huda_y=_HAND_Y_UPPER), delivery=delivery, hoyuusya=hoyuusya)
+            , huda_y=_HAND_Y_UPPER, is_detail=False), delivery=delivery,
+            hoyuusya=hoyuusya)
         self.select_huda: Huda | None = None
         self.popup = popup
         self.code = code
@@ -74,11 +75,17 @@ def _mouseup(huda: Huda, os_layer: OnlySelectLayer) -> None:
     huda.withdraw()
     moderator.pop()
 
-def _factory(os_layer: OnlySelectLayer, huda_y: Callable[[int, int], float]
-) -> TabaFactory:
-    facotry = TabaFactory(inject_kwargs={"mouseup": partial(_mouseup,
-        os_layer=os_layer)}, huda_x=_HAND_X, huda_y=huda_y, huda_angle=
-        _HAND_ANGLE, is_ol=True)
+def _factory(os_layer: OnlySelectLayer, huda_y: Callable[[int, int], float],
+is_detail: bool=True) -> TabaFactory:
+#                 20                  40                  60                 79
+    inject: dict[str, Callable[[Huda], None]] = {"mouseup": partial(_mouseup,
+        os_layer=os_layer)} | ({} if is_detail else {"hover": pass_func})
+    # inject: dict[str, Callable[[Huda], None]] = {"mouseup": partial(_mouseup, os_layer=os_layer)} | {"hover": pass_func}
+    facotry = TabaFactory(inject_kwargs=inject, huda_x=_HAND_X, huda_y=huda_y,
+                          huda_angle=_HAND_ANGLE, is_ol=True)
+    # facotry = TabaFactory(inject_kwargs={"mouseup": partial(_mouseup,
+    #     os_layer=os_layer)}, huda_x=_HAND_X, huda_y=huda_y, huda_angle=
+    #     _HAND_ANGLE, is_ol=True)
     return facotry
 
 def _taba_maid_by_any(li: list[Any], factory: TabaFactory, delivery: Delivery,
