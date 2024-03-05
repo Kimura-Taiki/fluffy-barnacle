@@ -6,3 +6,4 @@ class PopStat(NamedTuple):
     code: int = POP_OK
     huda: Any | None = None
     rest_taba: list[Any] = []
+    switch: bool = False
