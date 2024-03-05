@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, opponent, POP_TAIOUED, POP_OK,\
-    enforce, POP_OPEN, POP_CHOICED, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED
+    enforce, POP_OPEN, POP_CHOICED, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED, POP_KAIKETUED
 from mod.classes import Any, PopStat, Card, Huda, Taba, Delivery, moderator,\
     popup_message
 from mod.ol.view_banmen import view_youso
@@ -12,6 +12,7 @@ from mod.ol.play_kougeki.uke_taba import uke_taba
 from mod.ol.play_kougeki.taiou_taba import taiou_taba
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
+from mod.card.damage import Damage
 
 #                 20                  40                  60                 79
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
@@ -27,14 +28,22 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya,
         name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
         lower=lower, upper=upper, code=code))
+    
+def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    huda, kougeki = enforce(stat.huda, Huda), enforce(layer.card, Card)
+    if isinstance(huda.card, Damage):
+        popup_message.add(f"{side_name(layer.hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
+        huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya, code=POP_KAIKETUED)
+        return
+    raise EOFError("hoi")
 
-POP_PASS = 99999
 def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
                        huda: Any | None, code: int=POP_OK) -> PipelineLayer:
     layer = PipelineLayer(name=f"攻撃:{card.name}の使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
-POP_OPEN: lambda l, s: _open(l, s, POP_PASS),
-POP_PASS: lambda l, s: None
+POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
+POP_CHOICED: lambda l, s: _choiced(l, s, POP_OK),
+POP_KAIKETUED: lambda l, s: moderator.pop()
         }, card=card, huda=huda, code=code)
     return layer
 #                 20                  40                  60                 79
