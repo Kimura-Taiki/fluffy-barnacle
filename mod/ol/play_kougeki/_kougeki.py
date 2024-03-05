@@ -57,6 +57,15 @@ def _taioued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.card = huda.card.taiounize(kougeki, delivery, hoyuusya)
     layer.moderate(stat=PopStat(code=code, switch=True))
 
+def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    kougeki = enforce(layer.card, Card)
+    if kougeki.after:
+#                 20                  40                  60                 79
+        kougeki.after.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
+                              huda=layer.huda, code=code)
+        return
+    moderator.pop()
+
 def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
                        huda: Any | None, code: int=POP_OK) -> PipelineLayer:
     layer = PipelineLayer(name=f"攻撃:{card.name}の使用", delivery=delivery,
@@ -64,7 +73,8 @@ def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
 POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
 POP_CHOICED: lambda l, s: _choiced(l, s, POP_KAIKETUED, POP_TAIOUED),
 POP_TAIOUED: lambda l, s: _taioued(l, s, POP_OPEN),
-POP_KAIKETUED: lambda l, s: moderator.pop()
+POP_KAIKETUED: lambda l, s: _kaiketued(l, s, POP_AFTER_ATTACKED),
+POP_AFTER_ATTACKED: lambda l, s: moderator.pop()
         }, card=card, huda=huda, code=code)
     return layer
 #                 20                  40                  60                 79
