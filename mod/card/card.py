@@ -76,11 +76,7 @@ class Card():
             from mod.ol.play_kougeki.play_kougeki import PlayKougeki
             moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_HUYO:
-            # from mod.ol.play_huyo import PlayHuyo
-            # moderator.append(over_layer=PlayHuyo(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
-            from mod.ol._huyo import play_huyo_layer
-            from mod.const import enforce
-            from mod.huda.huda import Huda
+            from mod.ol.play_huyo import play_huyo_layer
             moderator.append(play_huyo_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
 
     def is_full(self, delivery: Delivery, hoyuusya: int) -> bool:
