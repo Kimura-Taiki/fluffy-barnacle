@@ -15,7 +15,8 @@ from mod.ol.only_select_layer import OnlySelectLayer
 
 #                 20                  40                  60                 79
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    delivery, hoyuusya, card = layer.delivery, layer.hoyuusya, layer.card
+    delivery, hoyuusya = layer.delivery, layer.hoyuusya
+    card = enforce(layer.card, Card)
     if not card.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
         moderator.pop()
         return
@@ -34,7 +35,7 @@ def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_PASS),
 POP_PASS: lambda l, s: None
-        }, huda=huda, code=code)
+        }, card=card, huda=huda, code=code)
     return layer
 #                 20                  40                  60                 79
 
