@@ -1,19 +1,13 @@
 #                 20                  40                  60                 79
 from pygame.math import Vector2
-from typing import Any
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, POP_TAIOUED, POP_OK,\
     enforce, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED
-from mod.huda.huda import Huda
+from mod.classes import Any, PopStat, Card, Huda, Taba, Delivery, moderator,\
+    popup_message
 from mod.ol.view_banmen import view_youso
-from mod.card.card import Card
-from mod.taba import Taba
-from mod.popup_message import popup_message
-from mod.moderator import moderator
-from mod.delivery import Delivery
 from mod.ol.play_kougeki.uke_taba import uke_taba
 from mod.ol.play_kougeki.taiou_taba import taiou_taba
-from mod.ol.pop_stat import PopStat
 
 class PlayKougeki():
     def __init__(self, kougeki: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK,) -> None:
