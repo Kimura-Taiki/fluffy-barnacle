@@ -2,7 +2,7 @@
 from pygame.math import Vector2
 
 from mod.const import screen, IMG_GRAY_LAYER, compatible_with, WX, WY, side_name, opponent, POP_TAIOUED, POP_OK,\
-    enforce, POP_OPEN, POP_CHOICED, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED, POP_KAIKETUED
+    enforce, POP_OPEN, POP_CHOICED, POP_AFTER_ATTACKED, POP_VIEWED_BANMEN, POP_RECEIVED, POP_KAIKETUED, OBAL_USE_CARD
 from mod.classes import Any, PopStat, Card, Huda, Taba, Delivery, moderator,\
     popup_message
 from mod.ol.view_banmen import view_youso
@@ -13,6 +13,7 @@ from mod.ol.play_kougeki.taiou_taba import taiou_taba
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.card.damage import Damage
+from mod.ol.use_card_layer import use_card_layer
 
 #                 20                  40                  60                 79
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
@@ -23,7 +24,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         return
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
-    if code == POP_TAIOUED:
+    if stat.code == POP_TAIOUED:
         lower.clear()
     moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya,
         name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
@@ -32,10 +33,18 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     huda, kougeki = enforce(stat.huda, Huda), enforce(layer.card, Card)
     if isinstance(huda.card, Damage):
-        popup_message.add(f"{side_name(layer.hoyuusya)}の「{kougeki.name}」を{huda.card.name}")
-        huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya, code=POP_KAIKETUED)
+        popup_message.add(f"{side_name(layer.hoyuusya)}の「{kougeki.name}」を\
+                          {huda.card.name}")
+        huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
+                          code=POP_KAIKETUED)
         return
-    raise EOFError("hoi")
+    layer.delivery.b_params.during_taiou = True
+    moderator.append(use_card_layer(cards=[huda.card], name=
+        f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」を使います",
+        youso=huda, mode=OBAL_USE_CARD, code=POP_TAIOUED))
+#                 20                  40                  60                 79
+
+
 
 def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
                        huda: Any | None, code: int=POP_OK) -> PipelineLayer:
@@ -43,6 +52,7 @@ def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
 POP_CHOICED: lambda l, s: _choiced(l, s, POP_OK),
+POP_TAIOUED: lambda l, s: _open(l, s, POP_OK),
 POP_KAIKETUED: lambda l, s: moderator.pop()
         }, card=card, huda=huda, code=code)
     return layer
