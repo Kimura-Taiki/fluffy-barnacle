@@ -73,10 +73,8 @@ class Card():
             from mod.ol.play_koudou import PlayKoudou
             moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_KOUGEKI:
-            from mod.ol.play_kougeki._kougeki import play_kougeki_layer
+            from mod.ol.play_kougeki.play_kougeki import play_kougeki_layer
             moderator.append(over_layer=play_kougeki_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
-            # from mod.ol.play_kougeki.play_kougeki import PlayKougeki
-            # moderator.append(over_layer=PlayKougeki(kougeki=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_HUYO:
             from mod.ol.play_huyo import play_huyo_layer
             moderator.append(play_huyo_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
