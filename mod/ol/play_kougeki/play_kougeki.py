@@ -18,7 +18,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         return
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
-    if stat.switch:
+    if stat.switch or layer.delivery.b_params.during_taiou:
         lower.clear()
     moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya,
         name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
