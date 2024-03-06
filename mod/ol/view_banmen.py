@@ -20,6 +20,7 @@ class ViewBanmen():
         self.name = "盤面の確認中"
         self.inject_func = delivery.inject_view
         self.delivery = delivery
+        self.hoyuusya = -1
 
     def elapse(self) -> None:
         ...

@@ -5,18 +5,19 @@ from pygame.math import Vector2
 from mod.const import screen, pass_func, WX, WY, IMG_GRAY_LAYER, IMG_DECISION,\
     POP_OK, POP_VIEWED_BANMEN, POP_DECIDED, HANTE, MS_MINCHO_COL,\
         FONT_SIZE_TITLE, WHITE, BLACK
+from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery,\
+    moderator, popup_message
+from mod.ol.over_layer import OverLayer
 from mod.ol.view_banmen import view_youso
 from mod.ol.pop_stat import PopStat
 from mod.tf.taba_factory import TabaFactory
-from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery,\
-    moderator, popup_message
 
 _HAND_X: Callable[[int, int], float] = lambda i, j: WX/2-100*(j-1)+200*i
 _HAND_Y_UPPER: Callable[[int, int], float] = lambda i, j: WY/2-150
 _HAND_Y_LOWER: Callable[[int, int], float] = lambda i, j: WY-150
 _HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
-class OnlySelectLayer():
+class OnlySelectLayer(OverLayer):
     def __init__(self, delivery: Delivery, hoyuusya: int=HANTE, name: str="",
     lower: list[Any]=[], upper: list[Any]=[], decide: bool=False,
     popup: bool=True, code: int=POP_OK) -> None:
@@ -24,6 +25,7 @@ class OnlySelectLayer():
         self.img_title = _img_title(text=name)
         self.inject_func = delivery.inject_view
         self.delivery = delivery
+        self.hoyuusya = hoyuusya
         self.lower = _taba_maid_by_any(li=lower, factory=_factory(os_layer=self
             , huda_y=_HAND_Y_LOWER), delivery=delivery, hoyuusya=hoyuusya)
         self.upper = _taba_maid_by_any(li=upper, factory=_factory(os_layer=self

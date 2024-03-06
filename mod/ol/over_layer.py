@@ -10,6 +10,7 @@ class OverLayer(Protocol):
     name: str = "------"
     inject_func: Callable[[], None] = pass_func
     delivery: Delivery = duck_delivery
+    hoyuusya: int = -1
 
     def elapse(self) -> None:
         ...

@@ -10,6 +10,7 @@ class MainPhase():
         self.name = "メインフェイズ"
         self.inject_func: Callable[[], None] = inject_func
         self.delivery = delivery
+        self.hoyuusya = delivery.turn_player
         self.button = Button(img_nega=IMG_TURN_END, img_lighten=IMG_TURN_END_LIGHTEN, mouseup=self._mouseup_turn_end)
 
     def elapse(self) -> None:
