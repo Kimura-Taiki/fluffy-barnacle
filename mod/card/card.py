@@ -70,8 +70,8 @@ class Card():
             return
         from mod.kd.kihondousa import KihonDousaCard
         if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
-            from mod.ol.play_koudou import PlayKoudou
-            moderator.append(over_layer=PlayKoudou(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
+            from mod.ol.play_koudou import play_koudou_layer
+            moderator.append(over_layer=play_koudou_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import play_kougeki_layer
             moderator.append(over_layer=play_kougeki_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
