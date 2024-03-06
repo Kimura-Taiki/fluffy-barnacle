@@ -6,7 +6,7 @@ from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU, UC_AU
     enforce, TC_TEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, USAGE_USED, USAGE_UNUSED, TG_END_PHASE, MG_UTURO, TG_1_OR_MORE_DAMAGE,\
     DMG_RESHUFFLE, USAGE_DEPLOYED
 from mod.card.card import Card, auto_di, int_di, dima_di
-from mod.temp_koudou import TempKoudou
+from mod.card.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer

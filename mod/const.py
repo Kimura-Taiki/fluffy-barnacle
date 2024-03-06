@@ -79,6 +79,7 @@ ACTION_CIRCLE_YADOSI = pygame.image.load("pictures/action_circle_yadosi.png").co
 KIRIHUDA_CIRCLE_NEUTRAL = pygame.image.load("pictures/kirihuda_circle_neutral.png").convert_alpha()
 KIRIHUDA_CIRCLE_CARD = pygame.image.load("pictures/kirihuda_circle_card.png").convert_alpha()
 
+IMG_BYTE = Surface((16, 16))
 IMG_DECISION = pygame.image.load("pictures/decision.png").convert_alpha()
 IMG_DECISION_LIGHTEN = pygame.image.load("pictures/decision_lighten.png").convert_alpha()
 IMG_TURN_END = pygame.image.load("pictures/turn_end.png").convert_alpha()
