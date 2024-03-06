@@ -3,8 +3,8 @@ from mod.const import side_name, opponent, enforce, POP_OK, POP_OPEN,\
     POP_CHOICED, POP_TAIOUED, POP_KAIKETUED, POP_AFTER_ATTACKED, OBAL_USE_CARD
 from mod.classes import Any, PopStat, Card, Huda, Delivery, moderator,\
     popup_message
-from mod.ol.play_kougeki._uke import uke_cards
-from mod.ol.play_kougeki._taiou import taiou_hudas
+from mod.ol.play_kougeki.uke_cards import uke_cards
+from mod.ol.play_kougeki.taiou_hudas import taiou_hudas
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.card.damage import Damage
