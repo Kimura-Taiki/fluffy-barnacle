@@ -1,12 +1,13 @@
 #                 20                  40                  60                 79
-from typing import Any
+# from typing import Any
 
 from mod.const import POP_OK
-from mod.huda.huda import Huda
-from mod.card.card import Card
-from mod.moderator import moderator
-from mod.delivery import Delivery
-from mod.ol.pop_stat import PopStat
+from mod.classes import Any, PopStat, Card, Huda, Delivery, moderator
+# from mod.huda.huda import Huda
+# from mod.card.card import Card
+# from mod.moderator import moderator
+# from mod.delivery import Delivery
+# from mod.ol.pop_stat import PopStat
 
 class PlayKoudou():
     def __init__(self, card: Card, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int=POP_OK) -> None:
