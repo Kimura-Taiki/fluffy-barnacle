@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
     ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_CARD, enforce,\
-    OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD
+    OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD, side_name
 from mod.classes import Card, Youso, Huda, moderator, popup_message, controller
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card,\
     matoi_card, yadosi_card
@@ -43,5 +43,7 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
            [zensin_card])
     if key == 3 and mode == OBAL_KIHONDOUSA:
         mode = OBAL_USE_CARD
-    moderator.append(use_card_layer(cards=cards, name="", youso=youso,
+    name = f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います"\
+        if mode == OBAL_USE_CARD else ""
+    moderator.append(use_card_layer(cards=cards, name=name, youso=youso,
                                     mode=mode))
