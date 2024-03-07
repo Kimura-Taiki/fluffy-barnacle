@@ -1,17 +1,11 @@
 #                 20                  40                  60                 79
-from typing import Any
-
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
     , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN
+from mod.classes import Callable, Any, Youso, Huda, Taba, Delivery, moderator, controller
+from mod.delivery import Listener
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
-from mod.youso import Youso
-from mod.controller import controller
-from mod.huda.huda import Huda
-from mod.taba import Taba
-from mod.delivery import Delivery, Listener
-from mod.moderator import moderator
 from mod.req.request import Request
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
@@ -151,11 +145,17 @@ class Banmen():
             return is_deployed(huda) or is_used(huda)
         def is_cond(cf: Continuous, huda: Huda) -> bool:
             return cf.type == type and cf.cond(self, hoyuusya, huda.hoyuusya)
-        st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
-        sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
-        kt_cfs = [cf for huda in kt if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
-        kf_cfs = [cf for huda in kf if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        def get_filtered_cfs(hudas: list[Huda], func: Callable[[Huda], bool]) -> list[Continuous]:
+            return [cf for huda in hudas if func(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        (st_cfs, sf_cfs, kt_cfs, kf_cfs) = [get_filtered_cfs(hudas, func) for hudas, func in [
+            (st, is_deployed), (sf, is_deployed), (kt, is_d_and_u), (kf, is_d_and_u)
+        ]]
+        # st_cfs = [cf for huda in st if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        # sf_cfs = [cf for huda in sf if is_deployed(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        # kt_cfs = [cf for huda in kt if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        # kf_cfs = [cf for huda in kf if is_d_and_u(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
         return st_cfs+sf_cfs+kt_cfs+kf_cfs
+        # sl_cfs = [cf for cf in self.m_params(hoyuusya).lingerings if ]
 
 
 

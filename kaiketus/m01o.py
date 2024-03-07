@@ -2,7 +2,7 @@
 import pygame
 
 from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
-    CT_TAIOU, UC_LIFE
+    CT_TAIOU, UC_LIFE, IMG_BYTE
 from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
 from mod.delivery import Delivery
@@ -20,13 +20,9 @@ n_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_2.png
     aura_damage_func=_aura_damage_2, life_damage_func=int_di(1), maai_list=dima_di(3, 4))
 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+    delivery.m_params(hoyuusya).lingerings.append()
 
-_aan3 = TempKoudou(name="返し斬り：攻撃後", cond=kessi, kouka=_kouka_n_3, todo=[[False, UC_DUST, True, UC_AURA, 1]])
-
-_aan3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_3.png"), name="柄打ち：攻撃後",
-    cond=kessi, type=CT_KOUDOU,
-    )
+_aan3 = Card(megami=MG_YURINA, img=IMG_BYTE, name="柄打ち：攻撃後", cond=kessi, type=CT_KOUDOU, kouka=_kouka_n_3)
 
 n_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_3.png"), name="柄打ち", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(3, 4))
+    aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(1, 2), after=_aan3)
