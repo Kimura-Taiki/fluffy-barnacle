@@ -9,6 +9,7 @@ from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.card.damage import Damage
 from mod.ol.use_card_layer import use_card_layer
+from mod.coous.attack_correction import AttackCorrection
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     delivery, hoyuusya = layer.delivery, layer.hoyuusya
@@ -24,6 +25,13 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya,
         name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
         lower=lower, upper=upper, code=code))
+
+
+#                 20                  40                  60                 79
+def _cfs(layer: PipelineLayer, cf_h: int) -> list[AttackCorrection]:
+    gggg = [cf for cf in layer.delivery.m_params(hoyuusya=cf_h).lingerings
+        if isinstance(cf, AttackCorrection) and cf.cond(layer.delivery,
+        layer.hoyuusya, cf_h, enforce(layer.card, Card))]
     
 def _choiced(layer: PipelineLayer, stat: PopStat, uke_code: int,
              taiou_code: int) -> None:
