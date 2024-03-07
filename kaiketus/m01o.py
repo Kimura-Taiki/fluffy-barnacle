@@ -10,7 +10,7 @@ from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolD
 from mod.delivery import Delivery
 
 def kessi(delivery: Delivery, hoyuusya: int) -> bool:
-    return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE)
+    return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
 
 n_1 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_1.png"), name="斬", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(3, 4))
