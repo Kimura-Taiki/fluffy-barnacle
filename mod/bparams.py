@@ -8,6 +8,7 @@ class BParams():
 
     def start_turn(self) -> None:
         self.during_taiou = False
+        self.attack_megami = -1
 
     def __str__(self) -> str:
         return f"BParams{vars(self)}"

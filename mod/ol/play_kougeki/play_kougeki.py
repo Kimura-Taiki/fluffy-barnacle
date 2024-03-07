@@ -16,6 +16,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     if not card.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
         moderator.pop()
         return
+    layer.delivery.b_params.attack_megami = card.megami
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
     if stat.switch or layer.delivery.b_params.during_taiou:
