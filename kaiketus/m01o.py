@@ -3,7 +3,7 @@ import pygame
 from copy import copy
 
 from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
-    CT_TAIOU, UC_LIFE, IMG_BYTE
+    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI
 from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
@@ -19,7 +19,7 @@ def _aura_damage_2(delivery: Delivery, hoyuusya: int) -> int:
     return 3 if kessi(delivery, hoyuusya) else 2
 
 n_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_2.png"), name="一閃", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=_aura_damage_2, life_damage_func=int_di(1), maai_list=dima_di(3, 4))
+    aura_damage_func=_aura_damage_2, life_damage_func=int_di(2), maai_list=dima_di(3, 3))
 
 def _taiounize_cfs_n_3(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
     taiounized = copy(kougeki)
@@ -40,3 +40,12 @@ _aan3 = Card(megami=MG_YURINA, img=IMG_BYTE, name="柄打ち：攻撃後", cond=
 
 n_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_3.png"), name="柄打ち", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(1, 2), after=_aan3)
+
+def _aura_damage_4(delivery: Delivery, hoyuusya: int) -> int:
+    return 3 if delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) <= 2 else 4
+
+def _life_damage_4(delivery: Delivery, hoyuusya: int) -> int:
+    return 2 if delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) <= 2 else 3
+
+n_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_4_s2.png"), name="居合", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=_aura_damage_4, life_damage_func=_life_damage_4, maai_list=dima_di(2, 4), zenryoku=True)
