@@ -28,13 +28,10 @@ def _taiounize_cfs_n_3(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> At
     taiounized.aura_damage_func = aura_damage_func
     return taiounized
 
-# _cond_n_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
-#     mine_cf(delivery, atk_h, cf_h) and delivery.b_params.attack_megami != MG_YURINA
 _cond_n_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
-    mine_cf(delivery, atk_h, cf_h, card)
+    mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA
 
 _cfs_n_3 = AttackCorrection(name="柄打ち", cond=_cond_n_3, taiounize=_taiounize_cfs_n_3)
-# _cfs_n_3 = AttackCorrection(name="柄打ち", cond=auto_diic, taiounize=_taiounize_cfs_n_3)
 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_3)
