@@ -11,7 +11,7 @@ from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
 from mod.taba import Taba
-from mod.coous.trigger import Trigger, BoolDII, auto_dii, mine_cf
+from mod.coous.trigger import Trigger, BoolDIIC, mine_cf
 from mod.popup_message import popup_message
 from mod.coous.saiki import saiki_trigger
 from mod.coous.trigger import Trigger
@@ -68,7 +68,7 @@ n_8 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_8.pn
 _atk_n_9 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
                 aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(2, 3))
 
-_cond_n_9: BoolDII = lambda delivery, call_h, cf_h: delivery.b_params.damage_attr != DMG_RESHUFFLE
+_cond_n_9: BoolDIIC = lambda delivery, call_h, cf_h, card: delivery.b_params.damage_attr != DMG_RESHUFFLE
 
 def _kouka_n_9(delivery: Delivery, hoyuusya: int) -> None:
     if not (huda := next((huda for huda in enforce(delivery.taba_target(
@@ -112,7 +112,7 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
 s_3 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
-_cond_s_4: BoolDII = lambda delivery, call_h, cf_h: mine_cf(delivery, call_h, cf_h) and\
+_cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
     delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
 
 _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png",

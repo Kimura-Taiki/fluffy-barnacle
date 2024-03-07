@@ -4,12 +4,13 @@ from copy import copy
 
 from mod.const import CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
-from mod.coous.continuous import Continuous, BoolDII, auto_dii, mine_cf
+from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf
 
-__all__ = ['BoolDII', 'auto_dii', 'mine_cf']
+__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
 
 @runtime_checkable
 class Attack(Protocol):
+    megami: int
     aura_bar: Callable[[Delivery, int], bool]
     life_bar: Callable[[Delivery, int], bool]
     aura_damage_func: Callable[[Delivery, int], int]
@@ -18,7 +19,7 @@ class Attack(Protocol):
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
 
 class AttackCorrection(Continuous):
-    def __init__(self, name: str, cond: BoolDII, taiounize: TaiounizeDI) -> None:
+    def __init__(self, name: str, cond: BoolDIIC, taiounize: TaiounizeDI) -> None:
         self.name = name
         self.type = CF_ATTACK_CORRECTION
         self.cond = cond
@@ -30,7 +31,7 @@ class AttackCorrection(Continuous):
 def aura_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
     if not isinstance(atk, Attack) or atk.aura_bar(delivery, hoyuusya) == True:
         return None
-    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
         return atk.aura_damage_func(delivery, hoyuusya)
     kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
     return kougeki.aura_damage_func(delivery, hoyuusya)
@@ -38,7 +39,7 @@ def aura_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
 def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
     if not isinstance(atk, Attack) or atk.life_bar(delivery, hoyuusya) == True:
         return None
-    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya)):
+    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
         return atk.life_damage_func(delivery, hoyuusya)
     kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
     return kougeki.life_damage_func(delivery, hoyuusya)

@@ -7,7 +7,7 @@ from mod.const import enforce, TC_KIRIHUDA, USAGE_USED, USAGE_UNUSED, CT_KOUDOU
 from mod.delivery import Delivery
 from mod.taba import Taba
 from mod.popup_message import popup_message
-from mod.coous.trigger import Trigger, BoolDII
+from mod.coous.trigger import Trigger, BoolDIIC
 
 BoolDI = Callable[[Delivery, int], bool]
 KoukaDI = Callable[[Delivery, int], None]
@@ -37,6 +37,6 @@ def _saiki_card(cls: type[_ProtCard], file_name: str, name: str) -> Any:
     cond=auto_di, type=CT_KOUDOU, kouka=_saiki_kouka(card_name=name))
 
 def saiki_trigger(cls: type[_ProtCard], file_name: str, name: str,
-                  cond: BoolDII, trigger: int) -> Trigger:
+                  cond: BoolDIIC, trigger: int) -> Trigger:
     return Trigger(name=name, cond=cond, trigger=trigger, effect=_saiki_card(
         cls=cls, file_name=file_name, name=name))

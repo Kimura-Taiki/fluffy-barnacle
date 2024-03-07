@@ -10,9 +10,7 @@ from mod.card.temp_koudou import TempKoudou
 from mod.delivery import Delivery
 from mod.moderator import moderator
 from mod.ol.choice import choice_layer
-from mod.coous.attack_correction import AttackCorrection, BoolDII, mine_cf, Attack
-from mod.coous.trigger import Trigger, auto_dii
-from mod.taba import Taba
+from mod.coous.attack_correction import AttackCorrection, mine_cf, auto_diic, Attack
 from mod.popup_message import popup_message
 from mod.coous.saiki import saiki_trigger
 
@@ -106,7 +104,7 @@ s_3 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_3.p
            kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
 _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png",
-            name="煌めきの乱舞", cond=auto_dii, trigger=TG_2_OR_MORE_DAMAGE)
+            name="煌めきの乱舞", cond=auto_diic, trigger=TG_2_OR_MORE_DAMAGE)
 
 s_4 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name=
     "煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI, aura_damage_func=int_di(2),

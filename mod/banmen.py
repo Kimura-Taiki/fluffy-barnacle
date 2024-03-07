@@ -1,16 +1,18 @@
 #                 20                  40                  60                 79
+from typing import runtime_checkable, Protocol
+
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
     , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN\
     , opponent
-from mod.classes import Callable, Any, Youso, Huda, Taba, Delivery, moderator, controller
+from mod.classes import Callable, Any, Card, Youso, Huda, Taba, Delivery, moderator, controller
 from mod.delivery import Listener
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
 from mod.req.request import Request
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
-from mod.coous.continuous import Continuous
+from mod.coous.continuous import Continuous, _Card
 
 class Banmen():
     def __init__(self) -> None:
@@ -133,7 +135,7 @@ class Banmen():
     def is_duck(self) -> bool:
         return False
 
-    def cfs(self, type: int, hoyuusya: int) -> list[Continuous]:
+    def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Continuous]:
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
         sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
         kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
@@ -145,11 +147,11 @@ class Banmen():
         def is_d_and_u(huda: Huda) -> bool:
             return is_deployed(huda) or is_used(huda)
         def is_cond(cf: Continuous, huda: Huda) -> bool:
-            return cf.type == type and cf.cond(self, hoyuusya, huda.hoyuusya)
+            return cf.type == type and cf.cond(self, hoyuusya, huda.hoyuusya, card)
         def get_filtered_cfs(hudas: list[Huda], func: Callable[[Huda], bool]) -> list[Continuous]:
             return [cf for huda in hudas if func(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
         def is_cond_mikoto(cf: Continuous, mikoto: int) -> bool:
-            return cf.type == type and cf.cond(self, hoyuusya, mikoto)
+            return cf.type == type and cf.cond(self, hoyuusya, mikoto, card)
         (st_cfs, sf_cfs, kt_cfs, kf_cfs) = [get_filtered_cfs(hudas, func) for hudas, func in [
             (st, is_deployed), (sf, is_deployed), (kt, is_d_and_u), (kf, is_d_and_u)
         ]]

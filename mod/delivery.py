@@ -7,6 +7,10 @@ from mod.mkt.mparams import MParams
 from mod.bparams import BParams
 
 @runtime_checkable
+class _Card(Protocol):
+    megami: int
+
+@runtime_checkable
 class Delivery(Protocol):
     turn_player: int
     b_params: BParams
@@ -48,7 +52,7 @@ class Delivery(Protocol):
     def is_duck(self) -> bool:
         ...
 
-    def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+    def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Any]:
         ...
 
 class _DuckDelivery():
@@ -93,7 +97,7 @@ class _DuckDelivery():
     def is_duck(self) -> bool:
         return True
 
-    def cfs(self, type: int, hoyuusya: int) -> list[Any]:
+    def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Any]:
         return []
 
 

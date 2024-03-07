@@ -4,9 +4,12 @@ from copy import copy
 
 from mod.const import CF_TRIGGER, enforce
 from mod.delivery import Delivery
-from mod.coous.continuous import Continuous, BoolDII, auto_dii, mine_cf
+from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf
 
-__all__ = ['BoolDII', 'auto_dii', 'mine_cf']
+__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
+
+class _Card():
+    megami = -1
 
 @runtime_checkable
 class TriggerEffect(Protocol):
@@ -14,7 +17,7 @@ class TriggerEffect(Protocol):
         ...
 
 class Trigger(Continuous):
-    def __init__(self, name: str, cond: BoolDII, trigger: int, effect: TriggerEffect) -> None:
+    def __init__(self, name: str, cond: BoolDIIC, trigger: int, effect: TriggerEffect) -> None:
         self.name = name
         self.type = CF_TRIGGER
         self.cond = cond
@@ -26,7 +29,7 @@ class Trigger(Continuous):
 
 def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int, code: int=0) -> None:
     effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
-        type=CF_TRIGGER, hoyuusya=hoyuusya) if enforce(cf, Trigger).trigger
+        type=CF_TRIGGER, hoyuusya=hoyuusya, card=_Card()) if enforce(cf, Trigger).trigger
         == trigger]
     if len(effects) == 0:
         ...
