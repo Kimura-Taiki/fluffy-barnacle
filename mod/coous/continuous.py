@@ -6,6 +6,13 @@ from mod.delivery import Delivery
 @runtime_checkable
 class _Card(Protocol):
     megami: int
+    kirihuda: bool
+
+class _DuckCard():
+    megami = -1
+    kirihuda = False
+
+duck_card = _DuckCard()
 
 BoolDIIC = Callable[[Delivery, int, int, _Card], bool]
 '''BoolDIIは 盤面(Delivery), 呼び出した者(int), 永続札の保有者(int) の３引数構成'''

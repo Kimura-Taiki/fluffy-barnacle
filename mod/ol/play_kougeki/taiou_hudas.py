@@ -8,6 +8,6 @@ def taiou_hudas(card: Card, delivery: Delivery, hoyuusya: int) -> list[Huda]:
         for taba_code in [TC_TEHUDA, TC_KIRIHUDA]
         if isinstance(taba := delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=taba_code), Taba)
         for huda in taba
-        if huda.card.taiou and huda.can_play() and card.nontaiouble(
+        if huda.card.taiou and huda.can_play() and card.taiouble(
             delivery, hoyuusya, huda.card) 
         ]

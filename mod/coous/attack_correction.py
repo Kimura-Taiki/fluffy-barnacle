@@ -11,10 +11,13 @@ __all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
 @runtime_checkable
 class Attack(Protocol):
     megami: int
+    kirihuda: bool
     aura_bar: Callable[[Delivery, int], bool]
     life_bar: Callable[[Delivery, int], bool]
     aura_damage_func: Callable[[Delivery, int], int]
     life_damage_func: Callable[[Delivery, int], int]
+    maai_list: Callable[[Delivery, int], list[bool]]
+    taiouble: Callable[[Delivery, int, Any], bool]
 
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
 

@@ -3,7 +3,7 @@ import pygame
 from copy import copy
 
 from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
-    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI
+    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU
 from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
@@ -49,3 +49,30 @@ def _life_damage_4(delivery: Delivery, hoyuusya: int) -> int:
 
 n_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_4_s2.png"), name="居合", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_aura_damage_4, life_damage_func=_life_damage_4, maai_list=dima_di(2, 4), zenryoku=True)
+
+def _taiounize_cfs_n_5(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
+    taiounized = copy(kougeki)
+    def taiouble_func(delivery: Delivery, hoyuusya: int, card: Card) -> bool:
+        return False if not card.kirihuda else kougeki.taiouble(delivery, hoyuusya, card)
+    def maai_list_func(delivery: Delivery, hoyuusya: int) -> list[bool]:
+        li = kougeki.maai_list(delivery, hoyuusya)
+        for i, v in enumerate(li):
+            if i == 0 or not v:
+                continue
+            li[i-1] = True
+            break
+        return li
+    taiounized.taiouble = taiouble_func
+    taiounized.maai_list = maai_list_func
+    return taiounized
+
+_cond_n_5: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
+    mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA and not card.kirihuda
+
+_cfs_n_5 = AttackCorrection(name="気迫", cond=_cond_n_5, taiounize=_taiounize_cfs_n_5)
+
+def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
+    delivery.m_params(hoyuusya).lingerings.append(_cfs_n_5)
+
+n_5 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_5_s5.png"), name="気迫", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_5)

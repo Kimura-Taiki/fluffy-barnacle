@@ -47,7 +47,7 @@ class Card():
         self.megami = megami
         self.aura_damage_func, self.aura_bar = aura_damage_func, aura_bar
         self.life_damage_func, self.life_bar = life_damage_func, life_bar
-        self.maai_list, self.nontaiouble = maai_list, taiouble
+        self.maai_list, self.taiouble = maai_list, taiouble
         self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi

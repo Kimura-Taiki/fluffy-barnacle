@@ -9,6 +9,7 @@ from mod.bparams import BParams
 @runtime_checkable
 class _Card(Protocol):
     megami: int
+    kirihuda: bool
 
 @runtime_checkable
 class Delivery(Protocol):
