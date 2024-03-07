@@ -17,19 +17,19 @@ from mod.coous.saiki import saiki_trigger
 from mod.coous.trigger import Trigger
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
+              aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list_func=dima_di(5, 9))
 
 n_2 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_2.png"), name="脇斬り", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(2, 3))
+              aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list_func=dima_di(2, 3))
 
 n_3 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_3.png"), name="牽制", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(1, 3))
+              aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list_func=dima_di(1, 3))
 
 n_4 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_4.png"), name="背中刺し", cond=auto_di, type=CT_KOUGEKI,
-              aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(1, 1))
+              aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list_func=dima_di(1, 1))
 
 n_5 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_5.png"), name="二刀一閃", cond=auto_di, type=CT_KOUGEKI,
-           aura_damage_func=int_di(4), life_damage_func=int_di(2), maai_list=dima_di(2, 3), zenryoku=True)
+           aura_damage_func=int_di(4), life_damage_func=int_di(2), maai_list_func=dima_di(2, 3), zenryoku=True)
 
 def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=1)
@@ -66,7 +66,7 @@ n_8 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_8.pn
            kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
 
 _atk_n_9 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
-                aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(2, 3))
+                aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list_func=dima_di(2, 3))
 
 _cond_n_9: BoolDIIC = lambda delivery, call_h, cf_h, card: delivery.b_params.damage_attr != DMG_RESHUFFLE
 
@@ -90,7 +90,7 @@ n_9 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_9.pn
            osame=int_di(2), suki=auto_di, hakizi=_atk_n_9, cfs=[_cfs_n_9])
 
 s_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_1.png"), name="数多ノ刃", cond=auto_di, type=CT_KOUGEKI,
-           aura_damage_func=int_di(4), life_damage_func=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))
+           aura_damage_func=int_di(4), life_damage_func=int_di(3), maai_list_func=dima_di(1, 2), kirihuda=True, flair=int_di(5))
 
 def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
     for _ in range(2):

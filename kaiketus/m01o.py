@@ -13,13 +13,13 @@ def kessi(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
 
 n_1 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_1.png"), name="斬", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(3, 4))
+    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list_func=dima_di(3, 4))
 
 def _aura_damage_2(delivery: Delivery, hoyuusya: int) -> int:
     return 3 if kessi(delivery, hoyuusya) else 2
 
 n_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_2.png"), name="一閃", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=_aura_damage_2, life_damage_func=int_di(2), maai_list=dima_di(3, 3))
+    aura_damage_func=_aura_damage_2, life_damage_func=int_di(2), maai_list_func=dima_di(3, 3))
 
 def _taiounize_cfs_n_3(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
     taiounized = copy(kougeki)
@@ -39,7 +39,7 @@ def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
 _aan3 = Card(megami=MG_YURINA, img=IMG_BYTE, name="柄打ち：攻撃後", cond=kessi, type=CT_KOUDOU, kouka=_kouka_n_3)
 
 n_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_3.png"), name="柄打ち", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(1, 2), after=_aan3)
+    aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list_func=dima_di(1, 2), after=_aan3)
 
 def _aura_damage_4(delivery: Delivery, hoyuusya: int) -> int:
     return 3 if delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) <= 2 else 4
@@ -48,22 +48,22 @@ def _life_damage_4(delivery: Delivery, hoyuusya: int) -> int:
     return 2 if delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) <= 2 else 3
 
 n_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_4_s2.png"), name="居合", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=_aura_damage_4, life_damage_func=_life_damage_4, maai_list=dima_di(2, 4), zenryoku=True)
+    aura_damage_func=_aura_damage_4, life_damage_func=_life_damage_4, maai_list_func=dima_di(2, 4), zenryoku=True)
 
 def _taiounize_cfs_n_5(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
     taiounized = copy(kougeki)
     def taiouble_func(delivery: Delivery, hoyuusya: int, card: Card) -> bool:
-        return False if not card.kirihuda else kougeki.taiouble(delivery, hoyuusya, card)
+        return False if not card.kirihuda else kougeki.taiouble_func(delivery, hoyuusya, card)
     def maai_list_func(delivery: Delivery, hoyuusya: int) -> list[bool]:
-        li = kougeki.maai_list(delivery, hoyuusya)
+        li = kougeki.maai_list_func(delivery, hoyuusya)
         for i, v in enumerate(li):
             if i == 0 or not v:
                 continue
             li[i-1] = True
             break
         return li
-    taiounized.taiouble = taiouble_func
-    taiounized.maai_list = maai_list_func
+    taiounized.taiouble_func = taiouble_func
+    taiounized.maai_list_func = maai_list_func
     return taiounized
 
 _cond_n_5: BoolDIIC = lambda delivery, atk_h, cf_h, card: \

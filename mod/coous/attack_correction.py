@@ -16,8 +16,8 @@ class Attack(Protocol):
     life_bar: Callable[[Delivery, int], bool]
     aura_damage_func: Callable[[Delivery, int], int]
     life_damage_func: Callable[[Delivery, int], int]
-    maai_list: Callable[[Delivery, int], list[bool]]
-    taiouble: Callable[[Delivery, int, Any], bool]
+    maai_list_func: Callable[[Delivery, int], list[bool]]
+    taiouble_func: Callable[[Delivery, int, Any], bool]
 
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
 
@@ -46,6 +46,22 @@ def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
         return atk.life_damage_func(delivery, hoyuusya)
     kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
     return kougeki.life_damage_func(delivery, hoyuusya)
+
+def maai_list(atk: Any, delivery: Delivery, hoyuusya: int) -> list[bool]:
+    if not isinstance(atk, Attack):
+        return [False]*11
+    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
+        return atk.maai_list_func(delivery, hoyuusya)
+    kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+    return kougeki.maai_list_func(delivery, hoyuusya)
+
+def taiouble(atk: Any, delivery: Delivery, hoyuusya: int, counter_card: Any) -> bool:
+    if not isinstance(atk, Attack):
+        return False
+    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
+        return atk.taiouble_func(delivery, hoyuusya, counter_card)
+    kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+    return kougeki.taiouble_func(delivery, hoyuusya, counter_card)
 
 def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
     kougeki = copy(atk)
