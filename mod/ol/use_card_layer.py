@@ -51,7 +51,7 @@ OBAL_KIHONDOUSA, code: int=POP_OK) -> PipelineLayer:
         else:
             popup_message.add("集中力はカードではありません")
         return _END_LAYER(code)
-    if isinstance(youso, Huda) and not youso.can_standard(True):
+    if isinstance(youso, Huda) and not youso.can_standard(True, True):
         return _END_LAYER(code)
     return PipelineLayer(name="通常の方法によるカードの使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
