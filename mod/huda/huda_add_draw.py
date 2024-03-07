@@ -13,6 +13,14 @@ def img_detail(huda: 'Huda') -> Surface:
 def _others_detail(huda: 'Huda') -> Surface:
     return huda.huda_draw.img_nega.copy()
 
+def _damage_detail(huda: 'Huda', img: Surface) -> Surface:
+    img.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
+    if (ad := huda.card.aura_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+        draw_aiharasuu(surface=img, dest=Vector2(-2, 375), num=ad)
+    if (ld := huda.card.life_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+        draw_aiharasuu(surface=img, dest=Vector2(38, 405), num=ld)
+    return img
+
 def _kougeki_detail(huda: 'Huda') -> Surface:
     if huda.delivery.is_duck():
         return _others_detail(huda=huda)
@@ -21,11 +29,12 @@ def _kougeki_detail(huda: 'Huda') -> Surface:
     if not huda in tehuda and not huda in kirihuda:
         return _others_detail(huda=huda)
     detail = huda.huda_draw.img_nega.copy()
-    detail.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
-    if (ad := huda.card.aura_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
-        draw_aiharasuu(surface=detail, dest=Vector2(-2, 375), num=ad)
-    if (ld := huda.card.life_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
-        draw_aiharasuu(surface=detail, dest=Vector2(38, 405), num=ld)
+    detail = _damage_detail(huda=huda, img=detail)
+    # detail.blit(source=IMG_ATTACK_STAT, dest=[8, 385])
+    # if (ad := huda.card.aura_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+    #     draw_aiharasuu(surface=detail, dest=Vector2(-2, 375), num=ad)
+    # if (ld := huda.card.life_damage(delivery=huda.delivery, hoyuusya=huda.hoyuusya)) is not None:
+    #     draw_aiharasuu(surface=detail, dest=Vector2(38, 405), num=ld)
     return detail
 
 def _huyo_detail(huda: 'Huda') -> Surface:
