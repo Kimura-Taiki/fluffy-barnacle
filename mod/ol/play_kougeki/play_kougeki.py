@@ -26,10 +26,8 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
         lower=lower, upper=upper, code=code))
 
-
-#                 20                  40                  60                 79
 def _cfs(layer: PipelineLayer, cf_h: int) -> list[AttackCorrection]:
-    gggg = [cf for cf in layer.delivery.m_params(hoyuusya=cf_h).lingerings
+    return [cf for cf in layer.delivery.m_params(hoyuusya=cf_h).lingerings
         if isinstance(cf, AttackCorrection) and cf.cond(layer.delivery,
         layer.hoyuusya, cf_h, enforce(layer.card, Card))]
     
@@ -37,6 +35,7 @@ def _choiced(layer: PipelineLayer, stat: PopStat, uke_code: int,
              taiou_code: int) -> None:
     huda, kougeki = enforce(stat.huda, Huda), enforce(layer.card, Card)
     if isinstance(huda.card, Damage):
+        layer.rest = [_cfs(layer, layer.hoyuusya), _cfs(layer, opponent(layer.hoyuusya))]
         popup_message.add(f"{side_name(layer.hoyuusya)}の「{kougeki.name}」を"\
                           f"{huda.card.name}")
         huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
@@ -60,6 +59,10 @@ def _taioued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.moderate(stat=PopStat(code=code, switch=True))
 
 def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    for cf in layer.rest[0]:
+        layer.delivery.m_params(layer.hoyuusya).lingerings.remove(cf)
+    for cf in layer.rest[1]:
+        layer.delivery.m_params(opponent(layer.hoyuusya)).lingerings.remove(cf)
     kougeki = enforce(layer.card, Card)
     if kougeki.after:
         kougeki.after.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
