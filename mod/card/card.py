@@ -64,8 +64,12 @@ class Card():
                                           kazu=self.flair(delivery, hoyuusya))
         if not self.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
             from mod.ol.pipeline_layer import PipelineLayer
+            from mod.ol.pop_stat import PopStat
+            def _pop(layer: PipelineLayer, stat: PopStat) -> None:
+                popup_message.add(f"！？解決時に「{self.name}」の使用条件を満たしていません！？")
+                moderator.pop()
             moderator.append(PipelineLayer(name="解決失敗", delivery=delivery, hoyuusya=hoyuusya, gotoes={
-                POP_OPEN: lambda l, s: popup_message.add(f"！？解決時に「{self.name}」の使用条件を満たしていません！？")
+                POP_OPEN: _pop
                 }, code=code))
             return
         from mod.kd.kihondousa import KihonDousaCard
