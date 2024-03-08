@@ -53,8 +53,8 @@ n_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_4_s2.
 
 def _taiounize_cfs_n_5(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
     taiounized = copy(kougeki)
-    def taiouble_func(delivery: Delivery, hoyuusya: int, card: Card) -> bool:
-        return False if not card.kirihuda else kougeki.taiouble_func(delivery, hoyuusya, card)
+    def taiouble(delivery: Delivery, hoyuusya: int, card: Card) -> bool:
+        return False if not card.kirihuda else kougeki.taiouble(delivery, hoyuusya, card)
     def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
         li = kougeki.maai_list(delivery, hoyuusya)
         for i, v in enumerate(li):
@@ -63,7 +63,7 @@ def _taiounize_cfs_n_5(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> At
             li[i-1] = True
             break
         return li
-    taiounized.taiouble_func = taiouble_func
+    taiounized.taiouble = taiouble
     taiounized.maai_list = maai_list
     return taiounized
 

@@ -9,8 +9,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.coous.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
-# from mod.coous.attack_correction import aura_damage, life_damage, maai_list, taiouble
-from mod.coous.attack_correction import aura_damage, life_damage, taiouble
+from mod.coous.attack_correction import aura_damage, life_damage
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -35,7 +34,7 @@ class Card():
     img: Surface, name: str, cond: BoolDI, type: int=CT_HUTEI, megami: int=0, 
     aura_damage_func: SuuziDI=int_di(0), aura_bar: BoolDI=nega_di,
     life_damage_func: SuuziDI=int_di(0), life_bar: BoolDI=nega_di,
-    maai_list: MaaiDI=whole_di, taiouble_func: BoolDIC=auto_dic,
+    maai_list: MaaiDI=whole_di, taiouble: BoolDIC=auto_dic,
     after: Optional['Card']=None,
     kouka: KoukaDI=pass_di,
     osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
@@ -48,8 +47,7 @@ class Card():
         self.megami = megami
         self.aura_damage_func, self.aura_bar = aura_damage_func, aura_bar
         self.life_damage_func, self.life_bar = life_damage_func, life_bar
-        self.maai_list, self.taiouble_func = maai_list, taiouble_func
-        # self.maai_list_func, self.taiouble_func = maai_list_func, taiouble_func
+        self.maai_list, self.taiouble = maai_list, taiouble
         self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
@@ -107,9 +105,3 @@ class Card():
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         return life_damage(atk=self, delivery=delivery, hoyuusya=hoyuusya)
-
-    # def maai_list(self, delivery: Delivery, hoyuusya: int) -> list[bool]:
-    #     return maai_list(atk=self, delivery=delivery, hoyuusya=hoyuusya)
-
-    def taiouble(self, delivery: Delivery, hoyuusya: int, counter_card: 'Card') -> bool:
-        return taiouble(atk=self, delivery=delivery, hoyuusya=hoyuusya, counter_card=counter_card)

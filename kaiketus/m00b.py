@@ -21,7 +21,7 @@ n_2 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_2.p
            aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(3, 4))
 
 n_3 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_3.png"), name="瞬霊式", cond=auto_di, type=CT_KOUGEKI,
-           aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(5, 5), taiouble_func=nega_dic)
+           aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(5, 5), taiouble=nega_dic)
 
 def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA, kazu=1)
