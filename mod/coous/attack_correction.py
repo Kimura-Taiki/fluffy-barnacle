@@ -68,3 +68,9 @@ def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: 
     for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
     return kougeki
+
+# def applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
+#     kougeki = copy(atk)
+#     for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
+#         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
+#     return kougeki

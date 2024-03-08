@@ -8,6 +8,7 @@ from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.delivery import Delivery
+from mod.card.kw.suki import suki_card
 
 def kessi(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
@@ -76,3 +77,9 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_5)
 
 n_5 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_5_s5.png"), name="気迫", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_5)
+
+_hakizi_n_6 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_6.png"), name="圧気：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(3), life_bar=auto_di, maai_list_func=dima_di(3, 4))
+
+n_6 = suki_card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_6.png"), name="圧気", cond=auto_di,
+                osame=int_di(2), hakizi=_hakizi_n_6)
