@@ -8,6 +8,7 @@ from mod.const import IMG_OSAME, draw_aiharasuu, USAGE_DEPLOYED, enforce,\
     MS_MINCHO_COL, BLACK, FONT_SIZE_MAAI, WHITE
 from mod.classes import Huda, Taba
 from mod.card.card_func import maai_text
+from mod.coous.attack_correction import applied_kougeki
 
 def img_detail(huda: 'Huda') -> Surface:
     return {CT_KOUGEKI: _kougeki_detail, CT_HUYO: _huyo_detail}.get(
@@ -25,7 +26,8 @@ def _damage_detail(huda: 'Huda', img: Surface) -> Surface:
     return img
 
 def _maai_detail(huda: 'Huda', img: Surface) -> Surface:
-    text = MS_MINCHO_COL(maai_text(huda.card.maai_list(huda.delivery, huda.hoyuusya)), FONT_SIZE_MAAI, BLACK)
+    applied = applied_kougeki(huda.card, huda.delivery, huda.hoyuusya)
+    text = MS_MINCHO_COL(maai_text(applied.maai_list(huda.delivery, huda.hoyuusya)), FONT_SIZE_MAAI, BLACK)
     pygame.draw.rect(img, WHITE, (45, 7, text.get_width(), text.get_height()), width=0)
     img.blit(source=text, dest=[45, 7])
     return img

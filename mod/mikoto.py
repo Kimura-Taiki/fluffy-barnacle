@@ -74,7 +74,7 @@ class Mikoto():
         # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7], hoyuusya=self.hoyuusya)
         # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7, n_8, n_9], hoyuusya=self.hoyuusya)
         from kaiketus import m01o
-        self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7, m01o.n_6], hoyuusya=self.hoyuusya)
+        self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7, m01o.n_5], hoyuusya=self.hoyuusya)
         self.kirihuda = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3, s_4], hoyuusya=self.hoyuusya)
 
     def _kamite_make(self) -> None:

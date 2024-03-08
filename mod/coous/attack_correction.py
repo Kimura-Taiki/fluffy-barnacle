@@ -16,7 +16,8 @@ class Attack(Protocol):
     life_bar: Callable[[Delivery, int], bool]
     aura_damage_func: Callable[[Delivery, int], int]
     life_damage_func: Callable[[Delivery, int], int]
-    maai_list_func: Callable[[Delivery, int], list[bool]]
+    # maai_list_func: Callable[[Delivery, int], list[bool]]
+    maai_list: Callable[[Delivery, int], list[bool]]
     taiouble_func: Callable[[Delivery, int, Any], bool]
 
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
@@ -47,13 +48,13 @@ def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
     kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
     return kougeki.life_damage_func(delivery, hoyuusya)
 
-def maai_list(atk: Any, delivery: Delivery, hoyuusya: int) -> list[bool]:
-    if not isinstance(atk, Attack):
-        return [False]*11
-    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
-        return atk.maai_list_func(delivery, hoyuusya)
-    kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
-    return kougeki.maai_list_func(delivery, hoyuusya)
+# def maai_list(atk: Any, delivery: Delivery, hoyuusya: int) -> list[bool]:
+#     if not isinstance(atk, Attack):
+#         return [False]*11
+#     if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
+#         return atk.maai_list_func(delivery, hoyuusya)
+#     kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
+#     return kougeki.maai_list_func(delivery, hoyuusya)
 
 def taiouble(atk: Any, delivery: Delivery, hoyuusya: int, counter_card: Any) -> bool:
     if not isinstance(atk, Attack):
@@ -69,8 +70,11 @@ def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: 
         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
     return kougeki
 
-# def applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
-#     kougeki = copy(atk)
-#     for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
-#         kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
-#     return kougeki
+def applied_kougeki(atk: Any, delivery: Delivery, hoyuusya: int) -> Attack:
+    if not isinstance(atk, Attack):
+        raise ValueError("Attack型以外が来るわけ無いんだわ")
+    cfs = delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)
+    kougeki = copy(atk)
+    for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
+        kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
+    return kougeki
