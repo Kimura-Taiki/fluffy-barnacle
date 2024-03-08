@@ -13,6 +13,7 @@ from mod.coous.continuous import BoolDIIC, mine_cf
 from mod.coous.saiki import saiki_trigger
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_kougeki
+from mod.card.kw.step import each_step
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -29,20 +30,7 @@ n_4 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_4.pn
 n_5 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_5.png"), name="二刀一閃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(4), life_damage_func=int_di(2), maai_list=dima_di(2, 3), zenryoku=True)
 
-def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=1)
-
-def _kouka_n_6_2(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=False, to_code=UC_MAAI, kazu=1)
-
-tkn61 = TempKoudou(name="歩法：潜り", cond=auto_di, kouka=_kouka_n_6_1, todo=[[False, UC_MAAI, False, UC_DUST, 1]])
-tkn62 = TempKoudou(name="歩法：離脱", cond=auto_di, kouka=_kouka_n_6_2, todo=[[False, UC_DUST, False, UC_MAAI, 1]])
-
-def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
-    moderator.append(over_layer=choice_layer(cards=[tkn61, tkn62], delivery=delivery, hoyuusya=hoyuusya))
-
-n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_6)
+n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=each_step)
 
 def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_DUST, kazu=1)
