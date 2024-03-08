@@ -20,6 +20,7 @@ class Attack(Protocol):
     life_damage: Callable[[Delivery, int], int | None]
     maai_list: Callable[[Delivery, int], list[bool]]
     taiouble: Callable[[Delivery, int, Any], bool]
+    flair: Callable[[Delivery, int], int]
 
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
 

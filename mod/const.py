@@ -94,6 +94,7 @@ IMG_DONOR_AURA = pygame.image.load("pictures/donor_aura.png").convert_alpha()
 
 HUDA_SCALE = 0.6
 IMG_ATTACK_STAT = pygame.image.load("pictures/attack_stat.png").convert_alpha()
+IMG_FLAIR_CIRCLE = pygame.image.load("pictures/flair_circle.png").convert_alpha()
 IMG_OSAME = pygame.image.load("pictures/osame_frame.png").convert_alpha()
 IMG_USED = pygame.image.load("pictures/img_used.png").convert_alpha()
 IMG_AURA_AREA = pygame.image.load("pictures/ouka_aura.png").convert_alpha()

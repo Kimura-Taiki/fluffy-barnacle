@@ -15,6 +15,7 @@ class DrawParams(NamedTuple):
     aura_damage: int | None = None
     life_damage: int | None = None
     maai_text: str = ""
+    flair: int = 0
 
     @classmethod
     def made_by_huda(cls, huda: 'Huda') -> 'DrawParams':
@@ -23,5 +24,6 @@ class DrawParams(NamedTuple):
             usage=huda.usage, osame=huda.osame,
             aura_damage=applied.aura_damage(huda.delivery, huda.hoyuusya),
             life_damage=applied.life_damage(huda.delivery, huda.hoyuusya),
-            maai_text=maai_text(applied.maai_list(huda.delivery, huda.hoyuusya))
+            maai_text=maai_text(applied.maai_list(huda.delivery, huda.hoyuusya)),
+            flair=applied.flair(huda.delivery, huda.hoyuusya)
         )
