@@ -12,6 +12,7 @@ from mod.ol.choice import choice_layer
 from mod.coous.continuous import BoolDIIC, mine_cf
 from mod.coous.saiki import saiki_trigger
 from mod.card.kw.suki import suki_card
+from mod.card.kw.papl import papl_kougeki
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -52,15 +53,8 @@ n_7 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_7.pn
 def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_ISYUKU, kazu=1)
 
-def _taiounize_n_8(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
-    taiounized = copy(kougeki)
-    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
-        return kougeki.aura_damage_func(delivery, hoyuusya)-1
-    taiounized.aura_damage_func = aura_damage_func
-    return taiounized
-
 n_8 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_n_8, taiou=True, taiounize=_taiounize_n_8)
+           kouka=_kouka_n_8, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, 0))
 
 _atk_n_9 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
                 aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(2, 3))
@@ -81,15 +75,8 @@ s_2 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_2.pn
 def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_DUST, kazu=2)
 
-def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
-    taiounized = copy(kougeki)
-    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
-        return kougeki.aura_damage_func(delivery, hoyuusya)-2
-    taiounized.aura_damage_func = aura_damage_func
-    return taiounized
-
 s_3 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
+           kouka=_kouka_s_3, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -2, 0), kirihuda=True, flair=int_di(3))
 
 _cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
     delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
