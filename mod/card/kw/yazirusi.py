@@ -1,9 +1,20 @@
 #                 20                  40                  60                 79
+from typing import NamedTuple
+
 from mod.const import UC_DUST
 from mod.delivery import Delivery
 
-def yazirusi(delivery: Delivery, hoyuusya: int, from_mine: bool=False,
-from_code: int=UC_DUST, to_mine: bool=False, to_code: int=UC_DUST,
-kazu: int=1) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=from_mine,
-        from_code=from_code, to_mine=to_mine, to_code=to_code, kazu=kazu)
+class Yazirusi(NamedTuple):
+    from_mine: bool = False
+    from_code: int = UC_DUST
+    to_mine: bool = False
+    to_code: int = UC_DUST
+    kazu: int = 1
+
+    def send(self, delivery: Delivery, hoyuusya: int) -> None:
+        self.finally_send(delivery=delivery, hoyuusya=hoyuusya)
+
+    def finally_send(self, delivery: Delivery, hoyuusya: int) -> None:
+        delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya,
+            from_mine=self.from_mine, from_code=self.from_code,
+            to_mine=self.to_mine, to_code=self.to_code, kazu=self.kazu)
