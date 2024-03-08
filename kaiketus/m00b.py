@@ -14,6 +14,7 @@ from mod.coous.attack_correction import AttackCorrection, mine_cf, auto_diic, At
 from mod.popup_message import popup_message
 from mod.coous.saiki import saiki_trigger
 from mod.card.kw.papl import papl_attack
+from mod.card.kw.step import each_step
 
 n_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))
@@ -35,18 +36,9 @@ _aan4 = TempKoudou(name="返し斬り：攻撃後", cond=_cond_n_4, kouka=_kouka
 n_4 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_4.png"), name="返し斬り", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(3, 4), after=_aan4, taiou=True)
 
-def _kouka_n_5_1(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=False, to_code=UC_DUST, kazu=1)
-
-def _kouka_n_5_2(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=False, to_code=UC_MAAI, kazu=1)
-
-tkn51 = TempKoudou(name="歩法：潜り", cond=auto_di, kouka=_kouka_n_5_1, todo=[[False, UC_MAAI, False, UC_DUST, 1]])
-tkn52 = TempKoudou(name="歩法：離脱", cond=auto_di, kouka=_kouka_n_5_2, todo=[[False, UC_DUST, False, UC_MAAI, 1]])
-
 def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
-    moderator.append(over_layer=choice_layer(cards=[tkn51, tkn52], delivery=delivery, hoyuusya=hoyuusya))
+    each_step(delivery=delivery, hoyuusya=hoyuusya)
 
 n_5 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_5.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_5)
 
