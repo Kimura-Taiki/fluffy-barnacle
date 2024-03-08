@@ -7,6 +7,7 @@ class BParams():
         self.damage_attr = 0
 
     def start_turn(self) -> None:
+        self.during_kougeki = False
         self.during_taiou = False
         self.attack_megami = -1
 

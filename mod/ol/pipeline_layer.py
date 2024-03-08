@@ -1,5 +1,5 @@
 #                 20                  40                  60                 79
-from mod.const import enforce, pass_func, POP_OK, POP_OPEN
+from mod.const import enforce, pass_func, POP_OK, POP_OPEN, POP_CLOSED
 from mod.classes import Callable, Any, PopStat, Card, Huda, Youso, Delivery
 from mod.ol.over_layer import OverLayer
 
@@ -33,6 +33,8 @@ class PipelineLayer(OverLayer):
         self.moderate(PopStat(POP_OPEN))
 
     def close(self) -> PopStat:
+        if closed := self.gotoes.get(POP_CLOSED):
+            closed(self, PopStat())
         return PopStat(code=self.code, huda=self.huda, rest_taba=self.rest)
 
     def moderate(self, stat: PopStat) -> None:

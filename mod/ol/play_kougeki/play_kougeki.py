@@ -1,6 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import side_name, opponent, enforce, POP_OK, POP_OPEN,\
-    POP_CHOICED, POP_TAIOUED, POP_KAIKETUED, POP_AFTER_ATTACKED, OBAL_USE_CARD
+    POP_CHOICED, POP_TAIOUED, POP_KAIKETUED, POP_AFTER_ATTACKED, POP_CLOSED,\
+    OBAL_USE_CARD
 from mod.classes import Any, PopStat, Card, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.play_kougeki.uke_cards import uke_cards
@@ -17,6 +18,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     if not card.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
         moderator.pop()
         return
+    layer.delivery.b_params.during_kougeki = True
     layer.delivery.b_params.attack_megami = card.megami
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
@@ -70,6 +72,9 @@ def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         return
     moderator.pop()
 
+def _closed(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.b_params.during_kougeki = False
+
 def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
                        huda: Any | None, code: int=POP_OK) -> PipelineLayer:
     layer = PipelineLayer(name=f"攻撃:{card.name}の使用", delivery=delivery,
@@ -78,6 +83,7 @@ POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
 POP_CHOICED: lambda l, s: _choiced(l, s, POP_KAIKETUED, POP_TAIOUED),
 POP_TAIOUED: lambda l, s: _taioued(l, s, POP_OPEN),
 POP_KAIKETUED: lambda l, s: _kaiketued(l, s, POP_AFTER_ATTACKED),
-POP_AFTER_ATTACKED: lambda l, s: moderator.pop()
+POP_AFTER_ATTACKED: lambda l, s: moderator.pop(),
+POP_CLOSED: _closed
         }, card=card, huda=huda, code=code)
     return layer
