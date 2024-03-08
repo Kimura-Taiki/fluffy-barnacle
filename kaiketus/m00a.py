@@ -30,7 +30,11 @@ n_4 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_4.pn
 n_5 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_5.png"), name="二刀一閃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(4), life_damage_func=int_di(2), maai_list=dima_di(2, 3), zenryoku=True)
 
-n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=each_step)
+def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
+    each_step(delivery=delivery, hoyuusya=hoyuusya)
+
+n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_6)
 
 def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_DUST, kazu=1)

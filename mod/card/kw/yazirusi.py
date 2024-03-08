@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
-from typing import NamedTuple
+from typing import NamedTuple, Any
 
-from mod.const import UC_DUST
+from mod.const import UC_DUST, UC_MAAI
 from mod.delivery import Delivery
 
 class Yazirusi(NamedTuple):
@@ -18,3 +18,10 @@ class Yazirusi(NamedTuple):
         delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya,
             from_mine=self.from_mine, from_code=self.from_code,
             to_mine=self.to_mine, to_code=self.to_code, kazu=self.kazu)
+        
+    def listed(self) -> list[Any]:
+        return [self.from_mine, self.from_code,
+                self.to_mine, self.to_code, self.kazu]
+
+ya_moguri = Yazirusi(from_code=UC_MAAI)
+ya_ridatu = Yazirusi(to_code=UC_MAAI)
