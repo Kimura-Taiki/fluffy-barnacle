@@ -9,6 +9,7 @@ from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.delivery import Delivery
 from mod.card.kw.suki import suki_card
+from mod.card.kw.papl import papl_attack
 
 def kessi(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
@@ -22,17 +23,10 @@ def _aura_damage_2(delivery: Delivery, hoyuusya: int) -> int:
 n_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_2.png"), name="一閃", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_aura_damage_2, life_damage_func=int_di(2), maai_list=dima_di(3, 3))
 
-def _taiounize_cfs_n_3(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
-    taiounized = copy(kougeki)
-    def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
-        return kougeki.aura_damage_func(delivery, hoyuusya)+1
-    taiounized.aura_damage_func = aura_damage_func
-    return taiounized
-
 _cond_n_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
     mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA
 
-_cfs_n_3 = AttackCorrection(name="柄打ち", cond=_cond_n_3, taiounize=_taiounize_cfs_n_3)
+_cfs_n_3 = AttackCorrection(name="柄打ち", cond=_cond_n_3, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 0))
 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_3)
