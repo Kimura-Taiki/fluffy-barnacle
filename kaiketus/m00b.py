@@ -69,14 +69,6 @@ def _aura_damage_7(delivery: Delivery, hoyuusya: int) -> int:
 n_8 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_8.png"), name="光の刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=_aura_damage_7, life_damage_func=int_di(1), maai_list=dima_di(3, 5))
 
-# def _taiounize_cfs_n_9(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
-#     taiounized = copy(kougeki)
-#     def aura_damage_func(delivery: Delivery, hoyuusya: int) -> int:
-#         return kougeki.aura_damage_func(delivery, hoyuusya)+1
-#     taiounized.aura_damage_func = aura_damage_func
-#     return taiounized
-
-# _cfs_n_9 = AttackCorrection(name="精霊連携", cond=mine_cf, taiounize=_taiounize_cfs_n_9)
 _cfs_n_9 = AttackCorrection(name="精霊連携", cond=mine_cf, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 0))
 
 n_9 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_9.png"), name="精霊連携", cond=auto_di, type=CT_HUYO,

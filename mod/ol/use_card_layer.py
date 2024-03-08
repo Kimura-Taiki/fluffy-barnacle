@@ -21,6 +21,8 @@ def _choiced(layer: PipelineLayer, stat: PopStat, text: str) -> None:
 def _kaiketued_use_card(layer: PipelineLayer, huda: Huda) -> None:
     if huda.card.zenryoku:
         layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
+    if huda.card.syuutan:
+        layer.delivery.m_params(layer.hoyuusya).played_syuutan = True
     if huda.card.kirihuda:
         huda.base.usage = USAGE_USED
     else:

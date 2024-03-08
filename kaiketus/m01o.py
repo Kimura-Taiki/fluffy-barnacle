@@ -3,13 +3,15 @@ import pygame
 from copy import copy
 
 from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
-    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU
+    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
+    UC_AURA
 from mod.card.card import Card, auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.delivery import Delivery
 from mod.card.kw.suki import suki_card
-from mod.card.kw.papl import papl_attack
+from mod.card.kw.papl import papl_attack, papl_kougeki
+from mod.coous.saiki import saiki_trigger
 
 def kessi(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
@@ -23,10 +25,7 @@ def _aura_damage_2(delivery: Delivery, hoyuusya: int) -> int:
 n_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_2.png"), name="一閃", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_aura_damage_2, life_damage_func=int_di(2), maai_list=dima_di(3, 3))
 
-_cond_n_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
-    mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA
-
-_cfs_n_3 = AttackCorrection(name="柄打ち", cond=_cond_n_3, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 0))
+_cfs_n_3 = AttackCorrection(name="柄打ち", cond=mine_cf, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 0))
 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_3)
@@ -77,3 +76,32 @@ _hakizi_n_6 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o
 
 n_6 = suki_card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_6.png"), name="圧気", cond=auto_di,
                 osame=int_di(2), hakizi=_hakizi_n_6)
+
+_cond_n_7: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
+    mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA
+
+_cfs_n_7 = AttackCorrection(name="気炎万丈", cond=mine_cf, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 1))
+
+n_7 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_7.png"), name="気炎万丈", cond=auto_di, type=CT_HUYO,
+           osame=int_di(4), cfs=[_cfs_n_7], zenryoku=True)
+
+s_1 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_1.png"), name="月影落", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(4), life_damage_func=int_di(4), maai_list=dima_di(3, 4), kirihuda=True, flair=int_di(7))
+
+s_2 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_2_s5.png"), name="浦波嵐", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_bar=auto_di, maai_list=dima_di(0, 10), kirihuda=True, flair=int_di(3),
+    syuutan=True, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -2, 0))
+
+_cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and kessi(delivery, cf_h)
+
+_cfs_s_3 = saiki_trigger(cls=Card, file_name="cards/na_01_yurina_o_s_3_s2.png",
+            name="浮舟宿", cond=_cond_s_3, trigger=TG_1_OR_MORE_DAMAGE)
+
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, to_mine=True, to_code=UC_AURA, kazu=5)
+
+s_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_3_s2.png"), name="浮舟宿", cond=auto_di, type=CT_KOUDOU,
+           kouka=_kouka_s_3, kirihuda=True, flair=int_di(2), cfs=[_cfs_s_3])
+
+s_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_4.png"), name="天音揺波の底力", cond=kessi, type=CT_KOUGEKI,
+    aura_damage_func=int_di(5), life_damage_func=int_di(5), maai_list=dima_di(1, 4), zenryoku=True, kirihuda=True, flair=int_di(5))

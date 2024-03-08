@@ -6,6 +6,7 @@ class MParams():
 
     def start_turn(self) -> None:
         self.played_zenryoku = False
+        self.played_syuutan = False
         self.played_standard = False
         self.lingerings: list[Any] = []
 

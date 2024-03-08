@@ -39,8 +39,8 @@ class Card():
     osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
     tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
     cfs: list[Continuous]=[],
-    taiou: bool=False, zenryoku: bool=False, kirihuda: bool=False,
-    flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
+    taiou: bool=False, zenryoku: bool=False, syuutan: bool=False,
+    kirihuda: bool=False, flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
     ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
         self.megami = megami
@@ -54,6 +54,7 @@ class Card():
         self.taiou = taiou
         self.flair = flair
         self.zenryoku = zenryoku
+        self.syuutan = syuutan
         self.kirihuda = kirihuda
         self.taiounize = taiounize
 
