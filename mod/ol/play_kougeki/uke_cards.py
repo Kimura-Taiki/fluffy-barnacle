@@ -3,13 +3,15 @@ from mod.const import IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST,\
     UC_LIFE, UC_FLAIR
 from mod.classes import Card, Delivery
 from mod.card.damage import Damage
+from mod.coous.attack_correction import applied_kougeki
 
 _0DAMAGE = Damage(img=IMG_AURA_DAMAGE, name="打ち消しました", dmg=0,
                   from_code=UC_AURA, to_code=UC_DUST)
 
 def uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
-    aura_damage = card.aura_damage(delivery=delivery, hoyuusya=hoyuusya)
-    life_damage = card.life_damage(delivery=delivery, hoyuusya=hoyuusya)
+    applied = applied_kougeki(card, delivery, hoyuusya)
+    aura_damage = applied.aura_damage(delivery, hoyuusya)
+    life_damage = applied.life_damage(delivery, hoyuusya)
     if aura_damage is None:
         return [_0DAMAGE] if life_damage is None else\
             [_ld_card(dmg=life_damage)]

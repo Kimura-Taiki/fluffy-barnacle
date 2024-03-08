@@ -21,7 +21,7 @@ class DrawParams(NamedTuple):
         applied = applied_kougeki(huda.card, huda.delivery, huda.hoyuusya)
         return DrawParams(
             usage=huda.usage, osame=huda.osame,
-            aura_damage=huda.card.aura_damage(huda.delivery, huda.hoyuusya),
-            life_damage=huda.card.life_damage(huda.delivery, huda.hoyuusya),
+            aura_damage=applied.aura_damage(huda.delivery, huda.hoyuusya),
+            life_damage=applied.life_damage(huda.delivery, huda.hoyuusya),
             maai_text=maai_text(applied.maai_list(huda.delivery, huda.hoyuusya))
         )

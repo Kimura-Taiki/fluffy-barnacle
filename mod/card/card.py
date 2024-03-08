@@ -9,7 +9,6 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.coous.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
-from mod.coous.attack_correction import aura_damage, life_damage
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -101,7 +100,7 @@ class Card():
         return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
     def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
-        return aura_damage(atk=self, delivery=delivery, hoyuusya=hoyuusya)
+        return None if self.aura_bar(delivery, hoyuusya) else self.aura_damage_func(delivery, hoyuusya)
 
     def life_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
-        return life_damage(atk=self, delivery=delivery, hoyuusya=hoyuusya)
+        return None if self.life_bar(delivery, hoyuusya) else self.life_damage_func(delivery, hoyuusya)

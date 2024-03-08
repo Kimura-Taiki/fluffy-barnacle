@@ -16,6 +16,8 @@ class Attack(Protocol):
     life_bar: Callable[[Delivery, int], bool]
     aura_damage_func: Callable[[Delivery, int], int]
     life_damage_func: Callable[[Delivery, int], int]
+    aura_damage: Callable[[Delivery, int], int | None]
+    life_damage: Callable[[Delivery, int], int | None]
     maai_list: Callable[[Delivery, int], list[bool]]
     taiouble: Callable[[Delivery, int, Any], bool]
 
@@ -30,28 +32,6 @@ class AttackCorrection(Continuous):
 
     def __str__(self) -> str:
         return f"Continuous{vars(self)}"
-
-def aura_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
-    if not isinstance(atk, Attack) or atk.aura_bar(delivery, hoyuusya) == True:
-        return None
-    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
-        return atk.aura_damage_func(delivery, hoyuusya)
-    kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
-    return kougeki.aura_damage_func(delivery, hoyuusya)
-
-def life_damage(atk: Any, delivery: Delivery, hoyuusya: int) -> int | None:
-    if not isinstance(atk, Attack) or atk.life_bar(delivery, hoyuusya) == True:
-        return None
-    if not (cfs := delivery.cfs(type=CF_ATTACK_CORRECTION, hoyuusya=hoyuusya, card=atk)):
-        return atk.life_damage_func(delivery, hoyuusya)
-    kougeki = _applied_kougeki(atk=atk, cfs=cfs, delivery=delivery, hoyuusya=hoyuusya)
-    return kougeki.life_damage_func(delivery, hoyuusya)
-
-def _applied_kougeki(atk: Attack, cfs: list[Any], delivery: Delivery, hoyuusya: int) -> Attack:
-    kougeki = copy(atk)
-    for cf in (cf for cf in cfs if isinstance(cf, AttackCorrection)):
-        kougeki = cf.taiounize(kougeki, delivery, hoyuusya)
-    return kougeki
 
 def applied_kougeki(atk: Any, delivery: Delivery, hoyuusya: int) -> Attack:
     if not isinstance(atk, Attack):
