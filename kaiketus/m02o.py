@@ -6,7 +6,7 @@ from copy import copy
 from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST
-from mod.classes import Card, Delivery, moderator
+from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
@@ -44,3 +44,8 @@ _cond_n_4: BoolDI = lambda delivery, hoyuusya: not delivery.b_params.during_koug
 n_4 = Card(megami=MG_SAINE, img=img_card("o_n_4_s6_2"), name="見切り", cond=_cond_n_4, type=CT_KOUDOU, kouka=each_step,
            taiou=True)
 
+def _amortize_5(huda: Huda) -> None:
+    huda.delivery.send_ouka_to_ryouiki(hoyuusya=huda.hoyuusya, from_huda=huda, to_code=UC_MAAI)
+
+n_5 = Card(megami=MG_SAINE, img=img_card("o_n_5_s5"), name="圏域", cond=auto_di, type=CT_HUYO,
+           osame=int_di(2), amortize=_amortize_5)
