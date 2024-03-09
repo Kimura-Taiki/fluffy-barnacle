@@ -9,7 +9,6 @@ from mod.classes import Callable, Any, Card, Youso, Huda, Taba, Delivery, modera
 from mod.delivery import Listener
 from mod.mikoto import Mikoto
 from mod.mkt.utuwa import Utuwa
-from mod.req.request import Request
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
 from mod.coous.continuous import Continuous, _Card
@@ -85,18 +84,6 @@ class Banmen():
         # popup_message.add("Inject View")
         for taba in self.tabas:
             taba.inject_kwargs(taba.view_inject_kwargs)
-
-    def respond(self, request: Request) -> Any | None:
-        from mod.const import REQ_GET_HOVER
-        if request.request_code == REQ_GET_HOVER:
-            return self.get_hover()
-        from mod.req.req_ouka import ReqOuka
-        if isinstance(request, ReqOuka):
-            return self._utuwa_target(hoyuusya=request.hoyuusya, is_mine=request.is_mine, utuwa_code=request.utuwa_code).osame
-        from mod.req.req_taba import ReqTaba
-        if isinstance(request, ReqTaba):
-            return None
-        return None
 
     def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
         return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code) 

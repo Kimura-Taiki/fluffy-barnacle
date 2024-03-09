@@ -2,7 +2,6 @@
 from typing import Protocol, runtime_checkable, Any, NamedTuple
 
 from mod.const import compatible_with, HANTE, UC_DUST
-from mod.req.request import Request
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
 
@@ -41,7 +40,7 @@ class Delivery(Protocol):
     def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
         ...
 
-    def respond(self, request: Request) -> Any | None:
+    def get_hover(self) -> Any | None:
         ...
 
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
@@ -85,8 +84,8 @@ class _DuckDelivery():
 
     def utuwa_target(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> Any:
         return None
-
-    def respond(self, request: Request) -> Any | None:
+    
+    def get_hover(self) -> Any | None:
         return None
 
     def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:

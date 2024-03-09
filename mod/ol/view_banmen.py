@@ -10,7 +10,6 @@ from mod.popup_message import popup_message
 from mod.controller import controller
 from mod.moderator import moderator
 from mod.youso import Youso
-from mod.req.req_get_hover import ReqGetHover
 from mod.ol.pop_stat import PopStat
 
 _undo_youso = make_undo_youso(text="PlayKougeki")
@@ -26,7 +25,7 @@ class ViewBanmen():
         ...
 
     def get_hover(self) -> Any | None:
-        return self.delivery.respond(request=ReqGetHover()) or _undo_youso
+        return self.delivery.get_hover() or _undo_youso
 
     def open(self) -> None:
         ...
@@ -40,7 +39,6 @@ class ViewBanmen():
 compatible_with(ViewBanmen(delivery=duck_delivery), OverLayer)
 
 def _view_mouseup(huda: Huda) -> None:
-    # popup_message.add(text=f"ViewBanmen's_undo.mouseup でクリック確定したよ")
     moderator.append(over_layer=ViewBanmen(delivery=huda.delivery))
 
 view_youso = Youso(mousedown=Huda.mousedown, mouseup=_view_mouseup)
