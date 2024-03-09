@@ -15,6 +15,7 @@ from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_kougeki
 from mod.card.kw.step import each_step
 from mod.card.kw.yazirusi import Yazirusi, ya_moguri
+from mod.card.kw.syuutyuu import syuutyuu, isyuku, reduce_syuutyuu
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -32,25 +33,16 @@ n_5 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_5.pn
            aura_damage_func=int_di(4), life_damage_func=int_di(2), maai_list=dima_di(2, 3), zenryoku=True)
 
 def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
+    syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
     each_step(delivery=delivery, hoyuusya=hoyuusya)
 
 n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_6)
 
-# def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
-#     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_DUST, kazu=1)
-
-# n_7 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, type=CT_KOUDOU,
-#            kouka=_kouka_n_7, taiou=True)
-
 n_7 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, type=CT_KOUDOU,
            kouka=ya_moguri.send, taiou=True)
 
-def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_ISYUKU, kazu=1)
-
 n_8 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_8.png"), name="患い", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_n_8, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, 0))
+           kouka=isyuku, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, 0))
 
 _atk_n_9 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_9.png"), name="陰の罠：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
                 aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(2, 3))
@@ -68,11 +60,8 @@ def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
 s_2 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_2.png"), name="闇凪ノ声", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_2, kirihuda=True, flair=int_di(4))
 
-def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_DUST, kazu=2)
-
 s_3 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_3.png"), name="苦ノ外套", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_3, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -2, 0), kirihuda=True, flair=int_di(3))
+           kouka=Yazirusi(from_code=UC_AURA, kazu=2).send, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -2, 0), kirihuda=True, flair=int_di(3))
 
 _cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
     delivery.ouka_count(hoyuusya=cf_h, is_mine=False, utuwa_code=UC_DUST) >= 10
@@ -83,7 +72,7 @@ _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png",
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     for huda in list(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba)):
         delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_SYUUTYUU, to_mine=False, to_code=UC_ZYOGAI, kazu=2)
+    reduce_syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
 
 s_4 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="奪イノ茨", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1), cfs=[_cfs_s_4])

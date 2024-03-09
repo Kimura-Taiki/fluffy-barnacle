@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import NamedTuple, Any
 
-from mod.const import UC_DUST, UC_MAAI
+from mod.const import UC_DUST, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, UC_ISYUKU
 from mod.delivery import Delivery
 
 class Yazirusi(NamedTuple):
