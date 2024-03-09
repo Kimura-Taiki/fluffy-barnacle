@@ -15,6 +15,8 @@ from mod.popup_message import popup_message
 from mod.coous.saiki import saiki_trigger
 from mod.card.kw.papl import papl_attack
 from mod.card.kw.step import each_step
+from mod.card.kw.syuutyuu import syuutyuu
+from mod.card.kw.yazirusi import Yazirusi
 
 n_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))
@@ -25,32 +27,26 @@ n_2 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_2.p
 n_3 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_3.png"), name="瞬霊式", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(3), life_damage_func=int_di(2), maai_list=dima_di(5, 5), taiouble=nega_dic)
 
-def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA, kazu=1)
-
 def _cond_n_4(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.b_params.during_taiou
 
-_aan4 = TempKoudou(name="返し斬り：攻撃後", cond=_cond_n_4, kouka=_kouka_n_4, todo=[[False, UC_DUST, True, UC_AURA, 1]])
+_aan4 = TempKoudou(name="返し斬り：攻撃後", cond=_cond_n_4, yazirusi=Yazirusi(to_mine=True, to_code=UC_AURA))
 
 n_4 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_4.png"), name="返し斬り", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(3, 4), after=_aan4, taiou=True)
 
 def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
+    syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
     each_step(delivery=delivery, hoyuusya=hoyuusya)
 
 n_5 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_5.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_5)
 
-def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=True, to_code=UC_AURA, kazu=1)
-
 n_6 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_6.png"), name="桜寄せ", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_n_6, taiou=True)
+           kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_mine=True, to_code=UC_AURA).send, taiou=True)
 
 def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_AURA, kazu=2)
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_DUST, to_mine=True, to_code=UC_FLAIR, kazu=1)
+    Yazirusi(to_mine=True, to_code=UC_AURA, kazu=2).send(delivery=delivery, hoyuusya=hoyuusya)
+    Yazirusi(to_mine=True, to_code=UC_FLAIR).send(delivery=delivery, hoyuusya=hoyuusya)
 
 n_7 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_7.png"), name="光輝収束", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_n_7, zenryoku=True)
@@ -69,11 +65,8 @@ n_9 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_9.p
 s_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_1.png"), name="光満ちる一刀", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(4), life_damage_func=int_di(3), maai_list=dima_di(3, 4), kirihuda=True, flair=int_di(5))
 
-def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_MAAI, kazu=2)
-
 s_2 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_2.png"), name="花吹雪の景色", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_2, kirihuda=True, flair=int_di(4))
+           kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2), kirihuda=True, flair=int_di(4))
 
 def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.hand_draw(hoyuusya=hoyuusya, is_mine=True)
