@@ -9,6 +9,7 @@ from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.coous.continuous import Continuous
 from mod.card.card_func import maai_text, is_meet_conditions
+from mod.card.amortize import amortize_default
 
 BoolDI = Callable[[Delivery, int], bool]
 BoolDIC = Callable[[Delivery, int, 'Card'], bool]
@@ -38,7 +39,7 @@ class Card():
     kouka: KoukaDI=pass_di,
     osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
     tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
-    cfs: list[Continuous]=[],
+    amortize: Callable[[Any], None]=amortize_default, cfs: list[Continuous]=[],
     taiou: bool=False, zenryoku: bool=False, syuutan: bool=False,
     kirihuda: bool=False, flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
     ) -> None:
@@ -50,7 +51,7 @@ class Card():
         self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
-        self.cfs = cfs
+        self.amortize, self.cfs = amortize, cfs
         self.taiou = taiou
         self.flair = flair
         self.zenryoku = zenryoku

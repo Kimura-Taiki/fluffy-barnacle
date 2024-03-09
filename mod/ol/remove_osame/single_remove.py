@@ -24,7 +24,8 @@ def _amortize_huyo(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         return
     huda = enforce(stat.huda, Huda)
     base = huda.base
-    base.delivery.send_ouka_to_ryouiki(hoyuusya=base.hoyuusya, from_huda=base)
+    base.card.amortize(base)
+    # base.delivery.send_ouka_to_ryouiki(hoyuusya=base.hoyuusya, from_huda=base)
     layer.rest = [enforce(huda, Huda).base for huda in stat.rest_taba]
     if base.osame == 0:
         base.usage = USAGE_USED
