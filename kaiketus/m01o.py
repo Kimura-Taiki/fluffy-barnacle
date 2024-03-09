@@ -12,6 +12,8 @@ from mod.delivery import Delivery
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.coous.saiki import saiki_trigger
+from mod.card.kw.syuutyuu import syuutyuu
+from mod.card.kw.yazirusi import Yazirusi
 
 def kessi(delivery: Delivery, hoyuusya: int) -> bool:
     return delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_LIFE) <= 3
@@ -66,7 +68,7 @@ _cond_n_5: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
 _cfs_n_5 = AttackCorrection(name="気迫", cond=_cond_n_5, taiounize=_taiounize_cfs_n_5)
 
 def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=True, to_code=UC_SYUUTYUU, kazu=1)
+    syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_5)
 
 n_5 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_5_s5.png"), name="気迫", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_5)
@@ -97,11 +99,8 @@ _cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, cal
 _cfs_s_3 = saiki_trigger(cls=Card, file_name="cards/na_01_yurina_o_s_3_s2.png",
             name="浮舟宿", cond=_cond_s_3, trigger=TG_1_OR_MORE_DAMAGE)
 
-def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, to_mine=True, to_code=UC_AURA, kazu=5)
-
 s_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_3_s2.png"), name="浮舟宿", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_3, kirihuda=True, flair=int_di(2), cfs=[_cfs_s_3])
+           kouka=Yazirusi(to_mine=True, to_code=UC_AURA, kazu=5), kirihuda=True, flair=int_di(2), cfs=[_cfs_s_3])
 
 s_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_4.png"), name="天音揺波の底力", cond=kessi, type=CT_KOUGEKI,
     aura_damage_func=int_di(5), life_damage_func=int_di(5), maai_list=dima_di(1, 4), zenryoku=True, kirihuda=True, flair=int_di(5))
