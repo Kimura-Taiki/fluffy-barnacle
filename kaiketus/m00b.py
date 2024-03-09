@@ -66,7 +66,7 @@ s_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_1.p
            aura_damage_func=int_di(4), life_damage_func=int_di(3), maai_list=dima_di(3, 4), kirihuda=True, flair=int_di(5))
 
 s_2 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_2.png"), name="花吹雪の景色", cond=auto_di, type=CT_KOUDOU,
-           kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2), kirihuda=True, flair=int_di(4))
+           kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2).send, kirihuda=True, flair=int_di(4))
 
 def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.hand_draw(hoyuusya=hoyuusya, is_mine=True)
