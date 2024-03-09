@@ -14,6 +14,7 @@ from mod.coous.saiki import saiki_trigger
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_kougeki
 from mod.card.kw.step import each_step
+from mod.card.kw.yazirusi import Yazirusi, ya_moguri
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -36,11 +37,14 @@ def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
 
 n_6 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_6.png"), name="歩法", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_n_6)
 
-def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_DUST, kazu=1)
+# def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
+#     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_DUST, kazu=1)
+
+# n_7 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, type=CT_KOUDOU,
+#            kouka=_kouka_n_7, taiou=True)
 
 n_7 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_7.png"), name="潜り", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_n_7, taiou=True)
+           kouka=ya_moguri.send, taiou=True)
 
 def _kouka_n_8(delivery: Delivery, hoyuusya: int) -> None:
     delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_ISYUKU, kazu=1)
