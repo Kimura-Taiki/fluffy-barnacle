@@ -4,7 +4,7 @@ from typing import runtime_checkable, Protocol
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
     , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN\
-    , opponent
+    , opponent, MS_MINCHO_COL, BLACK
 from mod.classes import Callable, Any, Card, Youso, Huda, Taba, Delivery, moderator, controller
 from mod.delivery import Listener
 from mod.mikoto import Mikoto
@@ -26,7 +26,7 @@ class Banmen():
             listener.delivery = self
         self.tabas = [listener for listener in self.listeners if isinstance(listener, Taba)]
         self.turn_player = SIMOTE
-        self.b_params = BParams()
+        self.b_params = BParams(maai_func=self._maai_func, tatuzin_func=self._tatuzin_func)
 
     def get_hover(self) -> Youso | None:
         if y2 := self.own_mikoto.get_hover():
@@ -40,6 +40,9 @@ class Banmen():
         self.enemy_mikoto.elapse()
         self.maai.draw()
         self.dust.draw()
+        screen.blit(source=MS_MINCHO_COL(f"間合", 32, BLACK), dest=(WX-300, 300))
+        screen.blit(source=MS_MINCHO_COL(f"達人の間合{self.b_params.tatuzin_no_maai}", 32, BLACK), dest=(WX-300, 360))
+        screen.blit(source=MS_MINCHO_COL("ダスト", 32, BLACK), dest=(WX-150, 300))
         moderator.stack_log()
         controller.mouse_over()
 
@@ -91,7 +94,7 @@ class Banmen():
                            UC_FLAIR: mikoto.flair, UC_LIFE: mikoto.life, UC_SYUUTYUU: mikoto.syuutyuu,
                            UC_ISYUKU: mikoto.isyuku}.get(utuwa_code), Utuwa)
         return target
-    
+
     def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Taba:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
         target = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
@@ -118,6 +121,12 @@ class Banmen():
 
     def is_duck(self) -> bool:
         return False
+
+    def _tatuzin_func(self) -> int:
+        return 2
+
+    def _maai_func(self) -> int:
+        return self.ouka_count(hoyuusya=SIMOTE, is_mine=False, utuwa_code=UC_MAAI)
 
     def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Continuous]:
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
