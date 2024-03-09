@@ -46,8 +46,7 @@ class Banmen():
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
         huda.withdraw()
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya), Mikoto)
-        taba = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
-                         TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
+        taba = self.taba_target(hoyuusya=huda.hoyuusya, is_mine=is_mine, taba_code=taba_code)
         taba.append(huda)
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
@@ -58,11 +57,9 @@ class Banmen():
         to_utuwa = self._utuwa_target(hoyuusya=hoyuusya, is_mine=to_mine, utuwa_code=to_code)
         return min(from_utuwa.osame, to_utuwa.max-to_utuwa.osame) >= kazu
 
-    def send_ouka_to_ryouiki(
-            self, hoyuusya: int,
-            from_mine: bool=False, from_code: int=UC_DUST, from_huda: Any | None=None,
-            to_mine: bool=False, to_code: int=UC_DUST, to_huda: Any | None=None,
-            kazu: int=1) -> None:
+    def send_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool=False,
+    from_code: int=UC_DUST, from_huda: Any | None=None, to_mine: bool=False,
+    to_code: int=UC_DUST, to_huda: Any | None=None, kazu: int=1) -> None:
         from_utuwa = from_huda if isinstance(
             from_huda, Youso) else self._utuwa_target(
                 hoyuusya=hoyuusya, is_mine=from_mine, utuwa_code=from_code)
