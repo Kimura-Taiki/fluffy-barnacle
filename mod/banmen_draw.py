@@ -6,17 +6,6 @@ from mod.const import screen, BLACK, WHITE, MS_MINCHO_COL, FONT_SIZE_TATUZIN,\
     IMG_MAAI_AREA, IMG_DUST_AREA, draw_aiharasuu
 from mod.mkt.utuwa import Utuwa
 
-li: list[tuple[tuple[int, int], tuple[int, int, int]]] = [[(0, 2), WHITE],
-    [(2, 0), WHITE], [(4, 2), WHITE], [(2, 4), WHITE], [(2, 2), BLACK]]
-
-# def _img_text(text: str) -> Surface:
-#     for i, (dest, color) in enumerate(li):
-#         img_text = MS_MINCHO_COL(text, FONT_SIZE_TATUZIN, color)
-#         if i == 0:
-#             img_return = Surface(Vector2(img_text.get_size())+(4, 4), SRCALPHA)
-#         img_return.blit(source=img_text, dest=dest)
-#     return img_return
-
 def _img_text(text: str) -> Surface:
     img_text = MS_MINCHO_COL(text, FONT_SIZE_TATUZIN, BLACK)
     img_siro = Surface(img_text.get_size(), SRCALPHA)
