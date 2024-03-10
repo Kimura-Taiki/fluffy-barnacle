@@ -9,7 +9,7 @@ from mod.youso import Youso
 
 class Utuwa(Youso):
     def __init__(self, img: Surface, hoyuusya: int, osame: int, x: int | float = 0, y: int | float = 0, max: int=99,
-                 **kwargs: Callable[..., None]) -> None:
+                 draw: Callable[[], None] | None=None, **kwargs: Callable[..., None]) -> None:
         if hoyuusya == KAMITE:
             x, y = WX-x, WY-y
         super().__init__(x=x, y=y, **kwargs)
@@ -17,7 +17,7 @@ class Utuwa(Youso):
         self.hoyuusya = hoyuusya
         self.osame = osame
         self.max = max
-        self.draw = partial(self._draw)
+        self.draw = draw if draw else lambda: self._draw()
 
     def is_cursor_on(self) -> bool:
         mx, my = pygame.mouse.get_pos()
