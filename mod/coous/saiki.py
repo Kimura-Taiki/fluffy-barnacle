@@ -32,11 +32,12 @@ class _ProtCard(Protocol):
                  kouka: Callable[[Delivery, int], None]) -> None:
         ...
 
-def _saiki_card(cls: type[_ProtCard], file_name: str, name: str) -> Any:
-    return cls(img=pygame.image.load(file_name), name="再起："+name,
+def _saiki_card(cls: type[_ProtCard], file_name: str, name: str,
+                img: Surface | None=None) -> Any:
+    return cls(img=img if img else pygame.image.load(file_name), name="再起："+name,
     cond=auto_di, type=CT_KOUDOU, kouka=_saiki_kouka(card_name=name))
 
-def saiki_trigger(cls: type[_ProtCard], file_name: str, name: str,
-                  cond: BoolDIIC, trigger: int) -> Trigger:
+def saiki_trigger(cls: type[_ProtCard], name: str, cond: BoolDIIC,
+trigger: int, file_name: str="", img: Surface | None=None) -> Trigger:
     return Trigger(name=name, cond=cond, trigger=trigger, effect=_saiki_card(
-        cls=cls, file_name=file_name, name=name))
+        cls=cls, file_name=file_name, name=name, img=img))

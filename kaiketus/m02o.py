@@ -5,7 +5,7 @@ from copy import copy
 
 from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
-    UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3
+    UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI
 from mod.card.temp_koudou import TempKoudou
@@ -91,3 +91,13 @@ _flair_s_2: SuuziDI = lambda delivery, hoyuusya: 8-delivery.ouka_count(hoyuusya=
 s_2 = Card(megami=MG_SAINE, img=img_card("o_s_2_s2"), name="響鳴共振", cond=auto_di, type=CT_KOUDOU,
            kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2).send,
            kirihuda=True, flair=_flair_s_2)
+
+_cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    hassou(delivery=delivery, hoyuusya=cf_h)
+
+_cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3_s6_2"),
+            name="音無砕氷", cond=_cond_s_3, trigger=TG_END_PHASE)
+
+s_3 = Card(megami=MG_SAINE, img=img_card("o_s_3_s6_2"), name="音無砕氷", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(0, 10),
+    cfs=[_cfs_s_3], taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, -1), kirihuda=True, flair=int_di(2))
