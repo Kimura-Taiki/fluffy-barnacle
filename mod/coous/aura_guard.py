@@ -2,8 +2,10 @@
 from typing import Callable, Any, runtime_checkable, Protocol
 from copy import copy
 
-from mod.const import CF_AURA_GUARD, enforce
+from mod.const import CF_AURA_GUARD, enforce, TC_SUTEHUDA
 from mod.delivery import Delivery
+from mod.huda.huda import Huda
+from mod.taba import Taba
 from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf, duck_card
 
 __all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
@@ -17,37 +19,14 @@ class AuraGuard(Continuous):
         self.type = CF_AURA_GUARD
         self.cond = cond
 
-
-@runtime_checkable
-class TriggerEffect(Protocol):
-    def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None, code: int) -> None:
-        ...
-
-class Trigger(Continuous):
-    def __init__(self, name: str, cond: BoolDIIC, trigger: int, effect: TriggerEffect) -> None:
-        self.name = name
-        self.type = CF_AURA_GUARD
-        self.cond = cond
-        self.trigger = trigger
-        self.effect = effect
-
     def __str__(self) -> str:
         return f"Continuous{vars(self)}"
 
-def applied_aura_guard(i: int, scalar: int, delivery: Delivery, hoyuusya: int) -> int:
+def huyo_aura_guard(delivery: Delivery, hoyuusya: int) -> int:
+    i = 0
     cfs: list[AuraGuard] = delivery.cfs(type=CF_AURA_GUARD, hoyuusya=hoyuusya, card=duck_card)
-    for cf in (cf for cf in cfs if cf.scalar == scalar):
-        i += cf.value
+    for cf in cfs:
+        taba = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
+        huda = enforce(next((huda for huda in taba if isinstance(huda.card.cfs[0], AuraGuard)), None), Huda)
+        i += huda.osame
     return i
-
-
-def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int, code: int=0) -> None:
-    effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
-        type=CF_TRIGGER, hoyuusya=hoyuusya, card=duck_card) if enforce(cf, Trigger).trigger
-        == trigger]
-    if len(effects) == 0:
-        ...
-    elif len(effects) == 1:
-        effects[0].kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=code)
-    else:
-        raise EOFError("誘発する効果が２つ以上になったね")
