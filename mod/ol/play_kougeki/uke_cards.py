@@ -21,9 +21,12 @@ def uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
             return [ad_card]
         else:
             ld_card = _ld_card(dmg=life_damage)
-            is_receivable = ad_card.can_damage(delivery=delivery,
-                                               hoyuusya=hoyuusya)
-            return [ad_card, ld_card] if is_receivable else [ld_card]
+            # is_receivable = ad_card.can_damage(delivery=delivery,
+            #                                    hoyuusya=hoyuusya)
+            # return [ad_card, ld_card] if is_receivable else [ld_card]
+#                 20                  40                  60                 79
+            return [ad_card, ld_card] if _is_receivable(damage=ad_card,
+                delivery=delivery, hoyuusya=hoyuusya) else [ld_card]
 
 def _ad_card(dmg: int) -> Damage:
     return Damage(img=IMG_AURA_DAMAGE, name="オーラで防ぎました", dmg=dmg,
@@ -32,3 +35,6 @@ def _ad_card(dmg: int) -> Damage:
 def _ld_card(dmg: int) -> Damage:
     return Damage(img=IMG_LIFE_DAMAGE, name="ライフで受けました", dmg=dmg,
                   from_code=UC_LIFE, to_code=UC_FLAIR)
+
+def _is_receivable(damage: Damage, delivery: Delivery, hoyuusya: int) -> bool:
+    return damage.can_damage(delivery=delivery, hoyuusya=hoyuusya)
