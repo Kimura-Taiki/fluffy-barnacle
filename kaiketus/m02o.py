@@ -7,7 +7,7 @@ from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3
 from mod.classes import Callable, Card, Huda, Delivery, moderator
-from mod.card.card import auto_di, int_di, dima_di, BoolDI
+from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.ol.choice import choice_layer
@@ -85,3 +85,9 @@ POP_ACT3: lambda l, s: moderator.pop()
 
 s_1 = Card(megami=MG_SAINE, img=img_card("o_s_1_s2"), name="律動弧撃", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_s_1,
            kirihuda=True, flair=int_di(6))
+
+_flair_s_2: SuuziDI = lambda delivery, hoyuusya: 8-delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_AURA)
+
+s_2 = Card(megami=MG_SAINE, img=img_card("o_s_2_s2"), name="響鳴共振", cond=auto_di, type=CT_KOUDOU,
+           kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2).send,
+           kirihuda=True, flair=_flair_s_2)
