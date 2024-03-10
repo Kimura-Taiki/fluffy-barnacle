@@ -63,5 +63,5 @@ n_6 = Card(megami=MG_SAINE, img=img_card("o_n_6_s3"), name="衝音晶", cond=aut
 _cfs_n_7 = AuraGuard(name="無音壁", cond=auto_diic)
 
 n_7 = Card(megami=MG_SAINE, img=img_card("o_n_7"), name="無音壁", cond=auto_di, type=CT_HUYO,
-           osame=int_di(3), cfs=[_cfs_n_7], zenryoku=True)
+           osame=int_di(5), cfs=[_cfs_n_7], zenryoku=True)
 
