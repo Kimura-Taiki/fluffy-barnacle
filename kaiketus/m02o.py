@@ -5,7 +5,7 @@ from copy import copy
 
 from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
-    UC_AURA, UC_DUST, SC_TATUZIN
+    UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI
 from mod.card.temp_koudou import TempKoudou
@@ -18,6 +18,7 @@ from mod.card.kw.yazirusi import Yazirusi, ya_ridatu
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection
 from mod.coous.aura_guard import AuraGuard
+from mod.ol.pipeline_layer import PipelineLayer
 
 _ADDRESS = "na_02_saine"
 def img_card(add: str) ->  Surface:
@@ -65,3 +66,22 @@ _cfs_n_7 = AuraGuard(name="無音壁", cond=auto_diic)
 n_7 = Card(megami=MG_SAINE, img=img_card("o_n_7"), name="無音壁", cond=auto_di, type=CT_HUYO,
            osame=int_di(5), cfs=[_cfs_n_7], zenryoku=True)
 
+_atk_s_1_1 = Card(megami=MG_SAINE, img=img_card("o_s_1_s2"), name="律動弧撃：序段", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(3, 4))
+
+_atk_s_1_2 = Card(megami=MG_SAINE, img=img_card("o_s_1_s2"), name="律動弧撃：破段", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(4, 5))
+
+_atk_s_1_3 = Card(megami=MG_SAINE, img=img_card("o_s_1_s2"), name="律動弧撃：急段", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 5))
+
+def _kouka_s_1(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer(name="律動弧撃", delivery=delivery, hoyuusya=hoyuusya, gotoes={
+POP_OPEN: lambda l, s: _atk_s_1_1.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT1),
+POP_ACT1: lambda l, s: _atk_s_1_2.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT2),
+POP_ACT2: lambda l, s: _atk_s_1_3.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT3),
+POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+s_1 = Card(megami=MG_SAINE, img=img_card("o_s_1_s2"), name="律動弧撃", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_s_1,
+           kirihuda=True, flair=int_di(6))
