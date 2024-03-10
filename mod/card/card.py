@@ -41,7 +41,8 @@ class Card():
     tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
     amortize: Callable[[Any], None]=amortize_default, cfs: list[Continuous]=[],
     taiou: bool=False, zenryoku: bool=False, syuutan: bool=False,
-    kirihuda: bool=False, flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di
+    kirihuda: bool=False, flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di,
+    **kwargs: Any
     ) -> None:
         self.img, self.name, self.cond, self.type = img, name, cond, type
         self.megami = megami
@@ -58,6 +59,7 @@ class Card():
         self.syuutan = syuutan
         self.kirihuda = kirihuda
         self.taiounize = taiounize
+        self.kwargs = kwargs
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None, code: int=POP_OK) -> None:
         if self.kirihuda:
