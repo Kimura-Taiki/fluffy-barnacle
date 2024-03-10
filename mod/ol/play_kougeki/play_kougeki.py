@@ -46,7 +46,7 @@ def _choiced(layer: PipelineLayer, stat: PopStat, uke_code: int,
     layer.delivery.b_params.during_taiou = True
     moderator.append(use_card_layer(cards=[huda.card], name=
         f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」を使います",
-        youso=huda, mode=OBAL_USE_CARD, code=taiou_code))
+        youso=huda.base, mode=OBAL_USE_CARD, code=taiou_code))
 
 def _taioued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.b_params.during_taiou = False
