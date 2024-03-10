@@ -12,13 +12,16 @@ from mod.mkt.utuwa import Utuwa
 from mod.mkt.mparams import MParams
 from mod.bparams import BParams
 from mod.coous.continuous import Continuous, _Card
+from mod.banmen_draw import maai_draw, tatuzin_draw, dust_draw
 
 class Banmen():
     def __init__(self) -> None:
         self.own_mikoto = Mikoto(hoyuusya=SIMOTE)
         self.enemy_mikoto = Mikoto(hoyuusya=KAMITE)
         self.maai = Utuwa(img=IMG_MAAI_AREA, hoyuusya=HANTE, osame=10, x=WX-200, y=310, max=10)
+        self.maai.draw = lambda: maai_draw(self.maai)
         self.dust = Utuwa(img=IMG_DUST_AREA, hoyuusya=HANTE, osame=0, x=WX-30, y=310)
+        self.dust.draw = lambda: dust_draw(self.dust)
         self.zyogai = Utuwa(img=IMG_ZYOGAI_AREA, hoyuusya=HANTE, osame=50)
         li: list[Listener] = [self.own_mikoto, self.enemy_mikoto, self.maai, self.dust]
         self.listeners: list[Listener] = [item for sublist in [i.tenko() for i in li] for item in sublist]
@@ -40,9 +43,7 @@ class Banmen():
         self.enemy_mikoto.elapse()
         self.maai.draw()
         self.dust.draw()
-        screen.blit(source=MS_MINCHO_COL(f"間合", 32, BLACK), dest=(WX-300, 300))
-        screen.blit(source=MS_MINCHO_COL(f"達人の間合{self.b_params.tatuzin_no_maai}", 32, BLACK), dest=(WX-300, 360))
-        screen.blit(source=MS_MINCHO_COL("ダスト", 32, BLACK), dest=(WX-150, 300))
+        tatuzin_draw(dest=(WX-300, 360), value=self.b_params.tatuzin_no_maai)
         moderator.stack_log()
         controller.mouse_over()
 
