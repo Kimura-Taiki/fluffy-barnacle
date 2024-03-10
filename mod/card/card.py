@@ -99,7 +99,8 @@ class Card():
         popup_message.add(f"{side_name(hoyuusya)}の「{self.name}」を解決しました")
 
     def maai_cond(self, delivery: Delivery, hoyuusya: int) -> bool:
-        return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
+        return self.maai_list(delivery, hoyuusya)[delivery.b_params.maai]
+        # return self.maai_list(delivery, hoyuusya)[delivery.ouka_count(hoyuusya=hoyuusya, is_mine=True, utuwa_code=UC_MAAI)]
 
     def aura_damage(self, delivery: Delivery, hoyuusya: int) -> int | None:
         return None if self.aura_bar(delivery, hoyuusya) else self.aura_damage_func(delivery, hoyuusya)
