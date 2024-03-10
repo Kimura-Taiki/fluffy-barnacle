@@ -1,6 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, UC_AURA, UC_DUST,\
-    UC_LIFE, UC_FLAIR
+    UC_LIFE, UC_FLAIR, opponent
 from mod.classes import Card, Delivery
 from mod.card.damage import Damage
 from mod.coous.attack_correction import applied_kougeki
@@ -27,7 +27,7 @@ def uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
             # return [ad_card, ld_card] if is_receivable else [ld_card]
 #                 20                  40                  60                 79
             return [ad_card, ld_card] if _is_receivable(aura_damage=aura_damage,
-                delivery=delivery, hoyuusya=hoyuusya) else [ld_card]
+                delivery=delivery, hoyuusya=opponent(hoyuusya)) else [ld_card]
             # return [ad_card, ld_card] if _is_receivable(damage=ad_card,
             #     delivery=delivery, hoyuusya=hoyuusya) else [ld_card]
 

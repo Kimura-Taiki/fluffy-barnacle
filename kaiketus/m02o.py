@@ -17,6 +17,7 @@ from mod.card.kw.step import each_step
 from mod.card.kw.yazirusi import Yazirusi, ya_ridatu
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection
+from mod.coous.aura_guard import AuraGuard
 
 _ADDRESS = "na_02_saine"
 def img_card(add: str) ->  Surface:
@@ -59,4 +60,8 @@ _hakizi_n_6 = Card(megami=MG_SAINE, img=img_card("o_n_6_s3"), name="衝音晶：
 n_6 = Card(megami=MG_SAINE, img=img_card("o_n_6_s3"), name="衝音晶", cond=auto_di, type=CT_HUYO,
            osame=int_di(1), hakizi=_hakizi_n_6, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, 0))
 
+_cfs_n_7 = AuraGuard(name="無音壁", cond=auto_diic)
+
+n_7 = Card(megami=MG_SAINE, img=img_card("o_n_7"), name="無音壁", cond=auto_di, type=CT_HUYO,
+           osame=int_di(3), cfs=[_cfs_n_7], zenryoku=True)
 
