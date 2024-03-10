@@ -14,6 +14,7 @@ class BParams():
 
     def start_turn(self) -> None:
         self.during_kougeki = False
+        self.during_kirihuda = False
         self.during_taiou = False
         self.attack_megami = -1
 

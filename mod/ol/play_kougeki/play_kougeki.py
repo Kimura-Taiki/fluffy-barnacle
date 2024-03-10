@@ -19,6 +19,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         moderator.pop()
         return
     layer.delivery.b_params.during_kougeki = True
+    layer.delivery.b_params.during_kirihuda = card.kirihuda
     layer.delivery.b_params.attack_megami = card.megami
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
@@ -74,6 +75,7 @@ def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def _closed(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.b_params.during_kougeki = False
+    layer.delivery.b_params.during_kirihuda = False
 
 def play_kougeki_layer(card: Card, delivery: Delivery, hoyuusya: int,
                        huda: Any | None, code: int=POP_OK) -> PipelineLayer:
