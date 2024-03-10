@@ -52,3 +52,11 @@ _cfs_n_5 = ScalarCorrection(name="圏域", cond=auto_diic, scalar=SC_TATUZIN, va
 
 n_5 = Card(megami=MG_SAINE, img=img_card("o_n_5_s5"), name="圏域", cond=auto_di, type=CT_HUYO,
            osame=int_di(2), amortize=_amortize_5, cfs=[_cfs_n_5])
+
+_hakizi_n_6 = Card(megami=MG_SAINE, img=img_card("o_n_6_s3"), name="衝音晶：破棄時攻撃", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(0, 10))
+
+n_6 = Card(megami=MG_SAINE, img=img_card("o_n_6_s3"), name="衝音晶", cond=auto_di, type=CT_HUYO,
+           osame=int_di(1), hakizi=_hakizi_n_6, taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, 0))
+
+
