@@ -24,7 +24,6 @@ class AuraGuard(Continuous):
 
 def huyo_aura_guard(delivery: Delivery, hoyuusya: int) -> int:
     i = 0
-    print(hoyuusya)
     cfs: list[AuraGuard] = delivery.cfs(type=CF_AURA_GUARD, hoyuusya=hoyuusya, card=duck_card)
     for cf in cfs:
         taba = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
