@@ -67,31 +67,13 @@ class Mikoto():
         obj_address = hex(id(self))
         return f"<{obj_type} object at {obj_address}>"
 
-    # def _simote_make(self) -> None:
-    #     from kaiketus.m00a import n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9, s_1, s_2, s_3, s_4
-    #     self.yamahuda = yamahuda_factory.maid_by_cards(cards=[n_5, n_6, n_2, n_3], hoyuusya=self.hoyuusya)
-    #     # self.yamahuda = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
-    #     # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7], hoyuusya=self.hoyuusya)
-    #     # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7, n_8, n_9], hoyuusya=self.hoyuusya)
-    #     from kaiketus import m01o
-    #     self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_4, n_7, m01o.n_3, m01o.n_5, n_8], hoyuusya=self.hoyuusya)
-    #     # self.kirihuda = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3, s_4], hoyuusya=self.hoyuusya)
-    #     self.kirihuda = kirihuda_factory.maid_by_cards(cards=[m01o.s_1, m01o.s_2, m01o.s_3, m01o.s_4], hoyuusya=self.hoyuusya)
-
     def _simote_make(self) -> None:
         from kaiketus import m00a, m00b
-        from kaiketus.m02o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4
+        # from kaiketus.m03o import
         self.yamahuda = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
-        self.tehuda = tehuda_factory.maid_by_cards(cards=[m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6, n_7, m00a.n_9], hoyuusya=self.hoyuusya)
-        self.kirihuda = kirihuda_factory.maid_by_cards(cards=[m00b.s_4, m00a.s_3, m00a.s_4, s_1, s_2, s_3, s_4], hoyuusya=self.hoyuusya)
+        self.tehuda = tehuda_factory.maid_by_cards(cards=[m00b.n_4, m00b.n_5, m00b.n_6], hoyuusya=self.hoyuusya)
+        self.kirihuda = kirihuda_factory.maid_by_cards(cards=[m00b.s_4, m00a.s_3, m00a.s_4], hoyuusya=self.hoyuusya)
 
-    # def _kamite_make(self) -> None:
-    #     from kaiketus.m00b import n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9, s_1, s_2, s_3, s_4
-    #     self.yamahuda = yamahuda_factory.maid_by_cards(cards=[n_2, n_4, n_6, n_7], hoyuusya=self.hoyuusya)
-    #     # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_3, n_5], hoyuusya=self.hoyuusya)
-    #     self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_3, n_5, n_6, n_9], hoyuusya=self.hoyuusya)
-    #     self.kirihuda = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3, s_4], hoyuusya=self.hoyuusya)
-        
     def _kamite_make(self) -> None:
         from kaiketus import m00a, m00b
         from kaiketus.m01o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4

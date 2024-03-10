@@ -8,6 +8,7 @@ class MParams():
         self.played_zenryoku = False
         self.played_syuutan = False
         self.played_standard = False
+        self.use_card_count = 0
         self.lingerings: list[Any] = []
 
     def __str__(self) -> str:

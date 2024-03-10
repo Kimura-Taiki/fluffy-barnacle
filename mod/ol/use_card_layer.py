@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED,\
     TC_HUSEHUDA, UC_SYUUTYUU, UC_ZYOGAI, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
-    OBAL_USE_CARD, USAGE_USED, TC_SUTEHUDA
+    OBAL_USE_CARD, USAGE_USED, TC_SUTEHUDA, POP_CLOSED
 from mod.classes import Callable, PopStat, Card, Youso, Huda, moderator,\
     popup_message
 from mod.delivery import duck_delivery
@@ -43,6 +43,10 @@ def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
             to_mine=False, to_code=UC_ZYOGAI)
     moderator.pop()
 
+def _closed(layer: PipelineLayer, stat: PopStat) -> None:
+    if layer.mode == OBAL_USE_CARD:
+        layer.delivery.m_params(layer.hoyuusya).use_card_count += 1
+
 def use_card_layer(cards: list[Card], name: str, youso: Youso, mode: int=
 OBAL_KIHONDOUSA, code: int=POP_OK) -> PipelineLayer:
     delivery, hoyuusya = youso.delivery, youso.hoyuusya
@@ -61,4 +65,5 @@ POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery=delivery,
     hoyuusya=hoyuusya, name="基本動作の選択", lower=li, code=POP_CHOICED)),
 POP_CHOICED: lambda l, s: _choiced(l, s, name),
 POP_KAIKETUED: _kaiketued,
+POP_CLOSED: _closed
         },huda=youso if isinstance(youso, Huda) else None, mode=mode, code=code)
