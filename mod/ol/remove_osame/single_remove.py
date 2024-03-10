@@ -6,6 +6,7 @@ from mod.const import TC_SUTEHUDA, TC_KIRIHUDA, USAGE_DEPLOYED, USAGE_USED,\
 from mod.classes import PopStat, Huda, Taba, Delivery, moderator
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.pipeline_layer import PipelineLayer
+from mod.card.hakizi import hakizi
 
 def huyo_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [
@@ -30,17 +31,6 @@ def _amortize_huyo(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     if moderator.last_layer() == layer:
         layer.moderate(PopStat(code=code))
 
-def _hakizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    huda = enforce(layer.huda, Huda)
-    if huda.osame == 0:
-        huda.usage = USAGE_USED
-        if huda.card.hakizi:
-            huda.card.hakizi.kaiketu(delivery=huda.delivery, hoyuusya=huda.
-                                     hoyuusya, code=code)
-            return
-    layer.moderate(PopStat(code=code))
-
-
 def single_remove_layer(hudas: list[Huda], delivery: Delivery, hoyuusya: int,
     code: int=POP_OK) -> PipelineLayer:
     return PipelineLayer(name="OsameAllocation", delivery=delivery, gotoes={
@@ -48,6 +38,6 @@ def single_remove_layer(hudas: list[Huda], delivery: Delivery, hoyuusya: int,
             delivery, hoyuusya=hoyuusya, name="償却する付与の選択", lower=hudas,
             code=POP_CHOICED)),
         POP_CHOICED: lambda l, s,: _amortize_huyo(l, s, POP_ACT1),
-        POP_ACT1: lambda l, s: _hakizi(l, s, POP_KAIKETUED),
+        POP_ACT1: lambda l, s: hakizi(l, s, POP_KAIKETUED),
         POP_KAIKETUED: lambda l, s: moderator.pop()
     }, code=code)

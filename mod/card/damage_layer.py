@@ -7,7 +7,8 @@ from mod.classes import Any, Card, Delivery, moderator
 from mod.ol.pop_stat import PopStat
 from mod.coous.trigger import solve_trigger_effect
 from mod.ol.pipeline_layer import PipelineLayer
-from mod.coous.aura_guard import huyo_aura_guard
+from mod.coous.aura_guard import huyo_aura_guard, aura_guard_huda
+from mod.card.distribute_layer import distribute_layer
 
 @runtime_checkable
 class _DamageArrow(Protocol):
@@ -21,8 +22,10 @@ def _huyo_ukeable(da: _DamageArrow, delivery: Delivery, hoyuusya: int) -> bool:
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     da = _enforce_da(layer.card)
-    if _huyo_ukeable(da=da, delivery=layer.delivery, hoyuusya=opponent(layer.hoyuusya)):
-        raise EOFError("hoi")
+    delivery, hoyuusya = layer.delivery, layer.hoyuusya
+    if _huyo_ukeable(da=da, delivery=delivery, hoyuusya=opponent(hoyuusya)):
+        moderator.append(distribute_layer(dmg=da.dmg, delivery=delivery, hoyuusya=opponent(hoyuusya),
+            huda=aura_guard_huda(delivery=delivery, hoyuusya=opponent(hoyuusya)), code=code))
     else:
         layer.delivery.send_ouka_to_ryouiki(hoyuusya=layer.hoyuusya, from_mine=
             False, from_code=da.from_code, to_mine=False, to_code=da.to_code,
