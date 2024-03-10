@@ -4,7 +4,7 @@ from typing import runtime_checkable, Protocol
 from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
     , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
     , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN\
-    , opponent, MS_MINCHO_COL, BLACK
+    , opponent, MS_MINCHO_COL, BLACK, SC_MAAI, SC_TATUZIN
 from mod.classes import Callable, Any, Card, Youso, Huda, Taba, Delivery, moderator, controller
 from mod.delivery import Listener
 from mod.mikoto import Mikoto
@@ -13,6 +13,7 @@ from mod.mkt.mparams import MParams
 from mod.bparams import BParams
 from mod.coous.continuous import Continuous, _Card
 from mod.banmen_draw import maai_draw, tatuzin_draw, dust_draw
+from mod.coous.scalar_correction import applied_scalar
 
 class Banmen():
     def __init__(self) -> None:
@@ -124,10 +125,11 @@ class Banmen():
         return False
 
     def _tatuzin_func(self) -> int:
-        return 2
+        return applied_scalar(i=self.b_params._tatuzin_no_maai, scalar=SC_TATUZIN, delivery=self)
 
     def _maai_func(self) -> int:
-        return self.ouka_count(hoyuusya=SIMOTE, is_mine=False, utuwa_code=UC_MAAI)
+        return applied_scalar(i=self.ouka_count(hoyuusya=SIMOTE, is_mine=False, utuwa_code=UC_MAAI),
+                              scalar=SC_MAAI, delivery=self)
 
     def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Continuous]:
         st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)

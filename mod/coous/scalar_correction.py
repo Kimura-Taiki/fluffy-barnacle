@@ -2,7 +2,7 @@
 from typing import Callable, Any, runtime_checkable, Protocol
 from copy import copy
 
-from mod.const import CF_SCALAR_CORRECTION, enforce
+from mod.const import CF_SCALAR_CORRECTION, enforce, SIMOTE
 from mod.delivery import Delivery
 from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf, duck_card
 
@@ -16,7 +16,7 @@ class ScalarCorrection(Continuous):
         self.scalar = scalar
         self.value = value
 
-def applied_scalar(i: int, scalar: int, delivery: Delivery, hoyuusya: int) -> int:
+def applied_scalar(i: int, scalar: int, delivery: Delivery, hoyuusya: int=SIMOTE) -> int:
     cfs: list[ScalarCorrection] = delivery.cfs(type=CF_SCALAR_CORRECTION, hoyuusya=hoyuusya, card=duck_card)
     for cf in (cf for cf in cfs if cf.scalar == scalar):
         i += cf.value
