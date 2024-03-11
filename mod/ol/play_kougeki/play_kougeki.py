@@ -44,6 +44,9 @@ def _choiced(layer: PipelineLayer, stat: PopStat, uke_code: int,
         huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
                           code=uke_code)
         return
+    elif huda.card.name == "両受けダメージ":
+        raise EOFError("hoi")
+        return
     layer.delivery.b_params.during_taiou = True
     moderator.append(use_card_layer(cards=[huda.card], name=
         f"{side_name(huda.hoyuusya)}は対応して「{huda.card.name}」を使います",

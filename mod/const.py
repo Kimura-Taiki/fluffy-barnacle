@@ -123,6 +123,7 @@ def draw_aiharasuu(surface: Surface, dest: Vector2, num: int, size: int=_FSAS) -
 IMG_GRAY_LAYER = pygame.image.load("pictures/gray_layer.png").convert_alpha()
 IMG_AURA_DAMAGE = pygame.image.load("pictures/aura_damage.png").convert_alpha()
 IMG_LIFE_DAMAGE = pygame.image.load("pictures/life_damage.png").convert_alpha()
+IMG_BURST_DAMAGE = pygame.image.load("pictures/burst_damage.png").convert_alpha()
 
 IMG_HAKUSI = pygame.image.load("pictures/ft_hakusi.png").convert_alpha()
 IMG_FT_MAAI = pygame.image.load("pictures/ft_maai.png").convert_alpha()
