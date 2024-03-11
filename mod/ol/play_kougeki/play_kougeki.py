@@ -45,7 +45,11 @@ def _choiced(layer: PipelineLayer, stat: PopStat, uke_code: int,
                           code=uke_code)
         return
     elif huda.card.name == "両受けダメージ":
-        raise EOFError("hoi")
+        layer.rest = [_cfs(layer, layer.hoyuusya), _cfs(layer, opponent(layer.hoyuusya))]
+        popup_message.add(f"{side_name(layer.hoyuusya)}の「{kougeki.name}」を"\
+                          f"両受けします")
+        huda.card.kaiketu(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
+                          code=uke_code)
         return
     layer.delivery.b_params.during_taiou = True
     moderator.append(use_card_layer(cards=[huda.card], name=
