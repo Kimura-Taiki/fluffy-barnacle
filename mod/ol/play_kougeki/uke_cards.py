@@ -3,7 +3,7 @@ from pygame import Surface, SRCALPHA, Vector2
 
 from mod.const import IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, IMG_BURST_DAMAGE,\
     UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_OPEN, POP_ACT1,\
-    POP_ACT2, draw_aiharasuu, FONT_SIZE_AIHARASUU, CT_KOUDOU
+    POP_ACT2, draw_aiharasuu, FONT_SIZE_DAMAGE, CT_KOUDOU, enforce
 from mod.classes import Card, Delivery, moderator
 from mod.card.card import auto_di
 from mod.card.damage import Damage
@@ -34,8 +34,12 @@ def uke_cards(card: Card, delivery: Delivery, hoyuusya: int) -> list[Card]:
 
 def _img_burst(ad: int | None, ld: int | None) -> Surface:
     img = IMG_BURST_DAMAGE.copy()
-    draw_aiharasuu(surface=img, dest=Vector2(90, 150), num=ad, size=FONT_SIZE_AIHARASUU)
-    draw_aiharasuu(surface=img, dest=Vector2(190, 250), num=ld, size=FONT_SIZE_AIHARASUU)
+    draw_aiharasuu(surface=img, dest=Vector2(340, 475)/2-Vector2(
+        FONT_SIZE_DAMAGE, FONT_SIZE_DAMAGE)/2-(100, 100), num=enforce(ad, int),
+        size=FONT_SIZE_DAMAGE)
+    draw_aiharasuu(surface=img, dest=Vector2(340, 475)/2-Vector2(
+        FONT_SIZE_DAMAGE, FONT_SIZE_DAMAGE)/2+(100, 100), num=enforce(ld, int),
+        size=FONT_SIZE_DAMAGE)
     return img
 
 def _burst_card(base_card: Card, ad: int | None, ld: int | None) -> Card:
