@@ -5,7 +5,8 @@ from copy import copy
 
 from mod.const import MG_HIMIKA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
-    UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE
+    UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
+    SC_SMOKE
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI
 from mod.card.temp_koudou import TempKoudou
@@ -75,3 +76,9 @@ def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
 
 n_6 = Card(megami=MG_HIMIKA, img=img_card("o_n_6_s5"), name="バックドラフト", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_6)
+
+_cfs_n_7 = ScalarCorrection(name="スモーク", cond=auto_diic, scalar=SC_SMOKE, value=1)
+
+n_7 = Card(megami=MG_HIMIKA, img=img_card("o_n_7"), name="スモーク", cond=auto_di, type=CT_HUYO,
+           osame=int_di(3), cfs=[_cfs_n_7])
+
