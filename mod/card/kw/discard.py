@@ -18,13 +18,14 @@ def _discard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
                                         is_mine=True, taba_code=TC_HUSEHUDA)
     layer.moderate(PopStat(code=code))
 
-discard_layer: Callable[[Delivery, int], PipelineLayer] =\
-    lambda delivery, hoyuusya: PipelineLayer(name="手札を１枚伏せる",\
+def discard_layer(delivery: Delivery, hoyuusya: int, code: int=POP_OK)\
+-> PipelineLayer:
+    return PipelineLayer(name="手札を１枚伏せる",
     delivery=delivery, hoyuusya=hoyuusya, gotoes={
         POP_OPEN: lambda l, s: _open(l, s, POP_ACT1),
         POP_ACT1: lambda l, s: _discard(l, s, POP_ACT2),
         POP_ACT2: lambda l, s: moderator.pop()
-    }, code=POP_END_PHASE_FINISHED)
+    }, code=code)
 
 discard: KoukaDI = lambda delivery, hoyuusya: moderator.append(discard_layer(
     delivery=delivery, hoyuusya=hoyuusya, code=POP_OK))
