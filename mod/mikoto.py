@@ -69,10 +69,10 @@ class Mikoto():
 
     def _simote_make(self) -> None:
         from kaiketus import m00a, m00b
-        from kaiketus.m03o import n_1, n_2, n_3, n_4, n_5, n_6, n_7
+        from kaiketus.m03o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2
         self.yamahuda = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
         self.tehuda = tehuda_factory.maid_by_cards(cards=[m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6, n_7], hoyuusya=self.hoyuusya)
-        self.kirihuda = kirihuda_factory.maid_by_cards(cards=[m00b.s_3, m00a.s_3, m00a.s_2], hoyuusya=self.hoyuusya)
+        self.kirihuda = kirihuda_factory.maid_by_cards(cards=[m00b.s_3, m00a.s_3, m00a.s_2, s_1, s_2], hoyuusya=self.hoyuusya)
 
     def _kamite_make(self) -> None:
         from kaiketus import m00a, m00b

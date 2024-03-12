@@ -8,7 +8,7 @@ from mod.const import MG_HIMIKA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
     SC_SMOKE
 from mod.classes import Callable, Card, Huda, Delivery, moderator
-from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI
+from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, BoolDIC
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.ol.choice import choice_layer
@@ -81,4 +81,14 @@ _cfs_n_7 = ScalarCorrection(name="スモーク", cond=auto_diic, scalar=SC_SMOKE
 
 n_7 = Card(megami=MG_HIMIKA, img=img_card("o_n_7"), name="スモーク", cond=auto_di, type=CT_HUYO,
            osame=int_di(3), cfs=[_cfs_n_7])
+
+s_1 = Card(megami=MG_HIMIKA, img=img_card("o_s_1"), name="レッドバレット", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(3), life_damage_func=int_di(4), maai_list=dima_di(5, 10), kirihuda=True, flair=int_di(0))
+
+_cond_s_2: BoolDIC = lambda delivery, hoyuusya, card: delivery.b_params.maai != 0
+
+s_2 = Card(megami=MG_HIMIKA, img=img_card("o_s_2"), name="クリムゾンゼロ", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(0, 2), kirihuda=True, flair=int_di(5),
+    taiouble=_cond_s_2, burst=True)
+
 
