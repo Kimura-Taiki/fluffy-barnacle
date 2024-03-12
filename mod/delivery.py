@@ -15,7 +15,7 @@ class Delivery(Protocol):
     turn_player: int
     b_params: BParams
 
-    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
+    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int, is_top: bool=False) -> None:
         ...
 
     def can_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> bool:
@@ -57,7 +57,7 @@ class _DuckDelivery():
         self.turn_player = HANTE
         self.b_params = BParams()
 
-    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int) -> None:
+    def send_huda_to_ryouiki(self, huda: Any, is_mine: bool, taba_code: int, is_top: bool=False) -> None:
         pass
 
     def can_ouka_to_ryouiki(self, hoyuusya: int, from_mine: bool, from_code: int, to_mine: bool, to_code: int, kazu: int=1) -> bool:

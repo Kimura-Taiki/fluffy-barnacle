@@ -1,8 +1,8 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED,\
     TC_HUSEHUDA, UC_SYUUTYUU, UC_ZYOGAI, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
-    OBAL_USE_CARD, USAGE_USED, TC_SUTEHUDA, POP_CLOSED
-from mod.classes import Callable, PopStat, Card, Youso, Huda, moderator,\
+    OBAL_USE_CARD, USAGE_USED, TC_YAMAHUDA, TC_SUTEHUDA, POP_CLOSED
+from mod.classes import Callable, PopStat, Card, Youso, Huda, Taba, moderator,\
     popup_message
 from mod.delivery import duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer
@@ -18,6 +18,13 @@ def _choiced(layer: PipelineLayer, stat: PopStat, text: str) -> None:
     enforce(stat.huda, Huda).card.kaiketu(delivery=layer.delivery, hoyuusya=
         layer.hoyuusya, huda=layer.huda, code=POP_KAIKETUED)
 
+def _spend_huda(layer: PipelineLayer, huda: Huda) -> None:
+    if layer.delivery.b_params.sukinagasi:
+        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_YAMAHUDA, is_top=True)
+        layer.delivery.b_params.sukinagasi = False
+    else:
+        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_SUTEHUDA)
+
 def _kaiketued_use_card(layer: PipelineLayer, huda: Huda) -> None:
     if huda.card.zenryoku:
         layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
@@ -26,8 +33,7 @@ def _kaiketued_use_card(layer: PipelineLayer, huda: Huda) -> None:
     if huda.card.kirihuda:
         huda.base.usage = USAGE_USED
     else:
-        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True,
-                                            taba_code=TC_SUTEHUDA)
+        _spend_huda(layer=layer, huda=huda)
 
 def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
     layer.delivery.m_params(layer.hoyuusya).played_standard = True

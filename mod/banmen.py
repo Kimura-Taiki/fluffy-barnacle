@@ -48,11 +48,14 @@ class Banmen():
         moderator.stack_log()
         controller.mouse_over()
 
-    def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int) -> None:
+    def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int, is_top: bool=False) -> None:
         huda.withdraw()
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya), Mikoto)
         taba = self.taba_target(hoyuusya=huda.hoyuusya, is_mine=is_mine, taba_code=taba_code)
-        taba.append(huda)
+        if is_top:
+            taba.insert(0, huda)
+        else:
+            taba.append(huda)
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
 

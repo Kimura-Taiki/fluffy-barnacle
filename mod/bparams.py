@@ -1,5 +1,5 @@
 #                 20                  40                  60                 79
-from typing import Callable
+from typing import Callable, Any
 
 class BParams():
     def __init__(self, maai_func: Callable[[], int] | None=None,
@@ -16,6 +16,7 @@ class BParams():
         self.during_kougeki = False
         self.during_kirihuda = False
         self.during_taiou = False
+        self.sukinagasi = False
         self.attack_megami = -1
 
     @property

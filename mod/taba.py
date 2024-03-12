@@ -1,7 +1,7 @@
-from typing import Callable
+from typing import Callable, SupportsIndex
 from functools import partial
 
-from mod.const import nie, compatible_with, SIMOTE, pass_func
+from mod.const import nie, compatible_with, SIMOTE, pass_func, enforce
 from mod.huda.huda import Huda
 from mod.delivery import Listener, Delivery, duck_delivery
 from mod.mkt.core_view import CoreView
@@ -31,6 +31,12 @@ class Taba(list[Huda]):
         self.inject(__object, self)
         __object.withdraw = partial(self._withdraw_huda, huda=__object, taba=self)
         super().append(__object)
+        self.rearrange()
+
+    def insert(self, __index: SupportsIndex, __object: Huda) -> None:
+        self.inject(__object, self)
+        __object.withdraw = partial(self._withdraw_huda, huda=__object, taba=self)
+        super().insert(__index, __object)
         self.rearrange()
 
     def text(self, name: str) -> str:
