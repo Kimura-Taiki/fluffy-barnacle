@@ -6,7 +6,7 @@ from copy import copy
 from mod.const import MG_HIMIKA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
-    SC_SMOKE
+    SC_SMOKE, TC_TEHUDA
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, BoolDIC
 from mod.card.temp_koudou import TempKoudou
@@ -105,3 +105,15 @@ POP_ACT3: lambda l, s: moderator.pop()
 s_3 = Card(megami=MG_HIMIKA, img=img_card("o_s_3"), name="スカーレットイマジン", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_3, kirihuda=True, flair=int_di(3))
 
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    if renka(delivery=delivery, hoyuusya=hoyuusya):
+        Yazirusi(to_code=UC_MAAI, kazu=2).send(delivery=delivery, hoyuusya=hoyuusya)
+
+_cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    len(delivery.taba_target(hoyuusya=cf_h, is_mine=True, taba_code=TC_TEHUDA)) == 0
+
+_cfs_s_4 = saiki_trigger(cls=Card, img=img_card("o_s_4"),
+            name="ヴァーミリオンフィールド", cond=_cond_s_4, trigger=TG_END_PHASE)
+
+s_4 = Card(megami=MG_HIMIKA, img=img_card("o_s_4"), name="ヴァーミリオンフィールド", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_4, cfs=[_cfs_s_4], kirihuda=True, flair=int_di(3))

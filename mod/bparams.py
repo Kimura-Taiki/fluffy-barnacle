@@ -9,7 +9,7 @@ class BParams():
         self._maai_func = maai_func if maai_func else self._default_maai_func
         self._tatuzin_no_maai = 2
         self._tatuzin_func = tatuzin_func if tatuzin_func else self._default_tatuzin_func
-        self.tehuda_max = 4
+        self.tehuda_max = 2
         self.damage_attr = 0
 
     def start_turn(self) -> None:
