@@ -7,8 +7,10 @@ from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUK
     , IMG_FT_ZI_AURA, IMG_FT_ZI_FLAIR, IMG_FT_ZI_LIFE, IMG_FT_ZI_SYUUTYUU, UC_MAAI, UC_DUST, UC_ZYOGAI\
     , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU, CT_KOUDOU
 from mod.classes import Delivery
-from mod.card.card import Card, BoolDI, KoukaDI
+from mod.card.card import Card, BoolDI, KoukaDI, auto_di, nega_di
 from mod.card.kw.yazirusi import Yazirusi
+
+__all__ = ['auto_di', 'nega_di']
 
 class TempKoudou(Card):
     def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI | None=None, todo: list[list[Any]]=[],
@@ -22,12 +24,6 @@ class TempKoudou(Card):
             self._maid_by_yazirusi(name=name, cond=cond, yazirusi=yazirusi)
         else:
             raise ValueError("koukaかyazirusiは必要だよ")
-        # for i in todo:
-        #     if isinstance(i[0], bool):
-        #         self._draw_yazirusi(from_mine=i[0], from_code=i[1], to_mine=i[2], to_code=i[3], kazu=i[4])
-        #     elif isinstance(i[0], str):
-        #         self._draw_text(texts=i)
-        # super().__init__(self.img, name, cond, CT_KOUDOU, kouka=kouka)
 
     def _maid_by_kouka(self, name: str, cond: BoolDI, kouka: KoukaDI, todo: list[list[Any]]=[]) -> None:
         for i in todo:
