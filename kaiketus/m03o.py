@@ -46,3 +46,18 @@ n_4 = Card(megami=MG_HIMIKA, img=img_card("o_n_4"), name="フルバースト", c
     aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9), zenryoku=True,
     burst=True)
 
+_part_n_5_1 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：ドロー", cond=auto_di, type=CT_KOUDOU,
+    kouka=lambda d, h: d.hand_draw(hoyuusya=h, is_mine=True))
+
+_part_n_5_2 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：矢印離脱", cond=auto_di, type=CT_KOUDOU,
+    kouka=ya_ridatu.send)
+
+def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer(name="バックステップ", delivery=delivery, hoyuusya=hoyuusya, gotoes={
+POP_OPEN: lambda l, s: _part_n_5_1.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT1),
+POP_ACT1: lambda l, s: _part_n_5_2.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT2),
+POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+n_5 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_5)
