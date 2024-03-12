@@ -3,7 +3,7 @@ import pygame
 from pygame import Surface
 from copy import copy
 
-from mod.const import enforce, MG_TOKOYO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import enforce, opponent, MG_TOKOYO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
     SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA
@@ -40,5 +40,13 @@ _after_n_1 = TempKoudou(name="梳流し：攻撃後", cond=kyouti, kouka=_kouka_
 n_1 = Card(megami=MG_TOKOYO, img=img_card("o_n_1_s2"), name="梳流し", cond=auto_di, type=CT_KOUGEKI,
     aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 4), after=_after_n_1)
 
+def _taiounize_n_2(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(kougeki)
+    if not taiounized.kirihuda and kyouti(delivery=delivery, hoyuusya=opponent(hoyuusya)):
+        taiounized.aura_bar = auto_di
+        taiounized.life_bar = auto_di
+        taiounized.after = None
+    return taiounized
+
 n_2 = Card(megami=MG_TOKOYO, img=img_card("o_n_2"), name="雅打ち", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(2, 4))
+    aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(2, 4), taiou=True, taiounize=_taiounize_n_2)
