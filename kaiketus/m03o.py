@@ -22,6 +22,8 @@ from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.handraw import handraw
 from mod.card.kw.syuutyuu import isyuku
+from mod.card.kw.handraw import handraw_card
+from mod.card.kw.discard import discard_card
 
 _ADDRESS = "na_03_himika"
 def img_card(add: str) ->  Surface:
@@ -91,4 +93,15 @@ s_2 = Card(megami=MG_HIMIKA, img=img_card("o_s_2"), name="クリムゾンゼロ"
     aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(0, 2), kirihuda=True, flair=int_di(5),
     taiouble=_cond_s_2, burst=True)
 
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer(name="カードを２枚引き、１枚伏せ札にする",
+        delivery=delivery, hoyuusya=hoyuusya, gotoes={
+POP_OPEN: lambda l, s: handraw_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT1),
+POP_ACT1: lambda l, s: handraw_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT2),
+POP_ACT2: lambda l, s: discard_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT3),
+POP_ACT3: lambda l, s: moderator.pop()
+        }))
+
+s_3 = Card(megami=MG_HIMIKA, img=img_card("o_s_3"), name="スカーレットイマジン", cond=auto_di, type=CT_KOUDOU,
+           kouka=_kouka_s_3, kirihuda=True, flair=int_di(3))
 
