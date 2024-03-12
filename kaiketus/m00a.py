@@ -4,7 +4,7 @@ from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU,\
     UC_AURA, CT_KOUGEKI, CT_KOUDOU, enforce, TC_TEHUDA, TC_SUTEHUDA,\
-    TG_END_PHASE, MG_UTURO
+    TG_END_PHASE, MG_UTURO, POP_OPEN, POP_ACT1, POP_ACT2
 from mod.classes import Card, Taba, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
@@ -16,6 +16,8 @@ from mod.card.kw.papl import papl_kougeki
 from mod.card.kw.step import each_step
 from mod.card.kw.yazirusi import Yazirusi, ya_moguri
 from mod.card.kw.syuutyuu import syuutyuu, isyuku, reduce_syuutyuu
+from mod.ol.pipeline_layer import PipelineLayer
+from mod.card.kw.handraw import handraw_card
 
 n_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_n_1.png"), name="投射", cond=auto_di, type=CT_KOUGEKI,
               aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9))
@@ -54,8 +56,11 @@ s_1 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_1.pn
            aura_damage_func=int_di(4), life_damage_func=int_di(3), maai_list=dima_di(1, 2), kirihuda=True, flair=int_di(5))
 
 def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
-    for _ in range(2):
-        delivery.hand_draw(hoyuusya=hoyuusya, is_mine=True)
+    moderator.append(PipelineLayer(name="カードを２枚引く", delivery=delivery, hoyuusya=hoyuusya, gotoes={
+POP_OPEN: lambda l, s: handraw_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT1),
+POP_ACT1: lambda l, s: handraw_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT2),
+POP_ACT2: lambda l, s: moderator.pop()
+    }))
 
 s_2 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_2.png"), name="闇凪ノ声", cond=auto_di, type=CT_KOUDOU,
            kouka=_kouka_s_2, kirihuda=True, flair=int_di(4))

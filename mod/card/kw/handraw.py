@@ -1,11 +1,12 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, opponent, TC_YAMAHUDA, TC_TEHUDA, UC_AURA,\
     UC_DUST, UC_LIFE, UC_FLAIR, DMG_SYOUSOU, IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE,\
-    POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4
+    POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4
 from mod.classes import PopStat, Huda, Delivery, moderator, popup_message
 from mod.card.damage import Damage
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
+from mod.card.temp_koudou import TempKoudou, auto_di, KoukaDI
 
 def handraw_layer(delivery: Delivery, hoyuusya: int, code: int) -> PipelineLayer:
     return PipelineLayer("カードを１枚引く", delivery, hoyuusya, gotoes={
@@ -51,3 +52,8 @@ def _damage(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     popup_message.add(f"焦燥で{damage.name}が削れます")
     damage.kaiketu(delivery=layer.delivery, hoyuusya=
         opponent(layer.hoyuusya), code=code)
+
+_kouka: KoukaDI = lambda delivery, hoyuusya: moderator.append(handraw_layer(
+    delivery=delivery, hoyuusya=hoyuusya, code=POP_OK))
+
+handraw_card = TempKoudou(name="カードを１枚引く", cond=auto_di, kouka=_kouka)

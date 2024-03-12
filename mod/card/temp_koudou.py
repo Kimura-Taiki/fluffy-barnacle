@@ -10,7 +10,7 @@ from mod.classes import Delivery
 from mod.card.card import Card, BoolDI, KoukaDI, auto_di, nega_di
 from mod.card.kw.yazirusi import Yazirusi
 
-__all__ = ['auto_di', 'nega_di']
+__all__ = ['auto_di', 'nega_di', 'KoukaDI', 'BoolDI']
 
 class TempKoudou(Card):
     def __init__(self, name: str, cond: BoolDI, kouka: KoukaDI | None=None, todo: list[list[Any]]=[],
