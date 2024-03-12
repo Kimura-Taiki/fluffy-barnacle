@@ -43,9 +43,6 @@ class Delivery(Protocol):
     def get_hover(self) -> Any | None:
         ...
 
-    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
-        ...
-
     def m_params(self, hoyuusya: int) -> MParams:
         ...
 
@@ -87,9 +84,6 @@ class _DuckDelivery():
     
     def get_hover(self) -> Any | None:
         return None
-
-    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
-        ...
 
     def m_params(self, hoyuusya: int) -> MParams:
         return MParams()

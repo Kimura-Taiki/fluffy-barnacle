@@ -108,11 +108,6 @@ class Banmen():
             return self.b_params.tatuzin_no_maai
         return self._utuwa_target(hoyuusya=hoyuusya, is_mine=is_mine, utuwa_code=utuwa_code).osame
     
-    def hand_draw(self, hoyuusya: int, is_mine: bool) -> None:
-        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
-        draw_huda = mikoto.yamahuda[0]
-        self.send_huda_to_ryouiki(huda=draw_huda, is_mine=True, taba_code=TC_TEHUDA)
-
     def _mikoto_target(self, hoyuusya: int, is_mine: bool) -> Mikoto:
         tpl = (hoyuusya, is_mine)
         return self.own_mikoto if (tpl == (SIMOTE, True)) or (tpl == (KAMITE, False)) else self.enemy_mikoto

@@ -17,6 +17,7 @@ from mod.card.kw.papl import papl_attack
 from mod.card.kw.step import each_step
 from mod.card.kw.syuutyuu import syuutyuu
 from mod.card.kw.yazirusi import Yazirusi
+from mod.card.kw.handraw import handraw
 
 n_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_n_1.png"), name="花弁刃", cond=auto_di, type=CT_KOUGEKI,
            aura_damage_func=int_di(0), aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(4, 5))
@@ -68,9 +69,6 @@ s_1 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_1.p
 s_2 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_2.png"), name="花吹雪の景色", cond=auto_di, type=CT_KOUDOU,
            kouka=Yazirusi(from_mine=False, from_code=UC_AURA, to_code=UC_MAAI, kazu=2).send, kirihuda=True, flair=int_di(4))
 
-def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.hand_draw(hoyuusya=hoyuusya, is_mine=True)
-
 def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized = copy(kougeki)
     if not taiounized.kirihuda:
@@ -80,7 +78,7 @@ def _taiounize_s_3(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     return taiounized
 
 s_3 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_3.png"), name="精霊たちの風", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_3, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
+           kouka=handraw, taiou=True, taiounize=_taiounize_s_3, kirihuda=True, flair=int_di(3))
 
 _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png",
             name="煌めきの乱舞", cond=auto_diic, trigger=TG_2_OR_MORE_DAMAGE)

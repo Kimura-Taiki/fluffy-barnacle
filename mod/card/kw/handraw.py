@@ -53,7 +53,7 @@ def _damage(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     damage.kaiketu(delivery=layer.delivery, hoyuusya=
         opponent(layer.hoyuusya), code=code)
 
-_kouka: KoukaDI = lambda delivery, hoyuusya: moderator.append(handraw_layer(
+handraw: KoukaDI = lambda delivery, hoyuusya: moderator.append(handraw_layer(
     delivery=delivery, hoyuusya=hoyuusya, code=POP_OK))
 
-handraw_card = TempKoudou(name="カードを１枚引く", cond=auto_di, kouka=_kouka)
+handraw_card = TempKoudou(name="カードを１枚引く", cond=auto_di, kouka=handraw)

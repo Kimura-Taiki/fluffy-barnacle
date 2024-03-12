@@ -19,6 +19,7 @@ from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection
 from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
+from mod.card.kw.handraw import handraw
 
 _ADDRESS = "na_03_himika"
 def img_card(add: str) ->  Surface:
@@ -47,7 +48,7 @@ n_4 = Card(megami=MG_HIMIKA, img=img_card("o_n_4"), name="フルバースト", c
     burst=True)
 
 _part_n_5_1 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：ドロー", cond=auto_di, type=CT_KOUDOU,
-    kouka=lambda d, h: d.hand_draw(hoyuusya=h, is_mine=True))
+    kouka=handraw)
 
 _part_n_5_2 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：矢印離脱", cond=auto_di, type=CT_KOUDOU,
     kouka=ya_ridatu.send)
