@@ -20,6 +20,7 @@ from mod.coous.scalar_correction import ScalarCorrection
 from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.handraw import handraw
+from mod.card.kw.syuutyuu import isyuku
 
 _ADDRESS = "na_03_himika"
 def img_card(add: str) ->  Surface:
@@ -62,3 +63,15 @@ POP_ACT2: lambda l, s: moderator.pop()
 
 n_5 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5)
+
+_cond_n_6: BoolDIIC = lambda delivery, atk_h, cf_h, card: mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_HIMIKA
+
+_cfs_n_6 = AttackCorrection(name="バックドラフト", cond=_cond_n_6, taiounize=lambda c, d, h: papl_attack(c, d, h, 1, 1))
+
+def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
+    isyuku(delivery=delivery,hoyuusya=hoyuusya)
+    if renka(delivery=delivery, hoyuusya=hoyuusya):
+        delivery.m_params(hoyuusya).lingerings.append(_cfs_n_6)
+
+n_6 = Card(megami=MG_HIMIKA, img=img_card("o_n_6_s5"), name="バックドラフト", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_6)
