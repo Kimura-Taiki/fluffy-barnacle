@@ -23,7 +23,7 @@ from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.card.kw.handraw import handraw
-from mod.card.kw.syuutyuu import isyuku
+from mod.card.kw.syuutyuu import isyuku, full_syuutyuu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
 
@@ -110,3 +110,8 @@ n_5 = Card(megami=MG_TOKOYO, img=img_card("o_n_5"), name="要返し", cond=auto_
 n_6 = Card(megami=MG_TOKOYO, img=img_card("o_n_6"), name="風舞台", cond=auto_di, type=CT_HUYO, osame=int_di(2),
     tenkaizi=TempKoudou(name="２前身", cond=auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA, kazu=2)),
     hakizi=TempKoudou(name="２後退", cond=auto_di, yazirusi=Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI, kazu=2)))
+
+n_7 = Card(megami=MG_TOKOYO, img=img_card("o_n_7_s6_2"), name="晴舞台", cond=auto_di, type=CT_HUYO, osame=int_di(2),
+    tenkaizi=TempKoudou(name="集中２", cond=auto_di, kouka=full_syuutyuu),
+    hakizi=Card(megami=MG_TOKOYO, img=img_card("o_n_7_s6_2"), name="晴舞台：破棄時", cond=auto_di, type=CT_KOUGEKI,
+    aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(3, 6)))

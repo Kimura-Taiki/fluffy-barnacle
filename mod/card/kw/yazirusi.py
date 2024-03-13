@@ -19,7 +19,6 @@ class Yazirusi(NamedTuple):
     def send(self, delivery: Delivery, hoyuusya: int) -> None:
         self.finally_send(delivery=delivery, hoyuusya=hoyuusya)
 
-#                 20                  40                  60                 79
     def finally_send(self, delivery: Delivery, hoyuusya: int)-> None:
         layer = moderator.last_layer()
         if applied_scalar(i=0, scalar=SC_SMOKE, delivery=delivery) > 0 and\
@@ -29,10 +28,6 @@ class Yazirusi(NamedTuple):
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya,
                 from_mine=self.from_mine, from_code=self.from_code,
                 to_mine=self.to_mine, to_code=self.to_code, kazu=self.kazu)
-
-    def moderate(self, delivery: Delivery, hoyuusya: int, code: int) -> None:
-        self.send(delivery=delivery, hoyuusya=hoyuusya)
-        moderator.last_layer().moderate(PopStat(code=code))
 
     def listed(self) -> list[Any]:
         return [self.from_mine, self.from_code,
