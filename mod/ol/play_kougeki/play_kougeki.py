@@ -25,8 +25,8 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
     if stat.switch or layer.delivery.b_params.during_taiou:
         lower.clear()
-    moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya,
-        name=f"{side_name(opponent(hoyuusya))}の「{card.name}」受け選択",
+    moderator.append(OnlySelectLayer(delivery=delivery, hoyuusya=opponent(hoyuusya),
+        name=f"{side_name(hoyuusya)}の「{card.name}」受け選択",
         lower=lower, upper=upper, code=code))
 
 def _cfs(layer: PipelineLayer, cf_h: int) -> list[AttackCorrection]:
