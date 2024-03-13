@@ -16,6 +16,7 @@ from mod.ol.choice import choice_layer
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
+from mod.card.kw.saikousei import saikousei_card
 from mod.card.kw.yazirusi import Yazirusi, ya_ridatu
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection
@@ -23,7 +24,7 @@ from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.card.kw.handraw import handraw
-from mod.card.kw.syuutyuu import isyuku, full_syuutyuu
+from mod.card.kw.syuutyuu import isyuku, full_syuutyuu, reduce_syuutyuu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
 
@@ -123,6 +124,49 @@ def _taiounize_s_1(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
     taiounized.after = None
     return taiounized
 
-s_1 = Card(megami=MG_TOKOYO, img=img_card("o_s_1"), name="久遠の花", cond=auto_di, type=CT_KOUGEKI,
+s_1 = Card(megami=MG_TOKOYO, img=img_card("o_s_1"), name="久遠ノ花", cond=auto_di, type=CT_KOUGEKI,
     aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(0, 10),
     kirihuda=True, flair=int_di(5), taiou=True, taiounize=_taiounize_s_1)
+
+s_2 = Card(megami=MG_TOKOYO, img=img_card("o_s_2"), name="千歳ノ鳥", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 4),
+    after=saikousei_card, kirihuda=True, flair=int_di(2))
+
+def _hikougeki_tehuda(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    tehuda = delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_TEHUDA)
+    li: list[Huda] = []
+    for huda in tehuda:
+        if isinstance(huda, Huda) and huda.card.type != CT_KOUGEKI:
+            li.append(huda)
+    return li
+
+def _sutecard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=stat.huda, is_mine=True, taba_code=TC_SUTEHUDA)
+    layer.moderate(PopStat(code))
+
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer(name="非攻撃札の破棄", delivery=delivery, hoyuusya=opponent(hoyuusya), gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, l.hoyuusya, name="捨てる非攻撃札を選択",
+            lower=_hikougeki_tehuda(delivery, l.hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _sutecard(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+_after_s_3 = TempKoudou(name="無窮ノ風：攻撃後", cond=auto_di, kouka=_kouka_s_3)
+
+s_3 = Card(megami=MG_TOKOYO, img=img_card("o_s_3_s2"), name="無窮ノ風", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(3, 8), after=_after_s_3,
+    kirihuda=True, flair=int_di(1))
+
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer(name="常世ノ月", delivery=delivery, hoyuusya=hoyuusya, gotoes={
+POP_OPEN: lambda l, s: TempKoudou("集中２", auto_di, full_syuutyuu).kaiketu(delivery, hoyuusya, code=POP_ACT1),
+POP_ACT1: lambda l, s: TempKoudou("相手集中０", auto_di, reduce_syuutyuu).kaiketu(delivery, opponent(hoyuusya), code=POP_ACT2),
+POP_ACT2: lambda l, s: TempKoudou("畏縮", auto_di, isyuku).kaiketu(delivery, hoyuusya, code=POP_ACT3),
+POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+s_4 = Card(megami=MG_TOKOYO, img=img_card("o_s_4"), name="常世ノ月", cond=auto_di, type=CT_KOUDOU, kouka=_kouka_s_4,
+           kirihuda=True, flair=int_di(2))
+
+
