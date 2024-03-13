@@ -141,7 +141,7 @@ def _hikougeki_tehuda(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return li
 
 def _sutecard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    layer.delivery.send_huda_to_ryouiki(huda=stat.huda, is_mine=True, taba_code=TC_SUTEHUDA)
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_SUTEHUDA)
     layer.moderate(PopStat(code))
 
 def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
@@ -154,9 +154,15 @@ def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
 
 _after_s_3 = TempKoudou(name="無窮ノ風：攻撃後", cond=auto_di, kouka=_kouka_s_3)
 
+_cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    kyouti(delivery=delivery, hoyuusya=cf_h)
+
+_cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3_s2"),
+            name="無窮ノ風", cond=_cond_s_3, trigger=TG_END_PHASE)
+
 s_3 = Card(megami=MG_TOKOYO, img=img_card("o_s_3_s2"), name="無窮ノ風", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(3, 8), after=_after_s_3,
-    kirihuda=True, flair=int_di(1))
+    kirihuda=True, flair=int_di(1), cfs=[_cfs_s_3])
 
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer(name="常世ノ月", delivery=delivery, hoyuusya=hoyuusya, gotoes={
