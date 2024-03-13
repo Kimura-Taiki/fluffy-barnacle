@@ -5,7 +5,7 @@ from functools import reduce
 
 from mod.const import draw_aiharasuu, enforce, POP_OK, POP_OPEN, POP_CHOICED,\
     POP_DECIDED, FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED,\
-    IMG_DONOR_DUST, IMG_DONOR_AURA
+    IMG_DONOR_DUST, IMG_DONOR_AURA, POP_ACT1, POP_ACT2
 
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
@@ -66,14 +66,22 @@ def _choiced(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         break
     layer.moderate(PopStat(code))
         
-def _decided(layer: PipelineLayer, stat: PopStat) -> None:
+def _decided(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     rest = [enforce(donor, _Donor) for donor in layer.rest]
     huda = enforce(layer.huda, Huda)
     for donor in rest:
         layer.delivery.send_ouka_to_ryouiki(hoyuusya=layer.hoyuusya, from_huda=
             donor.youso, to_huda=huda, kazu=donor.donation)
     huda.usage = USAGE_DEPLOYED
-    moderator.pop()
+    layer.moderate(PopStat(code))
+
+def _tenkaizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    huda = enforce(layer.huda, Huda).base
+    if huda.card.tenkaizi:
+        huda.card.tenkaizi.kaiketu(delivery=layer.delivery,hoyuusya=layer.hoyuusya,
+            huda=huda, code=code)
+    if moderator.last_layer() == layer:
+        layer.moderate(PopStat(code))
 
 def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
                     huda: Any | None, code: int=POP_OK) -> PipelineLayer:
@@ -82,7 +90,9 @@ def play_huyo_layer(card: Card, delivery: Delivery, hoyuusya: int,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
 POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN),
-POP_DECIDED: _decided
+POP_DECIDED: lambda l, s: _decided(l, s, POP_ACT1),
+POP_ACT1: lambda l, s: _tenkaizi(l, s, POP_ACT2),
+POP_ACT2: lambda l, s: moderator.pop()
         }, huda=huda, code=code)
     layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer

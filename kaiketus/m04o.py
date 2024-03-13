@@ -60,10 +60,9 @@ def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
 n_3 = Card(megami=MG_TOKOYO, img=img_card("o_n_3"), name="跳ね兎", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_3)
 
-_ya_sabaki = Yazirusi(from_mine=True, from_code=UC_FLAIR, to_mine=True, to_code=UC_AURA)
-_ya_koutai = Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI)
-_tk_n_4_1 = TempKoudou(name="捌き", cond=auto_di, kouka=_ya_sabaki.send, todo=[_ya_sabaki.listed()])
-_tk_n_4_2 = TempKoudou(name="後退", cond=auto_di, kouka=_ya_koutai.send, todo=[_ya_koutai.listed()])
+_tk_n_4_1 = TempKoudou(name="捌き", cond=auto_di, yazirusi=Yazirusi(
+    from_mine=True, from_code=UC_FLAIR, to_mine=True, to_code=UC_AURA))
+_tk_n_4_2 = TempKoudou(name="後退", cond=auto_di, yazirusi=Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI))
 
 def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(over_layer=choice_layer(cards=[_tk_n_4_1, _tk_n_4_2], delivery=delivery, hoyuusya=hoyuusya))
@@ -100,9 +99,14 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer(name="要返し", delivery=delivery, hoyuusya=hoyuusya, gotoes={
         POP_OPEN: lambda l, s: moderator.append(_pl_layer_n_5(delivery, hoyuusya, POP_ACT1)),
         POP_ACT1: lambda l, s: moderator.append(_pl_layer_n_5(delivery, hoyuusya, POP_ACT2)),
-        POP_ACT2: lambda l, s: Yazirusi(to_mine=True, to_code=UC_AURA, kazu=2).moderate(delivery, hoyuusya, POP_ACT3),
+        POP_ACT2: lambda l, s: TempKoudou(name="２纏い", cond=auto_di, yazirusi=Yazirusi(
+            to_mine=True, to_code=UC_AURA, kazu=2)).kaiketu(delivery, hoyuusya, code=POP_ACT3),
         POP_ACT3: lambda l, s: moderator.pop()
     }))
 
 n_5 = Card(megami=MG_TOKOYO, img=img_card("o_n_5"), name="要返し", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5, zenryoku=True)
+
+n_6 = Card(megami=MG_TOKOYO, img=img_card("o_n_6"), name="風舞台", cond=auto_di, type=CT_HUYO, osame=int_di(2),
+    tenkaizi=TempKoudou(name="２前身", cond=auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA, kazu=2)),
+    hakizi=TempKoudou(name="２後退", cond=auto_di, yazirusi=Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI, kazu=2)))
