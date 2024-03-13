@@ -2,9 +2,9 @@
 from pygame import Surface, SRCALPHA
 from pygame.math import Vector2
 
-from mod.const import screen, pass_func, WX, WY, IMG_GRAY_LAYER, IMG_DECISION,\
-    POP_OK, POP_VIEWED_BANMEN, POP_DECIDED, HANTE, MS_MINCHO_COL,\
-        FONT_SIZE_TITLE, WHITE, BLACK
+from mod.const import screen, pass_func, side_name, WX, WY, IMG_GRAY_LAYER,\
+    IMG_DECISION, POP_OK, POP_VIEWED_BANMEN, POP_DECIDED, HANTE,\
+    MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK
 from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery,\
     moderator, popup_message
 from mod.ol.over_layer import OverLayer
@@ -22,7 +22,7 @@ class OnlySelectLayer(OverLayer):
     lower: list[Any]=[], upper: list[Any]=[], decide: bool=False,
     popup: bool=True, code: int=POP_OK) -> None:
         self.name = name
-        self.img_title = _img_title(text=name)
+        self.img_title = _img_title(text=f"{side_name(hoyuusya)}：{name}")
         self.inject_func = delivery.inject_view
         self.delivery = delivery
         self.hoyuusya = hoyuusya
