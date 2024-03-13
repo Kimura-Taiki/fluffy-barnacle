@@ -127,6 +127,7 @@ IMG_LIFE_DAMAGE = pygame.image.load("pictures/life_damage.png").convert_alpha()
 IMG_BURST_DAMAGE = pygame.image.load("pictures/burst_damage.png").convert_alpha()
 
 IMG_HAKUSI = pygame.image.load("pictures/ft_hakusi.png").convert_alpha()
+IMG_NO_CHOICE = pygame.image.load("pictures/no_choice.png").convert_alpha()
 IMG_FT_MAAI = pygame.image.load("pictures/ft_maai.png").convert_alpha()
 IMG_FT_DUST = pygame.image.load("pictures/ft_dust.png").convert_alpha()
 IMG_FT_ZYOGAI = pygame.image.load("pictures/ft_zyogai.png").convert_alpha()
