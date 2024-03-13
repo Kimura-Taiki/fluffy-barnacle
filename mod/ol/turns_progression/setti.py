@@ -1,8 +1,8 @@
 #                 20                  40                  60                 79
-from mod.const import enforce, side_name, OBAL_USE_CARD, IMG_NO_CHOICE, CT_KOUDOU, TC_YAMAHUDA,\
-    TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4
+from mod.const import enforce, side_name, OBAL_USE_CARD, IMG_NO_CHOICE,\
+    CT_KOUDOU, TC_HUSEHUDA, POP_OPEN, POP_ACT1, POP_ACT2
 from mod.classes import PopStat, Card, Huda, Delivery, moderator
-from mod.card.temp_koudou import TempKoudou, auto_di
+from mod.card.temp_koudou import auto_di
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.use_card_layer import use_card_layer
@@ -18,7 +18,7 @@ def _setti_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return li
 
 def _choice_setti(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    moderator.append(OnlySelectLayer(layer.delivery, layer.hoyuusya, "起動する設置を選択",
+    moderator.append(OnlySelectLayer(layer.delivery, layer.hoyuusya, "起動する設置の選択",
         lower=_setti_hudas(layer.delivery, layer.hoyuusya), upper=[_no_choice], code=code))
 
 def _use_setti(layer: PipelineLayer, stat: PopStat, code: int) -> None:

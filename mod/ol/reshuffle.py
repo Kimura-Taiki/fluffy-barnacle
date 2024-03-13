@@ -20,7 +20,7 @@ POP_ACT1: lambda l, s: _damage.kaiketu(delivery, opponent(hoyuusya), code=POP_AC
 POP_ACT2: lambda l, s: moderator.pop()
         }))
 
-_reshuffle_card = Card(img=IMG_BOOL_ZE, name="再構成", cond=auto_di, type=
+_reshuffle_card = Card(img=IMG_BOOL_ZE, name="ダメージ付き再構成", cond=auto_di, type=
                        CT_KOUDOU, kouka=_turn_saikousei)
 _pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_KOUDOU)
 _cards = [_reshuffle_card, _pass_card]

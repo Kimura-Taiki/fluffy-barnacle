@@ -1,12 +1,11 @@
 #                 20                  40                  60                 79
 from random import shuffle
 
-from mod.const import enforce, side_name, IMG_NO_CHOICE, CT_KOUDOU, TC_YAMAHUDA,\
-    TC_HUSEHUDA, TC_SUTEHUDA, USAGE_DEPLOYED, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4
-from mod.classes import PopStat, Card, Huda, Taba, Delivery, moderator
+from mod.const import enforce, TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA,\
+    USAGE_DEPLOYED, POP_OPEN, POP_ACT1, POP_ACT2
+from mod.classes import PopStat, Huda, Taba, Delivery, moderator
 from mod.card.temp_koudou import TempKoudou, auto_di
 from mod.ol.pipeline_layer import PipelineLayer
-from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.turns_progression.setti import setti_layer
 
 def _saikousei_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
@@ -31,4 +30,4 @@ def saikousei(delivery: Delivery, hoyuusya: int) -> None:
         POP_ACT2: lambda l, s: moderator.pop()
     }))
 
-saikousei_card = TempKoudou(name="再構成", cond=auto_di, kouka=saikousei)
+saikousei_card = TempKoudou(name="純粋再構成", cond=auto_di, kouka=saikousei)
