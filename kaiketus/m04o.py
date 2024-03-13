@@ -115,3 +115,14 @@ n_7 = Card(megami=MG_TOKOYO, img=img_card("o_n_7_s6_2"), name="晴舞台", cond=
     tenkaizi=TempKoudou(name="集中２", cond=auto_di, kouka=full_syuutyuu),
     hakizi=Card(megami=MG_TOKOYO, img=img_card("o_n_7_s6_2"), name="晴舞台：破棄時", cond=auto_di, type=CT_KOUGEKI,
     aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(3, 6)))
+
+def _taiounize_s_1(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(kougeki)
+    taiounized.aura_bar = auto_di
+    taiounized.life_bar = auto_di
+    taiounized.after = None
+    return taiounized
+
+s_1 = Card(megami=MG_TOKOYO, img=img_card("o_s_1"), name="久遠の花", cond=auto_di, type=CT_KOUGEKI,
+    aura_bar=auto_di, life_damage_func=int_di(1), maai_list=dima_di(0, 10),
+    kirihuda=True, flair=int_di(5), taiou=True, taiounize=_taiounize_s_1)
