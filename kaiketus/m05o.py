@@ -6,7 +6,8 @@ from copy import copy
 from mod.const import enforce, opponent, MG_OBORO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
-    SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, OBAL_USE_CARD
+    SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
+    USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
@@ -109,7 +110,6 @@ def _hudas_n_6(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     for huda in delivery.taba_target(hoyuusya, True, TC_HUSEHUDA):
         if not enforce(huda, Huda).card.zenryoku:
             li.append(huda)
-    print(li)
     return li
 
 def _bunsin_card(huda: Huda) -> Card:
@@ -151,3 +151,23 @@ def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
 n_6 = Card(megami=MG_OBORO, img=img_card("o_n_6"), name="分身の術", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_6, zenryoku=True)
 
+def _hudas_n_7(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba_target(hoyuusya, True, TC_KIRIHUDA)\
+            if isinstance(huda, Huda) and huda.usage == USAGE_USED]
+
+def _unusenize_n_7(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    enforce(stat.huda, Huda).base.usage = USAGE_UNUSED
+    layer.moderate(PopStat(code))
+
+def _kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("生体活性", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "未使用に戻す切り札の選択",
+            lower=_hudas_n_7(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _unusenize_n_7(l ,s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+_hakizi_n_7 = TempKoudou("生体活性：破棄時", auto_di, _kouka_n_7)
+
+n_7 = suki_card(megami=MG_OBORO, img=img_card("o_n_7"), name="生体活性", cond=auto_di,
+                osame=int_di(4), hakizi=_hakizi_n_7, setti=True)
