@@ -56,3 +56,12 @@ _after_n_2 = TempKoudou("影菱：攻撃後", cond=_cond_n_2, kouka=_kouka_n_2)
 n_2 = Card(megami=MG_OBORO, img=img_card("o_n_2_s2"), name="影菱", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(2, 2), taiouble=nega_dic,
     after=_after_n_2, setti=True)
+
+def _aura_damage_3(delivery: Delivery, hoyuusya: int) -> int:
+    return 4 if delivery.m_params(opponent(hoyuusya)).aura_damaged else 3
+
+def _life_damage_3(delivery: Delivery, hoyuusya: int) -> int:
+    return 3 if delivery.m_params(opponent(hoyuusya)).aura_damaged else 2
+
+n_3 = Card(megami=MG_OBORO, img=img_card("o_n_3"), name="斬撃乱舞", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=_aura_damage_3, life_damage_func=_life_damage_3, maai_list=dima_di(2, 4), zenryoku=True)

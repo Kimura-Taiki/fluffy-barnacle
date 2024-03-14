@@ -44,6 +44,8 @@ def _damaged1(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def _damaged2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     da = _enforce_da(layer.card)
+    if da.dmg >= 1 and da.from_code == UC_AURA:
+        layer.delivery.m_params(opponent(layer.hoyuusya)).aura_damaged = True
     if da.dmg >= 2 and da.from_code == UC_LIFE:
         solve_trigger_effect(delivery=layer.delivery, hoyuusya=opponent(layer.
             hoyuusya), trigger=TG_2_OR_MORE_DAMAGE, code=code)

@@ -11,6 +11,7 @@ class MParams():
         self.played_standard = False
         self.use_card_count = 0
         self.use_from_husehuda = False
+        self.aura_damaged = False
 
     def __str__(self) -> str:
         return f"MParams{vars(self)}"

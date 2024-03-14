@@ -33,6 +33,7 @@ def _use_setti(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def _after_setti(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.m_params(layer.hoyuusya).use_from_husehuda = False
+    layer.delivery.m_params(layer.hoyuusya).played_standard = False
     layer.moderate(PopStat(code))
 
 def setti_layer(layer: PipelineLayer, stat: PopStat, code: int) -> PipelineLayer:
