@@ -6,13 +6,14 @@ from copy import copy
 from mod.const import enforce, opponent, MG_OBORO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
-    SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA
+    SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, OBAL_USE_CARD
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.ol.pop_stat import PopStat
 from mod.ol.choice import choice_layer
+from mod.ol.use_card_layer import use_card_layer
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
@@ -69,14 +70,14 @@ n_3 = Card(megami=MG_OBORO, img=img_card("o_n_3"), name="斬撃乱舞", cond=aut
 
 _cond_n_4: BoolDI = lambda delivery, hoyuusya: not delivery.m_params(hoyuusya).ninpo_used
 
-def _pa1_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+def _ninpo_use_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     if layer.delivery.m_params(layer.hoyuusya).use_from_husehuda:
         layer.delivery.m_params(layer.hoyuusya).ninpo_used = True
         moderator.append(setti_layer(layer, stat, code))
     else:
         layer.moderate(PopStat(code))
 
-def _pa2_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+def _ninpo_off_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.m_params(layer.hoyuusya).ninpo_used = False
     layer.moderate(PopStat(code))
 
@@ -84,8 +85,8 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer("忍歩", delivery, hoyuusya, gotoes={
         POP_OPEN: lambda l, s: TempKoudou("離脱", auto_di, yazirusi=Yazirusi(
             to_code=UC_MAAI)).kaiketu(delivery, hoyuusya, code=POP_ACT1),
-        POP_ACT1: lambda l, s: _pa1_n_4(l, s, POP_ACT2),
-        POP_ACT2: lambda l, s: _pa2_n_4(l, s, POP_ACT3),
+        POP_ACT1: lambda l, s: _ninpo_use_n_4(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: _ninpo_off_n_4(l, s, POP_ACT3),
         POP_ACT3: lambda l, s: moderator.pop()
     }))
 
@@ -102,4 +103,51 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
 
 n_5 = Card(megami=MG_OBORO, img=img_card("o_n_5"), name="誘導", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5, taiou=True, setti=True)
+
+def _hudas_n_6(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    li: list[Huda] = []
+    for huda in delivery.taba_target(hoyuusya, True, TC_HUSEHUDA):
+        if not enforce(huda, Huda).card.zenryoku:
+            li.append(huda)
+    print(li)
+    return li
+
+def _bunsin_card(huda: Huda) -> Card:
+    card = copy(huda.card)
+    if card.type == CT_KOUGEKI:
+        card.taiouble = nega_dic
+    return card
+
+def _bunsin1_n_6(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    if not stat.huda:
+        layer.huda = None
+        layer.moderate(PopStat(code))
+        return
+    huda = enforce(stat.huda, Huda).base
+    layer.huda = huda
+    card = _bunsin_card(huda=huda)
+    moderator.append(use_card_layer(cards=[card], name=f"{card.name}：分身１", youso=huda, mode=OBAL_USE_CARD, code=code))
+
+def _bunsin2_n_6(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    if not layer.huda:
+        layer.moderate(PopStat(code))
+        return
+    huda = enforce(layer.huda, Huda).base
+    if not huda in layer.delivery.taba_target(layer.hoyuusya, True, TC_SUTEHUDA):
+        layer.moderate(PopStat(code))
+        return
+    card = _bunsin_card(huda=huda)
+    moderator.append(use_card_layer(cards=[card], name=f"{card.name}：分身２", youso=huda, mode=OBAL_USE_CARD, code=code))
+
+def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("分身の術", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "分身する伏せ札の選択",
+            lower=_hudas_n_6(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _bunsin1_n_6(l ,s, POP_ACT2),
+        POP_ACT2: lambda l, s: _bunsin2_n_6(l, s, POP_ACT3),
+        POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+n_6 = Card(megami=MG_OBORO, img=img_card("o_n_6"), name="分身の術", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_6, zenryoku=True)
 
