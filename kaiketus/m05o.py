@@ -91,3 +91,15 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
 
 n_4 = Card(megami=MG_OBORO, img=img_card("o_n_4_s3"), name="忍歩", cond=_cond_n_4, type=CT_KOUDOU,
     kouka=_kouka_n_4, setti=True)
+
+_tk_n_5_1 = TempKoudou(name="前進", cond=auto_di, yazirusi=Yazirusi(
+    from_code=UC_MAAI, to_mine=False, to_code=UC_AURA))
+_tk_n_5_2 = TempKoudou(name="宿し", cond=auto_di, yazirusi=Yazirusi(
+    from_mine=False, from_code=UC_AURA, to_mine=False, to_code=UC_FLAIR))
+
+def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(over_layer=choice_layer(cards=[_tk_n_5_1, _tk_n_5_2], delivery=delivery, hoyuusya=hoyuusya))
+
+n_5 = Card(megami=MG_OBORO, img=img_card("o_n_5"), name="誘導", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_5, taiou=True, setti=True)
+
