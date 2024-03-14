@@ -6,7 +6,7 @@ from mod.const import enforce, TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA,\
 from mod.classes import PopStat, Huda, Taba, Delivery, moderator
 from mod.card.temp_koudou import TempKoudou, auto_di
 from mod.ol.pipeline_layer import PipelineLayer
-from mod.ol.turns_progression.setti import setti_layer
+from mod.card.kw.setti import setti_layer
 
 def _saikousei_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     taba1, taba2, taba3 = [enforce(delivery.taba_target(hoyuusya=hoyuusya,
