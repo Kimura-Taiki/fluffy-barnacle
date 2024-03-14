@@ -35,8 +35,24 @@ def img_card(add: str) ->  Surface:
 n_1 = Card(megami=MG_OBORO, img=img_card("o_n_1"), name="鋼糸", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 4), setti=True)
 
-# _after_n_2 = TempKoudou("")
+_cond_n_2: BoolDI = lambda delivery, hoyuusya: delivery.m_params(hoyuusya).use_from_husehuda
+
+def _sutecard_n_2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    if stat.huda:
+        huda = enforce(stat.huda, Huda).base
+        layer.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_HUSEHUDA)
+    layer.moderate(PopStat(code))
+
+def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("相手々札の破棄", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "破棄手札の選択",
+            lower=delivery.taba_target(hoyuusya, False, TC_TEHUDA), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _sutecard_n_2(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+_after_n_2 = TempKoudou("影菱：攻撃後", cond=_cond_n_2, kouka=_kouka_n_2)
 
 n_2 = Card(megami=MG_OBORO, img=img_card("o_n_2_s2"), name="影菱", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(2, 2), taiouble=nega_dic,
-    setti=True)
+    after=_after_n_2, setti=True)
