@@ -27,6 +27,7 @@ from mod.card.kw.handraw import handraw
 from mod.card.kw.syuutyuu import isyuku, full_syuutyuu, reduce_syuutyuu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
+from mod.card.kw.setti import setti_layer
 
 _ADDRESS = "na_05_oboro"
 def img_card(add: str) ->  Surface:
@@ -65,3 +66,28 @@ def _life_damage_3(delivery: Delivery, hoyuusya: int) -> int:
 
 n_3 = Card(megami=MG_OBORO, img=img_card("o_n_3"), name="斬撃乱舞", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_aura_damage_3, life_damage_func=_life_damage_3, maai_list=dima_di(2, 4), zenryoku=True)
+
+_cond_n_4: BoolDI = lambda delivery, hoyuusya: not delivery.m_params(hoyuusya).ninpo_used
+
+def _pa1_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    if layer.delivery.m_params(layer.hoyuusya).use_from_husehuda:
+        layer.delivery.m_params(layer.hoyuusya).ninpo_used = True
+        moderator.append(setti_layer(layer, stat, code))
+    else:
+        layer.moderate(PopStat(code))
+
+def _pa2_n_4(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.m_params(layer.hoyuusya).ninpo_used = False
+    layer.moderate(PopStat(code))
+
+def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("忍歩", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: TempKoudou("離脱", auto_di, yazirusi=Yazirusi(
+            to_code=UC_MAAI)).kaiketu(delivery, hoyuusya, code=POP_ACT1),
+        POP_ACT1: lambda l, s: _pa1_n_4(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: _pa2_n_4(l, s, POP_ACT3),
+        POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+n_4 = Card(megami=MG_OBORO, img=img_card("o_n_4_s3"), name="忍歩", cond=_cond_n_4, type=CT_KOUDOU,
+    kouka=_kouka_n_4, setti=True)
