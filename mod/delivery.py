@@ -31,7 +31,7 @@ class Delivery(Protocol):
     def inject_view(self) -> None:
         ...
 
-    def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
+    def taba(self, hoyuusya: int, taba_code: int) -> Any:
         ...
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
@@ -73,7 +73,7 @@ class _DuckDelivery():
     def inject_view(self) -> None:
         pass
 
-    def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Any:
+    def taba(self, hoyuusya: int, taba_code: int) -> Any:
         return None
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:

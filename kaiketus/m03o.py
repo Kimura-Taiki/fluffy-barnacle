@@ -110,7 +110,7 @@ def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
         Yazirusi(to_code=UC_MAAI, kazu=2).send(delivery=delivery, hoyuusya=hoyuusya)
 
 _cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
-    len(delivery.taba_target(hoyuusya=cf_h, is_mine=True, taba_code=TC_TEHUDA)) == 0
+    len(delivery.taba(hoyuusya=cf_h, taba_code=TC_TEHUDA)) == 0
 
 _cfs_s_4 = saiki_trigger(cls=Card, img=img_card("o_s_4"),
             name="ヴァーミリオンフィールド", cond=_cond_s_4, trigger=TG_END_PHASE)

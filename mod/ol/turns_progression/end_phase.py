@@ -16,7 +16,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def _check_discard(layer: PipelineLayer, stat: PopStat, discard_code: int,
                    end_code: int) -> None:
-    tehuda = enforce(layer.delivery.taba_target(hoyuusya=layer.hoyuusya, is_mine=True, taba_code=TC_TEHUDA), list)
+    tehuda = enforce(layer.delivery.taba(hoyuusya=layer.hoyuusya, taba_code=TC_TEHUDA), list)
     if len(tehuda) > layer.delivery.b_params.tehuda_max:
         moderator.append(discard_layer(layer.delivery, layer.hoyuusya, code=discard_code))
     else:

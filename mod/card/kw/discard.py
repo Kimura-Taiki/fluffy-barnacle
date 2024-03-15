@@ -8,8 +8,8 @@ from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.pipeline_layer import PipelineLayer
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    tehuda = enforce(layer.delivery.taba_target(hoyuusya=layer.hoyuusya,
-        is_mine=True, taba_code=TC_TEHUDA), list)
+    tehuda = enforce(layer.delivery.taba(hoyuusya=layer.hoyuusya,
+        taba_code=TC_TEHUDA), list)
     moderator.append(OnlySelectLayer(delivery=layer.delivery, hoyuusya=layer.
         hoyuusya, name="破棄手札の選択", lower=tehuda, code=code))
 

@@ -18,7 +18,7 @@ POP_ACT4: lambda l, s: moderator.pop()
     }, code=code)
 
 def _is_yamahuda(delivery: Delivery, hoyuusya: int) -> bool:
-    return len(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True,
+    return len(enforce(delivery.taba(hoyuusya=hoyuusya,
         taba_code=TC_YAMAHUDA), list)) > 0
 
 def _open(layer: PipelineLayer, stat: PopStat, draw_code: int,
@@ -27,8 +27,8 @@ def _open(layer: PipelineLayer, stat: PopStat, draw_code: int,
         hoyuusya) else syousou_code))
 
 def _draw(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    draw_huda = layer.delivery.taba_target(hoyuusya=layer.hoyuusya,
-        is_mine=True, taba_code=TC_YAMAHUDA)[0]
+    draw_huda = layer.delivery.taba(hoyuusya=layer.hoyuusya,
+        taba_code=TC_YAMAHUDA)[0]
     layer.delivery.send_huda_to_ryouiki(huda=draw_huda, is_mine=True,
         taba_code=TC_TEHUDA)
     layer.moderate(PopStat(code))

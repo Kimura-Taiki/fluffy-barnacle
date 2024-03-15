@@ -51,7 +51,7 @@ class Banmen():
     def send_huda_to_ryouiki(self, huda: Huda, is_mine: bool, taba_code: int, is_top: bool=False) -> None:
         huda.withdraw()
         mikoto = enforce({SIMOTE: self.own_mikoto, KAMITE: self.enemy_mikoto}.get(huda.hoyuusya), Mikoto)
-        taba = self.taba_target(hoyuusya=huda.hoyuusya, is_mine=is_mine, taba_code=taba_code)
+        taba = self.taba(hoyuusya=huda.hoyuusya if is_mine else opponent(huda.hoyuusya), taba_code=taba_code)
         if is_top:
             taba.insert(0, huda)
         else:
@@ -100,11 +100,11 @@ class Banmen():
                            UC_ISYUKU: mikoto.isyuku}.get(utuwa_code), Utuwa)
         return target
 
-    def taba_target(self, hoyuusya: int, is_mine: bool, taba_code: int) -> Taba:
-        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=is_mine)
-        target = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
-                           TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
-        return target
+    def taba(self, hoyuusya: int, taba_code: int) -> Taba:
+        mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=True)
+        taba = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
+                        TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
+        return taba
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
         if utuwa_code == UC_TATUZIN:
@@ -130,10 +130,10 @@ class Banmen():
                               scalar=SC_MAAI, delivery=self)
 
     def cfs(self, type: int, hoyuusya: int, card: _Card) -> list[Continuous]:
-        st = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
-        sf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_SUTEHUDA)
-        kt = self.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA)
-        kf = self.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_KIRIHUDA)
+        st = self.taba(hoyuusya=hoyuusya, taba_code=TC_SUTEHUDA)
+        sf = self.taba(hoyuusya=opponent(hoyuusya), taba_code=TC_SUTEHUDA)
+        kt = self.taba(hoyuusya=hoyuusya, taba_code=TC_KIRIHUDA)
+        kf = self.taba(hoyuusya=opponent(hoyuusya), taba_code=TC_KIRIHUDA)
         def is_deployed(huda: Huda) -> bool:
             return huda.card.type == CT_HUYO and huda.usage == USAGE_DEPLOYED
         def is_used(huda: Huda) -> bool:

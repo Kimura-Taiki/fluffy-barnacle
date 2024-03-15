@@ -10,8 +10,8 @@ from mod.card.card import auto_di, BoolDI, SuuziDI
 from mod.card.temp_koudou import TempKoudou
 
 def _kouka(delivery: Delivery, hoyuusya: int, name: str) -> None:
-    if not (huda := next((huda for huda in enforce(delivery.taba_target(
-    hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba) if
+    if not (huda := next((huda for huda in enforce(delivery.taba(
+    hoyuusya=hoyuusya, taba_code=TC_SUTEHUDA), Taba) if
     huda.card.name == name), None)):
         popup_message.add(f"付与札「{name}」が見つかりませんでした")
         return

@@ -47,8 +47,8 @@ def _flair_detail(huda: 'Huda', img: Surface) -> Surface:
 def _kougeki_detail(huda: 'Huda') -> Surface:
     if huda.delivery.is_duck():
         return _others_detail(huda=huda)
-    tehuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_TEHUDA), Taba)
-    kirihuda = enforce(huda.delivery.taba_target(hoyuusya=huda.hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA), Taba)
+    tehuda = enforce(huda.delivery.taba(hoyuusya=huda.hoyuusya, taba_code=TC_TEHUDA), Taba)
+    kirihuda = enforce(huda.delivery.taba(hoyuusya=huda.hoyuusya, taba_code=TC_KIRIHUDA), Taba)
     if not huda in tehuda and not huda in kirihuda:
         return _others_detail(huda=huda)
     detail = huda.huda_draw.img_nega.copy()

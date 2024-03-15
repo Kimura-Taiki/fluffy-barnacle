@@ -25,7 +25,7 @@ class AuraGuard(Continuous):
 def huyo_aura_guard(delivery: Delivery, hoyuusya: int) -> int:
     i = 0
     cfs: list[AuraGuard] = delivery.cfs(type=CF_AURA_GUARD, hoyuusya=hoyuusya, card=duck_card)
-    taba = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
+    taba = enforce(delivery.taba(hoyuusya=hoyuusya, taba_code=TC_SUTEHUDA), Taba)
     for cf in cfs:
         huda = enforce(next((huda for huda in taba if isinstance(huda.card.cfs[0], AuraGuard)), None), Huda)
         i += huda.osame
@@ -33,5 +33,5 @@ def huyo_aura_guard(delivery: Delivery, hoyuusya: int) -> int:
 
 def aura_guard_huda(delivery: Delivery, hoyuusya: int) -> Huda:
     cfs: list[AuraGuard] = delivery.cfs(type=CF_AURA_GUARD, hoyuusya=hoyuusya, card=duck_card)
-    taba = enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA), Taba)
+    taba = enforce(delivery.taba(hoyuusya=hoyuusya, taba_code=TC_SUTEHUDA), Taba)
     return enforce(next((huda for huda in taba if isinstance(huda.card.cfs[0], AuraGuard)), None), Huda)

@@ -72,8 +72,8 @@ n_4 = Card(megami=MG_TOKOYO, img=img_card("o_n_4"), name="詩舞", cond=auto_di,
     kouka=_kouka_n_4, taiou=True)
 
 def _lower_n_5(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    husehuda = delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_HUSEHUDA)
-    sutehuda = delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_SUTEHUDA)
+    husehuda = delivery.taba(hoyuusya=hoyuusya, taba_code=TC_HUSEHUDA)
+    sutehuda = delivery.taba(hoyuusya=hoyuusya, taba_code=TC_SUTEHUDA)
     li: list[Huda] = husehuda+sutehuda
     return li
 
@@ -133,7 +133,7 @@ s_2 = Card(megami=MG_TOKOYO, img=img_card("o_s_2"), name="千歳ノ鳥", cond=au
     after=saikousei_card, kirihuda=True, flair=int_di(2))
 
 def _hikougeki_tehuda(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    tehuda = delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_TEHUDA)
+    tehuda = delivery.taba_(hoyuusya=hoyuusya, taba_code=TC_TEHUDA)
     li: list[Huda] = []
     for huda in tehuda:
         if isinstance(huda, Huda) and huda.card.type != CT_KOUGEKI:

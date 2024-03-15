@@ -16,7 +16,7 @@ auto_di: BoolDI = lambda delivery, hoyuusya: True
 def _saiki_kouka(card_name: str) -> KoukaDI:
     def func(delivery: Delivery, hoyuusya: int) -> None:
         if not (huda := next((huda for huda in enforce(
-            delivery.taba_target(hoyuusya=hoyuusya, is_mine=True, taba_code=TC_KIRIHUDA),
+            delivery.taba(hoyuusya=hoyuusya, taba_code=TC_KIRIHUDA),
             Taba) if huda.card.name == card_name), None)):
             popup_message.add(f"切り札「{card_name}」が見つかりませんでした")
             return

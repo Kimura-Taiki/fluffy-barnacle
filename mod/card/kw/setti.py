@@ -11,7 +11,7 @@ _no_choice = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=
 
 def _setti_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     li: list[Huda] = []
-    for huda in delivery.taba_target(hoyuusya, True, TC_HUSEHUDA):
+    for huda in delivery.taba(hoyuusya, TC_HUSEHUDA):
         if isinstance(huda, Huda) and "setti" in huda.card.kwargs and\
         huda.card.can_play(delivery, hoyuusya):
             li.append(huda)

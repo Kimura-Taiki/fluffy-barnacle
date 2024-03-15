@@ -9,8 +9,8 @@ from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.setti import setti_layer
 
 def _saikousei_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    taba1, taba2, taba3 = [enforce(delivery.taba_target(hoyuusya=hoyuusya,
-        is_mine=True, taba_code=taba_code), Taba) for taba_code in
+    taba1, taba2, taba3 = [enforce(delivery.taba(hoyuusya=hoyuusya,
+        taba_code=taba_code), Taba) for taba_code in
         [TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA]]
     moto = list(taba1)+list(taba2)+[
         huda for huda in taba3 if huda.usage!= USAGE_DEPLOYED]

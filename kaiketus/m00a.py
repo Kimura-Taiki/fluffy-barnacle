@@ -4,7 +4,7 @@ from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU,\
     UC_AURA, CT_KOUGEKI, CT_KOUDOU, enforce, TC_TEHUDA, TC_SUTEHUDA,\
-    TG_END_PHASE, MG_UTURO, POP_OPEN, POP_ACT1, POP_ACT2
+    TG_END_PHASE, MG_UTURO, POP_OPEN, POP_ACT1, POP_ACT2, opponent
 from mod.classes import Card, Taba, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di
 from mod.card.temp_koudou import TempKoudou
@@ -75,7 +75,7 @@ _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_a_s_4.png",
             name="奪イノ茨", cond=_cond_s_4, trigger=TG_END_PHASE)
 
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
-    for huda in list(enforce(delivery.taba_target(hoyuusya=hoyuusya, is_mine=False, taba_code=TC_TEHUDA), Taba)):
+    for huda in list(enforce(delivery.taba(hoyuusya=opponent(hoyuusya), taba_code=TC_TEHUDA), Taba)):
         delivery.send_huda_to_ryouiki(huda=huda, is_mine=True, taba_code=TC_SUTEHUDA)
     reduce_syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
 

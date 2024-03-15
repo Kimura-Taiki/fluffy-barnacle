@@ -49,7 +49,7 @@ def _sutecard_n_2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer("相手々札の破棄", delivery, hoyuusya, gotoes={
         POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "破棄手札の選択",
-            lower=delivery.taba_target(hoyuusya, False, TC_TEHUDA), code=POP_ACT1)),
+            lower=delivery.taba(opponent(hoyuusya), TC_TEHUDA), code=POP_ACT1)),
         POP_ACT1: lambda l, s: _sutecard_n_2(l, s, POP_ACT2),
         POP_ACT2: lambda l, s: moderator.pop()
     }))
@@ -107,7 +107,7 @@ n_5 = Card(megami=MG_OBORO, img=img_card("o_n_5"), name="誘導", cond=auto_di, 
 
 def _hudas_n_6(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     li: list[Huda] = []
-    for huda in delivery.taba_target(hoyuusya, True, TC_HUSEHUDA):
+    for huda in delivery.taba(hoyuusya, TC_HUSEHUDA):
         if not enforce(huda, Huda).card.zenryoku:
             li.append(huda)
     return li
@@ -134,7 +134,7 @@ def _bunsin2_n_6(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         layer.moderate(PopStat(code))
         return
     huda = enforce(layer.huda, Huda).base
-    if not huda in layer.delivery.taba_target(layer.hoyuusya, True, TC_SUTEHUDA):
+    if not huda in layer.delivery.taba(layer.hoyuusya, TC_SUTEHUDA):
         layer.moderate(PopStat(code))
         return
     card = _bunsin_card(huda=huda)
@@ -156,7 +156,7 @@ n_6 = Card(megami=MG_OBORO, img=img_card("o_n_6"), name="分身の術", cond=aut
     kouka=_kouka_n_6, zenryoku=True)
 
 def _hudas_n_7(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    return [huda for huda in delivery.taba_target(hoyuusya, True, TC_KIRIHUDA)\
+    return [huda for huda in delivery.taba(hoyuusya, TC_KIRIHUDA)\
             if isinstance(huda, Huda) and huda.usage == USAGE_USED]
 
 def _unusenize_n_7(layer: PipelineLayer, stat: PopStat, code: int) -> None:
@@ -179,7 +179,7 @@ n_7 = suki_card(megami=MG_OBORO, img=img_card("o_n_7"), name="生体活性", con
 def _count_s_1(layer: PipelineLayer, stat: PopStat, kuma_code: int, end_code: int) -> None:
     layer.mode += 1
     layer.moderate(PopStat(
-        kuma_code if layer.mode <= len(layer.delivery.taba_target(layer.hoyuusya, True, TC_HUSEHUDA)) else end_code
+        kuma_code if layer.mode <= len(layer.delivery.taba(layer.hoyuusya, TC_HUSEHUDA)) else end_code
     ))
 
 _kuma_s_1 = Card(megami=MG_OBORO, img=img_card("o_s_1"), name="熊介：分身", cond=auto_di, type=CT_KOUGEKI,
