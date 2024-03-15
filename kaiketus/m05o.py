@@ -222,3 +222,11 @@ def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
 
 s_2 = Card(megami=MG_OBORO, img=img_card("o_s_2_s3"), name="鳶影", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_2, taiou=True, kirihuda=True, flair=int_di(4))
+
+# _cond_s_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: 
+
+# _cfs_s_3_1 = ScalarCorrection(name="虚魚：展開中両矢印", cond=auto_diic, scalar=SC_SMOKE, value=1)
+# _cfs_s_3_2 = ScalarCorrection(name="虚魚：展開後再構成設置追加", cond=auto_diic, scalar=SC_SMOKE, value=1)
+
+# s_3 = Card(megami=MG_OBORO, img=img_card("o_s_3_s8_2"), name="虚魚", cond=auto_di, type=CT_HUYO,
+#            osame=int_di(3), cfs=[_cfs_n_7])
