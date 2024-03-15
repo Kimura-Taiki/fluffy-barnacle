@@ -6,7 +6,7 @@ from copy import copy
 from mod.const import enforce, opponent, MG_OBORO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
-    SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
+    SC_SMOKE, SC_UROUO_YAZIRUSI, SC_UROUO_SETTI, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, BoolDIC, nega_dic
@@ -223,10 +223,8 @@ def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
 s_2 = Card(megami=MG_OBORO, img=img_card("o_s_2_s3"), name="鳶影", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_2, taiou=True, kirihuda=True, flair=int_di(4))
 
-# _cond_s_3: BoolDIIC = lambda delivery, atk_h, cf_h, card: 
+_cfs_s_3_1 = ScalarCorrection(name="虚魚：展開中両矢印", cond=auto_diic, scalar=SC_SMOKE, value=1)
+_cfs_s_3_2 = ScalarCorrection(name="虚魚：展開後再構成設置追加", cond=auto_diic, scalar=SC_SMOKE, value=1)
 
-# _cfs_s_3_1 = ScalarCorrection(name="虚魚：展開中両矢印", cond=auto_diic, scalar=SC_SMOKE, value=1)
-# _cfs_s_3_2 = ScalarCorrection(name="虚魚：展開後再構成設置追加", cond=auto_diic, scalar=SC_SMOKE, value=1)
-
-# s_3 = Card(megami=MG_OBORO, img=img_card("o_s_3_s8_2"), name="虚魚", cond=auto_di, type=CT_HUYO,
-#            osame=int_di(3), cfs=[_cfs_n_7])
+s_3 = Card(megami=MG_OBORO, img=img_card("o_s_3_s8_2"), name="虚魚", cond=auto_di, type=CT_HUYO,
+           osame=int_di(3), cfs=[_cfs_s_3_1, _cfs_s_3_2], used=[_cfs_s_3_2], kirihuda=True, flair=int_di(2))
