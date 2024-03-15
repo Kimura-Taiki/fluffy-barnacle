@@ -138,22 +138,29 @@ class Banmen():
             return huda.card.type == CT_HUYO and huda.usage == USAGE_DEPLOYED
         def is_used(huda: Huda) -> bool:
             return huda.usage == USAGE_USED
-        def is_d_and_u(huda: Huda) -> bool:
-            return is_deployed(huda) or is_used(huda)
+        # def is_d_and_u(huda: Huda) -> bool:
+        #     return is_deployed(huda) or is_used(huda)
         def is_cond(cf: Continuous, huda: Huda) -> bool:
             return cf.type == type and cf.cond(self, hoyuusya, huda.hoyuusya, card)
         def get_filtered_cfs(hudas: list[Huda], func: Callable[[Huda], bool]) -> list[Continuous]:
             return [cf for huda in hudas if func(huda) for cf in huda.card.cfs if is_cond(cf, huda)]
+        def get_filtered_used(hudas: list[Huda], func: Callable[[Huda], bool]) -> list[Continuous]:
+            return [cf for huda in hudas if func(huda) for cf in huda.card.used if is_cond(cf, huda)]
         def is_cond_mikoto(cf: Continuous, mikoto: int) -> bool:
             return cf.type == type and cf.cond(self, hoyuusya, mikoto, card)
-        (st_cfs, sf_cfs, kt_cfs, kf_cfs) = [get_filtered_cfs(hudas, func) for hudas, func in [
-            (st, is_deployed), (sf, is_deployed), (kt, is_d_and_u), (kf, is_d_and_u)
+        # (st_cfs, sf_cfs, kt_cfs, kf_cfs) = [get_filtered_cfs(hudas, func) for hudas, func in [
+        #     (st, is_deployed), (sf, is_deployed), (kt, is_d_and_u), (kf, is_d_and_u)
+        # ]]
+        (st_cfs, sf_cfs, kt_cfs, kf_cfs, kt_used, kf_used) = [filter(hudas, func) for hudas, func, filter in [
+            (st, is_deployed, get_filtered_cfs), (sf, is_deployed, get_filtered_cfs),
+            (kt, is_deployed, get_filtered_cfs), (kf, is_deployed, get_filtered_cfs),
+            (kt, is_used, get_filtered_used), (kf, is_used, get_filtered_used)
         ]]
         lt = self.m_params(hoyuusya).lingerings
         lt_cfs = [enforce(cf, Continuous) for cf in lt if is_cond_mikoto(enforce(cf, Continuous), hoyuusya)]
         lf = self.m_params(opponent(hoyuusya)).lingerings
         lf_cfs = [enforce(cf, Continuous) for cf in lf if is_cond_mikoto(enforce(cf, Continuous), opponent(hoyuusya))]
-        return st_cfs+sf_cfs+kt_cfs+kf_cfs+lt_cfs+lf_cfs
+        return st_cfs+sf_cfs+kt_cfs+kf_cfs+kt_used+kf_used+lt_cfs+lf_cfs
 
 
 
