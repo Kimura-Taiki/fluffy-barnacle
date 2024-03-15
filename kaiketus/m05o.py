@@ -171,3 +171,25 @@ _hakizi_n_7 = TempKoudou("生体活性：破棄時", auto_di, _kouka_n_7)
 
 n_7 = suki_card(megami=MG_OBORO, img=img_card("o_n_7"), name="生体活性", cond=auto_di,
                 osame=int_di(4), hakizi=_hakizi_n_7, setti=True)
+
+def _count_s_1(layer: PipelineLayer, stat: PopStat, kuma_code: int, end_code: int) -> None:
+    layer.mode += 1
+    layer.moderate(PopStat(
+        kuma_code if layer.mode <= len(layer.delivery.taba_target(layer.hoyuusya, True, TC_HUSEHUDA)) else end_code
+    ))
+
+_kuma_s_1 = Card(megami=MG_OBORO, img=img_card("o_s_1"), name="熊介：分身", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 4), kirihuda=True)
+
+def _kouka_s_1(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("熊介", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: _count_s_1(l, s, POP_ACT1, POP_ACT2),
+        POP_ACT1: lambda l, s: _kuma_s_1.kaiketu(delivery, hoyuusya, code=POP_OPEN),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }, mode=0))
+
+_after_s_1 = TempKoudou(name="熊介：攻撃後", cond=auto_di, kouka=_kouka_s_1)
+
+s_1 = Card(megami=MG_OBORO, img=img_card("o_s_1"), name="熊介", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(3, 4),
+    after=_after_s_1, zenryoku=True, kirihuda=True, flair=int_di(4))
