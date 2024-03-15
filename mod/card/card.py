@@ -40,6 +40,7 @@ class Card():
     osame: SuuziDI = int_di(0), suki: BoolDI=auto_di,
     tenkaizi: Optional['Card']=None, hakizi: Optional['Card']=None,
     amortize: Callable[[Any], None]=amortize_default, cfs: list[Continuous]=[],
+    used: list[Continuous]=[],
     taiou: bool=False, zenryoku: bool=False, syuutan: bool=False,
     kirihuda: bool=False, flair: SuuziDI=int_di(0), taiounize: TaiounizeDI = identity_di,
     **kwargs: Any
@@ -52,7 +53,7 @@ class Card():
         self.after = after
         self.kouka =kouka
         self.osame, self.suki, self.tenkaizi, self.hakizi = osame, suki, tenkaizi, hakizi
-        self.amortize, self.cfs = amortize, cfs
+        self.amortize, self.cfs, self.used = amortize, cfs, used
         self.taiou = taiou
         self.flair = flair
         self.zenryoku = zenryoku
