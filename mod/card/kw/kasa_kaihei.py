@@ -1,11 +1,16 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU,\
-    POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TC_TEHUDA, UC_AURA
+    POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TC_TEHUDA, UC_AURA, TG_KAIHEI
 from mod.classes import PopStat, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.yazirusi import Yazirusi
+from mod.coous.trigger import solve_trigger_effect
+
+        # solve_trigger_effect(delivery=layer.delivery, hoyuusya=opponent(layer.
+        #     hoyuusya), trigger=TG_1_OR_MORE_DAMAGE, code=code)
+
 
 def _has_kasamawasi(delivery: Delivery, hoyuusya: int) -> bool:
     li: list[Huda] = delivery.taba(hoyuusya, TC_TEHUDA)

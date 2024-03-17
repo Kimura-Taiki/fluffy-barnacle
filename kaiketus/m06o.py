@@ -26,7 +26,7 @@ from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer, NO_CHOICE
 from mod.card.kw.handraw import handraw
-from mod.card.kw.syuutyuu import isyuku, full_syuutyuu, reduce_syuutyuu
+from mod.card.kw.syuutyuu import syuutyuu, isyuku, full_syuutyuu, reduce_syuutyuu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
 from mod.card.kw.setti import setti_layer
@@ -124,3 +124,38 @@ _hakizi_n_7 = TempKoudou("えんむすび：破棄時", auto_di, kouka=lambda de
 
 n_7 = Card(megami=MG_YUKIHI, img=img_card("o_n_7"), name="えんむすび", cond=auto_di, type=CT_HUYO,
     osame=int_di(2), tenkaizi=_tenkaizi_n_7, hakizi=_hakizi_n_7)
+
+_maai_s_1_ura: MaaiDI = lambda delivery, hoyuusya: dima_di(0, 2)(delivery, hoyuusya)\
+    if applied_scalar(i=0, scalar=SC_DORORIURA, delivery=delivery) == 0 else\
+    logical_or_lists(dima_di(0, 2)(delivery, hoyuusya), dima_di(3, 6)(delivery, hoyuusya))
+
+_maai_s_1_omote: MaaiDI = lambda delivery, hoyuusya: dima_di(3, 6)(delivery, hoyuusya)\
+    if applied_scalar(i=0, scalar=SC_DORORIURA, delivery=delivery) == 0 else\
+    logical_or_lists(dima_di(0, 2)(delivery, hoyuusya), dima_di(3, 6)(delivery, hoyuusya))
+
+_after_s_1 = TempKoudou("はらりゆき；攻撃後", auto_di, kouka=syuutyuu)
+
+_s_1_ura = Card(megami=MG_YUKIHI, img=img_card("o_s_1_s8"), name="はらりゆき", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(0), life_damage_func=int_di(0), maai_list=_maai_s_1_ura,
+    kirihuda=True, flair=int_di(2))
+
+s_1 = Card(megami=MG_YUKIHI, img=img_card("o_s_1_s8"), name="はらりゆき", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=_maai_s_1_omote, after=_after_s_1,
+    kirihuda=True, flair=int_di(2), henbou=True, horobi=_s_1_ura)
+
+_maai_s_2_ura: MaaiDI = lambda delivery, hoyuusya: dima_di(0, 0)(delivery, hoyuusya)\
+    if applied_scalar(i=0, scalar=SC_DORORIURA, delivery=delivery) == 0 else\
+    logical_or_lists(dima_di(0, 0)(delivery, hoyuusya), dima_di(4, 6)(delivery, hoyuusya))
+
+_maai_s_2_omote: MaaiDI = lambda delivery, hoyuusya: dima_di(4, 6)(delivery, hoyuusya)\
+    if applied_scalar(i=0, scalar=SC_DORORIURA, delivery=delivery) == 0 else\
+    logical_or_lists(dima_di(0, 0)(delivery, hoyuusya), dima_di(4, 6)(delivery, hoyuusya))
+
+_s_2_ura = Card(megami=MG_YUKIHI, img=img_card("o_s_2"), name="ゆらりび", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(4), life_damage_func=int_di(5), maai_list=_maai_s_2_ura,
+    kirihuda=True, flair=int_di(5))
+
+s_2 = Card(megami=MG_YUKIHI, img=img_card("o_s_2"), name="ゆらりび", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(0), life_damage_func=int_di(0), maai_list=_maai_s_2_omote,
+    kirihuda=True, flair=int_di(5), henbou=True, horobi=_s_2_ura)
+
