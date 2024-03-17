@@ -19,7 +19,7 @@ from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
 from mod.card.kw.saikousei import saikousei_card
-from mod.card.kw.yazirusi import Yazirusi, ya_ridatu
+from mod.card.kw.yazirusi import Yazirusi, ya_moguri, ya_ridatu
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection, applied_scalar
 from mod.coous.aura_guard import AuraGuard
@@ -110,3 +110,17 @@ n_4 = Card(megami=MG_YUKIHI, img=img_card("o_n_4"), name="つきさし", cond=au
 n_5 = Card(megami=MG_YUKIHI, img=img_card("o_n_5"), name="かさまわし", cond=auto_di, type=CT_KOUDOU,
     kouka=lambda d, h: popup_message.add("かさまわしは使っても効果がありません"))
 
+_n_6_ura = Card(megami=MG_YUKIHI, img=img_card("o_n_6"), name="もぐりこみ", cond=auto_di, type=CT_KOUDOU,
+    kouka=ya_moguri.send, taiou=True)
+
+n_6 = Card(megami=MG_YUKIHI, img=img_card("o_n_6"), name="ひきあし", cond=auto_di, type=CT_KOUDOU,
+    kouka=ya_ridatu.send, taiou=True, henbou=True, horobi=_n_6_ura)
+
+_tenkaizi_n_7 = TempKoudou("えんむすび：展開時", auto_di, kouka=lambda delivery, hoyuusya:\
+    ya_moguri.send(delivery, hoyuusya) if delivery.m_params(hoyuusya).henbou else ya_ridatu.send(delivery, hoyuusya))
+
+_hakizi_n_7 = TempKoudou("えんむすび：破棄時", auto_di, kouka=lambda delivery, hoyuusya:
+    ya_ridatu.send(delivery, hoyuusya) if delivery.m_params(hoyuusya).henbou else ya_moguri.send(delivery, hoyuusya))
+
+n_7 = Card(megami=MG_YUKIHI, img=img_card("o_n_7"), name="えんむすび", cond=auto_di, type=CT_HUYO,
+    osame=int_di(2), tenkaizi=_tenkaizi_n_7, hakizi=_hakizi_n_7)
