@@ -1,33 +1,29 @@
 #                 20                  40                  60                 79
-from random import shuffle
-
-from mod.const import enforce, TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA,\
-    USAGE_DEPLOYED, POP_OPEN, POP_ACT1, POP_ACT2
-from mod.classes import PopStat, Huda, Taba, Delivery, moderator
-from mod.card.temp_koudou import TempKoudou, auto_di
+from mod.const import enforce, IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU,\
+    POP_OPEN, POP_ACT1, POP_ACT2
+from mod.classes import Card, Huda, Delivery, moderator
+from mod.card.card import auto_di
+from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.pipeline_layer import PipelineLayer
-from mod.card.kw.setti import setti_layer
 
-def _saikousei_hudas(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    taba1, taba2, taba3 = [enforce(delivery.taba(hoyuusya=hoyuusya,
-        taba_code=taba_code), Taba) for taba_code in
-        [TC_YAMAHUDA, TC_HUSEHUDA, TC_SUTEHUDA]]
-    moto = list(taba1)+list(taba2)+[
-        huda for huda in taba3 if huda.usage!= USAGE_DEPLOYED]
-    shuffle(moto)
-    return moto
+def _kaihei_kouka(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.m_params(hoyuusya).henbou = not delivery.m_params(hoyuusya).henbou
 
-def _make_yamahuda(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    for huda in _saikousei_hudas(layer.delivery, layer.hoyuusya):
-        layer.delivery.send_huda_to_ryouiki(huda=huda, is_mine=True,
-                                            taba_code=TC_YAMAHUDA)
-    layer.moderate(PopStat(code))
+_kaihei_card = Card(img=IMG_BOOL_ZE, name="傘の開閉", cond=auto_di, type=
+                       CT_KOUDOU, kouka=_kaihei_kouka)
+_pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_KOUDOU)
+_cards = [_kaihei_card, _pass_card]
 
-def saikousei(delivery: Delivery, hoyuusya: int) -> None:
-    moderator.append(PipelineLayer("再構成", delivery, hoyuusya, gotoes={
-        POP_OPEN: lambda l, s: moderator.append(setti_layer(l, s, POP_ACT1)),
-        POP_ACT1: lambda l, s: _make_yamahuda(l, s, POP_ACT2),
+def kasa_kaihei_layer(delivery: Delivery, hoyuusya: int, code: int) -> PipelineLayer:
+    return PipelineLayer("傘の開閉", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya,
+            name=f"傘の開閉　現在{"開(ホロビ)" if delivery.m_params(hoyuusya).henbou else "閉(ユキノ)"}",
+            upper=_cards, code=code)),
+        POP_ACT1: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery, hoyuusya, code=POP_ACT2),
         POP_ACT2: lambda l, s: moderator.pop()
-    }))
+    }, code=code)
 
-saikousei_card = TempKoudou(name="純粋再構成", cond=auto_di, kouka=saikousei)
+# kasa_kaihei_layer: Callable[[Delivery, int], OnlySelectLayer] = lambda delivery,\
+#     hoyuusya: OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya, name=\
+#     f"傘の開閉　現在{"開(ホロビ)" if delivery.m_params(hoyuusya).henbou else "閉(ユキノ)"}",
+#     upper=_cards, code=POP_RESHUFFLE_SELECTED)
