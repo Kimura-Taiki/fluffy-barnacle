@@ -199,7 +199,6 @@ s_1 = Card(megami=MG_OBORO, img=img_card("o_s_1"), name="熊介", cond=auto_di, 
     after=_after_s_1, zenryoku=True, kirihuda=True, flair=int_di(4))
 
 def _tobikage_s_2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    print(stat, stat.huda)
     if stat.huda:
         layer.delivery.m_params(layer.hoyuusya).use_from_husehuda = True
         enforce(stat.huda, Huda).card.kaiketu(layer.delivery, layer.hoyuusya, code=code)
