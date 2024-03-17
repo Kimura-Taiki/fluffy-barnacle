@@ -19,6 +19,7 @@ class Mikoto():
     def __init__(self, hoyuusya: int) -> None:
         self.delivery: Delivery = duck_delivery
         self.hoyuusya = hoyuusya
+        self.m_params = MParams()
         self.husehuda = husehuda_factory.maid_by_cards(cards=[], hoyuusya=hoyuusya)
         self.sutehuda = sutehuda_factory.maid_by_cards(cards=[], hoyuusya=hoyuusya)
         if hoyuusya == SIMOTE:
@@ -38,7 +39,6 @@ class Mikoto():
         self.utuwas = [self.syuutyuu, self.aura, self.flair, self.life]
         for listener in self.tenko():
             listener.hoyuusya = self.hoyuusya
-        self.m_params = MParams()
 
     def elapse(self) -> None:
         self.gottena.selected.core_view.elapse()
@@ -69,6 +69,7 @@ class Mikoto():
 
     def _simote_make(self) -> None:
         from kaiketus import m00a, m00b
+        self.m_params.has_yukihi = True
         from kaiketus.m06o import n_1#, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4
         hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1]#, n_2, n_3, n_4, n_5, n_6, n_7]
         trumps = [m00b.s_3, m00a.s_3, m00a.s_2]#, s_1, s_2, s_3, s_4]

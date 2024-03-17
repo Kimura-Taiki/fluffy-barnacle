@@ -7,14 +7,13 @@ from mod.coous.trigger import solve_trigger_effect
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.discard import discard_layer
+from mod.card.kw.kasa_kaihei import kasa_kaihei_layer
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     solve_trigger_effect(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
                          trigger=TG_END_PHASE, code=code)
     if moderator.last_layer() == layer:
         layer.moderate(PopStat(code=code))
-
-def 
 
 def _check_discard(layer: PipelineLayer, stat: PopStat, discard_code: int,
                    end_code: int) -> None:
@@ -29,9 +28,9 @@ def _end(layer: PipelineLayer, stat: PopStat) -> None:
     moderator.pop()
 
 end_phase_layer: Callable[[Delivery], PipelineLayer] = lambda delivery:\
-    PipelineLayer(name="終了フェイズ", delivery=delivery, gotoes={
+    PipelineLayer(name="終了フェイズ", delivery=delivery, hoyuusya=delivery.turn_player, gotoes={
         POP_OPEN: lambda l, s: _open(l, s, POP_ACT1),
-        POP_ACT1: lambda l, s: _kasa_kaihei(l, s, POP_ACT2),
+        POP_ACT1: lambda l, s: moderator.append(kasa_kaihei_layer(delivery, delivery.turn_player, POP_ACT2)),
         POP_ACT2: lambda l, s: _check_discard(l, s, POP_ACT2, POP_ACT3),
         POP_ACT3: _end
     }, code=POP_END_PHASE_FINISHED)
