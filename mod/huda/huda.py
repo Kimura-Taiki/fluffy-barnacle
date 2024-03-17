@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import nie, USAGE_UNUSED, USAGE_USED, HUDA_SCALE
+from mod.const import nie, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, HUDA_SCALE
 from mod.youso import Youso
 from mod.card.card import Card, auto_di
 from mod.controller import controller
@@ -64,6 +64,7 @@ class Huda(Youso):
             (self.delivery.m_params(self.hoyuusya).played_zenryoku, "既に全力行動しています"),
             (self.delivery.m_params(self.hoyuusya).played_syuutan, "既に終端行動しています"),
             (is_zenryoku and self.card.zenryoku and self.delivery.m_params(self.hoyuusya).played_standard, "既に標準行動しています"),
+            (self.usage == USAGE_DEPLOYED, f"「{self.card.name}」は展開中です"),
             (self.usage == USAGE_USED, f"「{self.card.name}」は使用済みです"),
             (not self.card.is_full(delivery=self.delivery, hoyuusya=self.hoyuusya), f"「{self.card.name}」に費やすフレアが足りません")
         ]

@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED,\
     TC_HUSEHUDA, UC_SYUUTYUU, UC_ZYOGAI, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
-    OBAL_USE_CARD, USAGE_USED, TC_YAMAHUDA, TC_SUTEHUDA, POP_CLOSED
+    OBAL_USE_CARD, USAGE_USED, USAGE_DEPLOYED, TC_YAMAHUDA, TC_SUTEHUDA, POP_CLOSED
 from mod.classes import Callable, PopStat, Card, Youso, Huda, Taba, moderator,\
     popup_message
 from mod.delivery import duck_delivery
@@ -31,7 +31,8 @@ def _kaiketued_use_card(layer: PipelineLayer, huda: Huda) -> None:
     if huda.card.syuutan:
         layer.delivery.m_params(layer.hoyuusya).played_syuutan = True
     if huda.card.kirihuda:
-        huda.base.usage = USAGE_USED
+        if huda.usage != USAGE_DEPLOYED:
+            huda.base.usage = USAGE_USED
     else:
         _spend_huda(layer=layer, huda=huda)
 
@@ -63,7 +64,7 @@ OBAL_KIHONDOUSA, code: int=POP_OK) -> PipelineLayer:
         else:
             popup_message.add("集中力はカードではありません")
         return _END_LAYER(code)
-    if isinstance(youso, Huda) and not youso.can_standard(True, True):
+    if isinstance(youso, Huda) and not youso.can_standard(True, True if mode == OBAL_USE_CARD else False):
         return _END_LAYER(code)
     return PipelineLayer(name="通常の方法によるカードの使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
