@@ -20,7 +20,7 @@ class Huda(Youso):
         self.usage = USAGE_UNUSED
         self.osame = 0
         self.draw_params = DrawParams()
-        self.card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
+        self._card =  Card(img=Surface((16, 16)), name="", cond=auto_di)
         self.base: 'Huda' = self
         self.huda_draw = HudaDraw(img=img, x=x, y=y, angle=angle, scale=scale, update_func=self._update_func, huda=self)
         self.rearrange(angle=angle, scale=scale, x=x, y=y)
@@ -72,3 +72,11 @@ class Huda(Youso):
 
     def can_play(self, popup: bool=False) -> bool:
         return self.can_standard(popup=popup) and self.card.can_play(delivery=self.delivery, hoyuusya=self.hoyuusya, popup=popup)
+
+    @property
+    def card(self) -> Card:
+        return self._card
+
+    @card.setter
+    def card(self, card: Card) -> None:
+        self._card = card
