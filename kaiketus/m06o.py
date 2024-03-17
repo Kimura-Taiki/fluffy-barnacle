@@ -8,7 +8,7 @@ from mod.const import enforce, opponent, MG_YUKIHI, CT_KOUGEKI, CT_KOUDOU, CT_HU
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
     SC_DORORIURA, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
-from mod.classes import Callable, Card, Huda, Delivery, moderator
+from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
 from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
@@ -106,3 +106,6 @@ _n_4_ura = Card(megami=MG_YUKIHI, img=img_card("o_n_4"), name="ふりまわし",
 n_4 = Card(megami=MG_YUKIHI, img=img_card("o_n_4"), name="つきさし", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(5), life_bar=auto_di, maai_list=_maai_n_4_omote, zenryoku=True,
     henbou=True, horobi=_n_4_ura)
+
+n_5 = Card(megami=MG_YUKIHI, img=img_card("o_n_5"), name="かさまわし", cond=auto_di, type=CT_KOUDOU,
+    kouka=lambda d, h: popup_message.add("かさまわしは使っても効果がありません"))
