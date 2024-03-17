@@ -80,4 +80,4 @@ def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     reduce_syuutyuu(delivery=delivery, hoyuusya=hoyuusya)
 
 s_4 = Card(megami=MG_UTURO, img=pygame.image.load("cards/na_00_hajimari_a_s_4.png"), name="奪イノ茨", cond=auto_di, type=CT_KOUDOU,
-           kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1), cfs=[_cfs_s_4])
+           kouka=_kouka_s_4, zenryoku=True, kirihuda=True, flair=int_di(1), used=[_cfs_s_4])

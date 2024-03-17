@@ -86,4 +86,4 @@ _cfs_s_4 = saiki_trigger(cls=Card, file_name="cards/na_00_hajimari_b_s_4.png",
 s_4 = Card(megami=MG_HONOKA, img=pygame.image.load("cards/na_00_hajimari_b_s_4.png"), name=
     "煌めきの乱舞", cond=auto_di, type=CT_KOUGEKI, aura_damage_func=int_di(2),
     life_damage_func=int_di(2), maai_list=dima_di(3, 5), kirihuda=True, flair=
-    int_di(2), cfs=[_cfs_s_4])
+    int_di(2), used=[_cfs_s_4])

@@ -100,7 +100,7 @@ _cfs_s_3 = saiki_trigger(cls=Card, file_name="cards/na_01_yurina_o_s_3_s2.png",
             name="浮舟宿", cond=_cond_s_3, trigger=TG_1_OR_MORE_DAMAGE)
 
 s_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_3_s2.png"), name="浮舟宿", cond=auto_di, type=CT_KOUDOU,
-           kouka=Yazirusi(to_mine=True, to_code=UC_AURA, kazu=5).send, kirihuda=True, flair=int_di(2), cfs=[_cfs_s_3])
+           kouka=Yazirusi(to_mine=True, to_code=UC_AURA, kazu=5).send, kirihuda=True, flair=int_di(2), used=[_cfs_s_3])
 
 s_4 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_s_4.png"), name="天音揺波の底力", cond=kessi, type=CT_KOUGEKI,
     aura_damage_func=int_di(5), life_damage_func=int_di(5), maai_list=dima_di(1, 4), zenryoku=True, kirihuda=True, flair=int_di(5))

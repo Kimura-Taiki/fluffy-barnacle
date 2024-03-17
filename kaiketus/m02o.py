@@ -100,7 +100,7 @@ _cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3_s6_2"),
 
 s_3 = Card(megami=MG_SAINE, img=img_card("o_s_3_s6_2"), name="音無砕氷", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(0, 10),
-    cfs=[_cfs_s_3], taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, -1), kirihuda=True, flair=int_di(2))
+    used=[_cfs_s_3], taiou=True, taiounize=lambda c, d, h: papl_kougeki(c, d, h, -1, -1), kirihuda=True, flair=int_di(2))
 
 _cond_s_4: BoolDI = lambda delivery, hoyuusya: delivery.b_params.during_kirihuda
 

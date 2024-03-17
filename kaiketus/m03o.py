@@ -116,4 +116,4 @@ _cfs_s_4 = saiki_trigger(cls=Card, img=img_card("o_s_4"),
             name="ヴァーミリオンフィールド", cond=_cond_s_4, trigger=TG_END_PHASE)
 
 s_4 = Card(megami=MG_HIMIKA, img=img_card("o_s_4"), name="ヴァーミリオンフィールド", cond=auto_di, type=CT_KOUDOU,
-    kouka=_kouka_s_4, cfs=[_cfs_s_4], kirihuda=True, flair=int_di(2))
+    kouka=_kouka_s_4, used=[_cfs_s_4], kirihuda=True, flair=int_di(2))

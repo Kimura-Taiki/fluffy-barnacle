@@ -162,7 +162,7 @@ _cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3_s2"),
 
 s_3 = Card(megami=MG_TOKOYO, img=img_card("o_s_3_s2"), name="無窮ノ風", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(3, 8), after=_after_s_3,
-    kirihuda=True, flair=int_di(1), cfs=[_cfs_s_3])
+    kirihuda=True, flair=int_di(1), used=[_cfs_s_3])
 
 def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer(name="常世ノ月", delivery=delivery, hoyuusya=hoyuusya, gotoes={
