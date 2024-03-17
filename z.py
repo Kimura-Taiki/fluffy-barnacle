@@ -1,8 +1,18 @@
-def logical_or_lists(li_1: list[bool], li_2: list[bool]) -> list[bool]:
-    return [a or b for a, b in zip(li_1, li_2)]
+class Card():
+    def __init__(self, name: str) -> None:
+        self.name = name
+    ...
 
-# テスト
-li_1 = [True, True, True, False, False, False, False, False, False, False]
-li_2 = [False, False, False, False, True, True, True, False, False, False]
-li_wa = logical_or_lists(li_1, li_2)
-print(li_wa)  # Output: [True, True, True, False, True, True, True, False, False, False]
+class Huda():
+    def __init__(self, card: Card) -> None:
+        self.card = card
+    ...
+
+# def has_name(li: list[Huda], name: str) -> bool:
+#     for huda in li:
+#         if huda.card.name == name:
+#             return True
+#     return False
+
+def has_name(li: list[Huda], name: str) -> bool:
+    return any(huda.card.name == name for huda in li)

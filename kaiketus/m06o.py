@@ -109,3 +109,4 @@ n_4 = Card(megami=MG_YUKIHI, img=img_card("o_n_4"), name="つきさし", cond=au
 
 n_5 = Card(megami=MG_YUKIHI, img=img_card("o_n_5"), name="かさまわし", cond=auto_di, type=CT_KOUDOU,
     kouka=lambda d, h: popup_message.add("かさまわしは使っても効果がありません"))
+
