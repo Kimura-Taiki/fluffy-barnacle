@@ -254,3 +254,15 @@ _cfs_s_3_2 = ScalarCorrection(name="虚魚：展開後再構成設置追加", co
 s_3 = Card(megami=MG_OBORO, img=img_card("o_s_3_s8_2"), name="虚魚", cond=auto_di, type=CT_HUYO,
            osame=int_di(3), tenkaizi=_tenkaizi_s_3, cfs=[_cfs_s_3_1, _cfs_s_3_2], used=[_cfs_s_3_2],
            kirihuda=True, flair=int_di(2))
+
+_after_s_4 = TempKoudou(name="壬蔦：攻撃後", cond=auto_di, yazirusi=Yazirusi(to_mine=True, to_code=UC_FLAIR))
+
+_cond_s_4: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    delivery.ouka_count(cf_h, True, UC_FLAIR) == 0
+
+_cfs_s_4 = saiki_trigger(cls=Card, img=img_card("o_s_4_s3"),
+            name="壬蔓", cond=_cond_s_4, trigger=TG_END_PHASE)
+
+s_4 = Card(megami=MG_OBORO, img=img_card("o_s_4_s3"), name="壬蔓", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(3, 7),
+    after=_after_s_4, kirihuda=True, flair=int_di(0), used=[_cfs_s_4])
