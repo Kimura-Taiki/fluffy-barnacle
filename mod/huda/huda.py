@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from pygame.math import Vector2
 from typing import Callable
 
-from mod.const import nie, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, HUDA_SCALE
+from mod.const import enforce, nie, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, HUDA_SCALE
 from mod.youso import Youso
 from mod.card.card import Card, auto_di
 from mod.controller import controller
@@ -75,7 +75,13 @@ class Huda(Youso):
 
     @property
     def card(self) -> Card:
-        return self._card
+        if "henbou" in self._card.kwargs:
+            if self.delivery.m_params(self.hoyuusya).henbou:
+                return enforce(self._card.kwargs["horobi"], Card)
+            else:
+                return self._card
+        else:
+            return self._card
 
     @card.setter
     def card(self, card: Card) -> None:

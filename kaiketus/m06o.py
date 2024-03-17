@@ -39,4 +39,4 @@ n_1_ura = Card(megami=MG_YUKIHI, img=img_card("o_n_1"), name="ふくみばり", 
     aura_damage_func=int_di(1), life_damage_func=int_di(2), maai_list=dima_di(0, 2))
 
 n_1 = Card(megami=MG_YUKIHI, img=img_card("o_n_1"), name="しこみばり", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(4, 6), dual=True, henbou=n_1_ura)
+    aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(4, 6), henbou=True, horobi=n_1_ura)
