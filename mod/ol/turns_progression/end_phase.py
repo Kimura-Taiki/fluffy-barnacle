@@ -25,6 +25,7 @@ def _check_discard(layer: PipelineLayer, stat: PopStat, discard_code: int,
 
 def _end(layer: PipelineLayer, stat: PopStat) -> None:
     popup_message.add("ターンを終了します")
+    print("params", layer.delivery.m_params(layer.delivery.turn_player))
     moderator.pop()
 
 end_phase_layer: Callable[[Delivery], PipelineLayer] = lambda delivery:\

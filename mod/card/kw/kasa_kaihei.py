@@ -8,6 +8,7 @@ from mod.ol.pipeline_layer import PipelineLayer
 
 def _kaihei_kouka(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).henbou = not delivery.m_params(hoyuusya).henbou
+    # raise EOFError(f"delivery:{delivery}, hoyuusya:{hoyuusya}, henbou:{delivery.m_params(hoyuusya).henbou}, yukihi:{delivery.m_params(hoyuusya).has_yukihi}")
 
 _kaihei_card = Card(img=IMG_BOOL_ZE, name="傘の開閉", cond=auto_di, type=
                        CT_KOUDOU, kouka=_kaihei_kouka)

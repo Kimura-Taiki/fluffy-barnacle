@@ -2,7 +2,12 @@ from typing import Any
 
 class MParams():
     def __init__(self) -> None:
+        self.start_duel()
         self.start_turn()
+
+    def start_duel(self) -> None:
+        self.has_yukihi = False
+        self.henbou = False
 
     def start_turn(self) -> None:
         self.lingerings: list[Any] = []
@@ -13,8 +18,6 @@ class MParams():
         self.use_from_husehuda = False
         self.aura_damaged = False
         self.ninpo_used = False
-        self.has_yukihi = False
-        self.henbou = False
 
     def __str__(self) -> str:
         return f"MParams{vars(self)}"
