@@ -24,7 +24,7 @@ from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection
 from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
-from mod.ol.only_select_layer import OnlySelectLayer
+from mod.ol.only_select_layer import OnlySelectLayer, NO_CHOICE
 from mod.card.kw.handraw import handraw
 from mod.card.kw.syuutyuu import isyuku, full_syuutyuu, reduce_syuutyuu
 from mod.card.kw.handraw import handraw_card
@@ -223,8 +223,34 @@ def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
 s_2 = Card(megami=MG_OBORO, img=img_card("o_s_2_s3"), name="鳶影", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_2, taiou=True, kirihuda=True, flair=int_di(4))
 
+def _hudas_s_3(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    taba: list[Huda] = delivery.taba(hoyuusya, TC_SUTEHUDA)
+    return taba
+
+def _branch_s_3(layer: PipelineLayer, stat: PopStat, huse_code: int, end_code: int) -> None:
+    if enforce(stat.huda, Huda).card.name == "何もしない":
+        layer.moderate(PopStat(end_code))
+    else:
+        layer.moderate(PopStat(code=huse_code, huda=stat.huda))
+
+def _husecard_s_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_HUSEHUDA)
+    layer.moderate(PopStat(code))
+
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("虚魚", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "伏せる捨て札の選択",
+            lower=_hudas_s_3(delivery, hoyuusya), upper=[NO_CHOICE], code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _branch_s_3(l, s, POP_ACT2, POP_ACT3),
+        POP_ACT2: lambda l, s: _husecard_s_3(l, s, POP_OPEN),
+        POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+_tenkaizi_s_3 = TempKoudou("虚魚：展開時", auto_di, _kouka_s_3)
+
 _cfs_s_3_1 = ScalarCorrection(name="虚魚：展開中両矢印", cond=auto_diic, scalar=SC_UROUO_YAZIRUSI, value=1)
 _cfs_s_3_2 = ScalarCorrection(name="虚魚：展開後再構成設置追加", cond=auto_diic, scalar=SC_UROUO_SETTI, value=1)
 
 s_3 = Card(megami=MG_OBORO, img=img_card("o_s_3_s8_2"), name="虚魚", cond=auto_di, type=CT_HUYO,
-           osame=int_di(3), cfs=[_cfs_s_3_1, _cfs_s_3_2], used=[_cfs_s_3_2], kirihuda=True, flair=int_di(2))
+           osame=int_di(3), tenkaizi=_tenkaizi_s_3, cfs=[_cfs_s_3_1, _cfs_s_3_2], used=[_cfs_s_3_2],
+           kirihuda=True, flair=int_di(2))

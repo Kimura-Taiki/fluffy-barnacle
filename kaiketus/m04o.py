@@ -133,7 +133,7 @@ s_2 = Card(megami=MG_TOKOYO, img=img_card("o_s_2"), name="千歳ノ鳥", cond=au
     after=saikousei_card, kirihuda=True, flair=int_di(2))
 
 def _hikougeki_tehuda(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    tehuda = delivery.taba_(hoyuusya=hoyuusya, taba_code=TC_TEHUDA)
+    tehuda = delivery.taba(hoyuusya=hoyuusya, taba_code=TC_TEHUDA)
     li: list[Huda] = []
     for huda in tehuda:
         if isinstance(huda, Huda) and huda.card.type != CT_KOUGEKI:
