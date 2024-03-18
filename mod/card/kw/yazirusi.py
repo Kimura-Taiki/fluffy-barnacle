@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import NamedTuple, Any
 
-from mod.const import UC_DUST, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, UC_ISYUKU,\
+from mod.const import UC_DUST, UC_MAAI, UC_AURA, UC_ZYOGAI, UC_SYUUTYUU, UC_ISYUKU,\
     SC_SMOKE, SC_UROUO_YAZIRUSI, POP_OPEN, POP_ACT1
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
@@ -49,3 +49,4 @@ class Yazirusi(NamedTuple):
 
 ya_moguri = Yazirusi(from_code=UC_MAAI)
 ya_ridatu = Yazirusi(to_code=UC_MAAI)
+ya_matoi = Yazirusi(to_mine=True, to_code=UC_AURA)

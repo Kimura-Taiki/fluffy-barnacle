@@ -19,7 +19,7 @@ from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
 from mod.card.kw.saikousei import saikousei_card
-from mod.card.kw.yazirusi import Yazirusi, ya_moguri, ya_ridatu
+from mod.card.kw.yazirusi import Yazirusi, ya_moguri, ya_ridatu, ya_matoi
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection, applied_scalar
 from mod.coous.aura_guard import AuraGuard
@@ -30,7 +30,7 @@ from mod.card.kw.syuutyuu import syuutyuu, isyuku, full_syuutyuu, reduce_syuutyu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
 from mod.card.kw.setti import setti_layer
-from mod.card.kw.kasa_kaihei import kasa_kaihei_layer
+from mod.card.kw.kasa_kaihei import kasa_kaihei_layer, kaihei_card
 
 _ADDRESS = "na_06_yukihi"
 def img_card(add: str) ->  Surface:
@@ -166,3 +166,13 @@ _cfs_s_3 = ScalarCorrection(name="どろりうら", cond=auto_diic, scalar=SC_DO
 
 s_3 = Card(megami=MG_YUKIHI, img=img_card("o_s_3"), name="どろりうら", cond=auto_di, type=CT_HUYO,
     osame=int_di(7), cfs=[_cfs_s_3], kirihuda=True, flair=int_di(3))
+
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("くるりみ", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: kaihei_card.kaiketu(delivery, hoyuusya, code=POP_ACT1),
+        POP_ACT1: lambda l, s: TempKoudou("纏い", auto_di, yazirusi=ya_matoi).kaiketu(delivery, hoyuusya, code=POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+s_4 = Card(megami=MG_YUKIHI, img=img_card("o_s_4"), name="くるりみ", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_4, taiou=True, kirihuda=True, flair=int_di(1))

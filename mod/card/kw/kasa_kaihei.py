@@ -45,9 +45,9 @@ def _kaihei_kouka(delivery: Delivery, hoyuusya: int) -> None:
         POP_ACT3: lambda l, s: moderator.pop()
     }))
 
-_kaihei_card = Card(img=IMG_BOOL_ZE, name="傘の開閉", cond=auto_di, type=
+kaihei_card = Card(img=IMG_BOOL_ZE, name="傘の開閉", cond=auto_di, type=
                        CT_KOUDOU, kouka=_kaihei_kouka)
-_kaihei_cards = [_kaihei_card, _pass_card]
+_kaihei_cards = [kaihei_card, _pass_card]
 
 def kasa_kaihei_layer(delivery: Delivery, hoyuusya: int, code: int) -> PipelineLayer:
     return PipelineLayer("傘の開閉の選択", delivery, hoyuusya, gotoes={
