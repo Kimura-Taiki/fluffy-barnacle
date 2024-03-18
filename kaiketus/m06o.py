@@ -162,3 +162,7 @@ s_2 = Card(megami=MG_YUKIHI, img=img_card("o_s_2"), name="ゆらりび", cond=au
     aura_damage_func=int_di(0), life_damage_func=int_di(0), maai_list=_maai_s_2_omote,
     kirihuda=True, flair=int_di(5), henbou=True, horobi=_s_2_ura)
 
+_cfs_s_3 = ScalarCorrection(name="どろりうら", cond=auto_diic, scalar=SC_DORORIURA, value=1)
+
+s_3 = Card(megami=MG_YUKIHI, img=img_card("o_s_3"), name="どろりうら", cond=auto_di, type=CT_HUYO,
+    osame=int_di(7), cfs=[_cfs_s_3], kirihuda=True, flair=int_di(3))
