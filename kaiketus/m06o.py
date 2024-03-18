@@ -4,7 +4,7 @@ from pygame import Surface
 from copy import copy
 
 from mod.const import enforce, opponent, MG_YUKIHI, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
-    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE, IMG_NO_CHOICE,\
+    CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
     SC_DORORIURA, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
@@ -135,13 +135,16 @@ _maai_s_1_omote: MaaiDI = lambda delivery, hoyuusya: dima_di(3, 6)(delivery, hoy
 
 _after_s_1 = TempKoudou("はらりゆき；攻撃後", auto_di, kouka=syuutyuu)
 
+_cfs_s_1 = saiki_trigger(cls=Card, img=img_card("o_s_1_s8"),
+    name="はらりゆき", cond=auto_diic, trigger=TG_KAIHEI)
+
 _s_1_ura = Card(megami=MG_YUKIHI, img=img_card("o_s_1_s8"), name="はらりゆき", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(0), life_damage_func=int_di(0), maai_list=_maai_s_1_ura,
-    kirihuda=True, flair=int_di(2))
+    kirihuda=True, flair=int_di(2), used=[_cfs_s_1])
 
 s_1 = Card(megami=MG_YUKIHI, img=img_card("o_s_1_s8"), name="はらりゆき", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=_maai_s_1_omote, after=_after_s_1,
-    kirihuda=True, flair=int_di(2), henbou=True, horobi=_s_1_ura)
+    kirihuda=True, flair=int_di(2), used=[_cfs_s_1], henbou=True, horobi=_s_1_ura)
 
 _maai_s_2_ura: MaaiDI = lambda delivery, hoyuusya: dima_di(0, 0)(delivery, hoyuusya)\
     if applied_scalar(i=0, scalar=SC_DORORIURA, delivery=delivery) == 0 else\
