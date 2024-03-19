@@ -20,7 +20,6 @@ _END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
 def _zenryokuize(layer: PipelineLayer, huda: Huda, code: int) -> None:
     zenryokued = copy(enforce(huda.card.kwargs["zenryokued"], Card))
     zenryokued.img = IMG_ZENRYOKUIZE
-    print("全力化カード名", zenryokued.name)
     moderator.append(choice_layer(cards=[huda.card, zenryokued], delivery=layer.delivery,
         hoyuusya=layer.hoyuusya, huda=huda, code=code))
 

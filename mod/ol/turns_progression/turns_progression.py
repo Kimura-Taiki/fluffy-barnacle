@@ -11,7 +11,6 @@ def _open(layer: PipelineLayer, stat: PopStat) -> None:
     moderator.append(MainPhase(inject_func=layer.inject_func))
     layer.delivery.b_params.turn_count = 1
     layer.delivery.turn_player = SIMOTE
-    print(f"ターンプレイヤーを{side_name(layer.delivery.turn_player)}にしたよ")
     layer.name = _layer_name(delivery=layer.delivery)
 
 def _start_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:

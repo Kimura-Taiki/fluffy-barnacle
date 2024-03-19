@@ -105,9 +105,7 @@ def _taiounize_cfs_n_6_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> 
     taiounized = copy(kougeki)
     def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
         li = kougeki.maai_list(delivery, hoyuusya)
-        print("li", li)
         for i, v in enumerate(li[::-1]):
-            print("i, v", i, v)
             if i == 0 or not v:
                 continue
             li[-i] = True
@@ -145,3 +143,10 @@ _n_7_zenryoku = Card(megami=MG_HAGANE, img=img_card("o_n_7_s7_2"), name="引力�
 
 n_7 = Card(megami=MG_HAGANE, img=img_card("o_n_7_s7_2"), name="引力場", cond=auto_di, type=CT_HUYO,
     osame=int_di(2), tenkaizi=_tenkaizi_n_7, cfs=[_cfs_n_7], zenryokuize=True, zenryokued=_n_7_zenryoku)
+
+_ad_s_1: SuuziDI = lambda delivery, hoyuusya: abs(delivery.b_params.start_turn_maai-delivery.b_params.maai)
+_ld_s_1: SuuziDI = lambda delivery, hoyuusya: int((abs(delivery.b_params.start_turn_maai-delivery.b_params.maai)+1)/2)
+
+s_1 = Card(megami=MG_HAGANE, img=img_card("o_s_1_s5"), name="大天空クラッシュ", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=_ad_s_1, life_damage_func=_ld_s_1, maai_list=dima_di(0, 10),
+    kirihuda=True, flair=int_di(4))
