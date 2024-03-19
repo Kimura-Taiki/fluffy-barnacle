@@ -27,7 +27,7 @@ from mod.coous.aura_guard import AuraGuard
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer, NO_CHOICE
 from mod.card.kw.handraw import handraw
-from mod.card.kw.syuutyuu import syuutyuu, isyuku, full_syuutyuu, reduce_syuutyuu
+from mod.card.kw.syuutyuu import syuutyuu, isyuku, full_syuutyuu, reduce_syuutyuu, deprive_syuutyuu
 from mod.card.kw.handraw import handraw_card
 from mod.card.kw.discard import discard_card
 from mod.card.kw.setti import setti_layer
@@ -76,3 +76,12 @@ _after_n_2 = TempKoudou("砂風塵：攻撃後", _cond_n_2, kouka=_kouka_n_2)
 
 n_2 = Card(megami=MG_HAGANE, img=img_card("o_n_2"), name="砂風塵", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(0, 6), after=_after_n_2)
+
+def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
+    deprive_syuutyuu(delivery, hoyuusya)
+    isyuku(delivery, hoyuusya)
+
+_after_n_3 = TempKoudou("大地砕き：攻撃後", auto_di, kouka=_kouka_n_3)
+
+n_3 = Card(megami=MG_HAGANE, img=img_card("o_n_3"), name="大地砕き", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_bar=auto_di, maai_list=dima_di(0, 3), taiouble=nega_dic, after=_after_n_3)
