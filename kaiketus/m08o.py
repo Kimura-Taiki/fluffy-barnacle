@@ -93,3 +93,10 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
 
 n_4 = Card(megami=MG_HAGANE, img=img_card("o_n_4_s6_2"), name="超反動", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_4)
+
+def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
+    if delivery.ouka_count(hoyuusya, False, UC_FLAIR) >= 3:
+        Yazirusi(from_code=UC_FLAIR, to_mine=True, to_code=UC_AURA, kazu=2).send(delivery, hoyuusya)
+
+n_5 = Card(megami=MG_HAGANE, img=img_card("o_n_5"), name="円舞錬", cond=ensin, type=CT_KOUDOU,
+    kouka=_kouka_n_5)
