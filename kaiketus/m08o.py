@@ -150,3 +150,22 @@ _ld_s_1: SuuziDI = lambda delivery, hoyuusya: int((abs(delivery.b_params.start_t
 s_1 = Card(megami=MG_HAGANE, img=img_card("o_s_1_s5"), name="大天空クラッシュ", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_ad_s_1, life_damage_func=_ld_s_1, maai_list=dima_di(0, 10),
     kirihuda=True, flair=int_di(4))
+
+def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
+    kirihuda: list[Huda] = delivery.taba(hoyuusya, TC_KIRIHUDA)
+    if all(huda.usage == USAGE_USED or huda.card.name == "大破鐘メガロベル" for huda in kirihuda):
+        Yazirusi(to_mine=True, to_code=UC_LIFE, kazu=2).send(delivery, hoyuusya)
+
+s_2 = Card(megami=MG_HAGANE, img=img_card("o_s_2"), name="大破鐘メガロベル", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_2, kirihuda=True, flair=int_di(2))
+
+
+# class Huda():
+#     def __init__(self) -> None:
+#         self.usage = USAGE_UNUSED
+
+# def all_used(li: list[Huda]) -> bool:
+#     for huda in li:
+#         if huda.usage != USAGE_USED:
+#             return False
+#     return True
