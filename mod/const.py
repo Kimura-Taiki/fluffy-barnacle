@@ -93,6 +93,7 @@ IMG_OSAME_AURA = pygame.image.load("pictures/osame_aura.png").convert_alpha()
 IMG_OSAME_AURA_LIGHTEN = pygame.image.load("pictures/osame_aura_lighten.png").convert_alpha()
 IMG_DONOR_DUST = pygame.image.load("pictures/donor_dust.png").convert_alpha()
 IMG_DONOR_AURA = pygame.image.load("pictures/donor_aura.png").convert_alpha()
+IMG_ZENRYOKUIZE = pygame.image.load("pictures/zenryokuize.png").convert_alpha()
 
 HUDA_SCALE = 0.6
 IMG_ATTACK_STAT = pygame.image.load("pictures/attack_stat.png").convert_alpha()

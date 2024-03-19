@@ -63,6 +63,7 @@ class Card():
         self.kwargs = kwargs
 
     def kaiketu(self, delivery: Delivery, hoyuusya: int, huda: Any | None=None, code: int=POP_OK) -> None:
+        print(self, self.name, self.tenkaizi.name if self.tenkaizi else "None")
         if self.kirihuda:
             delivery.send_ouka_to_ryouiki(hoyuusya=hoyuusya, from_mine=True, from_code=UC_FLAIR, to_mine=False, to_code=UC_DUST,
                                           kazu=self.flair(delivery, hoyuusya))

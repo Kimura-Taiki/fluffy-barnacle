@@ -77,8 +77,9 @@ def _decided(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def _tenkaizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     huda = enforce(layer.huda, Huda).base
-    if huda.card.tenkaizi:
-        huda.card.tenkaizi.kaiketu(delivery=layer.delivery,hoyuusya=layer.hoyuusya,
+    card = enforce(layer.card, Card)
+    if card.tenkaizi:
+        card.tenkaizi.kaiketu(delivery=layer.delivery,hoyuusya=layer.hoyuusya,
             huda=huda, code=code)
     if moderator.last_layer() == layer:
         layer.moderate(PopStat(code))
@@ -93,6 +94,6 @@ POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN),
 POP_DECIDED: lambda l, s: _decided(l, s, POP_ACT1),
 POP_ACT1: lambda l, s: _tenkaizi(l, s, POP_ACT2),
 POP_ACT2: lambda l, s: moderator.pop()
-        }, huda=huda, code=code)
+        }, card=card, huda=huda, code=code)
     layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer

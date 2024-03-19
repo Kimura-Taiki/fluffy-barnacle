@@ -136,12 +136,12 @@ n_6 = Card(megami=MG_HAGANE, img=img_card("o_n_6_s8"), name="鐘鳴らし", cond
     kouka=_kouka_n_6)
 
 _cfs_n_7 = ScalarCorrection(name="引力場", cond=auto_diic, scalar=SC_TATUZIN, value=-1)
-_tenkaizi_n_7 = TempKoudou("引力場", auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA))
-_tenkaizi_n_7_zenryoku = TempKoudou("引力場：全力化", auto_di, yazirusi=
+_tenkaizi_n_7 = TempKoudou("引力場：間合操作", auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA))
+_tenkaizi_n_7_zenryoku = TempKoudou("引力場：全力化の間合操作", auto_di, yazirusi=
     Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA, kazu=2))
 
 _n_7_zenryoku = Card(megami=MG_HAGANE, img=img_card("o_n_7_s7_2"), name="引力場：全力化", cond=auto_di, type=CT_HUYO,
     osame=int_di(2), tenkaizi=_tenkaizi_n_7_zenryoku, cfs=[_cfs_n_7], zenryoku=True)
 
 n_7 = Card(megami=MG_HAGANE, img=img_card("o_n_7_s7_2"), name="引力場", cond=auto_di, type=CT_HUYO,
-    osame=int_di(2), tenkaizi=_tenkaizi_n_7_zenryoku, cfs=[_cfs_n_7], zenryokuize=True, zenryokued=_n_7_zenryoku)
+    osame=int_di(2), tenkaizi=_tenkaizi_n_7, cfs=[_cfs_n_7], zenryokuize=True, zenryokued=_n_7_zenryoku)
