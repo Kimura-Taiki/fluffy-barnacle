@@ -84,4 +84,12 @@ def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
 _after_n_3 = TempKoudou("大地砕き：攻撃後", auto_di, kouka=_kouka_n_3)
 
 n_3 = Card(megami=MG_HAGANE, img=img_card("o_n_3"), name="大地砕き", cond=auto_di, type=CT_KOUGEKI,
-    aura_damage_func=int_di(2), life_bar=auto_di, maai_list=dima_di(0, 3), taiouble=nega_dic, after=_after_n_3)
+    aura_damage_func=int_di(2), life_bar=auto_di, maai_list=dima_di(0, 3), taiouble=nega_dic, after=_after_n_3, zenryoku=True)
+
+def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
+    (Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_FLAIR)
+     if delivery.b_params.maai >= 5
+     else Yazirusi(from_code=UC_FLAIR, to_code=UC_MAAI)).send(delivery, hoyuusya)
+
+n_4 = Card(megami=MG_HAGANE, img=img_card("o_n_4_s6_2"), name="超反動", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_4)
