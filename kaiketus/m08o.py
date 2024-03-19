@@ -100,3 +100,38 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
 
 n_5 = Card(megami=MG_HAGANE, img=img_card("o_n_5"), name="円舞錬", cond=ensin, type=CT_KOUDOU,
     kouka=_kouka_n_5)
+
+def _taiounize_cfs_n_6_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
+    taiounized = copy(kougeki)
+    def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
+        li = kougeki.maai_list(delivery, hoyuusya)
+        print("li", li)
+        for i, v in enumerate(li[::-1]):
+            print("i, v", i, v)
+            if i == 0 or not v:
+                continue
+            li[-i] = True
+            break
+        return li
+    taiounized.taiouble = nega_dic
+    taiounized.maai_list = maai_list
+    return taiounized
+
+_cfs_n_6_1 = AttackCorrection(name="鐘鳴らし：+2/+1", cond=mine_cf, taiounize=lambda c, d, h: papl_attack(c, d, h, 2, 1))
+_cfs_n_6_2 = AttackCorrection(name="鐘鳴らし：対応不可、拡大遠1", cond=mine_cf, taiounize=_taiounize_cfs_n_6_2)
+
+def _kouka_n_6_1(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.m_params(hoyuusya).lingerings.append(_cfs_n_6_1)
+
+def _kouka_n_6_2(delivery: Delivery, hoyuusya: int) -> None:
+    delivery.m_params(hoyuusya).lingerings.append(_cfs_n_6_2)
+
+_choice_n_6_1 = TempKoudou("火力強化", auto_di, kouka=_kouka_n_6_1, todo=[["＋２／＋１"]])
+_choice_n_6_2 = TempKoudou("射程延伸", auto_di, kouka=_kouka_n_6_2, todo=[["対応不可", "距離拡大(遠１)"]])
+
+def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(choice_layer(cards=[_choice_n_6_1, _choice_n_6_2], delivery=delivery, hoyuusya=hoyuusya))
+
+n_6 = Card(megami=MG_HAGANE, img=img_card("o_n_6_s8"), name="鐘鳴らし", cond=ensin, type=CT_KOUDOU,
+    kouka=_kouka_n_6)
+

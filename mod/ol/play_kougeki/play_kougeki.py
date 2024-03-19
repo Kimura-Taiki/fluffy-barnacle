@@ -8,6 +8,7 @@ from mod.ol.play_kougeki.uke_cards import uke_cards
 from mod.ol.play_kougeki.taiou_hudas import taiou_hudas
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
+from mod.card.card import auto_di
 from mod.card.damage import Damage
 from mod.ol.use_card_layer import use_card_layer
 from mod.coous.attack_correction import AttackCorrection
@@ -67,6 +68,7 @@ def _taioued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         moderator.pop()
         return
     layer.card = huda.card.taiounize(kougeki, delivery, hoyuusya)
+    layer.card.cond = auto_di
     layer.moderate(stat=PopStat(code=code, switch=True))
 
 def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
