@@ -15,12 +15,15 @@ def _open(layer: PipelineLayer, stat: PopStat) -> None:
     layer.name = _layer_name(delivery=layer.delivery)
 
 def _start_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.b_params.start_phase()
     moderator.append(MainPhase(delivery=layer.delivery, inject_func=layer.inject_func))
 
 def _main_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.b_params.start_phase()
     moderator.append(end_phase_layer(layer.delivery))
 
 def _end_phase_finished(layer: PipelineLayer, stat: PopStat) -> None:
+    layer.delivery.b_params.start_phase()
     layer.delivery.b_params.turn_count += 1
     layer.delivery.turn_player = opponent(layer.delivery.turn_player)
     layer.name = _layer_name(delivery=layer.delivery)

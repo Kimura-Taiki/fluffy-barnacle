@@ -4,13 +4,13 @@ from typing import Callable, Any
 class BParams():
     def __init__(self, maai_func: Callable[[], int] | None=None,
                  tatuzin_func: Callable[[], int] | None=None) -> None:
-        self.start_turn()
         self.turn_count = 1
         self._maai_func = maai_func if maai_func else self._default_maai_func
         self._tatuzin_no_maai = 2
         self._tatuzin_func = tatuzin_func if tatuzin_func else self._default_tatuzin_func
         self.tehuda_max = 2
         self.damage_attr = 0
+        self.start_turn()
 
     def start_turn(self) -> None:
         self.during_kougeki = False
@@ -18,6 +18,11 @@ class BParams():
         self.during_taiou = False
         self.sukinagasi = False
         self.attack_megami = -1
+        self.start_turn_maai = self.maai
+        self.start_phase()
+
+    def start_phase(self) -> None:
+        self.phase_ended = False
 
     @property
     def tatuzin_no_maai(self) -> int:

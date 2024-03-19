@@ -21,6 +21,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.b_params.during_kougeki = True
     layer.delivery.b_params.during_kirihuda = card.kirihuda
     layer.delivery.b_params.attack_megami = card.megami
+    layer.delivery.m_params(hoyuusya).played_kougeki = True
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
     if stat.switch or layer.delivery.b_params.during_taiou:

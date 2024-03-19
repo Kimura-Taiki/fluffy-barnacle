@@ -17,6 +17,7 @@ banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_MAAI,
 # banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=False, from_code=UC_ZYOGAI, to_mine=False, to_code=UC_DUST, kazu=10)
 banmen.send_ouka_to_ryouiki(hoyuusya=SIMOTE, from_mine=True, from_code=UC_LIFE, to_mine=False, to_code=UC_DUST, kazu=5)
 banmen.send_ouka_to_ryouiki(hoyuusya=KAMITE, from_mine=True, from_code=UC_LIFE, to_mine=False, to_code=UC_DUST, kazu=5)
+banmen.b_params.start_turn_maai = 4
 
 moderator.delivery = banmen
 moderator.append(turns_progression_layer(delivery=banmen, inject_func=banmen.inject_main_phase))
