@@ -2,6 +2,7 @@
 import pygame
 from pygame import Surface
 from copy import copy
+import random
 
 from mod.const import enforce, opponent, MG_HAGANE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
@@ -65,3 +66,13 @@ _after_n_1 = TempKoudou("遠心撃：攻撃後", _cond_n_1, kouka=_kouka_n_1)
 
 n_1 = Card(megami=MG_HAGANE, img=img_card("o_n_1_s2"), name="遠心撃", cond=ensin, type=CT_KOUGEKI,
     aura_damage_func=int_di(5), life_damage_func=int_di(3), maai_list=dima_di(2, 6), after=_after_n_1)
+
+def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
+    tehuda: list[Huda] = delivery.taba(opponent(hoyuusya), TC_TEHUDA)
+    delivery.send_huda_to_ryouiki(huda=random.choice(tehuda), is_mine=True, taba_code=TC_SUTEHUDA)
+
+_cond_n_2: BoolDI = lambda delivery, hoyuusya: abs(delivery.b_params.start_turn_maai-delivery.b_params.maai) >= 2
+_after_n_2 = TempKoudou("砂風塵：攻撃後", _cond_n_2, kouka=_kouka_n_2)
+
+n_2 = Card(megami=MG_HAGANE, img=img_card("o_n_2"), name="砂風塵", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(0, 6), after=_after_n_2)
