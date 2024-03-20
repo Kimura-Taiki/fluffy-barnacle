@@ -40,6 +40,8 @@ def _spend_huda(layer: PipelineLayer, huda: Huda) -> None:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_SUTEHUDA)
 
 def _kaiketued_use_card(layer: PipelineLayer, huda: Huda, card: Card) -> None:
+    if "ensin" in card.kwargs:
+        layer.delivery.m_params(layer.hoyuusya).played_ensin = True
     if card.zenryoku:
         layer.delivery.m_params(layer.hoyuusya).played_zenryoku = True
     if card.syuutan:

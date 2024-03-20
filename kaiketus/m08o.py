@@ -65,7 +65,7 @@ _cond_n_1: BoolDI = lambda delivery, hoyuusya: delivery.turn_player == moderator
 _after_n_1 = TempKoudou("遠心撃：攻撃後", _cond_n_1, kouka=_kouka_n_1)
 
 n_1 = Card(megami=MG_HAGANE, img=img_card("o_n_1_s2"), name="遠心撃", cond=ensin, type=CT_KOUGEKI,
-    aura_damage_func=int_di(5), life_damage_func=int_di(3), maai_list=dima_di(2, 6), after=_after_n_1)
+    aura_damage_func=int_di(5), life_damage_func=int_di(3), maai_list=dima_di(2, 6), after=_after_n_1, ensin=True)
 
 def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
     tehuda: list[Huda] = delivery.taba(opponent(hoyuusya), TC_TEHUDA)
@@ -99,7 +99,7 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
         Yazirusi(from_code=UC_FLAIR, to_mine=True, to_code=UC_AURA, kazu=2).send(delivery, hoyuusya)
 
 n_5 = Card(megami=MG_HAGANE, img=img_card("o_n_5"), name="円舞錬", cond=ensin, type=CT_KOUDOU,
-    kouka=_kouka_n_5)
+    kouka=_kouka_n_5, ensin=True)
 
 def _taiounize_cfs_n_6_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
     taiounized = copy(kougeki)
@@ -131,7 +131,7 @@ def _kouka_n_6(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(choice_layer(cards=[_choice_n_6_1, _choice_n_6_2], delivery=delivery, hoyuusya=hoyuusya))
 
 n_6 = Card(megami=MG_HAGANE, img=img_card("o_n_6_s8"), name="鐘鳴らし", cond=ensin, type=CT_KOUDOU,
-    kouka=_kouka_n_6)
+    kouka=_kouka_n_6, ensin=True)
 
 _cfs_n_7 = ScalarCorrection(name="引力場", cond=auto_diic, scalar=SC_TATUZIN, value=-1)
 _tenkaizi_n_7 = TempKoudou("引力場：間合操作", auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA))
@@ -159,13 +159,15 @@ def _kouka_s_2(delivery: Delivery, hoyuusya: int) -> None:
 s_2 = Card(megami=MG_HAGANE, img=img_card("o_s_2"), name="大破鐘メガロベル", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_2, kirihuda=True, flair=int_di(2))
 
+def _kouka_s_3(delivery: Delivery, hoyuusya: int) -> None:
+    Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_FLAIR, kazu=3).send(delivery, hoyuusya)
+    delivery.m_params(hoyuusya).played_attract = True
 
-# class Huda():
-#     def __init__(self) -> None:
-#         self.usage = USAGE_UNUSED
+_cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    delivery.m_params(cf_h).played_ensin and not delivery.m_params(cf_h).played_attract
 
-# def all_used(li: list[Huda]) -> bool:
-#     for huda in li:
-#         if huda.usage != USAGE_USED:
-#             return False
-#     return True
+_cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3"),
+            name="大重力アトラクト", cond=_cond_s_3, trigger=TG_END_PHASE)
+
+s_3 = Card(megami=MG_HAGANE, img=img_card("o_s_3"), name="大重力アトラクト", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_3, used=[_cfs_s_3], kirihuda=True, flair=int_di(5))

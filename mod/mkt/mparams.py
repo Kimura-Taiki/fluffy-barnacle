@@ -15,6 +15,8 @@ class MParams():
         self.played_zenryoku = False
         self.played_syuutan = False
         self.played_standard = False
+        self.played_ensin = False
+        self.played_attract = False
         self.use_card_count = 0
         self.use_from_husehuda = False
         self.aura_damaged = False
