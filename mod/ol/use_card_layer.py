@@ -3,7 +3,8 @@ from copy import copy
 
 from mod.const import enforce, POP_OK, POP_OPEN, POP_CHOICED, POP_KAIKETUED,\
     TC_HUSEHUDA, UC_SYUUTYUU, UC_ZYOGAI, OBAL_KIHONDOUSA, OBAL_SYUUTYUU,\
-    OBAL_USE_CARD, USAGE_USED, USAGE_DEPLOYED, TC_YAMAHUDA, TC_SUTEHUDA, POP_CLOSED,\
+    OBAL_USE_CARD, USAGE_USED, USAGE_DEPLOYED,\
+    TC_MISIYOU, TC_YAMAHUDA, TC_SUTEHUDA, POP_CLOSED,\
     IMG_ZENRYOKUIZE
 from mod.classes import Callable, PopStat, Card, Youso, Huda, Taba, moderator,\
     popup_message
@@ -36,6 +37,8 @@ def _spend_huda(layer: PipelineLayer, huda: Huda) -> None:
     if layer.delivery.b_params.sukinagasi:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_YAMAHUDA, is_top=True)
         layer.delivery.b_params.sukinagasi = False
+    elif "tanki_doku" in layer.card.kwargs:
+        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=False, taba_code=TC_MISIYOU)
     else:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_SUTEHUDA)
 
