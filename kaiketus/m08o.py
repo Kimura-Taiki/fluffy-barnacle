@@ -171,3 +171,20 @@ _cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3"),
 
 s_3 = Card(megami=MG_HAGANE, img=img_card("o_s_3"), name="大重力アトラクト", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_3, used=[_cfs_s_3], kirihuda=True, flair=int_di(5))
+
+def _sutehuda_s_4(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_SUTEHUDA) if not enforce(huda, Huda).card.zenryoku]
+
+def _kouka_s_4(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("捨て札再利用×２", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "再利用する捨て札の選択(１枚目)",
+            lower=_sutehuda_s_4(delivery, hoyuusya), upper=[NO_CHOICE], code=POP_ACT1)),
+        POP_ACT1: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery, hoyuusya, huda=s.huda, code=POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "再利用する捨て札の選択(２枚目)",
+            lower=_sutehuda_s_4(delivery, hoyuusya), upper=[NO_CHOICE], code=POP_ACT3)),
+        POP_ACT3: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery, hoyuusya, huda=s.huda, code=POP_ACT4),
+        POP_ACT4: lambda l, s: moderator.pop()
+    }))
+
+s_4 = Card(megami=MG_HAGANE, img=img_card("o_s_4"), name="大山脈リスペクト", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_4, kirihuda=True, flair=int_di(4), ensin=True)
