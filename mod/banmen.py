@@ -1,9 +1,11 @@
 #                 20                  40                  60                 79
 from typing import runtime_checkable, Protocol
 
-from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG, UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE\
-    , SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA, UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO\
-    , TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, UC_ISYUKU, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN\
+from mod.const import IMG_MAAI_AREA, IMG_DUST_AREA, WX, WY, screen, IMG_YATUBA_BG,\
+    UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR, UC_LIFE, UC_ISYUKU,\
+    SIMOTE, KAMITE, HANTE, compatible_with, IMG_ZYOGAI_AREA,\
+    UC_ZYOGAI, UC_SYUUTYUU, USAGE_DEPLOYED, CT_HUYO,\
+    TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, enforce, USAGE_USED, CT_KOUDOU, UC_TATUZIN\
     , opponent, MS_MINCHO_COL, BLACK, SC_MAAI, SC_TATUZIN
 from mod.classes import Callable, Any, Card, Youso, Huda, Taba, Delivery, moderator, controller
 from mod.delivery import Listener
@@ -102,8 +104,9 @@ class Banmen():
 
     def taba(self, hoyuusya: int, taba_code: int) -> Taba:
         mikoto = self._mikoto_target(hoyuusya=hoyuusya, is_mine=True)
-        taba = enforce({TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda, TC_HUSEHUDA: mikoto.husehuda,
-                        TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda}.get(taba_code), Taba)
+        taba = enforce({TC_MISIYOU: mikoto.misiyou, TC_YAMAHUDA: mikoto.yamahuda, TC_TEHUDA: mikoto.tehuda,
+                        TC_HUSEHUDA: mikoto.husehuda, TC_SUTEHUDA: mikoto.sutehuda, TC_KIRIHUDA: mikoto.kirihuda
+                        }.get(taba_code), Taba)
         return taba
 
     def ouka_count(self, hoyuusya: int, is_mine: bool, utuwa_code: int) -> int:
