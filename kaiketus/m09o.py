@@ -156,3 +156,12 @@ n_6 = suki_card(megami=MG_TIKAGE, img=img_card("o_n_6"), name="抜き足", cond=
 
 n_7 = Card(megami=MG_TIKAGE, img=img_card("o_n_7"), name="泥濘", cond=auto_di, type=CT_HUYO,
     osame=int_di(2), cfs=[ScalarCorrection(name="泥濘", cond=enemy_cf, scalar=SC_DEINEI, value=1)])
+
+def _kouka_s_1(delivery: Delivery, hoyuusya: int) -> None:
+    horobi_doku = next(huda for huda in delivery.taba(hoyuusya, TC_MISIYOU)\
+        if isinstance(huda, Huda) and huda.card.name == "滅灯毒")
+    delivery.send_huda_to_ryouiki(huda=horobi_doku, is_mine=False, taba_code=TC_YAMAHUDA, is_top=True)
+
+s_1 = Card(megami=MG_TIKAGE, img=img_card("o_s_1"), name="滅灯の魂毒", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_s_1, kirihuda=True, flair=int_di(3))
+
