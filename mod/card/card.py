@@ -3,11 +3,12 @@ from pygame.surface import Surface
 from typing import Callable, Any, Optional
 
 from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR,\
-    CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, POP_OPEN
+    CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, POP_OPEN, SC_TIKANDOKU
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
 from mod.coous.continuous import Continuous
+from mod.coous.scalar_correction import applied_scalar
 from mod.card.card_func import maai_text, is_meet_conditions
 from mod.card.amortize import amortize_default
 
@@ -94,7 +95,9 @@ class Card():
     def can_play(self, delivery: Delivery, hoyuusya: int, popup: bool=False) -> bool:
         checks: list[tuple[bool, str]] = [
             (not self.cond(delivery, hoyuusya), f"「{self.name}」の使用条件を満たしていません"),
-            (self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya), f"「{self.name}」の適正距離から外れています")
+            (self.type == CT_KOUGEKI and not self.maai_cond(delivery=delivery, hoyuusya=hoyuusya), f"「{self.name}」の適正距離から外れています"),
+            (self.type == CT_KOUGEKI and applied_scalar(i=0, scalar=SC_TIKANDOKU, delivery=delivery, hoyuusya=hoyuusya) > 0,
+             "弛緩毒の展開中に攻撃はできません")
         ]
         return is_meet_conditions(checks=checks, popup=popup)
 
