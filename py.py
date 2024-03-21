@@ -42,6 +42,10 @@ try:
     while True:
         mainloop()
 except ValueError as e:
+    print(e)
     for layer in moderator.stack:
         print(vars(layer))
     print("以上がレイヤー状態です")
+
+# while True:
+#     mainloop()

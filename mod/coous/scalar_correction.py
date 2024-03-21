@@ -4,9 +4,9 @@ from copy import copy
 
 from mod.const import CF_SCALAR_CORRECTION, enforce, SIMOTE
 from mod.delivery import Delivery
-from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf, duck_card
+from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf, enemy_cf, duck_card
 
-__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
+__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf', 'enemy_cf']
 
 class ScalarCorrection(Continuous):
     def __init__(self, name: str, cond: BoolDIIC, scalar: int, value: int) -> None:

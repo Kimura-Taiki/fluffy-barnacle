@@ -7,12 +7,12 @@ import random
 from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
-    SC_TIKANDOKU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
+    SC_TIKANDOKU, SC_TONZYUTU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
 from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
-from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
+from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, enemy_cf, BoolDIIC, auto_diic
 from mod.ol.pop_stat import PopStat
 from mod.ol.choice import choice_layer
 from mod.ol.use_card_layer import use_card_layer
@@ -98,14 +98,18 @@ _after_n_2 = TempKoudou("毒針：攻撃後", auto_di, _kouka_n_2)
 n_2 = Card(megami=MG_TIKAGE, img=img_card("o_n_2"), name="毒針", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(4, 4), after=_after_n_2)
 
+_cfs_n_3 = ScalarCorrection(name="遁術", cond=enemy_cf, scalar=SC_TONZYUTU, value=1)
+
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer("遁術", delivery, hoyuusya, gotoes={
         POP_OPEN: lambda l, s: TempKoudou("遁術：後退", auto_di, yazirusi=ya_koutai).kaiketu(delivery, hoyuusya, code=POP_ACT1),
         POP_ACT1: lambda l, s: TempKoudou("遁術：離脱", auto_di, yazirusi=ya_ridatu).kaiketu(delivery, hoyuusya, code=POP_ACT2),
-        POP_ACT2: lambda l, s: moderator.pop()
+        POP_ACT2: lambda l, s: TempKoudou("遁術：残存効果", auto_di, kouka=lambda d, h:\
+            d.m_params(h).lingerings.append(_cfs_n_3)).kaiketu(delivery, hoyuusya, code=POP_ACT3),
+        POP_ACT3: lambda l, s: moderator.pop()
     }))
 
-_after_n_3 = TempKoudou("遁術：攻撃後", auto_di, _kouka_n_3)
+_after_n_3 = TempKoudou("遁術：攻撃後", auto_di, kouka=_kouka_n_3)
 
 n_3 = Card(megami=MG_TIKAGE, img=img_card("o_n_3_s5"), name="遁術", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(1, 3), after=_after_n_3)

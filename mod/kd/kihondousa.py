@@ -1,9 +1,10 @@
 #                 20                  40                  60                 79
 import pygame
 from pygame.surface import Surface
-from mod.const import UC_MAAI, UC_AURA, UC_DUST, UC_FLAIR, UC_TATUZIN
+from mod.const import UC_MAAI, UC_AURA, UC_DUST, UC_FLAIR, UC_TATUZIN, SC_TONZYUTU
 from mod.classes import Callable, Delivery, popup_message
 from mod.card.card import BoolDI, Card, auto_di
+from mod.coous.scalar_correction import applied_scalar
 
 LOAD_SURFACE: Callable[[str], Surface] = lambda i: pygame.image.load(f"pictures/kihon_{i}.png").convert_alpha()
 
@@ -22,7 +23,10 @@ class KihonDousaCard(Card):
         self.kouka = dousa
 
 #                 20                  40                  60                 79
-zensin_booldi: BoolDI = lambda delivery, hoyuusya: delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) < delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI)
+zensin_booldi: BoolDI = lambda delivery, hoyuusya:\
+    delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) <\
+    delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) and\
+    applied_scalar(0, SC_TONZYUTU, delivery, hoyuusya) == 0
 zensin_card: Card = KihonDousaCard(img=LOAD_SURFACE("zensin"), name="前進",
     from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA,
     add_cond=zensin_booldi)

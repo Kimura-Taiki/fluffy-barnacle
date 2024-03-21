@@ -4,9 +4,9 @@ from copy import copy
 
 from mod.const import CF_ATTACK_CORRECTION
 from mod.delivery import Delivery
-from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf
+from mod.coous.continuous import Continuous, BoolDIIC, auto_diic, mine_cf, enemy_cf
 
-__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf']
+__all__ = ['BoolDIIC', 'auto_diic', 'mine_cf', 'enemy_cf']
 
 @runtime_checkable
 class Attack(Protocol):
