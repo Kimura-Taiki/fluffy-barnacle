@@ -20,7 +20,7 @@ from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
 from mod.card.kw.saikousei import saikousei_card
-from mod.card.kw.yazirusi import Yazirusi, ya_moguri, ya_ridatu, ya_matoi
+from mod.card.kw.yazirusi import Yazirusi, ya_moguri, ya_ridatu, ya_koutai, ya_matoi
 from mod.coous.saiki import saiki_trigger
 from mod.coous.scalar_correction import ScalarCorrection, applied_scalar
 from mod.coous.aura_guard import AuraGuard
@@ -45,7 +45,13 @@ def _kaiki_huyo(delivery: Delivery, hoyuusya: int) -> None:
     huda = next(huda for huda in delivery.taba(hoyuusya, TC_SUTEHUDA) if enforce(huda, Huda).card.name == "弛緩毒")
     delivery.send_huda_to_ryouiki(huda=huda, is_mine=False, taba_code=TC_MISIYOU)
 
-# _cond_p_1: BoolDI = lambda delivery, hoyuusya: not delivery.m_params(hoyuusya).played_standard
+def _tanki_doku(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_MISIYOU) if "tanki_doku" in enforce(huda, Huda).card.kwargs]
+
+def _send_doku(layer: PipelineLayer, stat: PopStat, taba_code: int, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=False, taba_code=taba_code)
+    layer.moderate(PopStat(code))
+
 def _cond_p_1(delivery: Delivery, hoyuusya: int) -> bool:
     print("麻痺毒条件", delivery, hoyuusya)
     return not delivery.m_params(hoyuusya).played_standard
@@ -79,19 +85,11 @@ p_4 = Card(megami=MG_TIKAGE, img=img_card("o_p_4"), name="滅灯毒", cond=auto_
 n_1 = Card(megami=MG_TIKAGE, img=img_card("o_n_1"), name="飛苦無", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(4, 5))
 
-def _hudas_n_2(delivery: Delivery, hoyuusya: int) -> list[Huda]:
-    return [huda for huda in delivery.taba(hoyuusya, TC_MISIYOU) if "tanki_doku" in enforce(huda, Huda).card.kwargs]
-
-def _send_n_2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    huda = enforce(stat.huda, Huda).base
-    layer.delivery.send_huda_to_ryouiki(huda=huda, is_mine=False, taba_code=TC_YAMAHUDA, is_top=True)
-    layer.moderate(PopStat(code))
-
 def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer("毒を山札へ", delivery, hoyuusya, gotoes={
-        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "送る毒の選択",
-            lower=_hudas_n_2(delivery, hoyuusya), code=POP_ACT1)),
-        POP_ACT1: lambda l, s: _send_n_2(l, s, POP_ACT2),
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "山札へ送る毒の選択",
+            lower=_tanki_doku(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _send_doku(l, s, TC_YAMAHUDA, POP_ACT2),
         POP_ACT2: lambda l, s: moderator.pop()
     }))
 
@@ -100,4 +98,55 @@ _after_n_2 = TempKoudou("毒針：攻撃後", auto_di, _kouka_n_2)
 n_2 = Card(megami=MG_TIKAGE, img=img_card("o_n_2"), name="毒針", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(4, 4), after=_after_n_2)
 
+def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("遁術", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: TempKoudou("遁術：後退", auto_di, yazirusi=ya_koutai).kaiketu(delivery, hoyuusya, code=POP_ACT1),
+        POP_ACT1: lambda l, s: TempKoudou("遁術：離脱", auto_di, yazirusi=ya_ridatu).kaiketu(delivery, hoyuusya, code=POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+_after_n_3 = TempKoudou("遁術：攻撃後", auto_di, _kouka_n_3)
+
+n_3 = Card(megami=MG_TIKAGE, img=img_card("o_n_3_s5"), name="遁術", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(1, 3), after=_after_n_3)
+
+_cfs_n_7 = ScalarCorrection(name="引力場", cond=auto_diic, scalar=SC_TATUZIN, value=-1)
+_tenkaizi_n_7 = TempKoudou("引力場：間合操作", auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA))
+_tenkaizi_n_7_zenryoku = TempKoudou("引力場：全力化の間合操作", auto_di, yazirusi=
+    Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA, kazu=2))
+
+def _kouka_n_4_matoi(delivery: Delivery, hoyuusya: int) -> None:
+    if  any("doku" in enforce(huda, Huda).card.kwargs for huda in delivery.taba(opponent(hoyuusya), TC_TEHUDA)):
+        ya_matoi.send(delivery, hoyuusya)
+
+def _kouka_n_4_zenryoku(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("暗器：全力化", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, opponent(hoyuusya), name="受け取る毒の選択",
+            lower=_tanki_doku(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _send_doku(l, s, TC_TEHUDA, POP_ACT2),
+        POP_ACT2: lambda l, s: _after_n_4.kaiketu(delivery, hoyuusya, code=POP_ACT3),
+        POP_ACT3: lambda l, s: moderator.pop()
+    }))
+
+_after_n_4 = TempKoudou("暗器：攻撃後", auto_di, kouka=_kouka_n_4_matoi)
+_after_n_4_zenryoku = TempKoudou("暗器：全力化：攻撃後", auto_di, kouka=_kouka_n_4_zenryoku)
+
+_n_4_zenryoku = Card(megami=MG_TIKAGE, img=img_card("o_n_4_s8_2"), name="暗器：全力化", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(3), maai_list=dima_di(1, 5), after=_after_n_4_zenryoku,
+    zenryoku=True)
+
+n_4 = Card(megami=MG_TIKAGE, img=img_card("o_n_4_s8_2"), name="暗器", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(1, 5), after=_after_n_4,
+    taiou=True, zenryokuize=True, zenryokued=_n_4_zenryoku)
+
+def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("毒を手札へ", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "手札へ送る毒の選択",
+            lower=_tanki_doku(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _send_doku(l, s, TC_TEHUDA, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+n_5 = Card(megami=MG_TIKAGE, img=img_card("o_n_5"), name="毒霧", cond=auto_di, type=CT_KOUDOU,
+    kouka=_kouka_n_5)
 

@@ -49,4 +49,5 @@ class Yazirusi(NamedTuple):
 
 ya_moguri = Yazirusi(from_code=UC_MAAI)
 ya_ridatu = Yazirusi(to_code=UC_MAAI)
+ya_koutai = Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI)
 ya_matoi = Yazirusi(to_mine=True, to_code=UC_AURA)
