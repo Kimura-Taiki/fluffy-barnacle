@@ -1,3 +1,3 @@
-li = list(range(11))
-print(li[-1])
-print(li[-2])
+a = [10]
+b = ["hey", "helen"]
+print(a+b)

@@ -71,8 +71,8 @@ class Mikoto():
     def _simote_make(self) -> None:
         from kaiketus import m00a, m00b
         # self.m_params.has_yukihi = True
-        from kaiketus.m09o import p_1, p_2, p_3, p_4, n_1, n_2, n_3, n_4, n_5#, n_6, n_7, s_1, s_2, s_3, s_4
-        hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5]#, n_6, n_7]
+        from kaiketus.m09o import p_1, p_2, p_3, p_4, n_1, n_2, n_3, n_4, n_5, n_6#, n_7, s_1, s_2, s_3, s_4
+        hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6]#, n_7]
         # hands = [n_1, n_2]#, n_3, n_4, n_5, n_6, n_7]
         trumps = [m00b.s_3, m00a.s_3, m00a.s_2]#, s_1, s_2, s_3, s_4]
         self.misiyou = yamahuda_factory.maid_by_cards(cards=[p_1, p_2, p_3, p_4, p_4], hoyuusya=self.hoyuusya)

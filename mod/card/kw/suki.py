@@ -4,7 +4,7 @@ from pygame import Surface
 from mod.const import enforce, DMG_RESHUFFLE, TC_SUTEHUDA, UC_DUST, CT_HUYO,\
     USAGE_DEPLOYED, USAGE_USED, TG_1_OR_MORE_DAMAGE
 from mod.classes import Any, Card, Taba, Delivery, popup_message
-from mod.coous.continuous import BoolDIIC
+from mod.coous.continuous import Continuous, BoolDIIC
 from mod.coous.trigger import Trigger
 from mod.card.card import auto_di, BoolDI, SuuziDI
 from mod.card.temp_koudou import TempKoudou
@@ -34,6 +34,6 @@ def _cfs(name: str) -> Trigger:
                    effect=_effect(name=name))
 
 def suki_card(megami: int, img: Surface, name: str, cond: BoolDI,
-              osame: SuuziDI, hakizi: Card, **kwargs: Any) -> Card:
+              osame: SuuziDI, hakizi: Card, cfs: list[Continuous]=[], **kwargs: Any) -> Card:
     return Card(megami=megami, img=img, name=name, cond=cond, type=CT_HUYO,
-        osame=osame, suki=auto_di, hakizi=hakizi, cfs=[_cfs(name=name)], **kwargs)
+        osame=osame, suki=auto_di, hakizi=hakizi, cfs=[_cfs(name=name)]+cfs, **kwargs)

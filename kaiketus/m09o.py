@@ -7,7 +7,7 @@ import random
 from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
-    SC_TIKANDOKU, SC_TONZYUTU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
+    SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
 from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
@@ -114,11 +114,6 @@ _after_n_3 = TempKoudou("遁術：攻撃後", auto_di, kouka=_kouka_n_3)
 n_3 = Card(megami=MG_TIKAGE, img=img_card("o_n_3_s5"), name="遁術", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_bar=auto_di, maai_list=dima_di(1, 3), after=_after_n_3)
 
-_cfs_n_7 = ScalarCorrection(name="引力場", cond=auto_diic, scalar=SC_TATUZIN, value=-1)
-_tenkaizi_n_7 = TempKoudou("引力場：間合操作", auto_di, yazirusi=Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA))
-_tenkaizi_n_7_zenryoku = TempKoudou("引力場：全力化の間合操作", auto_di, yazirusi=
-    Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA, kazu=2))
-
 def _kouka_n_4_matoi(delivery: Delivery, hoyuusya: int) -> None:
     if  any("doku" in enforce(huda, Huda).card.kwargs for huda in delivery.taba(opponent(hoyuusya), TC_TEHUDA)):
         ya_matoi.send(delivery, hoyuusya)
@@ -154,3 +149,6 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
 n_5 = Card(megami=MG_TIKAGE, img=img_card("o_n_5"), name="毒霧", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5)
 
+n_6 = suki_card(megami=MG_TIKAGE, img=img_card("o_n_6"), name="抜き足", cond=auto_di,
+    osame=int_di(4), hakizi=TempKoudou("スカ", auto_di, kouka=lambda d, h: None),
+    cfs=[ScalarCorrection(name="抜き足", cond=auto_diic, scalar=SC_MAAI, value=-2)])
