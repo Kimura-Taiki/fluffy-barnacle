@@ -21,6 +21,7 @@ class Attack(Protocol):
     maai_list: Callable[[Delivery, int], list[bool]]
     taiouble: Callable[[Delivery, int, Any], bool]
     flair: Callable[[Delivery, int], int]
+    kwargs: dict[str, Any]
 
 TaiounizeDI = Callable[[Attack, Delivery, int], Attack]
 

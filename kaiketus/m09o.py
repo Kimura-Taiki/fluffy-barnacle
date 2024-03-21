@@ -165,3 +165,41 @@ def _kouka_s_1(delivery: Delivery, hoyuusya: int) -> None:
 s_1 = Card(megami=MG_TIKAGE, img=img_card("o_s_1"), name="滅灯の魂毒", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_s_1, kirihuda=True, flair=int_di(3))
 
+def _taiounize_cfs_s_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
+    taiounized = copy(kougeki)
+    if kougeki.aura_bar(delivery, hoyuusya) or kougeki.life_bar(delivery, hoyuusya):
+        taiounized.kwargs["utikesied"] = True
+    return taiounized
+
+s_2 = Card(megami=MG_TIKAGE, img=img_card("o_s_2"), name="叛旗の纏毒", cond=auto_di, type=CT_HUYO,
+    osame=int_di(5), cfs=[AttackCorrection(name="叛旗の纏毒", cond=enemy_cf, taiounize=_taiounize_cfs_s_2)],
+    taiou=True, kirihuda=True, flair=int_di(2))
+
+s_3 = Card(megami=MG_TIKAGE, img=img_card("o_s_3"), name="流転の霞毒", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(2), maai_list=dima_di(3, 7),
+    kirihuda=True, flair=int_di(1))
+
+s_4 = Card(megami=MG_TIKAGE, img=img_card("o_s_4"), name="闇昏千影の生きる道", cond=auto_di, type=CT_HUYO,
+    osame=int_di(4), cfs=[],
+    zenryoku=True, kirihuda=True, flair=int_di(5))
+
+# def _taiounize_cfs_s_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> Attack:
+#     taiounized = copy(kougeki)
+#     def taiouble(delivery: Delivery, hoyuusya: int, card: Card) -> bool:
+#         return False if not card.kirihuda else kougeki.taiouble(delivery, hoyuusya, card)
+#     def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
+#         li = kougeki.maai_list(delivery, hoyuusya)
+#         for i, v in enumerate(li):
+#             if i == 0 or not v:
+#                 continue
+#             li[i-1] = True
+#             break
+#         return li
+#     taiounized.taiouble = taiouble
+#     taiounized.maai_list = maai_list
+#     return taiounized
+
+# _cond_n_5: BoolDIIC = lambda delivery, atk_h, cf_h, card: \
+#     mine_cf(delivery, atk_h, cf_h, card) and card.megami != MG_YURINA and not card.kirihuda
+
+# _cfs_n_5 = AttackCorrection(name="気迫", cond=enemy_cf, taiounize=_taiounize_cfs_s_2)
