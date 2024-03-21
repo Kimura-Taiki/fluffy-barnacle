@@ -171,9 +171,15 @@ def _taiounize_cfs_s_2(kougeki: Attack, delivery: Delivery, hoyuusya: int) -> At
         taiounized.kwargs["utikesied"] = True
     return taiounized
 
+def _taiounize_s_2(kougeki: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(kougeki)
+    if kougeki.aura_bar(delivery, hoyuusya) or kougeki.life_bar(delivery, hoyuusya):
+        taiounized.kwargs["utikesied"] = True
+    return taiounized
+
 s_2 = Card(megami=MG_TIKAGE, img=img_card("o_s_2"), name="叛旗の纏毒", cond=auto_di, type=CT_HUYO,
     osame=int_di(5), cfs=[AttackCorrection(name="叛旗の纏毒", cond=enemy_cf, taiounize=_taiounize_cfs_s_2)],
-    taiou=True, kirihuda=True, flair=int_di(2))
+    taiou=True, taiounize=_taiounize_s_2, kirihuda=True, flair=int_di(2))
 
 s_3 = Card(megami=MG_TIKAGE, img=img_card("o_s_3"), name="流転の霞毒", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(2), maai_list=dima_di(3, 7),

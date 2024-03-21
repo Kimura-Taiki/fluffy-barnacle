@@ -23,6 +23,12 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.b_params.during_kirihuda = card.kirihuda
     layer.delivery.b_params.attack_megami = card.megami
     layer.delivery.m_params(hoyuusya).played_kougeki = True
+    print("open", card.name, "kwargs", card.kwargs)
+    if "utikesied" in card.kwargs:
+        popup_message.add(text=f"{side_name(hoyuusya)}の「{card.name}」が"\
+                          "打ち消されました")
+        moderator.pop()
+        return
     upper = uke_cards(card=card, delivery=delivery, hoyuusya=hoyuusya)
     lower = taiou_hudas(card=card, delivery=delivery, hoyuusya=hoyuusya)
     if stat.switch or layer.delivery.b_params.during_taiou:
@@ -68,6 +74,12 @@ def _taioued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         moderator.pop()
         return
     layer.card = huda.card.taiounize(kougeki, delivery, hoyuusya)
+    print("_taioued", kougeki.name, "kwargs", kougeki.kwargs)
+    if "utikesied" in kougeki.kwargs:
+        popup_message.add(text=f"{side_name(hoyuusya)}の「{kougeki.name}」が"\
+                          "打ち消されました")
+        moderator.pop()
+        return
     layer.card.cond = auto_di
     layer.moderate(stat=PopStat(code=code, switch=True))
 
