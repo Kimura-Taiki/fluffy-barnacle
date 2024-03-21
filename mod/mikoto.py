@@ -59,7 +59,8 @@ class Mikoto():
             return self.gottena.selected.core_view.get_hover_huda()
 
     def tenko(self) -> list[Listener]:
-        li: list[Listener] = [self.yamahuda, self.tehuda, self.husehuda, self.sutehuda, self.kirihuda, self.syuutyuu, self.aura, self.flair, self.life]
+        li: list[Listener] = [self.misiyou, self.yamahuda, self.tehuda, self.husehuda,
+            self.sutehuda, self.kirihuda, self.syuutyuu, self.aura, self.flair, self.life]
         return [self]+[item for sublist in [i.tenko() for i in li] for item in sublist]
 
     def __repr__(self) -> str:
@@ -70,10 +71,11 @@ class Mikoto():
     def _simote_make(self) -> None:
         from kaiketus import m00a, m00b
         # self.m_params.has_yukihi = True
-        from kaiketus.m08o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4
-        hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6, n_7]
-        trumps = [m00b.s_3, m00a.s_3, m00a.s_2, s_1, s_2, s_3, s_4]
-        self.misiyou = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
+        from kaiketus.m09o import p_1, p_2, p_3, p_4, n_1, n_2#, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4
+        # hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2]#, n_3, n_4, n_5, n_6, n_7]
+        hands = [n_1, n_2]#, n_3, n_4, n_5, n_6, n_7]
+        trumps = [m00b.s_3, m00a.s_3, m00a.s_2]#, s_1, s_2, s_3, s_4]
+        self.misiyou = yamahuda_factory.maid_by_cards(cards=[p_1, p_2, p_3, p_4, p_4], hoyuusya=self.hoyuusya)
         self.yamahuda = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
         self.tehuda = tehuda_factory.maid_by_cards(cards=hands, hoyuusya=self.hoyuusya)
         self.kirihuda = kirihuda_factory.maid_by_cards(cards=trumps, hoyuusya=self.hoyuusya)
@@ -83,7 +85,8 @@ class Mikoto():
         from kaiketus.m01o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4
         self.misiyou = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
         self.yamahuda = yamahuda_factory.maid_by_cards(cards=[n_5, n_6, n_7], hoyuusya=self.hoyuusya)
-        self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, m00b.n_5, m00b.n_9], hoyuusya=self.hoyuusya)
+        # self.tehuda = tehuda_factory.maid_by_cards(cards=[n_1, n_2, n_3, n_4, m00b.n_5, m00b.n_9], hoyuusya=self.hoyuusya)
+        self.tehuda = tehuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)
         self.kirihuda = kirihuda_factory.maid_by_cards(cards=[s_1, s_2, s_3, s_4], hoyuusya=self.hoyuusya)
 
 compatible_with(obj=Mikoto(hoyuusya=SIMOTE), protocol=Listener)

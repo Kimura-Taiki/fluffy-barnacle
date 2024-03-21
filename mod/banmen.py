@@ -58,6 +58,8 @@ class Banmen():
             taba.insert(0, huda)
         else:
             taba.append(huda)
+        if is_mine == False:
+            huda.hoyuusya = opponent(huda.hoyuusya)
         for gottenon in mikoto.gottena:
             gottenon.redraw_img_text()
 

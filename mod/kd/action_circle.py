@@ -42,7 +42,13 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
         }.get(key,
            [zensin_card])
     if key == 3 and mode == OBAL_KIHONDOUSA:
-        mode = OBAL_USE_CARD
+        # mode = OBAL_USE_CARD
+        print("uhl", f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います", cards[0], enforce(youso, Huda))
+        from mod.ol.use_hand_layer import use_hand_layer
+        moderator.append(use_hand_layer(
+            name=f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います",
+            card=cards[0], huda=enforce(youso, Huda)))
+        return
     name = f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います"\
         if mode == OBAL_USE_CARD else ""
     moderator.append(use_card_layer(cards=cards, name=name, youso=youso,

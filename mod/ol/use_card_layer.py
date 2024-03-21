@@ -27,7 +27,7 @@ def _zenryokuize(layer: PipelineLayer, huda: Huda, code: int) -> None:
 def _choiced(layer: PipelineLayer, stat: PopStat, text: str, code: int) -> None:
     popup_message.add(text)
     huda = enforce(stat.huda, Huda).base
-    if "zenryokuize" in huda.card.kwargs and not layer.delivery.m_params(layer.hoyuusya).played_zenryoku:
+    if "zenryokuize" in huda.card.kwargs and not layer.delivery.m_params(layer.hoyuusya).played_standard:
         _zenryokuize(layer=layer, huda=huda, code=code)
     else:
         huda.card.kaiketu(delivery=layer.delivery, hoyuusya=
@@ -37,12 +37,13 @@ def _spend_huda(layer: PipelineLayer, huda: Huda) -> None:
     if layer.delivery.b_params.sukinagasi:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_YAMAHUDA, is_top=True)
         layer.delivery.b_params.sukinagasi = False
-    elif "tanki_doku" in layer.card.kwargs:
-        layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=False, taba_code=TC_MISIYOU)
+    elif "tanki_doku" in enforce(layer.card, Card).kwargs:
+        ...
     else:
         layer.delivery.send_huda_to_ryouiki(huda=huda.base, is_mine=True, taba_code=TC_SUTEHUDA)
 
 def _kaiketued_use_card(layer: PipelineLayer, huda: Huda, card: Card) -> None:
+    layer.card = card
     if "ensin" in card.kwargs:
         layer.delivery.m_params(layer.hoyuusya).played_ensin = True
     if card.zenryoku:
@@ -56,6 +57,7 @@ def _kaiketued_use_card(layer: PipelineLayer, huda: Huda, card: Card) -> None:
         _spend_huda(layer=layer, huda=huda)
 
 def _kaiketued(layer: PipelineLayer, stat: PopStat) -> None:
+    print("kaiketu", stat, stat.huda.card.name if stat.huda else None, stat.card.name if stat.card else None)
     layer.delivery.m_params(layer.hoyuusya).played_standard = True
     if layer.mode == OBAL_KIHONDOUSA:
         huda = enforce(layer.huda, Huda)

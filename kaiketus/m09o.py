@@ -10,7 +10,7 @@ from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HU
     SC_TIKANDOKU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
-from mod.card.card import auto_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
+from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, BoolDIIC, auto_diic
 from mod.ol.pop_stat import PopStat
@@ -38,11 +38,17 @@ def img_card(add: str) ->  Surface:
     return pygame.image.load(f"cards/{_ADDRESS}_{add}.png")
 
 def _kaiki(delivery: Delivery, hoyuusya: int) -> None:
-    delivery.send_huda_to_ryouiki(
-        huda=enforce(enforce(moderator.last_layer(), PipelineLayer).huda, Huda).base,
-        is_mine=False, taba_code=TC_MISIYOU)
+    huda = enforce(enforce(moderator.last_layer(), PipelineLayer).huda, Huda).base
+    delivery.send_huda_to_ryouiki(huda=huda, is_mine=False, taba_code=TC_MISIYOU)
 
-_cond_p_1: BoolDI = lambda delivery, hoyuusya: not delivery.m_params(hoyuusya).played_standard
+def _kaiki_huyo(delivery: Delivery, hoyuusya: int) -> None:
+    huda = next(huda for huda in delivery.taba(hoyuusya, TC_SUTEHUDA) if enforce(huda, Huda).card.name == "弛緩毒")
+    delivery.send_huda_to_ryouiki(huda=huda, is_mine=False, taba_code=TC_MISIYOU)
+
+# _cond_p_1: BoolDI = lambda delivery, hoyuusya: not delivery.m_params(hoyuusya).played_standard
+def _cond_p_1(delivery: Delivery, hoyuusya: int) -> bool:
+    print("麻痺毒条件", delivery, hoyuusya)
+    return not delivery.m_params(hoyuusya).played_standard
 
 def _kouka_p_1(delivery: Delivery, hoyuusya: int) -> None:
     _kaiki(delivery, hoyuusya)
@@ -61,11 +67,37 @@ p_2 = Card(megami=MG_TIKAGE, img=img_card("o_p_2"), name="幻覚毒", cond=auto_
 
 _cfs_p_3 = ScalarCorrection(name="弛緩毒", cond=auto_diic, scalar=SC_TIKANDOKU, value=1)
 
-_hakizi_p_3 = TempKoudou("弛緩毒：破棄時", auto_di, kouka=_kaiki)
+_hakizi_p_3 = TempKoudou("弛緩毒：破棄時", auto_di, kouka=_kaiki_huyo)
 
 p_3 = Card(megami=MG_TIKAGE, img=img_card("o_p_3"), name="弛緩毒", cond=auto_di, type=CT_HUYO,
-    osame=int_di(3), hakizi=_hakizi_p_3, cfs=[_cfs_p_3])
+    osame=int_di(3), hakizi=_hakizi_p_3, cfs=[_cfs_p_3], doku=True, tanki_doku=True, unhuseable=True)
 
 p_4 = Card(megami=MG_TIKAGE, img=img_card("o_p_4"), name="滅灯毒", cond=auto_di, type=CT_KOUDOU,
     kouka=Yazirusi(from_mine=True, from_code=UC_AURA, kazu=3).send,
     doku=True, unhuseable=True)
+
+n_1 = Card(megami=MG_TIKAGE, img=img_card("o_n_1"), name="飛苦無", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(2), life_damage_func=int_di(2), maai_list=dima_di(4, 5))
+
+def _hudas_n_2(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_MISIYOU) if "tanki_doku" in enforce(huda, Huda).card.kwargs]
+
+def _send_n_2(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    huda = enforce(stat.huda, Huda).base
+    layer.delivery.send_huda_to_ryouiki(huda=huda, is_mine=False, taba_code=TC_YAMAHUDA, is_top=True)
+    layer.moderate(PopStat(code))
+
+def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("毒を山札へ", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "送る毒の選択",
+            lower=_hudas_n_2(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _send_n_2(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }))
+
+_after_n_2 = TempKoudou("毒針：攻撃後", auto_di, _kouka_n_2)
+
+n_2 = Card(megami=MG_TIKAGE, img=img_card("o_n_2"), name="毒針", cond=auto_di, type=CT_KOUGEKI,
+    aura_damage_func=int_di(1), life_damage_func=int_di(1), maai_list=dima_di(4, 4), after=_after_n_2)
+
+
