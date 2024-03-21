@@ -24,13 +24,13 @@ class KihonDousaCard(Card):
 
 #                 20                  40                  60                 79
 zensin_booldi: BoolDI = lambda delivery, hoyuusya:\
-    delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) <\
-    delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI) and\
+    delivery.b_params.tatuzin_no_maai < delivery.b_params.maai and\
     applied_scalar(0, SC_TONZYUTU, delivery, hoyuusya) == 0
 zensin_card: Card = KihonDousaCard(img=LOAD_SURFACE("zensin"), name="前進",
     from_mine=False, from_code=UC_MAAI, to_mine=True, to_code=UC_AURA,
     add_cond=zensin_booldi)
-ridatu_booldi: BoolDI = lambda delivery, hoyuusya: delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_TATUZIN) >= delivery.ouka_count(hoyuusya=hoyuusya, is_mine=False, utuwa_code=UC_MAAI)
+ridatu_booldi: BoolDI = lambda delivery, hoyuusya:\
+    delivery.b_params.tatuzin_no_maai >= delivery.b_params.maai
 ridatu_card: Card = KihonDousaCard(img=LOAD_SURFACE("ridatu"), name="離脱",
     from_mine=False, from_code=UC_DUST, to_mine=False, to_code=UC_MAAI,
     add_cond=ridatu_booldi)
