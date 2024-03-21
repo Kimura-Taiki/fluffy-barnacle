@@ -7,7 +7,8 @@ import random
 from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
-    SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
+    SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, SC_DEINEI,\
+    TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_UNUSED
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
 from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
@@ -152,3 +153,6 @@ n_5 = Card(megami=MG_TIKAGE, img=img_card("o_n_5"), name="毒霧", cond=auto_di,
 n_6 = suki_card(megami=MG_TIKAGE, img=img_card("o_n_6"), name="抜き足", cond=auto_di,
     osame=int_di(4), hakizi=TempKoudou("スカ", auto_di, kouka=lambda d, h: None),
     cfs=[ScalarCorrection(name="抜き足", cond=auto_diic, scalar=SC_MAAI, value=-2)])
+
+n_7 = Card(megami=MG_TIKAGE, img=img_card("o_n_7"), name="泥濘", cond=auto_di, type=CT_HUYO,
+    osame=int_di(2), cfs=[ScalarCorrection(name="泥濘", cond=enemy_cf, scalar=SC_DEINEI, value=1)])
