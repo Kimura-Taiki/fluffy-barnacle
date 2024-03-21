@@ -181,9 +181,15 @@ s_2 = Card(megami=MG_TIKAGE, img=img_card("o_s_2"), name="叛旗の纏毒", cond
     osame=int_di(5), cfs=[AttackCorrection(name="叛旗の纏毒", cond=enemy_cf, taiounize=_taiounize_cfs_s_2)],
     taiou=True, taiounize=_taiounize_s_2, kirihuda=True, flair=int_di(2))
 
+_cond_s_3: BoolDIIC = lambda delivery, call_h, cf_h, card: mine_cf(delivery, call_h, cf_h, card) and\
+    len(delivery.taba(opponent(cf_h), TC_TEHUDA)) >= 2
+
+_cfs_s_3 = saiki_trigger(cls=Card, img=img_card("o_s_3"),
+            name="流転の霞毒", cond=_cond_s_3, trigger=TG_END_PHASE)
+
 s_3 = Card(megami=MG_TIKAGE, img=img_card("o_s_3"), name="流転の霞毒", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(1), life_damage_func=int_di(2), maai_list=dima_di(3, 7),
-    kirihuda=True, flair=int_di(1))
+    used=[_cfs_s_3], kirihuda=True, flair=int_di(1))
 
 s_4 = Card(megami=MG_TIKAGE, img=img_card("o_s_4"), name="闇昏千影の生きる道", cond=auto_di, type=CT_HUYO,
     osame=int_di(4), cfs=[],
