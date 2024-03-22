@@ -10,10 +10,12 @@ from mod.const import enforce, opponent,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
     SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, SC_DEINEI,\
     TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
-    USAGE_USED, USAGE_UNUSED
+    USAGE_USED, USAGE_UNUSED,\
+    IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
 from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
+from mod.card.damage import Damage
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, enemy_cf, BoolDIIC, auto_diic
 from mod.ol.pop_stat import PopStat
 from mod.ol.choice import choice_layer
@@ -39,13 +41,17 @@ _ADDRESS = "na_10_kururu"
 def img_card(add: str) ->  Surface:
     return pygame.image.load(f"cards/{_ADDRESS}_{add}.png")
 
+def _kikou_taba(delivery: Delivery, hoyuusya: int, taba_code: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, taba_code) if isinstance(huda, Huda) and\
+            (True if taba_code == TC_SUTEHUDA else huda.usage != USAGE_UNUSED)]
+
 def _type_count(delivery: Delivery, hoyuusya: int, type: int, taba_code: int) -> int:
     if type == CT_ZENRYOKU:
-        return sum(1 for huda in delivery.taba(hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.zenryoku)
+        return sum(1 for huda in _kikou_taba(delivery, hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.zenryoku)
     elif type == CT_TAIOU:
-        return sum(1 for huda in delivery.taba(hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.taiou)
+        return sum(1 for huda in _kikou_taba(delivery, hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.taiou)
     else:
-        return sum(1 for huda in delivery.taba(hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.type == type)
+        return sum(1 for huda in _kikou_taba(delivery, hoyuusya, taba_code) if isinstance(huda, Huda) and huda.card.type == type)
 
 def _kikou_count(delivery: Delivery, hoyuusya: int, type: int) -> int:
     return _type_count(delivery, hoyuusya, type, TC_SUTEHUDA)+_type_count(delivery, hoyuusya, type, TC_KIRIHUDA)
@@ -55,13 +61,18 @@ def kikou(red: int=0, blue: int=0, green: int=0, purple: int=0, yellow: int=0) -
         li: list[tuple[int, int]] = [(red, CT_KOUGEKI), (blue, CT_KOUDOU),
             (green, CT_HUYO), (yellow, CT_ZENRYOKU), (purple, CT_TAIOU)]
         for mana, type in li:
+            print(f"req{mana}, mana{_kikou_count(delivery, hoyuusya, type)}")
             if mana > 0 and mana > _kikou_count(delivery, hoyuusya, type):
                 return False
         return True
     return _func
 
+_direct_1life_damage = Damage(img=IMG_LIFE_DAMAGE, name="ライフに１ダメージ", dmg=1, from_code=UC_LIFE, to_code=UC_FLAIR)
+_direct_5aura_damage = Damage(img=IMG_AURA_DAMAGE, name="オーラに５ダメージ", dmg=1, from_code=UC_AURA, to_code=UC_DUST)
+
 def _kouka_n_1(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+    if kikou(blue=3, purple=2)(delivery, hoyuusya):
+        _direct_1life_damage.kaiketu(delivery, hoyuusya)
 
 n_1 = Card(megami=MG_KURURU, img=img_card("o_n_1"), name="えれきてる", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_1)
