@@ -38,4 +38,5 @@ class PipelineLayer(OverLayer):
         return PopStat(code=self.code, huda=self.huda, card=self.card, rest_taba=self.rest)
 
     def moderate(self, stat: PopStat) -> None:
+        print(self.name, stat)
         enforce(self.gotoes.get(stat.code), type(_type_dummy))(self, stat)

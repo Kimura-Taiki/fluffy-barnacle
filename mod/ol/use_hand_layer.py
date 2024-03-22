@@ -56,7 +56,7 @@ def _kaiketued_use_card(layer: PipelineLayer, huda: Huda, card: Card) -> None:
     huda, card = enforce(layer.huda, Huda), enforce(layer.card, Card)
     if "ensin" in card.kwargs:
         delivery.m_params(hoyuusya).played_ensin = True
-    if card.zenryoku:
+    if card.zenryoku and not delivery.m_params(hoyuusya).during_accelr:
         delivery.m_params(hoyuusya).played_zenryoku = True
     if card.syuutan:
         delivery.m_params(hoyuusya).played_syuutan = True

@@ -20,6 +20,7 @@ from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, enemy
 from mod.ol.pop_stat import PopStat
 from mod.ol.choice import choice_layer
 from mod.ol.use_card_layer import use_card_layer
+from mod.ol.use_hand_layer import use_hand_layer
 from mod.card.kw.suki import suki_card
 from mod.card.kw.papl import papl_attack, papl_kougeki
 from mod.card.kw.step import each_step
@@ -77,8 +78,30 @@ def _kouka_n_1(delivery: Delivery, hoyuusya: int) -> None:
 n_1 = Card(megami=MG_KURURU, img=img_card("o_n_1"), name="えれきてる", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_1)
 
+def _on_accelr(layer: PipelineLayer, stat: PopStat, kikou_code: int, end_code: int) -> None:
+    if kikou(blue=2, green=1)(layer.delivery, layer.hoyuusya):
+        layer.delivery.m_params(layer.hoyuusya).during_accelr = True
+        layer.moderate(PopStat(kikou_code))
+    else:
+        layer.moderate(PopStat(end_code))
+
+def _hudas_n_2(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_TEHUDA) if isinstance(huda, Huda) and huda.card.name != "あくせらー"]
+
+def _off_accelr(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.m_params(layer.hoyuusya).during_accelr = False
+    layer.moderate(PopStat(code))
+
 def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+    moderator.append(PipelineLayer("あくせらー", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: _on_accelr(l, s, POP_ACT1, POP_ACT4),
+        POP_ACT1: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "使う手札を選択",
+            lower=_hudas_n_2(delivery, hoyuusya), code=POP_ACT2)),
+        POP_ACT2: lambda l, s: moderator.append(use_hand_layer("あくせらー経由の手札使用",
+            card=enforce(enforce(s.huda, Huda).card, Card), huda=enforce(s.huda, Huda), code=POP_ACT3)),
+        POP_ACT3: lambda l, s: _off_accelr(l, s, POP_ACT4),
+        POP_ACT4: lambda l, s: moderator.pop()
+        }))
 
 n_2 = Card(megami=MG_KURURU, img=img_card("o_n_2"), name="あくせらー", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_2)

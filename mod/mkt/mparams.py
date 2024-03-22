@@ -21,6 +21,7 @@ class MParams():
         self.use_from_husehuda = False
         self.aura_damaged = False
         self.ninpo_used = False
+        self.during_accelr = False
 
     def __str__(self) -> str:
         return f"MParams{vars(self)}"
