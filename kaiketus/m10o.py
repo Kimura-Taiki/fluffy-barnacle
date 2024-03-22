@@ -106,10 +106,30 @@ def _kouka_n_2(delivery: Delivery, hoyuusya: int) -> None:
 n_2 = Card(megami=MG_KURURU, img=img_card("o_n_2"), name="あくせらー", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_2)
 
-def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+_cond_n_3: BoolDI = lambda delivery, hoyuusya: delivery.b_params.during_kougeki
 
-n_3 = Card(megami=MG_KURURU, img=img_card("o_n_3"), name="くるるーん", cond=auto_di, type=CT_KOUDOU,
+def _hudas_transmigrate_n_3(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_HUSEHUDA) if isinstance(huda, Huda)]
+
+def _transmigrate_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda).base)
+
+_transmigrate_n_3 = TempKoudou("伏せ札転生", auto_di, kouka=lambda d, h: moderator.append(PipelineLayer(
+    d, h, gotoes={
+        POP_OPEN: lambda l, s: OnlySelectLayer(d, h, "山札に転生する伏せ札の選択",
+            lower=_hudas_transmigrate_n_3, code=POP_ACT1),
+        POP_ACT1: lambda l, s: 
+    })))
+
+def _cards_n_3(delivery: Delivery, hoyuusya: int) -> list[Card]:
+    return [handraw_card]
+
+def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
+    moderator.append(PipelineLayer("くるるーん", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: OnlySelectLayer
+    }))
+
+n_3 = Card(megami=MG_KURURU, img=img_card("o_n_3"), name="くるるーん", cond=_cond_n_3, type=CT_KOUDOU,
     kouka=_kouka_n_3, taiou=True)
 
 def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
