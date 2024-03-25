@@ -2,8 +2,9 @@
 from pygame.surface import Surface
 from typing import Callable, Any, Optional
 
-from mod.const import CT_HUTEI, CT_KOUGEKI, CT_HUYO, side_name, UC_FLAIR,\
-    CT_KOUDOU, UC_DUST, UC_MAAI, POP_OK, POP_OPEN, SC_TIKANDOKU
+from mod.const import side_name,\
+    CT_HUTEI, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV,\
+    UC_FLAIR, UC_DUST, UC_MAAI, POP_OK, POP_OPEN, SC_TIKANDOKU
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
 from mod.moderator import moderator
@@ -77,8 +78,7 @@ class Card():
                 POP_OPEN: _pop
                 }, code=code))
             return
-        from mod.kd.kihondousa import KihonDousaCard
-        if isinstance(self, KihonDousaCard) or self.type == CT_KOUDOU:
+        if self.type == CT_KOUDOU or self.type == CT_DIV:
             from mod.ol.play_koudou import play_koudou_layer
             moderator.append(over_layer=play_koudou_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_KOUGEKI:

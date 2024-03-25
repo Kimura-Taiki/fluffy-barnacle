@@ -2,7 +2,7 @@
 import pygame
 from pygame.surface import Surface
 from mod.const import UC_MAAI, UC_AURA, UC_DUST, UC_FLAIR, UC_TATUZIN,\
-    SC_TONZYUTU, SC_DEINEI
+    SC_TONZYUTU, SC_DEINEI, CT_DIV
 from mod.classes import Callable, Delivery, popup_message
 from mod.card.card import BoolDI, Card, auto_di
 from mod.coous.scalar_correction import applied_scalar
@@ -15,7 +15,7 @@ class KihonDousaCard(Card):
         cond: BoolDI = lambda delivery, hoyuusya: delivery.can_ouka_to_ryouiki(
             hoyuusya=hoyuusya, from_mine=from_mine, from_code=from_code,
             to_mine=to_mine, to_code=to_code) and add_cond(delivery, hoyuusya)
-        super().__init__(img=img, name=name, cond=cond)
+        super().__init__(img=img, name=name, cond=cond, type=CT_DIV)
         def dousa(delivery: Delivery, hoyuusya: int) -> None:
             popup_message.add(f"{name}をします")
             delivery.send_ouka_to_ryouiki(
