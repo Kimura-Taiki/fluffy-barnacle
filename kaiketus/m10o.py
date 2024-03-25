@@ -111,22 +111,53 @@ _cond_n_3: BoolDI = lambda delivery, hoyuusya: delivery.b_params.during_kougeki
 def _hudas_transmigrate_n_3(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     return [huda for huda in delivery.taba(hoyuusya, TC_HUSEHUDA) if isinstance(huda, Huda)]
 
-def _transmigrate_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda).base)
+def _cmd_transmigrate_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_YAMAHUDA)
+    layer.moderate(PopStat(code))
 
 _transmigrate_n_3 = TempKoudou("伏せ札転生", auto_di, kouka=lambda d, h: moderator.append(PipelineLayer(
-    d, h, gotoes={
-        POP_OPEN: lambda l, s: OnlySelectLayer(d, h, "山札に転生する伏せ札の選択",
-            lower=_hudas_transmigrate_n_3, code=POP_ACT1),
-        POP_ACT1: lambda l, s: 
+    name="伏せ札転生", delivery=d, hoyuusya=h, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(
+            delivery=d, hoyuusya=h, name="山札に転生する伏せ札の選択",
+            lower=_hudas_transmigrate_n_3(d, h), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _cmd_transmigrate_n_3(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
     })))
 
+def _hudas_sutecard_n_3(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    return [huda for huda in delivery.taba(hoyuusya, TC_TEHUDA) if isinstance(huda, Huda)]
+
+def _cmd_sutecard_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_SUTEHUDA)
+    layer.moderate(PopStat(code))
+
+_sutecard_n_3 = TempKoudou("相手が手札を捨てる", auto_di, kouka=lambda d, h: moderator.append(PipelineLayer(
+     name="相手が手札を捨てる", delivery=d, hoyuusya=opponent(h), gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(
+            delivery=d, hoyuusya=opponent(h), name="捨てる手札の選択",
+            lower=_hudas_sutecard_n_3(d, opponent(h)), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _cmd_sutecard_n_3(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+     })))
+
 def _cards_n_3(delivery: Delivery, hoyuusya: int) -> list[Card]:
-    return [handraw_card]
+    return [handraw_card, _transmigrate_n_3, _sutecard_n_3]
+
+def _first_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    layer.rest = stat.rest_taba
+    enforce(stat.huda, Huda).card.kaiketu(layer.delivery, layer.hoyuusya, code=code)
 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     moderator.append(PipelineLayer("くるるーん", delivery, hoyuusya, gotoes={
-        POP_OPEN: lambda l, s: OnlySelectLayer
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(
+            delivery=delivery, hoyuusya=hoyuusya, name="くるるーん第１対応行動の選択",
+            lower=_cards_n_3(delivery, hoyuusya), code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _first_n_3(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.append(OnlySelectLayer(
+            delivery=delivery, hoyuusya=hoyuusya, name="くるるーん第２対応行動の選択",
+            lower=l.rest, code=POP_ACT3)),
+        POP_ACT3: lambda l, s: enforce(s.huda, Huda).card.kaiketu(delivery, hoyuusya, code=POP_ACT4),
+        POP_ACT4: lambda l, s: moderator.pop()
     }))
 
 n_3 = Card(megami=MG_KURURU, img=img_card("o_n_3"), name="くるるーん", cond=_cond_n_3, type=CT_KOUDOU,
