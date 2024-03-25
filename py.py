@@ -38,14 +38,14 @@ def mainloop() -> None:
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
-try:
-    while True:
-        mainloop()
-except ValueError as e:
-    print(e)
-    for layer in moderator.stack:
-        print(vars(layer))
-    print("以上がレイヤー状態です")
+# try:
+#     while True:
+#         mainloop()
+# except ValueError as e:
+#     print(e)
+#     for layer in moderator.stack:
+#         print(vars(layer))
+#     print("以上がレイヤー状態です")
 
-# while True:
-#     mainloop()
+while True:
+    mainloop()

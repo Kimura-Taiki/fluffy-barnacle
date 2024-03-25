@@ -14,6 +14,7 @@ def papl_kougeki(card: Card, delivery: Delivery, hoyuusya: int, aura: int,
         return card.life_damage_func(delivery, hoyuusya)+life
     taiounized.aura_damage_func = aura_damage_func
     taiounized.life_damage_func = life_damage_func
+    print("papl_kougeki", taiounized.aura_damage(delivery, hoyuusya), taiounized.life_damage(delivery, hoyuusya))
     return taiounized
 
 def papl_attack(card: Attack, delivery: Delivery, hoyuusya: int, aura: int,

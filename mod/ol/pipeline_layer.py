@@ -35,6 +35,7 @@ class PipelineLayer(OverLayer):
     def close(self) -> PopStat:
         if closed := self.gotoes.get(POP_CLOSED):
             closed(self, PopStat())
+        print("Close", self.name, PopStat(code=self.code, huda=self.huda, card=self.card, rest_taba=self.rest))
         return PopStat(code=self.code, huda=self.huda, card=self.card, rest_taba=self.rest)
 
     def moderate(self, stat: PopStat) -> None:

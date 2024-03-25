@@ -37,7 +37,7 @@ def _open(layer: PipelineLayer, stat: PopStat, text: str, code: int) -> None:
         _zenryokuize(layer=layer, code=code)
     else:
         print("普通分岐")
-        huda.card.kaiketu(delivery, hoyuusya, huda=huda, code=code)
+        card.kaiketu(delivery, hoyuusya, huda=huda, code=code)
     print("open終了")
 
 def _spend_huda(layer: PipelineLayer, huda: Huda) -> None:
@@ -85,7 +85,7 @@ def _closed(layer: PipelineLayer, stat: PopStat) -> None:
 
 def use_hand_layer(name: str, card: Card, huda: Huda, code: int=POP_OK) -> PipelineLayer:
     from mod.const import side_name
-    print("UHL開始", card.name, huda.card.name, side_name(huda.hoyuusya))
+    print("UHL開始", card, card.name, huda.card.name, side_name(huda.hoyuusya))
     delivery, hoyuusya = huda.delivery, huda.hoyuusya
     print("delivery, hoyuusyaを確定")
     if not card.can_play(delivery, hoyuusya, True):

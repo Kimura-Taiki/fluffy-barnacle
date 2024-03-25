@@ -7,13 +7,15 @@ import random
 from mod.const import enforce, opponent,\
     MG_KURURU, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU, CT_HUTEI,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
-    UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
+    UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN,\
+    POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, POP_ACT6, POP_ACT7, POP_ACT8, POP_ACT9,\
+    TG_END_PHASE,\
     SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, SC_DEINEI,\
     TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
-    USAGE_USED, USAGE_UNUSED,\
+    USAGE_USED, USAGE_DEPLOYED, USAGE_UNUSED,\
     IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE
 from mod.classes import Callable, Card, Huda, Delivery, moderator, popup_message
-from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, BoolDIC, nega_dic
+from mod.card.card import auto_di, nega_di, int_di, dima_di, BoolDI, SuuziDI, MaaiDI, TaiounizeDI, BoolDIC, nega_dic
 from mod.card.temp_koudou import TempKoudou
 from mod.card.damage import Damage
 from mod.coous.attack_correction import Attack, AttackCorrection, mine_cf, enemy_cf, BoolDIIC, auto_diic
@@ -131,7 +133,7 @@ def _cmd_sutecard_n_3(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.send_huda_to_ryouiki(huda=enforce(stat.huda, Huda).base, is_mine=True, taba_code=TC_SUTEHUDA)
     layer.moderate(PopStat(code))
 
-_sutecard_n_3 = TempKoudou("相手が手札を捨てる", auto_di, kouka=lambda d, h: moderator.append(PipelineLayer(
+_sutecard_n_3 = TempKoudou("手札を捨てさせる", auto_di, kouka=lambda d, h: moderator.append(PipelineLayer(
      name="相手が手札を捨てる", delivery=d, hoyuusya=opponent(h), gotoes={
         POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(
             delivery=d, hoyuusya=opponent(h), name="捨てる手札の選択",
@@ -175,8 +177,114 @@ def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
 n_4 = Card(megami=MG_KURURU, img=img_card("o_n_4"), name="とるねーど", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_4, zenryoku=True)
 
+def _redshift_n_5(card: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(card)
+    def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
+        li = card.maai_list(delivery, hoyuusya)
+        return [False]+li[0:10]
+    taiounized.maai_list = maai_list
+    return taiounized
+
+def _blueshift_n_5(card: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(card)
+    def maai_list(delivery: Delivery, hoyuusya: int) -> list[bool]:
+        li = card.maai_list(delivery, hoyuusya)
+        return li[1:11]+[False]
+    taiounized.maai_list = maai_list
+    return taiounized
+
+_ad_plus_n_5: TaiounizeDI = lambda c, d, h: papl_kougeki(c, d, h, 1, 0)
+_ad_minus_n_5: TaiounizeDI = lambda c, d, h: papl_kougeki(c, d, h, -1, 0)
+_ld_plus_n_5: TaiounizeDI = lambda c, d, h: papl_kougeki(c, d, h, 0, 1)
+_ld_minus_n_5: TaiounizeDI = lambda c, d, h: papl_kougeki(c, d, h, 0, -1)
+
+def _osame_plus_n_5(card: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(card)
+    def osame(delivery: Delivery, hoyuusya: int) -> int:
+        return card.osame(delivery, hoyuusya)+1
+    taiounized.osame = osame
+    return taiounized
+
+def _osame_minus_n_5(card: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    taiounized = copy(card)
+    def osame(delivery: Delivery, hoyuusya: int) -> int:
+        return card.osame(delivery, hoyuusya)-1
+    taiounized.osame = osame
+    return taiounized
+
+def _pass_n_5(card: Card, delivery: Delivery, hoyuusya: int) -> Card:
+    return card
+
+_rs_card_n_5 = TempKoudou("赤方偏移", auto_di, kouka=lambda d, h: None, todo=[["適正距離の全ての値を+1"]])
+_rs_card_n_5.taiounize = _redshift_n_5
+_bs_card_n_5 = TempKoudou("青方偏移", auto_di, kouka=lambda d, h: None, todo=[["適正距離の全ての値を-1"]])
+_bs_card_n_5.taiounize = _blueshift_n_5
+_adp_card_n_5 = TempKoudou("オーラ＋１", auto_di, kouka=lambda d, h: None, todo=[["+1/0修正"]])
+_adp_card_n_5.taiounize = _ad_plus_n_5
+_adm_card_n_5 = TempKoudou("オーラ−１", auto_di, kouka=lambda d, h: None, todo=[["-1/0修正"]])
+_adm_card_n_5.taiounize = _ad_minus_n_5
+_ldp_card_n_5 = TempKoudou("ライフ＋１", auto_di, kouka=lambda d, h: None, todo=[["0/+1修正"]])
+_ldp_card_n_5.taiounize = _ld_plus_n_5
+_ldm_card_n_5 = TempKoudou("ライフ−１", auto_di, kouka=lambda d, h: None, todo=[["0/-1修正"]])
+_ldm_card_n_5.taiounize = _ld_minus_n_5
+_op_card_n_5 = TempKoudou("納＋１", auto_di, kouka=lambda d, h: None, todo=[["納を+1"]])
+_op_card_n_5.taiounize = _osame_plus_n_5
+_om_card_n_5 = TempKoudou("納−１", auto_di, kouka=lambda d, h: None, todo=[["納を-1"]])
+_om_card_n_5.taiounize = _osame_minus_n_5
+_pass_card_n_5 = TempKoudou("そのまま", auto_di, kouka=lambda d, h: None, todo=[["カードを修正しない"]])
+_pass_card_n_5.taiounize = _pass_n_5
+
+def _hudas_n_5(delivery: Delivery, hoyuusya: int) -> list[Huda]:
+    husehuda = [huda for huda in delivery.taba(hoyuusya, TC_HUSEHUDA) if isinstance(huda, Huda)\
+                and not huda.card.zenryoku and huda.card.megami != MG_KURURU]
+    sutehuda = [huda for huda in delivery.taba(hoyuusya, TC_SUTEHUDA) if isinstance(huda, Huda)\
+                and not huda.card.zenryoku and huda.card.megami != MG_KURURU and huda.usage != USAGE_DEPLOYED]
+    kirihuda = [huda for huda in delivery.taba(hoyuusya, TC_KIRIHUDA) if isinstance(huda, Huda)\
+                and not huda.card.zenryoku and huda.card.megami != MG_KURURU and huda.usage == USAGE_USED]
+    return husehuda+sutehuda+kirihuda
+
+def _branch_n_5(layer: PipelineLayer, stat: PopStat, red_code: int, blue_code: int, green_code: int) -> None:
+    huda = enforce(stat.huda, Huda).base
+    layer.huda, layer.card = huda, huda.card
+    layer.moderate(PopStat(
+        code={CT_KOUGEKI: red_code, CT_KOUDOU: blue_code, CT_HUYO: green_code}.get(huda.card.type, -1),
+        huda=huda, card=huda.card
+    ))
+
+def _correct_n_5(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    taiou = enforce(stat.huda, Huda).card
+    layer.card = enforce(stat.huda, Huda).card.taiounize(enforce(layer.card, Card), layer.delivery, layer.hoyuusya)
+    layer.moderate(PopStat(code))
+
+def _kougeki_correct_n_5(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    moderator.append(PipelineLayer("りげいなー：攻撃札の修正", layer.delivery, layer.hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(l.delivery, l.hoyuusya, "増減対象の選択",
+            lower=[_rs_card_n_5, _bs_card_n_5, _adp_card_n_5, _adm_card_n_5, _ldp_card_n_5, _ldm_card_n_5],
+            upper=[_pass_card_n_5], code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _correct_n_5(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }, card=layer.card, huda=layer.huda, code=code))
+
+def _huyo_correct_n_5(layer: PipelineLayer, stat: PopStat, code: int) -> None:
+    moderator.append(PipelineLayer("りげいなー：付与札の修正", layer.delivery, layer.hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(l.delivery, l.hoyuusya, "増減対象の選択",
+            lower=[_op_card_n_5, _om_card_n_5], upper=[_pass_card_n_5], code=POP_ACT1)),
+        POP_ACT1: lambda l, s: _correct_n_5(l, s, POP_ACT2),
+        POP_ACT2: lambda l, s: moderator.pop()
+    }, card=layer.card, huda=layer.huda, code=code))
+
 def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+    moderator.append(PipelineLayer("りげいなー", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: l.moderate(PopStat(POP_ACT1 if kikou(green=1, purple=1)(delivery, hoyuusya) else POP_ACT4)),
+        POP_ACT1: lambda l, s: moderator.append(OnlySelectLayer(delivery, hoyuusya, "使用する札の選択",
+            lower=_hudas_n_5(delivery, hoyuusya), code=POP_ACT2)),
+        POP_ACT2: lambda l, s: _branch_n_5(l, s, POP_ACT3, POP_ACT5, POP_ACT4),
+        POP_ACT3: lambda l, s: _kougeki_correct_n_5(l, s, POP_ACT5),
+        POP_ACT4: lambda l, s: _huyo_correct_n_5(l, s, POP_ACT5),
+        POP_ACT5: lambda l, s: moderator.append(use_hand_layer(
+            "りげいなーで使用", enforce(s.card, Card), enforce(s.huda, Huda), POP_ACT6)),
+        POP_ACT6: lambda l, s: moderator.pop()
+    }))
 
 n_5 = Card(megami=MG_KURURU, img=img_card("o_n_5_s7_2"), name="りげいなー", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5, zenryoku=True)
