@@ -8,7 +8,9 @@ from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
 from mod.classes import Card, Youso, Huda, moderator, popup_message, controller
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card,\
     matoi_card, yadosi_card
+from mod.kd.hand_mono_kd_layer import hand_mono_kd_layer
 from mod.ol.use_card_layer import use_card_layer
+from mod.ol.use_hand_layer import use_hand_layer
 
 def mousedown(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     if mode == OBAL_SYUUTYUU and youso.osame == 0:
@@ -42,14 +44,15 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
         }.get(key,
            [zensin_card])
     if key == 3 and mode == OBAL_KIHONDOUSA:
-        # mode = OBAL_USE_CARD
-        print("uhl", f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います", cards[0], enforce(youso, Huda))
-        from mod.ol.use_hand_layer import use_hand_layer
         moderator.append(use_hand_layer(
             name=f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います",
             card=cards[0], huda=enforce(youso, Huda)))
         return
-    name = f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います"\
-        if mode == OBAL_USE_CARD else ""
-    moderator.append(use_card_layer(cards=cards, name=name, youso=youso,
+    elif key == 2 and mode == OBAL_KIHONDOUSA:
+        moderator.append(hand_mono_kd_layer(card=yadosi_card, huda=enforce(youso, Huda)))
+        return
+    elif (key == 4 or key == 0) and mode == OBAL_KIHONDOUSA:
+        moderator.append(hand_mono_kd_layer(card=zensin_card, huda=enforce(youso, Huda)))
+        return
+    moderator.append(use_card_layer(cards=cards, name="", youso=youso,
                                     mode=mode))

@@ -1,8 +1,7 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2,\
     TC_HUSEHUDA
-from mod.classes import Callable, PopStat, Card, Huda, moderator,\
-    popup_message
+from mod.classes import Callable, PopStat, Card, Huda, moderator
 from mod.delivery import duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer
 
@@ -11,8 +10,7 @@ _END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
         POP_OPEN: lambda l, s: moderator.pop()
     }, code=code)
 
-def _kaiketu(layer: PipelineLayer, stat: PopStat, text: str, code: int) -> None:
-    popup_message.add(text)
+def _kaiketu(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     enforce(layer.card, Card).kaiketu(layer.delivery, layer.hoyuusya,
         huda=enforce(layer.huda, Huda), code=code)
 
@@ -24,7 +22,7 @@ def _husecard(layer: PipelineLayer, stat: PopStat, code: int) -> None:
         taba_code=TC_HUSEHUDA)
     moderator.pop()
 
-def hand_mono_kd_layer(card: Card, name: str, huda: Huda, code: int=POP_OK) -> PipelineLayer:
+def hand_mono_kd_layer(card: Card, huda: Huda, code: int=POP_OK) -> PipelineLayer:
     delivery, hoyuusya = huda.delivery, huda.hoyuusya
     if not card.can_play(delivery, hoyuusya, True):
         return _END_LAYER(code)
@@ -32,7 +30,7 @@ def hand_mono_kd_layer(card: Card, name: str, huda: Huda, code: int=POP_OK) -> P
         return _END_LAYER(code)
     return PipelineLayer(name="手札を費やした基本動作", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
-POP_OPEN: lambda l, s: _kaiketu(l, s, name, POP_ACT1),
+POP_OPEN: lambda l, s: _kaiketu(l, s, POP_ACT1),
 POP_ACT1: lambda l, s: _husecard(l, s, POP_ACT2),
 POP_ACT2: lambda l, s: moderator.pop(),
         },huda=huda, card=card, code=code)

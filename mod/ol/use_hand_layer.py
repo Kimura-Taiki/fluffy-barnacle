@@ -80,8 +80,7 @@ def _kaiketued(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     print("kaiketued終了")
 
 def _closed(layer: PipelineLayer, stat: PopStat) -> None:
-    if layer.mode == OBAL_USE_CARD:
-        layer.delivery.m_params(layer.hoyuusya).use_card_count += 1
+    layer.delivery.m_params(layer.hoyuusya).use_card_count += 1
 
 def use_hand_layer(name: str, card: Card, huda: Huda, code: int=POP_OK) -> PipelineLayer:
     from mod.const import side_name
