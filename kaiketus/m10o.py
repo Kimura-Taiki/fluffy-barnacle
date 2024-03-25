@@ -164,7 +164,13 @@ n_3 = Card(megami=MG_KURURU, img=img_card("o_n_3"), name="くるるーん", cond
     kouka=_kouka_n_3, taiou=True)
 
 def _kouka_n_4(delivery: Delivery, hoyuusya: int) -> None:
-    ...
+    moderator.append(PipelineLayer("とるねーど", delivery, hoyuusya, gotoes={
+        POP_OPEN: lambda l, s: l.moderate(PopStat(POP_ACT1 if kikou(red=2)(delivery, hoyuusya) else POP_ACT2)),
+        POP_ACT1: lambda l, s: _direct_5aura_damage.kaiketu(delivery, hoyuusya, code=POP_ACT2),
+        POP_ACT2: lambda l, s: l.moderate(PopStat(POP_ACT3 if kikou(green=2)(delivery, hoyuusya) else POP_ACT4)),
+        POP_ACT3: lambda l, s: _direct_1life_damage.kaiketu(delivery, hoyuusya, code=POP_ACT4),
+        POP_ACT4: lambda l, s: moderator.pop()
+    }))
 
 n_4 = Card(megami=MG_KURURU, img=img_card("o_n_4"), name="とるねーど", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_4, zenryoku=True)
