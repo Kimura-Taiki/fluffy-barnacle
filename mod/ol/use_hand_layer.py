@@ -13,11 +13,7 @@ from mod.delivery import Delivery, duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer, _type_dummy
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.choice import choice_layer
-
-_END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
-    name="即終了", delivery=duck_delivery, gotoes={
-        POP_OPEN: lambda l, s: moderator.pop()
-    }, code=code)
+from mod.kd.share import END_LAYER
 
 def _zenryokuize(layer: PipelineLayer, code: int) -> None:
     delivery, hoyuusya = layer.delivery, layer.hoyuusya
@@ -89,11 +85,11 @@ def use_hand_layer(name: str, card: Card, huda: Huda, code: int=POP_OK) -> Pipel
     print("delivery, hoyuusyaを確定")
     if not card.can_play(delivery, hoyuusya, True):
         popup_message.add("Card.can_play == False分岐")
-        return _END_LAYER(code)
+        return END_LAYER(code)
     print("Card.can_play判定")
     if not huda.can_standard(True, True):
         popup_message.add("Huda.can_standard == False分岐")
-        return _END_LAYER(code)
+        return END_LAYER(code)
     print("Huda.can_standard判定")
     return PipelineLayer(name="手札からカードを使用", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={

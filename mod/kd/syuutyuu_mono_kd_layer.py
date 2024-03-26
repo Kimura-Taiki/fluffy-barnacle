@@ -5,11 +5,7 @@ from mod.delivery import duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.syuutyuu import reduce_syuutyuu
 from mod.card.card_func import is_meet_conditions
-
-_END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
-    name="即終了", delivery=duck_delivery, gotoes={
-        POP_OPEN: lambda l, s: moderator.pop()
-    }, code=code)
+from mod.kd.share import END_LAYER
 
 def can_syuutyuu(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool:
     checks: list[tuple[bool, str]] = [
@@ -28,7 +24,7 @@ def _reduce(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 
 def syuutyuu_mono_kd_layer(card: Card, delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> PipelineLayer:
     if not can_syuutyuu(delivery, hoyuusya, True):
-        return _END_LAYER(code)
+        return END_LAYER(code)
     return PipelineLayer(name=f"集中基本動作「{card.name}」", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _kaiketu(l, s, POP_ACT1),

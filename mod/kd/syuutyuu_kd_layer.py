@@ -6,11 +6,7 @@ from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.kd.syuutyuu_mono_kd_layer import syuutyuu_mono_kd_layer
 from mod.card.card_func import is_meet_conditions
-
-_END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
-    name="即終了", delivery=duck_delivery, gotoes={
-        POP_OPEN: lambda l, s: moderator.pop()
-    }, code=code)
+from mod.kd.share import END_LAYER
 
 def can_syuutyuu(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool:
     checks: list[tuple[bool, str]] = [
@@ -24,9 +20,9 @@ def syuutyuu_kd_layer(cards: list[Card], delivery: Delivery, hoyuusya: int, code
     li = [card for card in cards if card.can_play(delivery, hoyuusya)]
     if not li:
         popup_message.add("選べる基本動作がありません")
-        return _END_LAYER(code)
+        return END_LAYER(code)
     if not can_syuutyuu(delivery, hoyuusya, True):
-        return _END_LAYER(code)
+        return END_LAYER(code)
     return PipelineLayer(name="集中を費やした基本動作", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery=delivery,
