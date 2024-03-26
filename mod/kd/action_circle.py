@@ -9,6 +9,7 @@ from mod.classes import Card, Youso, Huda, moderator, popup_message, controller
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card,\
     matoi_card, yadosi_card
 from mod.kd.hand_mono_kd_layer import hand_mono_kd_layer
+from mod.kd.hand_kd_layer import hand_kd_layer
 from mod.ol.use_card_layer import use_card_layer
 from mod.ol.use_hand_layer import use_hand_layer
 
@@ -50,6 +51,11 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
         return
     elif key == 2 and mode == OBAL_KIHONDOUSA:
         moderator.append(hand_mono_kd_layer(card=yadosi_card, huda=enforce(youso, Huda)))
+        return
+    elif key == 1 and mode == OBAL_KIHONDOUSA:
+        moderator.append(hand_kd_layer(cards=
+            [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card],
+            huda=enforce(youso, Huda)))
         return
     elif (key == 4 or key == 0) and mode == OBAL_KIHONDOUSA:
         moderator.append(hand_mono_kd_layer(card=zensin_card, huda=enforce(youso, Huda)))

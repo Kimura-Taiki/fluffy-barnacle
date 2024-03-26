@@ -28,7 +28,7 @@ def hand_mono_kd_layer(card: Card, huda: Huda, code: int=POP_OK) -> PipelineLaye
         return _END_LAYER(code)
     if not huda.can_standard(True, False):
         return _END_LAYER(code)
-    return PipelineLayer(name="手札を費やした基本動作", delivery=delivery,
+    return PipelineLayer(name=f"手札基本動作「{card.name}」", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
 POP_OPEN: lambda l, s: _kaiketu(l, s, POP_ACT1),
 POP_ACT1: lambda l, s: _husecard(l, s, POP_ACT2),
