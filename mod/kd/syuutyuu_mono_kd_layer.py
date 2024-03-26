@@ -20,15 +20,13 @@ def can_syuutyuu(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool
     return is_meet_conditions(checks=checks, popup=popup)
 
 def _kaiketu(layer: PipelineLayer, stat: PopStat, code: int) -> None:
-    enforce(layer.card, Card).kaiketu(layer.delivery, layer.hoyuusya,
-        huda=enforce(layer.huda, Huda), code=code)
+    enforce(layer.card, Card).kaiketu(layer.delivery, layer.hoyuusya, code=code)
 
 def _reduce(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     reduce_syuutyuu(layer.delivery, layer.hoyuusya)
     layer.moderate(PopStat(code))
 
-def syuutyuu_mono_kd_layer(card: Card, huda: Huda, code: int=POP_OK) -> PipelineLayer:
-    delivery, hoyuusya = huda.delivery, huda.hoyuusya
+def syuutyuu_mono_kd_layer(card: Card, delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> PipelineLayer:
     if not can_syuutyuu(delivery, hoyuusya, True):
         return _END_LAYER(code)
     return PipelineLayer(name=f"集中基本動作「{card.name}」", delivery=delivery,
@@ -36,4 +34,4 @@ def syuutyuu_mono_kd_layer(card: Card, huda: Huda, code: int=POP_OK) -> Pipeline
 POP_OPEN: lambda l, s: _kaiketu(l, s, POP_ACT1),
 POP_ACT1: lambda l, s: _reduce(l, s, POP_ACT2),
 POP_ACT2: lambda l, s: moderator.pop(),
-        },huda=huda, card=card, code=code)
+        }, card=card, code=code)

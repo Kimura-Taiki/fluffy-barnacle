@@ -4,13 +4,14 @@ from pygame.math import Vector2
 
 from mod.const import screen, ACTION_CIRCLE_NEUTRAL, ACTION_CIRCLE_YADOSI,\
     ACTION_CIRCLE_BASIC, ACTION_CIRCLE_ZENSIN, ACTION_CIRCLE_CARD, enforce,\
-    OBAL_KIHONDOUSA, OBAL_SYUUTYUU, OBAL_USE_CARD, side_name
+    OBAL_KIHONDOUSA, OBAL_SYUUTYUU, side_name
 from mod.classes import Card, Youso, Huda, moderator, popup_message, controller
 from mod.kd.kihondousa import zensin_card, ridatu_card, koutai_card,\
     matoi_card, yadosi_card
 from mod.kd.hand_mono_kd_layer import hand_mono_kd_layer
 from mod.kd.hand_kd_layer import hand_kd_layer
-from mod.ol.use_card_layer import use_card_layer
+from mod.kd.syuutyuu_mono_kd_layer import syuutyuu_mono_kd_layer
+from mod.kd.syuutyuu_kd_layer import syuutyuu_kd_layer
 from mod.ol.use_hand_layer import use_hand_layer
 
 def mousedown(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
@@ -60,5 +61,18 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     elif (key == 4 or key == 0) and mode == OBAL_KIHONDOUSA:
         moderator.append(hand_mono_kd_layer(card=zensin_card, huda=enforce(youso, Huda)))
         return
-    moderator.append(use_card_layer(cards=cards, name="", youso=youso,
-                                    mode=mode))
+    elif key == 3 and mode == OBAL_SYUUTYUU:
+        popup_message.add("集中力はカードではありません")
+        return
+    elif key == 2 and mode == OBAL_SYUUTYUU:
+        moderator.append(syuutyuu_mono_kd_layer(card=yadosi_card, delivery=youso.delivery, hoyuusya=youso.hoyuusya))
+        return
+    elif key == 1 and mode == OBAL_SYUUTYUU:
+        moderator.append(syuutyuu_kd_layer(cards=
+            [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card],
+            delivery=youso.delivery, hoyuusya=youso.hoyuusya))
+        return
+    elif (key == 4 or key == 0) and mode == OBAL_SYUUTYUU:
+        moderator.append(syuutyuu_mono_kd_layer(card=zensin_card, delivery=youso.delivery, hoyuusya=youso.hoyuusya))
+        return
+    raise EOFError("ここに来たら問題だね")

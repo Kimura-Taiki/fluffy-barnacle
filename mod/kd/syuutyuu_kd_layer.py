@@ -20,8 +20,7 @@ def can_syuutyuu(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool
     ]
     return is_meet_conditions(checks=checks, popup=popup)
 
-def syuutyuu_kd_layer(cards: list[Card], huda: Huda, code: int=POP_OK) -> PipelineLayer:
-    delivery, hoyuusya = huda.delivery, huda.hoyuusya
+def syuutyuu_kd_layer(cards: list[Card], delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> PipelineLayer:
     li = [card for card in cards if card.can_play(delivery, hoyuusya)]
     if not li:
         popup_message.add("選べる基本動作がありません")
@@ -33,6 +32,6 @@ def syuutyuu_kd_layer(cards: list[Card], huda: Huda, code: int=POP_OK) -> Pipeli
 POP_OPEN: lambda l, s: moderator.append(OnlySelectLayer(delivery=delivery,
     hoyuusya=hoyuusya, name="基本動作の選択", lower=li, code=POP_ACT1)),
 POP_ACT1: lambda l, s: moderator.append(syuutyuu_mono_kd_layer(
-    card=enforce(s.huda, Huda).card, huda=enforce(l.huda, Huda), code=POP_ACT2)),
+    card=enforce(s.huda, Huda).card, delivery=delivery, hoyuusya=hoyuusya, code=POP_ACT2)),
 POP_ACT2: lambda l, s: moderator.pop()
-        }, huda=huda, code=code)
+        }, code=code)
