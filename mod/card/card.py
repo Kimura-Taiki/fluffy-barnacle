@@ -78,8 +78,10 @@ class Card():
                 POP_OPEN: _pop
                 }, code=code))
             return
-        if self.type == CT_KOUDOU or self.type == CT_DIV:
-            from mod.ol.play_koudou import play_koudou_layer
+        from mod.ol.play_koudou import play_koudou_layer, play_div_layer
+        if self.type == CT_DIV:
+            moderator.append(over_layer=play_div_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
+        elif self.type == CT_KOUDOU:
             moderator.append(over_layer=play_koudou_layer(card=self, delivery=delivery, hoyuusya=hoyuusya, huda=huda, code=code))
         elif self.type == CT_KOUGEKI:
             from mod.ol.play_kougeki.play_kougeki import play_kougeki_layer

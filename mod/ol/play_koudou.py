@@ -15,3 +15,11 @@ def play_koudou_layer(card: Card, delivery: Delivery, hoyuusya: int,
 POP_OPEN: _open,
 POP_OK: lambda l, s: moderator.pop()
         }, card=card, huda=huda, code=code)
+
+def play_div_layer(card: Card, delivery: Delivery, hoyuusya: int,
+                      huda: Any | None, code: int=POP_OK) -> PipelineLayer:
+    return PipelineLayer(name=f"効果:{card.name}を解決", delivery=delivery,
+        hoyuusya=hoyuusya, gotoes={
+POP_OPEN: _open,
+POP_OK: lambda l, s: moderator.pop()
+        }, card=card, huda=huda, code=code)
