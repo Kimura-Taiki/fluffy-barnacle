@@ -1,7 +1,7 @@
 #                 20                  40                  60                 79
 from typing import NamedTuple, Any
 
-from mod.const import UC_DUST, UC_MAAI, UC_AURA, UC_ZYOGAI, UC_SYUUTYUU, UC_ISYUKU,\
+from mod.const import UC_DUST, UC_MAAI, UC_AURA, UC_FLAIR, UC_ZYOGAI, UC_SYUUTYUU, UC_ISYUKU,\
     SC_SMOKE, SC_UROUO_YAZIRUSI, POP_OPEN, POP_ACT1
 from mod.delivery import Delivery
 from mod.popup_message import popup_message
@@ -43,11 +43,18 @@ class Yazirusi(NamedTuple):
                 from_mine=self.from_mine, from_code=self.from_code,
                 to_mine=self.to_mine, to_code=self.to_code, kazu=self.kazu)
 
+    def can_send(self, delivery: Delivery, hoyuusya: int) -> bool:
+        return delivery.can_ouka_to_ryouiki(hoyuusya=hoyuusya,
+            from_mine=self.from_mine, from_code=self.from_code, 
+            to_mine=self.to_mine, to_code=self.to_code, kazu=self.kazu)
+
     def listed(self) -> list[Any]:
         return [self.from_mine, self.from_code,
                 self.to_mine, self.to_code, self.kazu]
 
 ya_moguri = Yazirusi(from_code=UC_MAAI)
+ya_zensin = Yazirusi(from_code=UC_MAAI, to_mine=True, to_code=UC_AURA)
 ya_ridatu = Yazirusi(to_code=UC_MAAI)
 ya_koutai = Yazirusi(from_mine=True, from_code=UC_AURA, to_code=UC_MAAI)
 ya_matoi = Yazirusi(to_mine=True, to_code=UC_AURA)
+ya_yadosi = Yazirusi(from_mine=True, from_code=UC_AURA, to_mine=True, to_code=UC_FLAIR)

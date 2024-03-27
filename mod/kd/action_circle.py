@@ -39,16 +39,19 @@ def mouseup(youso: Youso, mode: int=OBAL_KIHONDOUSA) -> None:
     diff_coord = pygame.mouse.get_pos()-controller.hold_coord
     if diff_coord.length_squared() < 50: return
     key = int((diff_coord.angle_to([0, 0])+225)/90)
-    cards: list[Card] = {
-        3: [enforce(youso, Huda).card] if mode == OBAL_KIHONDOUSA else [],
-        2: [yadosi_card],
-        1: [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
-        }.get(key,
-           [zensin_card])
+    # cards: list[Card] = {
+    #     3: [enforce(youso, Huda).card] if mode == OBAL_KIHONDOUSA else [],
+    #     2: [yadosi_card],
+    #     1: [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
+    #     }.get(key,
+    #        [zensin_card])
     if key == 3 and mode == OBAL_KIHONDOUSA:
+        card = enforce(youso, Huda).card
         moderator.append(use_hand_layer(
-            name=f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います",
-            card=cards[0], huda=enforce(youso, Huda)))
+            name=f"{side_name(youso.hoyuusya)}の「{card.name}」を使います",
+            card=card, huda=enforce(youso, Huda)))
+            # name=f"{side_name(youso.hoyuusya)}の「{cards[0].name}」を使います",
+            # card=cards[0], huda=enforce(youso, Huda)))
         return
     elif key == 2 and mode == OBAL_KIHONDOUSA:
         moderator.append(hand_mono_kd_layer(card=yadosi_card, huda=enforce(youso, Huda)))
