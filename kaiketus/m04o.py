@@ -3,7 +3,7 @@ import pygame
 from pygame import Surface
 from copy import copy
 
-from mod.const import enforce, opponent, MG_TOKOYO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import enforce, opponent, MG_TOKOYO, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
     SC_SMOKE, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA
@@ -77,7 +77,7 @@ def _lower_n_5(delivery: Delivery, hoyuusya: int) -> list[Huda]:
     li: list[Huda] = husehuda+sutehuda
     return li
 
-_upper_n_5 = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_KOUDOU)
+_upper_n_5 = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_DIV)
 
 def _os_layer_n_5(delivery: Delivery, hoyuusya: int, code: int) -> OnlySelectLayer:
     return OnlySelectLayer(delivery=delivery, hoyuusya=hoyuusya, name="還元する札の選択",

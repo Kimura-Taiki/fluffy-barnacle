@@ -4,7 +4,7 @@ from pygame import Surface
 from copy import copy
 import random
 
-from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import enforce, opponent, MG_TIKAGE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_KAIHEI, IMG_NO_CHOICE,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN, POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, TG_END_PHASE,\
     SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, SC_DEINEI,\

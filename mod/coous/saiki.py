@@ -3,7 +3,7 @@ import pygame
 from pygame.surface import Surface
 from typing import Callable, Protocol, runtime_checkable, TypeVar, Any
 
-from mod.const import enforce, TC_KIRIHUDA, USAGE_USED, USAGE_UNUSED, CT_KOUDOU
+from mod.const import enforce, TC_KIRIHUDA, USAGE_USED, USAGE_UNUSED, CT_DIV
 from mod.delivery import Delivery
 from mod.taba import Taba
 from mod.popup_message import popup_message
@@ -35,7 +35,7 @@ class _ProtCard(Protocol):
 def _saiki_card(cls: type[_ProtCard], file_name: str, name: str,
                 img: Surface | None=None) -> Any:
     return cls(img=img if img else pygame.image.load(file_name), name="再起："+name,
-    cond=auto_di, type=CT_KOUDOU, kouka=_saiki_kouka(card_name=name))
+    cond=auto_di, type=CT_DIV, kouka=_saiki_kouka(card_name=name))
 
 def saiki_trigger(cls: type[_ProtCard], name: str, cond: BoolDIIC,
 trigger: int, file_name: str="", img: Surface | None=None) -> Trigger:

@@ -1,5 +1,5 @@
 #                 20                  40                  60                 79
-from mod.const import opponent, IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU,\
+from mod.const import opponent, IMG_BOOL_ZE, IMG_BOOL_HI, CT_DIV,\
     IMG_LIFE_DAMAGE, UC_LIFE, UC_FLAIR, DMG_RESHUFFLE, POP_RESHUFFLE_SELECTED,\
     POP_OPEN, POP_ACT1, POP_ACT2
 from mod.classes import Callable, Card, Delivery, moderator
@@ -21,8 +21,8 @@ POP_ACT2: lambda l, s: moderator.pop()
         }))
 
 _reshuffle_card = Card(img=IMG_BOOL_ZE, name="ダメージ付き再構成", cond=auto_di, type=
-                       CT_KOUDOU, kouka=_turn_saikousei)
-_pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_KOUDOU)
+                       CT_DIV, kouka=_turn_saikousei)
+_pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_DIV)
 _cards = [_reshuffle_card, _pass_card]
 
 reshuffle_layer: Callable[[Delivery, int], OnlySelectLayer] = lambda delivery,\

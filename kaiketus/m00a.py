@@ -3,7 +3,7 @@ import pygame
 from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_ISYUKU,\
-    UC_AURA, CT_KOUGEKI, CT_KOUDOU, enforce, TC_TEHUDA, TC_SUTEHUDA,\
+    UC_AURA, CT_KOUGEKI, CT_KOUDOU, CT_DIV, enforce, TC_TEHUDA, TC_SUTEHUDA,\
     TG_END_PHASE, MG_UTURO, POP_OPEN, POP_ACT1, POP_ACT2, opponent
 from mod.classes import Card, Taba, Delivery, moderator
 from mod.card.card import auto_di, int_di, dima_di

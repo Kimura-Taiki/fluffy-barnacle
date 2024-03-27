@@ -3,7 +3,7 @@ import pygame
 from pygame import Surface
 from copy import copy
 
-from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import MG_SAINE, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE
 from mod.classes import Callable, Card, Huda, Delivery, moderator
@@ -36,7 +36,7 @@ n_1 = Card(megami=MG_SAINE, img=img_card("o_n_1_s6_2"), name="八方振り", con
 n_2 = Card(megami=MG_SAINE, img=img_card("o_n_2"), name="薙斬り", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(4, 5), taiou=True)
 
-_after_n_3 = Card(megami=MG_SAINE, img=img_card("o_n_3_s6_2"), name="石突：攻撃後", cond=hassou, type=CT_KOUDOU,
+_after_n_3 = Card(megami=MG_SAINE, img=img_card("o_n_3_s6_2"), name="石突：攻撃後", cond=hassou, type=CT_DIV,
     kouka=ya_ridatu.send, taiou=True)
 
 n_3 = Card(megami=MG_SAINE, img=img_card("o_n_3_s6_2"), name="石突", cond=auto_di, type=CT_KOUGEKI,

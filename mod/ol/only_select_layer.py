@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 from mod.const import screen, pass_func, side_name, WX, WY, IMG_GRAY_LAYER,\
     IMG_DECISION, IMG_NO_CHOICE, POP_OK, POP_VIEWED_BANMEN, POP_DECIDED, HANTE,\
-    MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, CT_KOUDOU
+    MS_MINCHO_COL, FONT_SIZE_TITLE, WHITE, BLACK, CT_DIV
 from mod.classes import Callable, Any, partial, Card, Huda, Taba, Delivery,\
     moderator, popup_message
 from mod.card.card import auto_di
@@ -18,7 +18,7 @@ _HAND_Y_UPPER: Callable[[int, int], float] = lambda i, j: WY/2-150
 _HAND_Y_LOWER: Callable[[int, int], float] = lambda i, j: WY-150
 _HAND_ANGLE: Callable[[int, int], float] = lambda i, j: 0.0
 
-NO_CHOICE = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_KOUDOU)
+NO_CHOICE = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_DIV)
 
 class OnlySelectLayer(OverLayer):
     def __init__(self, delivery: Delivery, hoyuusya: int=HANTE, name: str="",

@@ -3,7 +3,7 @@ from pygame import Surface, SRCALPHA, Vector2
 
 from mod.const import IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE, IMG_BURST_DAMAGE,\
     UC_AURA, UC_DUST, UC_LIFE, UC_FLAIR, opponent, POP_OPEN, POP_ACT1,\
-    POP_ACT2, draw_aiharasuu, FONT_SIZE_DAMAGE, CT_KOUDOU, enforce
+    POP_ACT2, draw_aiharasuu, FONT_SIZE_DAMAGE, CT_DIV, enforce
 from mod.classes import Card, Delivery, moderator
 from mod.card.card import auto_di
 from mod.card.damage import Damage
@@ -53,7 +53,7 @@ POP_ACT1: lambda l, s: ld_card.kaiketu(delivery=delivery, hoyuusya=hoyuusya, cod
 POP_ACT2: lambda l, s: moderator.pop()
             }))
     return Card(img=_img_burst(ad, ld), name="両受けダメージ", cond=auto_di,
-                type=CT_KOUDOU, megami=base_card.megami, kouka=kouka)
+                type=CT_DIV, megami=base_card.megami, kouka=kouka)
 
 def _ad_card(dmg: int) -> Damage:
     return Damage(img=IMG_AURA_DAMAGE, name="オーラで防ぎました", dmg=dmg,

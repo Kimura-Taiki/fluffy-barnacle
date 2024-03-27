@@ -2,7 +2,7 @@
 import pygame
 from copy import copy
 
-from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import MG_YURINA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA
 from mod.card.card import Card, auto_di, int_di, dima_di
@@ -32,7 +32,7 @@ _cfs_n_3 = AttackCorrection(name="柄打ち", cond=mine_cf, taiounize=lambda c, 
 def _kouka_n_3(delivery: Delivery, hoyuusya: int) -> None:
     delivery.m_params(hoyuusya).lingerings.append(_cfs_n_3)
 
-_aan3 = Card(megami=MG_YURINA, img=IMG_BYTE, name="柄打ち：攻撃後", cond=kessi, type=CT_KOUDOU, kouka=_kouka_n_3)
+_aan3 = Card(megami=MG_YURINA, img=IMG_BYTE, name="柄打ち：攻撃後", cond=kessi, type=CT_DIV, kouka=_kouka_n_3)
 
 n_3 = Card(megami=MG_YURINA, img=pygame.image.load("cards/na_01_yurina_o_n_3.png"), name="柄打ち", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=int_di(2), life_damage_func=int_di(1), maai_list=dima_di(1, 2), after=_aan3)

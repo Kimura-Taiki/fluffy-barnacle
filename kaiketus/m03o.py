@@ -3,7 +3,7 @@ import pygame
 from pygame import Surface
 from copy import copy
 
-from mod.const import MG_HIMIKA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_ZENRYOKU,\
+from mod.const import MG_HIMIKA, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, CT_ZENRYOKU,\
     CT_TAIOU, UC_LIFE, IMG_BYTE, UC_MAAI, UC_ZYOGAI, UC_SYUUTYUU, TG_1_OR_MORE_DAMAGE,\
     UC_AURA, UC_DUST, SC_TATUZIN, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TG_END_PHASE,\
     SC_SMOKE, TC_TEHUDA
@@ -41,7 +41,7 @@ _ld_n_2: SuuziDI = lambda delivery, hoyuusya: 2 if renka(delivery, hoyuusya) els
 n_2 = Card(megami=MG_HIMIKA, img=img_card("o_n_2_s4"), name="ラピッドファイア", cond=auto_di, type=CT_KOUGEKI,
     aura_damage_func=_ad_n_2, life_damage_func=_ld_n_2, maai_list=dima_di(6, 8))
 
-_after_n_3 = Card(megami=MG_HIMIKA, img=img_card("o_n_3"), name="マグナムカノン：攻撃後", cond=auto_di, type=CT_KOUDOU,
+_after_n_3 = Card(megami=MG_HIMIKA, img=img_card("o_n_3"), name="マグナムカノン：攻撃後", cond=auto_di, type=CT_DIV,
     kouka=Yazirusi(from_mine=True, from_code=UC_LIFE).send)
 
 n_3 = Card(megami=MG_HIMIKA, img=img_card("o_n_3"), name="マグナムカノン", cond=auto_di, type=CT_KOUGEKI,
@@ -51,10 +51,10 @@ n_4 = Card(megami=MG_HIMIKA, img=img_card("o_n_4"), name="フルバースト", c
     aura_damage_func=int_di(3), life_damage_func=int_di(1), maai_list=dima_di(5, 9), zenryoku=True,
     burst=True)
 
-_part_n_5_1 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：ドロー", cond=auto_di, type=CT_KOUDOU,
+_part_n_5_1 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：ドロー", cond=auto_di, type=CT_DIV,
     kouka=handraw)
 
-_part_n_5_2 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：矢印離脱", cond=auto_di, type=CT_KOUDOU,
+_part_n_5_2 = Card(megami=MG_HIMIKA, img=img_card("o_n_5"), name="バックステップ：矢印離脱", cond=auto_di, type=CT_DIV,
     kouka=ya_ridatu.send)
 
 def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:

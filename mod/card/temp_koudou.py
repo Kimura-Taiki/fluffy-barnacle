@@ -5,7 +5,7 @@ from typing import Any
 from mod.const import IMG_HAKUSI, MS_MINCHO_COL, BLACK, IMG_FT_ARROW, IMG_FT_OUKA, FONT_SIZE_CARD_TITLE\
     , IMG_FT_MAAI, IMG_FT_DUST, IMG_FT_ZYOGAI, IMG_FT_AI_AURA, IMG_FT_AI_FLAIR, IMG_FT_AI_LIFE, IMG_FT_AI_SYUUTYUU\
     , IMG_FT_ZI_AURA, IMG_FT_ZI_FLAIR, IMG_FT_ZI_LIFE, IMG_FT_ZI_SYUUTYUU, UC_MAAI, UC_DUST, UC_ZYOGAI\
-    , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU, CT_KOUDOU
+    , UC_AURA, UC_FLAIR, UC_LIFE, UC_SYUUTYUU, CT_DIV
 from mod.classes import Delivery
 from mod.card.card import Card, BoolDI, KoukaDI, auto_di, nega_di
 from mod.card.kw.yazirusi import Yazirusi
@@ -31,7 +31,7 @@ class TempKoudou(Card):
                 self._draw_yazirusi(from_mine=i[0], from_code=i[1], to_mine=i[2], to_code=i[3], kazu=i[4])
             elif isinstance(i[0], str):
                 self._draw_text(texts=i)
-        super().__init__(self.img, name, cond, CT_KOUDOU, kouka=kouka)
+        super().__init__(self.img, name, cond, CT_DIV, kouka=kouka)
 
     def _maid_by_yazirusi(self, name: str, cond: BoolDI, yazirusi: Yazirusi | list[Yazirusi]) -> None:
         if isinstance(yazirusi, Yazirusi):
@@ -44,7 +44,7 @@ class TempKoudou(Card):
         def kouka(delivery: Delivery, hoyuusya: int) -> None:
             for yazirusi in li:
                 yazirusi.send(delivery=delivery, hoyuusya=hoyuusya)
-        super().__init__(self.img, name, cond, CT_KOUDOU, kouka=kouka)
+        super().__init__(self.img, name, cond, CT_DIV, kouka=kouka)
 
     def _draw_name(self, name: str) -> None:
         for i, mozi in enumerate(name):

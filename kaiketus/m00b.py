@@ -3,7 +3,7 @@ import pygame
 from copy import copy
 
 from mod.const import UC_ZYOGAI, UC_SYUUTYUU, UC_MAAI, UC_DUST, UC_AURA,\
-    UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, TC_KIRIHUDA, enforce,\
+    UC_FLAIR, CT_KOUGEKI, CT_KOUDOU, CT_HUYO, CT_DIV, TC_KIRIHUDA, enforce,\
     USAGE_UNUSED, TG_2_OR_MORE_DAMAGE, USAGE_USED, MG_HONOKA
 from mod.card.card import Card, auto_di, int_di, dima_di, nega_dic
 from mod.card.temp_koudou import TempKoudou

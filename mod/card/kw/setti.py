@@ -1,6 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, side_name, OBAL_USE_CARD, IMG_NO_CHOICE,\
-    CT_KOUGEKI, CT_KOUDOU, TC_HUSEHUDA, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3,\
+    CT_KOUGEKI, CT_DIV, TC_HUSEHUDA, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3,\
     POP_ACT4, POP_ACT5, POP_ACT6, POP_ACT7, SC_UROUO_SETTI
 from mod.classes import PopStat, Card, Huda, Delivery, moderator
 from mod.card.temp_koudou import auto_di
@@ -9,7 +9,7 @@ from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.use_card_layer import use_card_layer
 from mod.coous.scalar_correction import applied_scalar
 
-_no_choice = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_KOUDOU)
+_no_choice = Card(img=IMG_NO_CHOICE, name="何もしない", cond=auto_di, type=CT_DIV)
 
 def _urouo_check(layer: PipelineLayer, stat: PopStat, urouo_code: int, not_code: int) -> None:
     if applied_scalar(i=0, scalar=SC_UROUO_SETTI, delivery=layer.delivery) > 0:

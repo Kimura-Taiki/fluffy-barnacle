@@ -1,5 +1,5 @@
 #                 20                  40                  60                 79
-from mod.const import enforce, IMG_BOOL_ZE, IMG_BOOL_HI, CT_KOUDOU,\
+from mod.const import enforce, IMG_BOOL_ZE, IMG_BOOL_HI, CT_DIV,\
     POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, TC_TEHUDA, UC_AURA, TG_KAIHEI
 from mod.classes import PopStat, Card, Huda, Delivery, moderator
 from mod.card.card import auto_di
@@ -8,9 +8,9 @@ from mod.ol.pipeline_layer import PipelineLayer
 from mod.card.kw.yazirusi import Yazirusi
 from mod.coous.trigger import solve_trigger_effect
 
-_kasamawasi_card = Card(img=IMG_BOOL_ZE, name="かさまわし", cond=auto_di, type=CT_KOUDOU,
+_kasamawasi_card = Card(img=IMG_BOOL_ZE, name="かさまわし", cond=auto_di, type=CT_DIV,
     kouka=Yazirusi(to_mine=True, to_code=UC_AURA).send)
-_pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_KOUDOU)
+_pass_card = Card(img=IMG_BOOL_HI, name="非", cond=auto_di, type=CT_DIV)
 _kasamawasi_cards = [_kasamawasi_card, _pass_card]
 
 def _practical_kaihei(layer: PipelineLayer, stat: PopStat, code: int) -> None:
@@ -46,7 +46,7 @@ def _kaihei_kouka(delivery: Delivery, hoyuusya: int) -> None:
     }))
 
 kaihei_card = Card(img=IMG_BOOL_ZE, name="傘の開閉", cond=auto_di, type=
-                       CT_KOUDOU, kouka=_kaihei_kouka)
+                       CT_DIV, kouka=_kaihei_kouka)
 _kaihei_cards = [kaihei_card, _pass_card]
 
 def kasa_kaihei_layer(delivery: Delivery, hoyuusya: int, code: int) -> PipelineLayer:
