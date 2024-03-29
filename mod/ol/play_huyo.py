@@ -78,6 +78,7 @@ def _decided(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 def _tenkaizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     huda = enforce(layer.huda, Huda).base
     card = enforce(layer.card, Card)
+    layer.delivery.m_params(layer.hoyuusya).tenkaizi_huda = huda
     if card.tenkaizi:
         card.tenkaizi.kaiketu(delivery=layer.delivery,hoyuusya=layer.hoyuusya,
             huda=huda, code=code)

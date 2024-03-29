@@ -35,7 +35,6 @@ def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int, code: 
         type=CF_TRIGGER, hoyuusya=hoyuusya, card=duck_card) if enforce(cf, Trigger).trigger
         == trigger]
     if len(tgs) == 0:
-        raise EOFError("hoi")
         ...
     elif len(tgs) == 1:
         tg = tgs[0]

@@ -22,6 +22,7 @@ class MParams():
         self.aura_damaged = False
         self.ninpo_used = False
         self.during_accelr = False
+        self.tenkaizi_huda: Any | None = None
 
     def __str__(self) -> str:
         return f"MParams{vars(self)}"
