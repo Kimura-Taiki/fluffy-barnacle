@@ -13,8 +13,17 @@ from mod.delivery import Delivery, duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer, _type_dummy
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.ol.choice import choice_layer
+from mod.card.card_func import is_meet_conditions
 
 END_LAYER: Callable[[int], PipelineLayer] = lambda code: PipelineLayer(
     name="即終了", delivery=duck_delivery, gotoes={
         POP_OPEN: lambda l, s: moderator.pop()
     }, code=code)
+
+def can_kd(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool:
+    checks: list[tuple[bool, str]] = [
+        (delivery.m_params(hoyuusya).played_zenryoku, "既に全力行動しています"),
+        (delivery.m_params(hoyuusya).played_syuutan, "既に終端行動しています"),
+        (delivery.b_params.phase_ended, "フェイズが終了しています"),
+    ]
+    return is_meet_conditions(checks=checks, popup=popup)

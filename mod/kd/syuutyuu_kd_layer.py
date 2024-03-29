@@ -5,23 +5,14 @@ from mod.delivery import duck_delivery
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
 from mod.kd.syuutyuu_mono_kd_layer import syuutyuu_mono_kd_layer
-from mod.card.card_func import is_meet_conditions
-from mod.kd.share import END_LAYER
-
-def can_syuutyuu(delivery: Delivery, hoyuusya: int, popup: bool = False) -> bool:
-    checks: list[tuple[bool, str]] = [
-        (delivery.m_params(hoyuusya).played_zenryoku, "既に全力行動しています"),
-        (delivery.m_params(hoyuusya).played_syuutan, "既に終端行動しています"),
-        (delivery.b_params.phase_ended, "フェイズが終了しています"),
-    ]
-    return is_meet_conditions(checks=checks, popup=popup)
+from mod.kd.share import END_LAYER, can_kd
 
 def syuutyuu_kd_layer(cards: list[Card], delivery: Delivery, hoyuusya: int, code: int=POP_OK) -> PipelineLayer:
     li = [card for card in cards if card.can_play(delivery, hoyuusya)]
     if not li:
         popup_message.add("選べる基本動作がありません")
         return END_LAYER(code)
-    if not can_syuutyuu(delivery, hoyuusya, True):
+    if not can_kd(delivery, hoyuusya, True):
         return END_LAYER(code)
     return PipelineLayer(name="集中を費やした基本動作", delivery=delivery,
         hoyuusya=hoyuusya, gotoes={
