@@ -1,4 +1,6 @@
 #                 20                  40                  60                 79
+from copy import copy
+
 from mod.const import side_name, opponent, enforce, POP_OK, POP_OPEN,\
     POP_CHOICED, POP_TAIOUED, POP_KAIKETUED, POP_AFTER_ATTACKED, POP_CLOSED,\
     OBAL_USE_CARD
@@ -15,7 +17,7 @@ from mod.coous.attack_correction import AttackCorrection
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     delivery, hoyuusya = layer.delivery, layer.hoyuusya
-    card = enforce(layer.card, Card)
+    card = copy(enforce(layer.card, Card))
     if not card.can_play(delivery=delivery, hoyuusya=hoyuusya, popup=True):
         moderator.pop()
         return
@@ -23,6 +25,7 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.b_params.during_kirihuda = card.kirihuda
     layer.delivery.b_params.attack_megami = card.megami
     layer.delivery.m_params(hoyuusya).played_kougeki = True
+    layer.delivery.m_params(hoyuusya).kougeki_count += 1
     print("open", card.name, "kwargs", card.kwargs)
     if "utikesied" in card.kwargs:
         popup_message.add(text=f"{side_name(hoyuusya)}の「{card.name}」が"\

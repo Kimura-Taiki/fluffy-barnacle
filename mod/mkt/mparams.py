@@ -18,6 +18,7 @@ class MParams():
         self.played_ensin = False
         self.played_attract = False
         self.use_card_count = 0
+        self.kougeki_count = 0
         self.use_from_husehuda = False
         self.aura_damaged = False
         self.ninpo_used = False

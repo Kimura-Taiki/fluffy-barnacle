@@ -10,7 +10,7 @@ from mod.const import enforce, opponent,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN,\
     POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, POP_ACT6, POP_ACT7, POP_ACT8, POP_ACT9,\
     TG_END_PHASE,\
-    SC_MODULO,\
+    SC_MODULO, SC_REFLECTOR,\
     TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_DEPLOYED, USAGE_UNUSED,\
     IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE
@@ -299,8 +299,10 @@ def _tenkaizi_kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
 
 _tenkaizi_n_7 = TempKoudou("りふれくた：展開時", kikou(red=1, purple=1), kouka=_tenkaizi_kouka_n_7)
 
+_cfs_n_7 = ScalarCorrection(name="りふれくた", cond=mine_cf, scalar=SC_REFLECTOR, value=1)
+
 n_7 = Card(megami=MG_KURURU, img=img_card("o_n_7"), name="りふれくた", cond=auto_di, type=CT_HUYO,
-    osame=int_di(0), tenkaizi=_tenkaizi_n_7)
+    osame=int_di(0), tenkaizi=_tenkaizi_n_7, cfs=[_cfs_n_7])
 
 def _kouka_s_1(delivery: Delivery, hoyuusya: int) -> None:
     ...

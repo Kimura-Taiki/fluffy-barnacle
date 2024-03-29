@@ -35,6 +35,8 @@ def _kaiketu(layer: PipelineLayer, stat: PopStat, code: int) -> None:
 def _trigger_modulo(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     solve_trigger_effect(delivery=layer.delivery, hoyuusya=layer.hoyuusya,
                          trigger=TG_KOUDOU_KAIKETUED, code=code)
+    if moderator.last_layer() == layer:
+        layer.moderate(PopStat(code))
 
 def play_koudou_layer(card: Card, delivery: Delivery, hoyuusya: int,
                       huda: Any | None, code: int=POP_OK) -> PipelineLayer:
