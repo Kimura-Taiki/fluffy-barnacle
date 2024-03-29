@@ -51,3 +51,5 @@ matoi_card = KihonDousa(img=LOAD_SURFACE("matoi"), name="纏い",
 
 yadosi_card = KihonDousa(img=LOAD_SURFACE("yadosi"), name="宿し",
     cond=ya_yadosi.can_send, type=CT_DIV, kouka=ya_yadosi.send)
+
+kd_list = [zensin_card, ridatu_card, koutai_card, matoi_card, yadosi_card]
