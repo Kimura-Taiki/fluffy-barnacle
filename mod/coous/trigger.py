@@ -17,23 +17,30 @@ class TriggerEffect(Protocol):
         ...
 
 class Trigger(Continuous):
-    def __init__(self, name: str, cond: BoolDIIC, trigger: int, effect: TriggerEffect) -> None:
+    def __init__(self, name: str, cond: BoolDIIC, trigger: int, effect: TriggerEffect, is_once: bool=False) -> None:
         self.name = name
         self.type = CF_TRIGGER
         self.cond = cond
         self.trigger = trigger
         self.effect = effect
+        self.is_once = is_once
 
     def __str__(self) -> str:
         return f"Continuous{vars(self)}"
 
 def solve_trigger_effect(delivery: Delivery, hoyuusya: int, trigger: int, code: int=0) -> None:
-    effects = [enforce(cf, Trigger).effect for cf in delivery.cfs(
+    print("Solve")
+    print([cf.name for cf in delivery.cfs(type=CF_TRIGGER, hoyuusya=hoyuusya, card=duck_card)])
+    tgs = [enforce(cf, Trigger) for cf in delivery.cfs(
         type=CF_TRIGGER, hoyuusya=hoyuusya, card=duck_card) if enforce(cf, Trigger).trigger
         == trigger]
-    if len(effects) == 0:
+    if len(tgs) == 0:
+        raise EOFError("hoi")
         ...
-    elif len(effects) == 1:
-        effects[0].kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=code)
+    elif len(tgs) == 1:
+        tg = tgs[0]
+        tg.effect.kaiketu(delivery=delivery, hoyuusya=hoyuusya, huda=None, code=code)
+        if tg.is_once and tg in delivery.m_params(hoyuusya).lingerings:
+            delivery.m_params(hoyuusya).lingerings.remove(tg)
     else:
         raise EOFError("誘発する効果が２つ以上になったね")

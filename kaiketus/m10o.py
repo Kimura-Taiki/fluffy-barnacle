@@ -10,7 +10,7 @@ from mod.const import enforce, opponent,\
     UC_AURA, UC_FLAIR, UC_DUST, SC_TATUZIN,\
     POP_OK, POP_OPEN, POP_ACT1, POP_ACT2, POP_ACT3, POP_ACT4, POP_ACT5, POP_ACT6, POP_ACT7, POP_ACT8, POP_ACT9,\
     TG_END_PHASE,\
-    SC_MAAI, SC_TIKANDOKU, SC_TONZYUTU, SC_DEINEI,\
+    SC_MODULO,\
     TC_MISIYOU, TC_YAMAHUDA, TC_TEHUDA, TC_HUSEHUDA, TC_SUTEHUDA, TC_KIRIHUDA, OBAL_USE_CARD,\
     USAGE_USED, USAGE_DEPLOYED, USAGE_UNUSED,\
     IMG_AURA_DAMAGE, IMG_LIFE_DAMAGE
@@ -289,8 +289,10 @@ def _kouka_n_5(delivery: Delivery, hoyuusya: int) -> None:
 n_5 = Card(megami=MG_KURURU, img=img_card("o_n_5_s7_2"), name="りげいなー", cond=auto_di, type=CT_KOUDOU,
     kouka=_kouka_n_5, zenryoku=True)
 
+_cfs_n_6 = ScalarCorrection(name="もじゅるー", cond=mine_cf, scalar=SC_MODULO, value=1)
+
 n_6 = Card(megami=MG_KURURU, img=img_card("o_n_6"), name="もじゅるー", cond=auto_di, type=CT_HUYO,
-    osame=int_di(3))
+    osame=int_di(3), cfs=[_cfs_n_6])
 
 n_7 = Card(megami=MG_KURURU, img=img_card("o_n_7"), name="りふれくた", cond=auto_di, type=CT_HUYO,
     osame=int_di(0))

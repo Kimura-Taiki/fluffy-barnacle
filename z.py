@@ -1,7 +1,5 @@
-def iff(x: bool, y: bool) -> None:
-    print("Alpha" if x else "Beta" if y else "Gamma")
-
-iff(False, False)
-iff(False, True)
-iff(True, False)
-iff(True, True)
+li = list(range(10))
+li.remove(4)
+li.remove(8)
+li.remove(12)
+print(li)
