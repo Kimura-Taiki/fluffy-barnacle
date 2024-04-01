@@ -1,6 +1,6 @@
 #                 20                  40                  60                 79
 from mod.const import enforce, USAGE_UNUSED, USAGE_USED
-from mod.classes import PopStat, Huda
+from mod.classes import PopStat, Huda, moderator
 from mod.ol.pipeline_layer import PipelineLayer
 
 def hakizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
@@ -11,4 +11,5 @@ def hakizi(layer: PipelineLayer, stat: PopStat, code: int) -> None:
             huda.card.hakizi.kaiketu(delivery=huda.delivery, hoyuusya=huda.
                                      hoyuusya, code=code)
             return
-    layer.moderate(PopStat(code=code))
+    if moderator.last_layer() == layer:
+        layer.moderate(PopStat(code=code))

@@ -5,12 +5,13 @@ from functools import reduce
 
 from mod.const import draw_aiharasuu, enforce, POP_OK, POP_OPEN, POP_CHOICED,\
     POP_DECIDED, FONT_SIZE_OSAME_NUM, UC_DUST, UC_AURA, USAGE_DEPLOYED,\
-    IMG_DONOR_DUST, IMG_DONOR_AURA, POP_ACT1, POP_ACT2
+    IMG_DONOR_DUST, IMG_DONOR_AURA, POP_ACT1, POP_ACT2, POP_ACT3
 
 from mod.classes import Any, PopStat, Card, Youso, Huda, Delivery, moderator
 from mod.tf.taba_factory import TabaFactory
 from mod.ol.pipeline_layer import PipelineLayer
 from mod.ol.only_select_layer import OnlySelectLayer
+from mod.card.hakizi import hakizi
 
 class _Donor():
     def __init__(self, name: str, youso: Youso, img: Surface) -> None:
@@ -94,7 +95,8 @@ POP_OPEN: lambda l, s: _open(l, s, POP_CHOICED),
 POP_CHOICED: lambda l, s: _choiced(l, s, POP_OPEN),
 POP_DECIDED: lambda l, s: _decided(l, s, POP_ACT1),
 POP_ACT1: lambda l, s: _tenkaizi(l, s, POP_ACT2),
-POP_ACT2: lambda l, s: moderator.pop()
+POP_ACT2: lambda l, s: hakizi(l, s, POP_ACT3),
+POP_ACT3: lambda l, s: moderator.pop()
         }, card=card, huda=huda, code=code)
     layer.rest = _donors(layer, card.osame(delivery, hoyuusya))
     return layer
