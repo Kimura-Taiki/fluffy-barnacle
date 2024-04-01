@@ -72,7 +72,7 @@ class Mikoto():
         from kaiketus import m00a, m00b
         # self.m_params.has_yukihi = True
         from kaiketus.m10o import n_1, n_2, n_3, n_4, n_5, n_6, n_7, s_1, s_2, s_3, s_4, s_3_ex
-        hands = [m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6, n_7]
+        hands = [m00b.n_4, m00b.n_4, m00b.n_5, m00b.n_6, n_1, n_2, n_3, n_4, n_5, n_6, n_7]
         trumps = [m00b.s_3, m00a.s_3, m00a.s_2, s_1, s_2, s_3, s_4]
         self.misiyou = yamahuda_factory.maid_by_cards(cards=[s_3_ex, s_3_ex, s_3_ex], hoyuusya=self.hoyuusya)
         self.yamahuda = yamahuda_factory.maid_by_cards(cards=[], hoyuusya=self.hoyuusya)

@@ -299,7 +299,8 @@ def _tenkaizi_kouka_n_7(delivery: Delivery, hoyuusya: int) -> None:
 
 _tenkaizi_n_7 = TempKoudou("りふれくた：展開時", kikou(red=1, purple=1), kouka=_tenkaizi_kouka_n_7)
 
-_cfs_n_7 = ScalarCorrection(name="りふれくた", cond=mine_cf, scalar=SC_REFLECTOR, value=1)
+_cfs_n_7 = ScalarCorrection(name="りふれくた", cond=enemy_cf, scalar=SC_REFLECTOR, value=1)
+# _cfs_n_7 = ScalarCorrection(name="りふれくた", cond=auto_diic, scalar=SC_REFLECTOR, value=1)
 
 n_7 = Card(megami=MG_KURURU, img=img_card("o_n_7"), name="りふれくた", cond=auto_di, type=CT_HUYO,
     osame=int_di(0), tenkaizi=_tenkaizi_n_7, cfs=[_cfs_n_7])

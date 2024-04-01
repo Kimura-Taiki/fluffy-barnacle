@@ -3,7 +3,7 @@ from copy import copy
 
 from mod.const import side_name, opponent, enforce, POP_OK, POP_OPEN,\
     POP_CHOICED, POP_TAIOUED, POP_KAIKETUED, POP_AFTER_ATTACKED, POP_CLOSED,\
-    OBAL_USE_CARD
+    OBAL_USE_CARD, SC_REFLECTOR
 from mod.classes import Any, PopStat, Card, Huda, Delivery, moderator,\
     popup_message
 from mod.ol.play_kougeki.uke_cards import uke_cards
@@ -14,6 +14,7 @@ from mod.card.card import auto_di
 from mod.card.damage import Damage
 from mod.ol.use_card_layer import use_card_layer
 from mod.coous.attack_correction import AttackCorrection
+from mod.coous.scalar_correction import applied_scalar
 
 def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     delivery, hoyuusya = layer.delivery, layer.hoyuusya
@@ -26,6 +27,14 @@ def _open(layer: PipelineLayer, stat: PopStat, code: int) -> None:
     layer.delivery.b_params.attack_megami = card.megami
     layer.delivery.m_params(hoyuusya).played_kougeki = True
     layer.delivery.m_params(hoyuusya).kougeki_count += 1
+    if applied_scalar(i=0, scalar=SC_REFLECTOR, delivery=delivery, hoyuusya=hoyuusya) > 0 and\
+    layer.delivery.m_params(hoyuusya).kougeki_count == 2:
+    # if layer.delivery.m_params(hoyuusya).kougeki_count == 2:
+        popup_message.add(text=f"{side_name(hoyuusya)}の「{card.name}」が"\
+                          "りふれくたで打ち消されました")
+        moderator.pop()
+        return
+        # card.kwargs["utikesied"] = True
     print("open", card.name, "kwargs", card.kwargs)
     if "utikesied" in card.kwargs:
         popup_message.add(text=f"{side_name(hoyuusya)}の「{card.name}」が"\
