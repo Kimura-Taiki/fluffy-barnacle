@@ -2,7 +2,7 @@ import pygame
 
 from mod.const import screen, clock, FRAMES_PER_SECOND, WX, WY, IMG_YATUBA_BG, UC_FLAIR, UC_DUST, UC_MAAI,\
     SIMOTE, KAMITE, UC_ZYOGAI, UC_LIFE
-from mod.controller import controller
+from mod.router import controller
 from mod.timer_functions import start_timer, end_timer
 from mod.banmen import Banmen
 from mod.popup_message import popup_message

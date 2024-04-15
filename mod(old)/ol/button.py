@@ -5,7 +5,7 @@ from typing import Callable
 
 from mod.const import WX, WY, pass_func, screen
 from mod.youso import Youso
-from mod.controller import controller
+from mod.router import controller
 from mod.popup_message import popup_message
 
 class Button(Youso):

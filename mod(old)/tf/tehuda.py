@@ -5,7 +5,7 @@ from typing import Callable
 
 from mod.const import WX, WY, screen, BRIGHT
 from mod.huda.huda import Huda
-from mod.controller import controller
+from mod.router import controller
 from mod.tf.taba_factory import TabaFactory
 from mod.kd.action_circle import mousedown, active, mouseup
 

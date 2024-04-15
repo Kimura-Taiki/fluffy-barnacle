@@ -10,7 +10,7 @@ from mod.delivery import Delivery
 from mod.tf.taba_factory import TabaFactory
 from mod.popup_message import popup_message
 from mod.moderator import moderator
-from mod.controller import controller
+from mod.router import controller
 
 __all__ = ['Callable', 'Any', 'partial',
            'PopStat', 'Card', 'Youso', 'Huda', 'Taba', 'Delivery', 'TabaFactory',

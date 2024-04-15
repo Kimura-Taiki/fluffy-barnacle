@@ -7,7 +7,7 @@ from math import sin, cos, radians
 from typing import Callable, Any
 
 from mod.const import screen, BLACK, BRIGHT, HUDA_SCALE
-from mod.controller import controller
+from mod.router import controller
 
 class HudaDraw():
     def __init__(self, img: Surface, x: int | float, y: int | float, angle: float, scale: float,

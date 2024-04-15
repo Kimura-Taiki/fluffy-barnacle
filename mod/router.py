@@ -9,7 +9,7 @@ from mod.const.screen import screen
 # from mod.const import screen, nie
 # from mod.youso import Youso
 
-class Controller():
+class Router():
     def __init__(self) -> None:
         ...
         # self.clicked: bool = False
@@ -51,4 +51,4 @@ class Controller():
     #     elif self.hover:
     #         self.hover.hover()
 
-controller = Controller()
+router = Router()

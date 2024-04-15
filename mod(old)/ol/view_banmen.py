@@ -7,7 +7,7 @@ from mod.ol.undo_mouse import make_undo_youso
 from mod.ol.over_layer import OverLayer
 from mod.huda.huda import Huda
 from mod.popup_message import popup_message
-from mod.controller import controller
+from mod.router import controller
 from mod.moderator import moderator
 from mod.youso import Youso
 from mod.ol.pop_stat import PopStat

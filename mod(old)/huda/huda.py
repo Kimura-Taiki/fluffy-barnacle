@@ -6,7 +6,7 @@ from typing import Callable
 from mod.const import enforce, nie, USAGE_UNUSED, USAGE_DEPLOYED, USAGE_USED, HUDA_SCALE
 from mod.youso import Youso
 from mod.card.card import Card, auto_di
-from mod.controller import controller
+from mod.router import controller
 from mod.popup_message import popup_message
 from mod.huda.draw_params import DrawParams
 from mod.huda.huda_draw import HudaDraw

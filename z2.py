@@ -1,34 +1,39 @@
-import pygame
-import sys
+from typing import Protocol, runtime_checkable
 
-# 画像の読み込み
-# life = pygame.image.load("pictures/area_life.png")
-from mod.card.card import auto_di, pass_di
-from mod.card.temp_koudou import TempKoudou
-from mod.const import UC_MAAI, UC_DUST, UC_AURA, UC_FLAIR
-tc = TempKoudou(name="潜り", cond=auto_di, kouka=pass_di, todo=[
-    ["コストとして、あなたの", "マシンにある造花結晶を", "２つ燃焼済みにして良い。", "そうした場合、あなたは", "集中力を１得て、相手は", "集中力１を失い、相手を", "萎縮させる。"], [False, UC_MAAI, False, UC_DUST, 3], [True, UC_AURA, False, UC_FLAIR, 1],
-    ["ほいほいほいほいほい", ]])
-from mod.const import IMG_HAKUSI
+@runtime_checkable
+class Mozi(Protocol):
+    def mes(self) -> None:
+        ...
 
-def main(): # メインループ
-    pygame.init()
-    pygame.display.set_caption("Galaxy Lancer")
-    screen = pygame.display.set_mode((960, 720))
-    clock = pygame.time.Clock()
+class Alpha():
+    def __init__(self) -> None:
+        pass
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        
-        screen.fill((255, 255, 255))
-        screen.blit(source=tc.img, dest=[0, 0])
-        screen.blit(source=IMG_HAKUSI, dest=[400, 0])
+    def mes(self) -> None:
+        print("Alphaです")
 
-        pygame.display.update()
-        clock.tick(30)
+class Beta():
+    def __init__(self, x: int, y: int) -> None:
+        self.x, self.y = x, y
 
-if __name__ == '__main__':
-    main()
+    def mes(self) -> None:
+        print(f"Beta({self.x}, {self.y})です")
+
+class Gamma():
+    def __init__(self, s: str) -> None:
+        self.s = s
+
+    def mes(self) -> None:
+        print(f"Gamma({self.s}, {len(self.s)}文字)です")
+
+if not isinstance(Alpha(), Mozi):
+    raise ValueError
+
+Mozi.register(Alpha)
+
+a = Alpha()
+b = Beta(10, 20)
+c = Gamma("Hoge")
+li: list[Mozi] = [a, b, c]
+for mozi in li:
+    mozi.mes()
