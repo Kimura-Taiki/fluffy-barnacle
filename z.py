@@ -1,5 +1,12 @@
-li = list(range(10))
-li.remove(4)
-li.remove(8)
-li.remove(12)
-print(li)
+a = {1, 2}
+b = {3, 4, 5}
+c = {2, 3}
+if a & b: print("AB")
+if b & c: print("BC")
+if c & a: print("CA")
+
+def func(et: set[int]) -> None:
+    for i in et:
+        print(i)
+
+func(b)
