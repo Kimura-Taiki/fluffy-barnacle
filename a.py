@@ -8,7 +8,7 @@ from mod.card import Card
 from zh.z00_0 import n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9
 
 bmn = Banmen(cards=[Card(zh=zh) for zh in [n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9]])
-view = BanmenView()
+view = BanmenView(bmn=bmn)
 
 def mainloop() -> None:
     router.resolve_pygame_events()
