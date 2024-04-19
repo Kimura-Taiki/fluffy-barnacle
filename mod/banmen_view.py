@@ -1,19 +1,10 @@
-from typing import runtime_checkable, Protocol
-
 from mod.const.screen import screen, IMG_YATUBA_BG
 from mod.banmen import Banmen
 from mod.view.tehuda_square import TehudaSquare
+from ptc.element import Element
 
 from pygame import Rect
 from mod.card import Card
-
-@runtime_checkable
-class Element(Protocol):
-    def is_cursor_on(self) -> bool:
-        ...
-
-    def draw(self) -> None:
-        ...
 
 class BanmenView():
     def __init__(self, bmn: Banmen) -> None:
@@ -24,10 +15,18 @@ class BanmenView():
     def rearrange(self) -> None:
         ...
 
+    def get_hover(self) -> Element | None:
+        for square in self.squares:
+            if element := square.get_hover():
+                return element
+        return None
+
     def draw(self) -> None:
         screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
+        # if hover := self.get_hover():
+        #     screen.fill(color=(255, 0, 0), rect=((hover.dest)-(10, 10), (20, 20)))
 
 from pygame import Rect
 from mod.const.ryouiki import CR_YAMAHUDA, CR_TEHUDA, CR_KIRIHUDA

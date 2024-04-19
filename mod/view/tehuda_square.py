@@ -2,6 +2,7 @@ from pygame import Rect, Vector2 as V2
 from typing import Callable
 from mod.card import Card
 from mod.view.huda import Huda
+from ptc.element import Element
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[Rect, int, int], float] = lambda r, i, j: r.centerx-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -25,8 +26,8 @@ class TehudaSquare():
             scale=0.6)
             for i, card in enumerate(cards)]
 
-    def is_cursor_on(self) -> bool:
-        return False
+    def get_hover(self) -> Element | None:
+        return next((huda for huda in self.hudas[::-1] if huda.is_cursor_on()), None)
 
     def draw(self) -> None:
         for huda in self.hudas:
