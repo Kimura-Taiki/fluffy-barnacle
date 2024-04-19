@@ -5,6 +5,7 @@ from ptc.element import Element
 
 from pygame import Rect
 from mod.card import Card
+from mod.router import router
 
 class BanmenView():
     def __init__(self, bmn: Banmen) -> None:
@@ -25,6 +26,7 @@ class BanmenView():
         screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
+        router.mouse_over()
         # if hover := self.get_hover():
         #     screen.fill(color=(255, 0, 0), rect=((hover.dest)-(10, 10), (20, 20)))
 
