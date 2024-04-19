@@ -2,6 +2,7 @@ from pygame import Surface, Vector2 as V2, transform, mouse
 from math import sin, cos, radians
 
 from mod.const.screen import screen
+from mod.router import router
 
 class Huda():
     def __init__(self, img: Surface, mid: V2, angle: float, scale: float) -> None:
@@ -11,6 +12,8 @@ class Huda():
         self.img = transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.dest = mid-V2(self.img.get_size())/2
         self.angle = angle
+        # self.draw = self._draw
+        self.draw = _out_draw(huda=self)
 
     def is_cursor_on(self) -> bool:
         inside = False
@@ -22,12 +25,22 @@ class Huda():
                 inside = not inside
         return inside
 
-    def draw(self) -> None:
+    def _draw(self) -> None:
         rad = radians(-self.angle-90.0)
-        dest = self.dest+V2(cos(rad), sin(rad))*(40.0 if self.is_cursor_on() else 0.0)
+        # dest = self.dest+V2(cos(rad), sin(rad))*(40.0 if self.is_cursor_on() else 0.0)
+        dest = self.dest+V2(cos(rad), sin(rad))*(40.0 if self == router.get_hover() else 0.0)
         screen.blit(source=self.img, dest=dest)
 
     def _rotated_vertices(self, ov: V2, iv: V2, angle: float) -> V2:
         rad = radians(-angle)
         return V2(ov.x+(cos(rad)*iv.x-sin(rad)*iv.y),
                   ov.y+(sin(rad)*iv.x+cos(rad)*iv.y))
+
+from typing import Callable
+def _out_draw(huda: Huda) -> Callable[[], None]:
+    def func() -> None:
+        rad = radians(-huda.angle-90.0)
+        # dest = self.dest+V2(cos(rad), sin(rad))*(40.0 if self.is_cursor_on() else 0.0)
+        dest = huda.dest+V2(cos(rad), sin(rad))*(40.0 if huda == router.get_hover() else 0.0)
+        screen.blit(source=huda.img, dest=dest)
+    return func

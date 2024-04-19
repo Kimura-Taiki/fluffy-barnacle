@@ -5,6 +5,8 @@ from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from typing import Callable
 
 from mod.const.screen import screen
+from mod.const.func import nie
+from ptc.element import Element
 
 # from mod.const import screen, nie
 # from mod.youso import Youso
@@ -14,14 +16,14 @@ class Router():
         ...
         # self.clicked: bool = False
         # self.hover: Youso | None = None
-        # self.get_hover: Callable[[], Youso | None] = nie(text="Controller.get_hover")
+        self.get_hover: Callable[[], Element | None] = nie(text="Controller.get_hover")
         # self.active: Youso | None = None
         # self.data_transfer: Youso | None = None
         # self.hold_coord: V2
         # self.drag: bool = False
 
     def resolve_pygame_events(self) -> None:
-        # self.hover = self.get_hover()
+        self.hover = self.get_hover()
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.image.save(screen, "screenshot.png")
