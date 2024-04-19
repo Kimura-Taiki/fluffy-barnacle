@@ -3,51 +3,71 @@ from typing import runtime_checkable, Protocol
 from mod.const.screen import screen, IMG_YATUBA_BG
 from mod.banmen import Banmen
 
-# @runtime_checkable
-# class Element(Protocol):
-#     def is_cursor_on(self) -> bool:
-#         ...
-
-#     def draw(self) -> None:
-#         ...
-
-# class Huda():
-#     def __init__(self, card: Card) -> None:
-#         pass
-
-#     def is_cursor_on(self) -> bool:
-#         return False
-
-#     def draw(self) -> None:
-#         ...
-
-# HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-# HAND_X: Callable[[int, int], int | float] = lambda i, j: WX/2-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
-
-# HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
-# HAND_Y: Callable[[int, int], int | float] = lambda i, j: WY-60+HAND_Y_DIFF(i, j)**2*2
-
-# HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
-# HAND_ANGLE: Callable[[int, int], int | float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
-
-from pygame import Surface, Rect
+from pygame import Surface, Rect, Vector2 as V2, transform
+from typing import Callable
+from math import sin, cos, radians
 from mod.card import Card
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
-class TehudaSquare():
-    def __init__(self, cards: list[Card], rect: Rect) -> None:
-        self.rect = rect
-        self.img = Surface(rect.size)
-        self.img.fill(color=RED)
+@runtime_checkable
+class Element(Protocol):
+    def is_cursor_on(self) -> bool:
+        ...
 
     def draw(self) -> None:
-        screen.blit(source=self.img, dest=self.rect.topleft)
+        ...
+
+class Huda():
+    def __init__(self, img: Surface, mid: V2, angle: float, scale: float) -> None:
+        hx, hy = V2(img.get_size())/2
+        li = [V2(-hx, -hy), V2(hx, -hy), V2(hx, hy), V2(-hx, hy)]
+        self.vertices = [self._rotated_vertices(ov=mid, iv=vec, angle=angle) for vec in li]
+        self.img = transform.rotozoom(surface=img, angle=angle, scale=scale)
+        self.dest = mid-V2(self.img.get_size())/2
+
+    def is_cursor_on(self) -> bool:
+        return False
+
+    def draw(self) -> None:
+        screen.blit(source=self.img, dest=self.dest)
+
+    def _rotated_vertices(self, ov: V2, iv: V2, angle: float) -> V2:
+        rad = radians(-angle)
+        return V2(ov.x+(cos(rad)*iv.x-sin(rad)*iv.y),
+                  ov.y+(sin(rad)*iv.x+cos(rad)*iv.y))
+
+HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
+HAND_X: Callable[[Rect, int, int], float] = lambda r, i, j: r.centerx-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
+
+HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
+HAND_Y: Callable[[Rect, int, int], float] = lambda r, i, j: r.bottom-60+HAND_Y_DIFF(i, j)**2*2
+
+HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
+HAND_ANGLE: Callable[[int, int], float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
+
+class TehudaSquare():
+    def __init__(self, cards: list[Card], rect: Rect, is_reverse: bool = False) -> None:
+        self.cards = cards
+        self.rect = rect
+        j = len(cards)
+        self.hudas = [Huda(
+            img=card.zh.img,
+            mid=V2(rect.centerx*2-HAND_X(rect, i, j), rect.centery*2-HAND_Y(rect, i, j))
+                if is_reverse else V2(HAND_X(rect, i, j), HAND_Y(rect, i, j)),
+            angle=HAND_ANGLE(i, j)+(180.0 if is_reverse else 0.0),
+            scale=0.6)
+            for i, card in enumerate(cards)]
+
+    def draw(self) -> None:
+        for huda in self.hudas:
+            huda.draw()
 
 class BanmenView():
     def __init__(self, bmn: Banmen) -> None:
         self.bmn = bmn
-        self.squares = [TehudaSquare([], Rect(340, 480, 600, 240))]
+        self.squares = [TehudaSquare(bmn.taba(hs=1, cr=CR_TEHUDA), Rect(340, 480, 600, 240)),
+                        TehudaSquare(bmn.taba(hs=2, cr=CR_TEHUDA), Rect(340, 0, 600, 240), True)]
 
     def rearrange(self) -> None:
         ...
@@ -56,12 +76,6 @@ class BanmenView():
         screen.blit(source=IMG_YATUBA_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
-        # c1 = [card for card in self.bmn.cards if card.hoyuusya == 1 and CR_TEHUDA in card.ryouiki]
-        # for i, card in enumerate(c1):
-        #     screen.blit(source=card.zh.img, dest=[i*64, 0])
-        # c2 = [card for card in self.bmn.cards if card.hoyuusya == 2 and CR_TEHUDA in card.ryouiki]
-        # for i, card in enumerate(c2):
-        #     screen.blit(source=card.zh.img, dest=[i*64, 320])
 
 from pygame import Rect
 from mod.const.ryouiki import CR_YAMAHUDA, CR_TEHUDA, CR_KIRIHUDA
