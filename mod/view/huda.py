@@ -3,6 +3,7 @@ from math import sin, cos, radians
 
 from mod.const.screen import screen
 from mod.router import router
+from mod.const.func import pass_func
 
 class Huda():
     def __init__(self, img: Surface, mid: V2, angle: float, scale: float) -> None:
@@ -12,8 +13,14 @@ class Huda():
         self.img = transform.rotozoom(surface=img, angle=angle, scale=scale)
         self.dest = mid-V2(self.img.get_size())/2
         self.angle = angle
-        # self.draw = self._draw
-        self.draw = _out_draw(huda=self)
+        self.draw = self._draw
+        self.hover = pass_func
+        self.mousedown = pass_func
+        self.active = pass_func
+        self.mouseup = pass_func
+        self.drag = pass_func
+        self.dragend = pass_func
+        # self.draw = _out_draw(huda=self)
 
     def is_cursor_on(self) -> bool:
         inside = False
