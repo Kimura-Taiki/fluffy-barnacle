@@ -2,13 +2,10 @@ from typing import runtime_checkable, Protocol
 
 from mod.const.screen import screen, IMG_YATUBA_BG
 from mod.banmen import Banmen
+from mod.view.tehuda_square import TehudaSquare
 
-from pygame import Surface, Rect, Vector2 as V2, transform
-from typing import Callable
-from math import sin, cos, radians
+from pygame import Rect
 from mod.card import Card
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 
 @runtime_checkable
 class Element(Protocol):
@@ -17,51 +14,6 @@ class Element(Protocol):
 
     def draw(self) -> None:
         ...
-
-class Huda():
-    def __init__(self, img: Surface, mid: V2, angle: float, scale: float) -> None:
-        hx, hy = V2(img.get_size())/2
-        li = [V2(-hx, -hy), V2(hx, -hy), V2(hx, hy), V2(-hx, hy)]
-        self.vertices = [self._rotated_vertices(ov=mid, iv=vec, angle=angle) for vec in li]
-        self.img = transform.rotozoom(surface=img, angle=angle, scale=scale)
-        self.dest = mid-V2(self.img.get_size())/2
-
-    def is_cursor_on(self) -> bool:
-        return False
-
-    def draw(self) -> None:
-        screen.blit(source=self.img, dest=self.dest)
-
-    def _rotated_vertices(self, ov: V2, iv: V2, angle: float) -> V2:
-        rad = radians(-angle)
-        return V2(ov.x+(cos(rad)*iv.x-sin(rad)*iv.y),
-                  ov.y+(sin(rad)*iv.x+cos(rad)*iv.y))
-
-HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
-HAND_X: Callable[[Rect, int, int], float] = lambda r, i, j: r.centerx-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
-
-HAND_Y_DIFF: Callable[[int, int], float] = lambda i, j: abs(i*2-(j-1))*(1 if j < 3 else 3/(j-1))
-HAND_Y: Callable[[Rect, int, int], float] = lambda r, i, j: r.bottom-60+HAND_Y_DIFF(i, j)**2*2
-
-HAND_ANGLE_RATE: Callable[[int], float] = lambda i: -6 if i < 3 else -6.0*3/(i-1)
-HAND_ANGLE: Callable[[int, int], float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-1)+HAND_ANGLE_RATE(j)*i
-
-class TehudaSquare():
-    def __init__(self, cards: list[Card], rect: Rect, is_reverse: bool = False) -> None:
-        self.cards = cards
-        self.rect = rect
-        j = len(cards)
-        self.hudas = [Huda(
-            img=card.zh.img,
-            mid=V2(rect.centerx*2-HAND_X(rect, i, j), rect.centery*2-HAND_Y(rect, i, j))
-                if is_reverse else V2(HAND_X(rect, i, j), HAND_Y(rect, i, j)),
-            angle=HAND_ANGLE(i, j)+(180.0 if is_reverse else 0.0),
-            scale=0.6)
-            for i, card in enumerate(cards)]
-
-    def draw(self) -> None:
-        for huda in self.hudas:
-            huda.draw()
 
 class BanmenView():
     def __init__(self, bmn: Banmen) -> None:
