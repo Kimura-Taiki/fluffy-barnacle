@@ -25,6 +25,9 @@ class TehudaSquare():
             scale=0.6)
             for i, card in enumerate(cards)]
 
+    def is_cursor_on(self) -> bool:
+        return False
+
     def draw(self) -> None:
         for huda in self.hudas:
             huda.draw()
