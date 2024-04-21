@@ -1,12 +1,20 @@
 from pygame import Surface, Vector2 as V2, transform, mouse
 from math import sin, cos, radians
+from typing import Callable, Any
+from functools import partial
 
 from mod.const.screen import screen
 from mod.router import router
-from mod.const.func import pass_func, nie
+
+def _hoge(any: Any) -> None:
+    ...
 
 class Huda():
-    def __init__(self, img: Surface, mid: V2, angle: float, scale: float) -> None:
+    def __init__(self, img: Surface, mid: V2, angle: float, scale: float,
+    draw: Callable[['Huda'], None] | None=None, hover: Callable[['Huda'], None] | None=None,
+    mousedown: Callable[['Huda'], None] | None=None, active: Callable[['Huda'], None] | None=None,
+    mouseup: Callable[['Huda'], None] | None=None, drag: Callable[['Huda'], None] | None=None,
+    dragend: Callable[['Huda'], None] | None=None) -> None:
         hx, hy = V2(img.get_size())*scale/2
         li = [V2(-hx, -hy), V2(hx, -hy), V2(hx, hy), V2(-hx, hy)]
         self.vertices = [self._rotated_vertices(ov=mid, iv=vec, angle=angle) for vec in li]
@@ -14,13 +22,22 @@ class Huda():
         self.img_hover = img
         self.dest = mid-V2(self.img.get_size())/2
         self.angle = angle
-        self.draw = self._draw
-        self.hover = self._hover
-        self.mousedown = pass_func
-        self.active = pass_func
-        self.mouseup = pass_func
-        self.drag = pass_func
-        self.dragend = pass_func
+        # self.draw: Callable[[], None] = partial(draw, self) if draw else self._draw
+        # self.draw: Callable[[], None] = partial(draw, self) if draw else pass_func
+        self.draw: Callable[[], None] = partial(draw if draw else _hoge, self)
+        self.hover: Callable[[], None] = partial(hover if hover else _hoge, self)
+        self.mousedown: Callable[[], None] = partial(mousedown if mousedown else _hoge, self)
+        self.active: Callable[[], None] = partial(active if active else _hoge, self)
+        self.mouseup: Callable[[], None] = partial(mouseup if mouseup else _hoge, self)
+        self.drag: Callable[[], None] = partial(drag if drag else _hoge, self)
+        self.dragend: Callable[[], None] = partial(dragend if dragend else _hoge, self)
+        # self.draw = self._draw
+        # self.hover = self._hover
+        # self.mousedown = pass_func
+        # self.active = pass_func
+        # self.mouseup = pass_func
+        # self.drag = pass_func
+        # self.dragend = pass_func
 
     def is_cursor_on(self) -> bool:
         inside = False

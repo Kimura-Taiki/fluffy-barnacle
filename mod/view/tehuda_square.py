@@ -1,8 +1,12 @@
 from pygame import Rect, Vector2 as V2
 from typing import Callable
+from math import sin, cos, radians
+
 from mod.card import Card
 from mod.view.huda import Huda
 from ptc.element import Element
+from mod.const.screen import screen
+from mod.router import router
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[Rect, int, int], float] = lambda r, i, j: r.centerx-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -23,7 +27,9 @@ class TehudaSquare():
             mid=V2(rect.centerx*2-HAND_X(rect, i, j), rect.centery*2-HAND_Y(rect, i, j))
                 if is_reverse else V2(HAND_X(rect, i, j), HAND_Y(rect, i, j)),
             angle=HAND_ANGLE(i, j)+(180.0 if is_reverse else 0.0),
-            scale=0.6)
+            scale=0.6,
+            draw=_draw,
+            hover=_hover)
             for i, card in enumerate(cards)]
 
     def get_hover(self) -> Element | None:
@@ -32,3 +38,11 @@ class TehudaSquare():
     def draw(self) -> None:
         for huda in self.hudas:
             huda.draw()
+
+def _draw(huda: Huda) -> None:
+    rad = radians(-huda.angle-90.0)
+    dest = huda.dest+V2(cos(rad), sin(rad))*(40.0 if huda == router.get_hover() else 0.0)
+    screen.blit(source=huda.img, dest=dest)
+
+def _hover(huda: Huda) -> None:
+    screen.blit(source=huda.img_hover, dest=(0, 0))
