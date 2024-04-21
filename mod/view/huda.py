@@ -3,18 +3,15 @@ from math import sin, cos, radians
 from typing import Callable, Any
 from functools import partial
 
-from mod.const.screen import screen
-from mod.router import router
-
 def _hoge(any: Any) -> None:
     ...
 
 class Huda():
     def __init__(self, img: Surface, mid: V2, angle: float, scale: float,
-    draw: Callable[['Huda'], None] | None=None, hover: Callable[['Huda'], None] | None=None,
-    mousedown: Callable[['Huda'], None] | None=None, active: Callable[['Huda'], None] | None=None,
-    mouseup: Callable[['Huda'], None] | None=None, drag: Callable[['Huda'], None] | None=None,
-    dragend: Callable[['Huda'], None] | None=None) -> None:
+    draw: Callable[['Huda'], None]=_hoge, hover: Callable[['Huda'], None]=_hoge,
+    mousedown: Callable[['Huda'], None]=_hoge, active: Callable[['Huda'], None]=_hoge,
+    mouseup: Callable[['Huda'], None]=_hoge, drag: Callable[['Huda'], None]=_hoge,
+    dragend: Callable[['Huda'], None]=_hoge) -> None:
         hx, hy = V2(img.get_size())*scale/2
         li = [V2(-hx, -hy), V2(hx, -hy), V2(hx, hy), V2(-hx, hy)]
         self.vertices = [self._rotated_vertices(ov=mid, iv=vec, angle=angle) for vec in li]
@@ -22,22 +19,13 @@ class Huda():
         self.img_hover = img
         self.dest = mid-V2(self.img.get_size())/2
         self.angle = angle
-        # self.draw: Callable[[], None] = partial(draw, self) if draw else self._draw
-        # self.draw: Callable[[], None] = partial(draw, self) if draw else pass_func
-        self.draw: Callable[[], None] = partial(draw if draw else _hoge, self)
-        self.hover: Callable[[], None] = partial(hover if hover else _hoge, self)
-        self.mousedown: Callable[[], None] = partial(mousedown if mousedown else _hoge, self)
-        self.active: Callable[[], None] = partial(active if active else _hoge, self)
-        self.mouseup: Callable[[], None] = partial(mouseup if mouseup else _hoge, self)
-        self.drag: Callable[[], None] = partial(drag if drag else _hoge, self)
-        self.dragend: Callable[[], None] = partial(dragend if dragend else _hoge, self)
-        # self.draw = self._draw
-        # self.hover = self._hover
-        # self.mousedown = pass_func
-        # self.active = pass_func
-        # self.mouseup = pass_func
-        # self.drag = pass_func
-        # self.dragend = pass_func
+        self.draw: Callable[[], None] = partial(draw, self)
+        self.hover: Callable[[], None] = partial(hover, self)
+        self.mousedown: Callable[[], None] = partial(mousedown, self)
+        self.active: Callable[[], None] = partial(active, self)
+        self.mouseup: Callable[[], None] = partial(mouseup, self)
+        self.drag: Callable[[], None] = partial(drag, self)
+        self.dragend: Callable[[], None] = partial(dragend, self)
 
     def is_cursor_on(self) -> bool:
         inside = False
@@ -48,14 +36,6 @@ class Huda():
             if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
                 inside = not inside
         return inside
-
-    def _draw(self) -> None:
-        rad = radians(-self.angle-90.0)
-        dest = self.dest+V2(cos(rad), sin(rad))*(40.0 if self == router.get_hover() else 0.0)
-        screen.blit(source=self.img, dest=dest)
-
-    def _hover(self) -> None:
-        screen.blit(source=self.img_hover, dest=(0, 0))
 
     def _rotated_vertices(self, ov: V2, iv: V2, angle: float) -> V2:
         rad = radians(-angle)
