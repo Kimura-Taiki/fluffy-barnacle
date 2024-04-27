@@ -19,6 +19,7 @@ class Huda():
         self.img_hover = img
         self.dest = mid-V2(self.img.get_size())/2
         self.angle = angle
+        self.scale = scale
         self.draw: Callable[[], None] = partial(draw, self)
         self.hover: Callable[[], None] = partial(hover, self)
         self.mousedown: Callable[[], None] = partial(mousedown, self)
