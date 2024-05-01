@@ -1,7 +1,9 @@
 from mod.const.screen import screen, IMG_YATUBA_BG
 from mod.banmen import Banmen
 from mod.view.tehuda_square import TehudaSquare
+from mod.view.crb_square import CrbSquare
 from ptc.element import Element
+from ptc.square import Square
 
 from pygame import Rect
 from mod.card import Card
@@ -10,8 +12,11 @@ from mod.router import router
 class BanmenView():
     def __init__(self, bmn: Banmen) -> None:
         self.bmn = bmn
-        self.squares = [TehudaSquare(bmn.taba(hs=1, cr=CR_TEHUDA), Rect(340, 480, 600, 240)),
-                        TehudaSquare(bmn.taba(hs=2, cr=CR_TEHUDA), Rect(340, 0, 600, 240), True)]
+        self.squares: list[Square] = [
+            TehudaSquare(bmn.taba(hs=1, cr=CR_TEHUDA), Rect(340, 480, 600, 240)),
+            TehudaSquare(bmn.taba(hs=2, cr=CR_TEHUDA), Rect(340, 0, 600, 240), True),
+            CrbSquare(Rect(0, 480, 280, 240)),
+            CrbSquare(Rect(1000, 0, 280, 240), True)]
 
     def rearrange(self) -> None:
         ...
