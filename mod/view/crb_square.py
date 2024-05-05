@@ -1,4 +1,4 @@
-from pygame import Rect, Vector2 as V2
+from pygame import Rect, Vector2 as V2, Surface
 from typing import Callable
 from math import sin, cos, radians
 
@@ -11,6 +11,7 @@ from ptc.element import Element
 from mod.const.screen import screen
 from mod.router import router
 from mod.const.func import rect_fill
+from mod.view.crb import Crb
 
 HAND_X_RATE: Callable[[int], float] = lambda i: 120-130*max(0, i-4)/i
 HAND_X: Callable[[Rect, int, int], float] = lambda r, i, j: r.centerx-HAND_X_RATE(j)/2*(j-1)+HAND_X_RATE(j)*i
@@ -26,10 +27,14 @@ HAND_ANGLE: Callable[[int, int], float] = lambda i, j: -HAND_ANGLE_RATE(j)/2*(j-
 class CrbSquare():
     def __init__(self, rect: Rect, is_reverse: bool = False) -> None:
         self.rect = rect
-        mag = rect.width/280 if rect.height*280 > rect.width*240 else rect.height/240
+        self.crbs = [Crb(Surface((16, 16)), Rect(rect.left, rect.top+rect.height*i/4, rect.width, rect.height/4), 1.0)
+                     for i in range(4)]
+        # mag = rect.width/280 if rect.height*280 > rect.width*240 else rect.height/240
 
     def get_hover(self) -> Element | None:
         return None
 
     def draw(self) -> None:
         rect_fill(color=(255, 255, 0, 128), rect=self.rect)
+        for crb in self.crbs:
+            crb.draw()
