@@ -1,4 +1,5 @@
 from pygame import Surface, mouse, Rect, image, transform, Vector2 as V2, SRCALPHA
+from pygame.font import Font
 from typing import Callable, Any
 from functools import partial
 
@@ -7,6 +8,11 @@ from mod.const.func import rect_fill
 
 def _hoge(any: Any) -> None:
     ...
+
+def _text() -> str:
+    return "hoge"
+
+MS_MINCHO_COL: Callable[[str, int, tuple[int, int, int]], Surface] = lambda s, i, c: Font("msmincho001.ttf", i).render(s, True, c)
 
 _img_frame = image.load("pictures/ww_bo.png").convert_alpha()
 _part_size = V2(_img_frame.get_size())/3
@@ -19,6 +25,7 @@ _img_parts = [_part(i) for i in range(9)]
 
 class Crb():
     def __init__(self, img: Surface, rect: Rect, scale: float,
+    text_func: Callable[[], str]=_text,
     draw: Callable[['Crb'], None]=_hoge, hover: Callable[['Crb'], None]=_hoge,
     mousedown: Callable[['Crb'], None]=_hoge, active: Callable[['Crb'], None]=_hoge,
     mouseup: Callable[['Crb'], None]=_hoge, drag: Callable[['Crb'], None]=_hoge,
@@ -53,3 +60,4 @@ class Crb():
                   ]
         for img, size, dest in params:
             screen.blit(source=transform.scale(surface=img, size=size), dest=dest)
+        
