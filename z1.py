@@ -1,5 +1,4 @@
-from z2 import Card
+from pygame import Color
 
-class Board:
-    def __init__(self, cards: list[Card]) -> None:
-        self.cards = cards
+red = Color("red")
+print(red)

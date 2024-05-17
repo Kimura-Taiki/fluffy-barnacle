@@ -50,4 +50,4 @@ class BoardView():
 # cards6 = [Card(zh=zh, hoyuusya=2, ryouiki={CR_KIRIHUDA}) for zh in [zb.s_1, zb.s_2, zb.s_3]]
 
 # bmn = Banmen(cards=cards1+cards2+cards3+cards4+cards5+cards6)
-view = BoardView(board=Board())
+# view = BoardView(board=Board())
