@@ -1,9 +1,12 @@
-from mod.screen import screen, IMG_BG
+from pygame import Rect
+
+from mod.screen import screen, IMG_BG, WX, WY
 from mod.board import Board
 # from mod.view.tehuda_square import TehudaSquare
 # from mod.view.crb_square import CrbSquare
 from ptc.element import Element
 from ptc.square import Square
+from mod.player_square import PlayerSquare
 
 # from pygame import Rect
 # from mod.card import Card
@@ -12,7 +15,9 @@ from mod.router import router
 class BoardView():
     def __init__(self, board: Board) -> None:
         self.board = board
-        self.squares: list[Square] = []
+        w = WX/len(board.players)
+        h = WY/4
+        self.squares: list[Square] = [PlayerSquare(player=player, rect=Rect(w*i, 0, w, h)) for i, player in enumerate(board.players)]
         # self.squares: list[Square] = [
         #     TehudaSquare(bmn.taba(hs=1, cr=CR_TEHUDA), Rect(340, 480, 600, 240)),
         #     TehudaSquare(bmn.taba(hs=2, cr=CR_TEHUDA), Rect(340, 0, 600, 240), True),
