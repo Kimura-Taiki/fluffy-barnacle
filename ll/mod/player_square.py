@@ -41,5 +41,5 @@ class PlayerSquare():
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         rect_fill(color=self.translucent_color, rect=Rect(0, 0, 420, 288), surface=img)
-        img.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=(0, 0))
+        img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({self.player.hand.name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/420)

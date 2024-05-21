@@ -6,5 +6,6 @@ class Board():
         self.players = players
         self.deck = make_deck()
         for player in self.players:
-            kard = self.deck.pop(0)
-            player.log.append(kard)
+            player.hand = self.deck.pop(0)
+            # kard = self.deck.pop(0)
+            # player.log.append(kard)

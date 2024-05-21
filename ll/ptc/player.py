@@ -7,4 +7,5 @@ from mod.kard import Kard
 class Player(Protocol):
     name: str
     color: Color
+    hand: Kard
     log: list[Kard]
