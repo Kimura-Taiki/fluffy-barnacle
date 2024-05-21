@@ -1,5 +1,5 @@
 from pygame import Surface, SRCALPHA, Color, Rect
-from typing import Callable, Any
+from typing import Callable, Any, Sequence
 
 from mod.screen import screen
 
@@ -14,7 +14,10 @@ def pass_func() -> None:
 def mono_func(any: Any) -> None:
     ...
 
-def rect_fill(color: Any, rect: Rect) -> None:
+RGBAOutput = tuple[int, int, int, int]
+ColorValue = Color | int | str | tuple[int, int, int] | RGBAOutput | Sequence[int]
+
+def rect_fill(color: ColorValue, rect: Rect, surface: Surface=screen) -> None:
     source = Surface(size=rect.size, flags=SRCALPHA)
     source.fill(color=color)
-    screen.blit(source=source, dest=rect)
+    surface.blit(source=source, dest=rect)

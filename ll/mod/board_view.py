@@ -46,5 +46,5 @@ class BoardView():
         w = WX/len(opponents)
         h = WY*2/5
         opponents_squares: list[Square] = [PlayerSquare(player=player, rect=Rect(w*i, 0, w, h)) for i, player in enumerate(opponents)]
-        subject_square: list[Square] = [PlayerSquare(player=self.subject, rect=Rect(0, WY-h, WX, h))] if self.subject in self.board.players else []
+        subject_square: list[Square] = [PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h))] if self.subject in self.board.players else []
         return opponents_squares+subject_square

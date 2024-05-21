@@ -1,4 +1,4 @@
-from pygame import Rect, Color
+from pygame import Rect, Color, Surface, SRCALPHA, transform
 from copy import deepcopy
 
 from mod.screen import screen
@@ -11,18 +11,34 @@ from ptc.element import Element
 class PlayerSquare():
     def __init__(self, player: Player, rect: Rect) -> None:
         self.player = player
-        self.rect = rect
+        self.rect = self._rect(rect=rect)
+        self.img = self._img()
 
     def get_hover(self) -> Element | None:
         return None
 
     def draw(self) -> None:
-        rect_fill(color=self.translucent_color, rect=self.rect)
-        # screen.fill(color=self.translucent_color, rect=self.rect)
-        screen.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=self.rect)
+        screen.blit(source=self.img, dest=self.rect)
+        ...
+        # rect_fill(color=self.translucent_color, rect=self.rect)
+        # screen.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=self.rect)
+        # for i, kard in enumerate(self.player.log):
+        #     dd
 
     @property
     def translucent_color(self) -> Color:
         color = deepcopy(self.player.color)
         color.a = int(color.a/2)
         return color
+
+    def _rect(self, rect: Rect) -> Rect:
+        w, h = (420*rect.h/288, rect.h) if rect.w*288 > rect.h*420 else (rect.w, 288*rect.w/420)
+        return Rect(rect.left+(rect.w-w)/2, rect.top+(rect.h-h)/2, w, h)
+
+    def _img(self) -> Surface:
+        img = Surface(size=(420, 288), flags=SRCALPHA)
+        rect_fill(color=self.translucent_color, rect=Rect(0, 0, 420, 288), surface=img)
+        img.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=(0, 0))
+        # rect_fill(color=self.translucent_color, rect=self.rect, surface=img)
+        # img.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=self.rect)
+        return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/420)
