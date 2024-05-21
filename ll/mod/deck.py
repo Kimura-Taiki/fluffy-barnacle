@@ -1,4 +1,5 @@
 from copy import deepcopy
+from random import shuffle
 
 from mod.kard import Kard
 
@@ -14,4 +15,7 @@ _kard8 = Kard(name="姫", png_file="img8.png")
 _kards = [_kard0, _kard1, _kard2, _kard3, _kard4, _kard5, _kard6, _kard7, _kard8]
 _ids = [1]*5+[2, 3, 4, 5]*2+[6, 7, 8]
 
-deck = [deepcopy(_kards[i]) for i in _ids]
+def make_deck() -> list[Kard]:
+    deck = [deepcopy(_kards[i]) for i in _ids]
+    shuffle(deck)
+    return deck
