@@ -2,19 +2,21 @@ from pygame import Rect, Color, Surface, SRCALPHA, transform, image
 from copy import deepcopy
 
 from mod.screen import screen
-from mod.func import rect_fill, ratio_rect
+from mod.func import rect_fill
 from mod.font import MS_MINCHO_COL
 from mod.kard import Kard
 from ptc.square import Square
 from ptc.player import Player
 from ptc.element import Element
 
-class PlayerSquare():
-    _RATIO = (420, 288)
+class LogSquare():
+    def __init__(self, kard: Kard, rect: Rect) -> None:
+        self.kard = kard
+        self.rect = self._rect(rect=rect)
 
+class PlayerSquare():
     def __init__(self, player: Player, rect: Rect) -> None:
         self.player = player
-        self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.rect = self._rect(rect=rect)
         self.img = self._img()
 
@@ -23,6 +25,11 @@ class PlayerSquare():
 
     def draw(self) -> None:
         screen.blit(source=self.img, dest=self.rect)
+        ...
+        # rect_fill(color=self.translucent_color, rect=self.rect)
+        # screen.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=self.rect)
+        # for i, kard in enumerate(self.player.log):
+        #     dd
 
     @property
     def translucent_color(self) -> Color:
@@ -35,7 +42,7 @@ class PlayerSquare():
         return Rect(rect.left+(rect.w-w)/2, rect.top+(rect.h-h)/2, w, h)
 
     def _img(self) -> Surface:
-        img = Surface(size=self._RATIO, flags=SRCALPHA)
+        img = Surface(size=(420, 288), flags=SRCALPHA)
         rect_fill(color=self.translucent_color, rect=Rect(0, 0, 420, 288), surface=img)
         img.blit(source=MS_MINCHO_COL(self.player.name, 24, "black"), dest=(0, 0))
         for i, kard in enumerate(self.player.log):

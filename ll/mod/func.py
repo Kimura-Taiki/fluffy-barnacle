@@ -21,3 +21,7 @@ def rect_fill(color: ColorValue, rect: Rect, surface: Surface=screen) -> None:
     source = Surface(size=rect.size, flags=SRCALPHA)
     source.fill(color=color)
     surface.blit(source=source, dest=rect)
+
+def ratio_rect(rect: Rect, ratio: tuple[int | float, int | float]) -> Rect:
+    w, h = (ratio[0]*rect.h/ratio[1], rect.h) if rect.w*ratio[1] > rect.h*ratio[0] else (rect.w, ratio[1]*rect.w/ratio[0])
+    return Rect(rect.left+(rect.w-w)/2, rect.top+(rect.h-h)/2, w, h)
