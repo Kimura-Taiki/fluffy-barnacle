@@ -3,7 +3,8 @@ import pygame
 from mod.screen import clock, FRAMES_PER_SECOND
 from mod.router import router
 # from mod.board_view import view
-from mod.b_a_v import view
+# from mod.b_a_v import view
+from mod.default_gm import gm
 from ptc.view import View
 
 # router.get_hover = view.get_hover
@@ -16,7 +17,6 @@ def mainloop(view: View) -> None:
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 
-board = view.board
 while True:
     # mainloop()
-    mainloop(view=view)
+    mainloop(view=gm.view)

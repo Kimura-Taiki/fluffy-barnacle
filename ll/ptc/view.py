@@ -9,3 +9,12 @@ class View(Protocol):
 
     def draw(self) -> None:
         ...
+
+class _EmptyView():
+    def get_hover(self) -> Element | None:
+        return None
+
+    def draw(self) -> None:
+        pass
+
+EMPTY_VIEW = _EmptyView()
