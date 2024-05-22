@@ -12,14 +12,16 @@ class Router():
     def __init__(self) -> None:
         self.clicked: bool = False
         self.hover: Element | None = None
-        self.get_hover: Callable[[], Element | None] = nie(text="Controller.get_hover")
+        # self.get_hover: Callable[[], Element | None] = nie(text="Controller.get_hover")
         self.active: Element | None = None
         self.data_transfer: Element | None = None
         self.hold_coord: V2
         self.drag: bool = False
 
-    def resolve_pygame_events(self) -> None:
-        self.hover = self.get_hover()
+    # def resolve_pygame_events(self) -> None:
+    #     self.hover = self.get_hover()
+    def resolve_pygame_events(self, get_hover: Element | None) -> None:
+        self.hover = get_hover
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.image.save(screen, "ll/screenshot.png")
