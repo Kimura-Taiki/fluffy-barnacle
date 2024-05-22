@@ -11,7 +11,8 @@ from ptc.player import Player
 from ptc.element import Element
 
 class PlayerSquare():
-    _RATIO = (420, 288)
+    # _RATIO = (420, 288)
+    _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
 
     def __init__(self, player: Player, rect: Rect) -> None:
@@ -40,6 +41,6 @@ class PlayerSquare():
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
-        rect_fill(color=self.translucent_color, rect=Rect(0, 0, 420, 288), surface=img)
+        rect_fill(color=self.translucent_color, rect=Rect((0, 0), self._RATIO), surface=img)
         img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({self.player.hand.name})", 24, "black"), dest=(0, 0))
-        return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/420)
+        return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
