@@ -12,3 +12,4 @@ class ManPlayer():
         self.color = Color(color)
         self.hand = EMPTY_KARD
         self.log = log
+        self.alive = True

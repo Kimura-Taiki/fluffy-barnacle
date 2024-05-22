@@ -4,7 +4,7 @@ from mod.board import Board
 from mod.kard import Kard, EMPTY_KARD
 from mod.board_view import BoardView
 from mod.man_player import ManPlayer
-from ptc.player import Player
+from ptc.player import Player, OBSERVER
 
 def _make_board() -> Board:
     players: list[Player] = [
@@ -14,13 +14,13 @@ def _make_board() -> Board:
         ManPlayer(name="Gastone", color="gold", log=[])]
     return Board(players=players)
 
-class Observer():
-    def __init__(self) -> None:
-        self.name = "(Observer)"
-        self.color = Color("white")
-        self.hand = EMPTY_KARD
-        self.log: list[Kard] = []
+# class Observer():
+#     def __init__(self) -> None:
+#         self.name = "(Observer)"
+#         self.color = Color("white")
+#         self.hand = EMPTY_KARD
+#         self.log: list[Kard] = []
 
 board = _make_board()
 # view = BoardView(board=board, subject=board.players[0])
-view = BoardView(board=board, subject=Observer())
+view = BoardView(board=board, subject=OBSERVER)
