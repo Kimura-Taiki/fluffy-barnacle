@@ -22,7 +22,7 @@ class Router():
         self.hover = self.get_hover()
         for event in pygame.event.get():
             if event.type == QUIT:
-                pygame.image.save(screen, "screenshot.png")
+                pygame.image.save(screen, "ll/screenshot.png")
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
