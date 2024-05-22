@@ -13,7 +13,6 @@ def _make_board() -> Board:
     return Board(players=players)
 
 board = _make_board()
-
-view = BoardView(board=board, subject=OBSERVER)
-
-gm = GameMaster(board=board, view=view)
+gm = GameMaster(board=board)
+view = BoardView(board=board, subject=OBSERVER, listener=gm)
+gm.view = view

@@ -6,18 +6,20 @@ from mod.func import rect_fill, ratio_rect, translucented_color, pass_func, curs
 from mod.font import MS_MINCHO_COL
 from mod.kard import Kard
 from mod.log_square import LogSquare
+from nf.exit import NfExit
 from ptc.square import Square
 from ptc.player import Player
 from ptc.element import Element
+from ptc.listener import Listener
 
 class PlayerSquare():
-    # _RATIO = (420, 288)
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
 
-    def __init__(self, player: Player, rect: Rect) -> None:
+    def __init__(self, player: Player, rect: Rect, listener: Listener) -> None:
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
+        self.listener = listener
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,
@@ -41,7 +43,8 @@ class PlayerSquare():
             log_square.draw()
 
     def _mousedown(self) -> None:
-        print(f"{self.player.name}をクリックしたよ")
+        # print(f"{self.player.name}をクリックしたよ")
+        self.listener.listen(nf=NfExit())
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)

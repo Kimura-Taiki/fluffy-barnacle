@@ -7,6 +7,7 @@ from mod.board import Board
 from ptc.player import Player
 from ptc.element import Element
 from ptc.square import Square
+from ptc.listener import Listener
 from mod.player_square import PlayerSquare
 
 # from pygame import Rect
@@ -14,15 +15,11 @@ from mod.player_square import PlayerSquare
 from mod.router import router
 
 class BoardView():
-    def __init__(self, board: Board, subject: Player) -> None:
+    def __init__(self, board: Board, subject: Player, listener: Listener) -> None:
         self.board = board
         self.subject = subject
+        self.listener = listener
         self.squares = self._squares()
-        # self.squares: list[Square] = [
-        #     TehudaSquare(bmn.taba(hs=1, cr=CR_TEHUDA), Rect(340, 480, 600, 240)),
-        #     TehudaSquare(bmn.taba(hs=2, cr=CR_TEHUDA), Rect(340, 0, 600, 240), True),
-        #     CrbSquare(Rect(0, 480, 280, 240)),
-        #     CrbSquare(Rect(1000, 0, 280, 240), True)]
 
     def rearrange(self) -> None:
         ...
@@ -46,8 +43,12 @@ class BoardView():
         w = WX/len(opponents)
         h = WY*2/5
         d = WX*3/16
-        opponents_squares: list[Square] = [PlayerSquare(player=player, rect=Rect(w*i, 0, w, h)) for i, player in enumerate(opponents)]
-        subject_square: list[Square] = [PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h))] if self.subject in self.board.players else []
+        opponents_squares: list[Square] = [
+            PlayerSquare(player=player, rect=Rect(w*i, 0, w, h), listener=self.listener)
+            for i, player in enumerate(opponents)]
+        subject_square: list[Square] = [
+            PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h), listener=self.listener)
+            ] if self.subject in self.board.players else []
         from mod.deck_square import DeckSquare
         deck_square: list[Square] = [DeckSquare(deck=self.board.deck, rect=Rect(0, WY-h, d, h))]
         return opponents_squares+subject_square+deck_square
