@@ -1,4 +1,4 @@
-from pygame import Surface, SRCALPHA, Color, Rect
+from pygame import Surface, SRCALPHA, Color, Rect, mouse
 from typing import Callable, Any, Sequence
 from copy import deepcopy
 
@@ -31,3 +31,7 @@ def translucented_color(color: Color, a: int=128) -> Color:
     ret = deepcopy(color)
     ret.a = int(a)
     return ret
+
+def cursor_in_rect(rect: Rect) -> bool:
+    mx, my = mouse.get_pos()
+    return rect.left <= mx and mx <= rect.right and rect.top <= my and my <= rect.bottom

@@ -2,7 +2,7 @@ from pygame import Rect, Color, Surface, SRCALPHA, transform, image
 from copy import deepcopy
 
 from mod.screen import screen
-from mod.func import rect_fill, ratio_rect, translucented_color
+from mod.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
 from mod.font import MS_MINCHO_COL
 from mod.kard import Kard
 from mod.log_square import LogSquare
@@ -24,14 +24,24 @@ class PlayerSquare():
             rect=Rect((10+i*80, 70), self._LOG_RATIO),
             canvas=self.img
         ) for i, kard in enumerate(self.player.log)]
+        self.draw = self._draw
+        self.hover = lambda :None
+        self.mousedown = self._mousedown
+        self.active = lambda :None
+        self.mouseup = lambda :None
+        self.drag = lambda :None
+        self.dragend = lambda :None
 
     def get_hover(self) -> Element | None:
-        return None
+        return self if cursor_in_rect(rect=self.rect) else None
 
-    def draw(self) -> None:
+    def _draw(self) -> None:
         screen.blit(source=self.img, dest=self.rect)
         for log_square in self.log_squares:
             log_square.draw()
+
+    def _mousedown(self) -> None:
+        print(f"{self.player.name}をクリックしたよ")
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
