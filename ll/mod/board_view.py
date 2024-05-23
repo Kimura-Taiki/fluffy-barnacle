@@ -2,17 +2,13 @@ from pygame import Rect
 
 from mod.screen import screen, IMG_BG, WX, WY
 from mod.board import Board
-# from mod.view.tehuda_square import TehudaSquare
-# from mod.view.crb_square import CrbSquare
+from mod.player_square import PlayerSquare
+from mod.deck_square import DeckSquare
+from mod.router import router
 from ptc.player import Player
 from ptc.element import Element
 from ptc.square import Square
 from ptc.listener import Listener
-from mod.player_square import PlayerSquare
-
-# from pygame import Rect
-# from mod.card import Card
-from mod.router import router
 
 class BoardView():
     def __init__(self, board: Board, subject: Player, listener: Listener) -> None:
@@ -49,6 +45,5 @@ class BoardView():
         subject_square: list[Square] = [
             PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h), listener=self.listener)
             ] if self.subject in self.board.players else []
-        from mod.deck_square import DeckSquare
         deck_square: list[Square] = [DeckSquare(deck=self.board.deck, rect=Rect(0, WY-h, d, h))]
         return opponents_squares+subject_square+deck_square

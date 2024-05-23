@@ -1,11 +1,9 @@
-from pygame import Rect, Color, Surface, SRCALPHA, transform, image
-from copy import deepcopy
+from pygame import Rect, Surface, SRCALPHA, transform, image
 
 from mod.func import ratio_rect
 from mod.kard import Kard
-from ptc.square import Square
-from ptc.player import Player
 from ptc.element import Element
+from ptc.square import Square
 
 class LogSquare():
     _RATIO = (136, 190)
