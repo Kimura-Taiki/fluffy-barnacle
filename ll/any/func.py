@@ -1,19 +1,8 @@
 from pygame import Surface, SRCALPHA, Color, Rect, mouse
-from typing import Callable, Any, Sequence
+from typing import Sequence
 from copy import deepcopy
 
 from any.screen import screen
-
-def nie(text: str) -> Callable[[], None]:
-    def raise_func() -> None:
-        raise NotImplementedError(f"{text} が未注入です")
-    return raise_func
-
-def pass_func() -> None:
-    ...
-
-def mono_func(any: Any) -> None:
-    ...
 
 RGBAOutput = tuple[int, int, int, int]
 ColorValue = Color | int | str | tuple[int, int, int] | RGBAOutput | Sequence[int]

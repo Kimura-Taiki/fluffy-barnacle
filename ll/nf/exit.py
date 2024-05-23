@@ -1,7 +1,7 @@
-from nf.nf_code import NFC_EXIT
 from model.board import Board
-from ptc.notification import Notification
+from nf.nf_code import NFC_EXIT
 
+from ptc.notification import Notification
 class NfExit():
     code: int = NFC_EXIT
 

@@ -4,8 +4,8 @@ from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard
 from ptc.element import Element
-from ptc.square import Square
 
+from ptc.square import Square
 class DeckSquare():
     _RATIO = (360, 495)
     _IMG_BACK = image.load("ll/pic/back.png").convert_alpha()

@@ -1,17 +1,15 @@
-from pygame import Rect, Color, Surface, SRCALPHA, transform, image
-from copy import deepcopy
+from pygame import Rect, Surface, SRCALPHA, transform
 
 from any.screen import screen
-from any.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
+from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
-from model.kard import Kard
 from view.log_square import LogSquare
 from nf.exit import NfExit
-from ptc.square import Square
 from ptc.player import Player
-from ptc.element import Element
 from ptc.listener import Listener
 
+from ptc.square import Square
+from ptc.element import Element
 class PlayerSquare():
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)

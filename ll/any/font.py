@@ -1,6 +1,5 @@
 from pygame import Surface, Color
 from pygame.font import Font
-
 from typing import Callable, Sequence
 
 RGBAOutput = tuple[int, int, int, int]

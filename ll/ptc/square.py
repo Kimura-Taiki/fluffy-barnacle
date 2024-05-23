@@ -1,4 +1,5 @@
 from typing import runtime_checkable, Protocol
+
 from ptc.element import Element
 
 @runtime_checkable

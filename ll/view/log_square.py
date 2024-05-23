@@ -3,8 +3,8 @@ from pygame import Rect, Surface, SRCALPHA, transform, image
 from any.func import ratio_rect
 from model.kard import Kard
 from ptc.element import Element
-from ptc.square import Square
 
+from ptc.square import Square
 class LogSquare():
     _RATIO = (136, 190)
 
