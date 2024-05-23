@@ -9,4 +9,5 @@ class GameMaster():
         self.view = view
 
     def listen(self, nf: Notification) -> None:
-        raise NotImplementedError(f"まだlistenできないよ！ Code:{nf.code}, Message:{nf.message}")
+        self.board = nf.created_board(board=self.board)
+        # raise NotImplementedError(f"まだlistenできないよ！ Code:{nf.code}, Message:{nf.message}")
