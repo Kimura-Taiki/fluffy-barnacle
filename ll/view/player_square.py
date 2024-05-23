@@ -5,7 +5,7 @@ from mod.screen import screen
 from mod.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
 from mod.font import MS_MINCHO_COL
 from model.kard import Kard
-from mod.log_square import LogSquare
+from view.log_square import LogSquare
 from nf.exit import NfExit
 from ptc.square import Square
 from ptc.player import Player

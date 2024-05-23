@@ -2,8 +2,8 @@ from pygame import Rect
 
 from mod.screen import screen, IMG_BG, WX, WY
 from model.board import Board
-from mod.player_square import PlayerSquare
-from mod.deck_square import DeckSquare
+from view.player_square import PlayerSquare
+from view.deck_square import DeckSquare
 from mod.router import router
 from ptc.player import Player
 from ptc.element import Element

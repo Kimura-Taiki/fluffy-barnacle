@@ -1,6 +1,6 @@
 from model.board import Board
 from model.man_player import ManPlayer
-from mod.board_view import BoardView
+from view.board_view import BoardView
 from mod.game_master import GameMaster
 from ptc.player import Player, OBSERVER
 

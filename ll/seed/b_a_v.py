@@ -2,7 +2,7 @@ from pygame import Color
 
 from model.board import Board
 from model.kard import Kard, EMPTY_KARD
-from mod.board_view import BoardView
+from view.board_view import BoardView
 from model.man_player import ManPlayer
 from ptc.player import Player, OBSERVER
 
