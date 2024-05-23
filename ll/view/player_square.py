@@ -1,9 +1,9 @@
 from pygame import Rect, Color, Surface, SRCALPHA, transform, image
 from copy import deepcopy
 
-from mod.screen import screen
-from mod.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
-from mod.font import MS_MINCHO_COL
+from any.screen import screen
+from any.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
+from any.font import MS_MINCHO_COL
 from model.kard import Kard
 from view.log_square import LogSquare
 from nf.exit import NfExit

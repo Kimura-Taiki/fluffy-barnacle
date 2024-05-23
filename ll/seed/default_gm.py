@@ -1,7 +1,7 @@
 from model.board import Board
 from model.man_player import ManPlayer
 from view.board_view import BoardView
-from mod.game_master import GameMaster
+from any.game_master import GameMaster
 from ptc.player import Player, OBSERVER
 
 def _make_board() -> Board:

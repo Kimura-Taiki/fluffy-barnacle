@@ -4,8 +4,8 @@ from pygame.math import Vector2 as V2
 from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from typing import Callable
 
-from mod.screen import screen
-from mod.func import nie
+from any.screen import screen
+from any.func import nie
 from ptc.element import Element
 
 class Router():

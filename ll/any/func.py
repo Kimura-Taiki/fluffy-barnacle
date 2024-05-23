@@ -2,7 +2,7 @@ from pygame import Surface, SRCALPHA, Color, Rect, mouse
 from typing import Callable, Any, Sequence
 from copy import deepcopy
 
-from mod.screen import screen
+from any.screen import screen
 
 def nie(text: str) -> Callable[[], None]:
     def raise_func() -> None:

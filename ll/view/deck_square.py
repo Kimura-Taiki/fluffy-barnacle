@@ -1,7 +1,7 @@
 from pygame import Rect, Color, Surface, SRCALPHA, transform, image
 
-from mod.screen import screen
-from mod.func import rect_fill, ratio_rect, translucented_color
+from any.screen import screen
+from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard
 from ptc.element import Element
 from ptc.square import Square
