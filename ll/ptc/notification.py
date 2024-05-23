@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from mod.board import Board
+from model.board import Board
 
 @runtime_checkable
 class Notification(Protocol):

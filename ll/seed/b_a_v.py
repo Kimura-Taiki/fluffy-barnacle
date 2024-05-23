@@ -1,9 +1,9 @@
 from pygame import Color
 
-from mod.board import Board
-from mod.kard import Kard, EMPTY_KARD
+from model.board import Board
+from model.kard import Kard, EMPTY_KARD
 from mod.board_view import BoardView
-from mod.man_player import ManPlayer
+from model.man_player import ManPlayer
 from ptc.player import Player, OBSERVER
 
 def _make_board() -> Board:

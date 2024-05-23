@@ -1,7 +1,7 @@
 from pygame import Color
 from typing import Sequence
 
-from mod.kard import Kard, EMPTY_KARD
+from model.kard import Kard, EMPTY_KARD
 from ptc.player import Player
 
 RGBAOutput = tuple[int, int, int, int]

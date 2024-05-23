@@ -1,7 +1,7 @@
 from pygame import Color
 from typing import runtime_checkable, Protocol
 
-from mod.kard import Kard, EMPTY_KARD
+from model.kard import Kard, EMPTY_KARD
 
 @runtime_checkable
 class Player(Protocol):

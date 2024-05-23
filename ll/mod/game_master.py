@@ -1,4 +1,4 @@
-from mod.board import Board
+from model.board import Board
 from ptc.view import View, EMPTY_VIEW
 from ptc.notification import Notification
 from ptc.listener import Listener

@@ -1,5 +1,5 @@
-from mod.kard import EMPTY_KARD
-from mod.deck import make_deck
+from model.kard import EMPTY_KARD
+from model.deck import make_deck
 from ptc.player import Player, OBSERVER
 
 class Board():

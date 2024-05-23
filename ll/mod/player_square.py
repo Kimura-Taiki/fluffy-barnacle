@@ -4,7 +4,7 @@ from copy import deepcopy
 from mod.screen import screen
 from mod.func import rect_fill, ratio_rect, translucented_color, pass_func, cursor_in_rect
 from mod.font import MS_MINCHO_COL
-from mod.kard import Kard
+from model.kard import Kard
 from mod.log_square import LogSquare
 from nf.exit import NfExit
 from ptc.square import Square

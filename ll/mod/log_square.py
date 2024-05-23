@@ -1,7 +1,7 @@
 from pygame import Rect, Surface, SRCALPHA, transform, image
 
 from mod.func import ratio_rect
-from mod.kard import Kard
+from model.kard import Kard
 from ptc.element import Element
 from ptc.square import Square
 

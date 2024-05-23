@@ -1,7 +1,7 @@
 from copy import deepcopy
 from random import shuffle
 
-from mod.kard import Kard
+from model.kard import Kard
 
 _kard0 = Kard(name="(番兵)", png_file="")
 _kard1 = Kard(name="兵士", png_file="img1.png")

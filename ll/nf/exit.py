@@ -1,5 +1,5 @@
 from nf.nf_code import NFC_EXIT
-from mod.board import Board
+from model.board import Board
 from ptc.notification import Notification
 
 class NfExit():
