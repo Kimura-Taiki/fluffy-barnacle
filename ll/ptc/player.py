@@ -1,5 +1,5 @@
 from pygame import Color
-from typing import runtime_checkable, Protocol
+from typing import runtime_checkable, Protocol, NamedTuple
 
 from model.kard import Kard, EMPTY_KARD
 
