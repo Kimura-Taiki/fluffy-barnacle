@@ -5,7 +5,7 @@ from pygame import Vector2 as V2, QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTO
 from any.screen import screen
 from ptc.element import Element
 
-class Router():
+class Propagation():
     def __init__(self) -> None:
         self.clicked: bool = False
         self.hover: Element | None = None
@@ -44,4 +44,4 @@ class Router():
         elif self.hover:
             self.hover.hover()
 
-router = Router()
+propagation = Propagation()

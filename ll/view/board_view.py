@@ -1,7 +1,7 @@
 from pygame import Rect
 
 from any.screen import screen, IMG_BG, WX, WY
-from any.router import router
+from any.propagation import propagation
 from model.board import Board
 from model.player import Player
 from view.player_square import PlayerSquare
@@ -30,7 +30,7 @@ class BoardView():
         screen.blit(source=IMG_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
-        router.mouse_over()
+        propagation.mouse_over()
         # if hover := self.get_hover():
         #     screen.fill(color=(255, 0, 0), rect=((hover.dest)-(10, 10), (20, 20)))
 
