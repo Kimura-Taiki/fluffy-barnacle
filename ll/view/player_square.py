@@ -3,9 +3,9 @@ from pygame import Rect, Surface, SRCALPHA, transform
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
+from model.player import Player
 from view.log_square import LogSquare
 from nf.exit import NfExit
-from ptc.player import Player
 from ptc.listener import Listener
 
 from ptc.square import Square

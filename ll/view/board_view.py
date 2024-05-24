@@ -1,11 +1,11 @@
 from pygame import Rect
 
 from any.screen import screen, IMG_BG, WX, WY
+from any.router import router
 from model.board import Board
+from model.player import Player
 from view.player_square import PlayerSquare
 from view.deck_square import DeckSquare
-from any.router import router
-from ptc.player import Player
 from ptc.element import Element
 from ptc.square import Square
 from ptc.listener import Listener

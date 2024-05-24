@@ -33,3 +33,7 @@ OBSERVER = Player(
     name="(Observer)",
     color=Color("white")
 )
+
+players: list[Player] = []
+for PLAYER in players:
+    ...

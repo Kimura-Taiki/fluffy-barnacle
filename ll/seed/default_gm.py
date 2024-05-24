@@ -1,15 +1,14 @@
 from any.game_master import GameMaster
 from model.board import Board
-from model.man_player import ManPlayer
+from model.player import Player, OBSERVER
 from view.board_view import BoardView
-from ptc.player import Player, OBSERVER
 
 def _make_board() -> Board:
     players: list[Player] = [
-        ManPlayer(name="Johann", color="crimson", log=[]),
-        ManPlayer(name="Seiji", color="darkgreen", log=[]),
-        ManPlayer(name="William", color="purple", log=[]),
-        ManPlayer(name="Gastone", color="gold", log=[])]
+        Player.new_man(name="Johann", color="crimson"),
+        Player.new_man(name="Seiji", color="darkgreen"),
+        Player.new_man(name="William", color="purple"),
+        Player.new_man(name="Gastone", color="gold")]
     return Board(players=players)
 
 board = _make_board()
