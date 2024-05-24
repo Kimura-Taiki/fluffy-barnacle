@@ -9,7 +9,7 @@ def _make_board() -> Board:
         Player.new_man(name="Seiji", color="darkgreen"),
         Player.new_man(name="William", color="purple"),
         Player.new_man(name="Gastone", color="gold")]
-    return Board(players=players)
+    return Board.new_board(players=players)
 
 board = _make_board()
 gm = GameMaster(board=board)
