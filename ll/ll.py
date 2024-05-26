@@ -8,6 +8,7 @@ from ptc.view import View
 def mainloop(view: View) -> None:
     propagation.resolve_pygame_events(get_hover=view.get_hover())
     view.draw()
+    propagation.mouse_over()
     pygame.display.update()
     clock.tick(FRAMES_PER_SECOND)
 

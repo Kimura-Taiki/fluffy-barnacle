@@ -1,9 +1,8 @@
-from pygame import Rect, Surface, Vector2 as V2
+from pygame import Rect, Vector2 as V2
 from typing import Callable
 
 from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
-from any.propagation import propagation
 from model.board import Board
 from model.player import Player
 from view.player_square import PlayerSquare
@@ -37,7 +36,6 @@ class BoardView():
         screen.blit(source=IMG_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
-        propagation.mouse_over()
         # if hover := self.get_hover():
         #     screen.fill(color=(255, 0, 0), rect=((hover.dest)-(10, 10), (20, 20)))
 

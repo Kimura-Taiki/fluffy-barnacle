@@ -2,8 +2,6 @@ from pygame import Surface, Vector2 as V2
 from typing import Callable
 
 from any.screen import screen, WX, WY
-from any.pictures import IMG_BACK
-from any.propagation import propagation
 from any.font import MS_MINCHO_COL
 from ptc.element import Element
 
@@ -34,4 +32,3 @@ class DrawView():
             source=self.img_back,
             dest=self.from_v2.lerp(self.to_v2, 0.9)-V2(self.img_back.get_size())/2
         )
-        propagation.mouse_over()
