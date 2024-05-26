@@ -12,9 +12,10 @@ class Board(NamedTuple):
 
     @classmethod
     def new_board(cls, players: list[Player]) -> 'Board':
-        deck = make_deck()
-        pls = [player._replace(hand=deck.pop(0), alive=True) for player in players]
-        return Board(
-            players=pls,
-            deck=deck,
-        )
+        # deck = make_deck()
+        # pls = [player._replace(hand=deck.pop(0), alive=True) for player in players]
+        # return Board(
+        #     players=pls,
+        #     deck=deck,
+        # )
+        return Board(players=players, deck=make_deck())

@@ -1,5 +1,6 @@
 from pygame import Vector2 as V2
 
+from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
 from view.deck_square import DeckSquare
 from view.player_square import PlayerSquare
@@ -25,5 +26,14 @@ class DrawKardsController():
     def callback(self) -> None:
         deck = self.bridge.board.deck
         draw_kard = deck.pop(0)
-        self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
+        if self.player_square.player.hand == EMPTY_KARD:
+            players=[player._replace(hand=draw_kard)
+                        if player.name == self.player_square.player.name else player
+                        for player in self.bridge.board.players]
+            self.bridge.board = self.bridge.board._replace(
+                deck=deck,
+                players=players
+            )
+        else:
+            self.bridge.board = self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
         self.bridge.view = self._old_view

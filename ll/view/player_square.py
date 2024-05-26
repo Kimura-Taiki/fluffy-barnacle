@@ -3,7 +3,7 @@ from pygame import Rect, Surface, SRCALPHA, transform
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
-from model.player import Player
+from model.player import Player, OBSERVER
 from view.log_square import LogSquare
 from ptc.bridge import Bridge
 
@@ -35,6 +35,9 @@ class PlayerSquare():
         return self if cursor_in_rect(rect=self.rect) else None
 
     def _draw(self) -> None:
+        if self.player != self._now_player:
+            self.player = self._now_player
+            self.img = self._img()
         screen.blit(source=self.img, dest=self.rect)
         for log_square in self.log_squares:
             log_square.draw()
@@ -44,3 +47,7 @@ class PlayerSquare():
         rect_fill(color=translucented_color(self.player.color), rect=Rect((0, 0), self._RATIO), surface=img)
         img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({self.player.hand.name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
+
+    @property
+    def _now_player(self) -> Player:
+        return next((player for player in self.bridge.board.players if player.name == self.player.name), OBSERVER)
