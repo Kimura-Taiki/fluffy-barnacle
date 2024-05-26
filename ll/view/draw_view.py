@@ -1,8 +1,9 @@
 from pygame import Surface, Vector2 as V2
 from typing import Callable
 
-from any.screen import screen, WX, WY
 from any.font import MS_MINCHO_COL
+from any.screen import screen, WX, WY
+from any.timer_functions import frames
 from ptc.element import Element
 
 from ptc.view import View
@@ -14,7 +15,7 @@ class DrawView():
         self.from_v2 = from_v2
         self.to_v2 = to_v2
         self.callback = callback
-        self.time = 0
+        self.frames = frames()
 
     def rearrange(self) -> None:
         ...
@@ -30,5 +31,5 @@ class DrawView():
         )
         screen.blit(
             source=self.img_back,
-            dest=self.from_v2.lerp(self.to_v2, 0.9)-V2(self.img_back.get_size())/2
+            dest=self.from_v2.lerp(self.to_v2, (frames()-self.frames)/180)-V2(self.img_back.get_size())/2
         )
