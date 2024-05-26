@@ -1,6 +1,7 @@
 from pygame import Rect, Vector2 as V2
 
-from any.screen import screen, IMG_BG, WX, WY
+from any.screen import screen, WX, WY
+from any.pictures import IMG_BG
 from any.propagation import propagation
 from model.board import Board
 from model.player import Player

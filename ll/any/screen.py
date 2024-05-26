@@ -6,5 +6,3 @@ pygame.init()
 pygame.display.set_caption("FFF")
 screen = pygame.display.set_mode(size=(WX, WY))
 clock = pygame.time.Clock()
-
-IMG_BG = pygame.image.load("ll/pic/bg.png").convert_alpha()
