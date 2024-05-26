@@ -15,6 +15,9 @@ def _make_board() -> Board:
 board = _make_board()
 gm = GameMaster(board=board)
 view = BoardView(board=board, subject=OBSERVER, listener=gm)
+print("view", view.__class__)
+print("view.listener", view.listener.__class__)
 # _board_view = BoardView(board=board, subject=OBSERVER, listener=gm)
 # view = DrawView(view=_board_view)
 gm.view = view
+print("gm.view", gm.view.__class__)

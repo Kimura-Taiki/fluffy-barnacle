@@ -19,6 +19,7 @@ class PlayerSquare():
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.listener = listener
+        print("PlayerSquare.listener", self.listener)
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,

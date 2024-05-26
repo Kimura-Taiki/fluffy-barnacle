@@ -3,6 +3,7 @@ from typing import Callable
 
 from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
+from ctrl.draw_kards import DrawKardsController
 from model.board import Board
 from model.player import Player
 from view.player_square import PlayerSquare
@@ -21,6 +22,7 @@ class BoardView():
         self.board = board
         self.subject = subject
         self.listener = listener
+        print("BoardView.listener", self.listener.__class__)
         self.squares = self._squares()
 
     def rearrange(self) -> None:
@@ -60,22 +62,28 @@ class BoardView():
             listener=self.listener,)
             for i, player in enumerate(opponents)]
         for ps in pss:
-            ps.mousedown = self._mousedown(
+            ps.mousedown = DrawKardsController(
+                board=self.board,
+                view=self,
                 deck_square=ds,
-                player_square=ps)
+                player_square=ps,
+            ).action
+            # ps.mousedown = self._mousedown(
+            #     deck_square=ds,
+            #     player_square=ps)
         li: list[Square] = [square for square in pss]
         return li
 
-    def _mousedown(self, deck_square: DeckSquare, player_square: PlayerSquare) -> Callable[[], None]:
-        def func() -> None:
-            self.listener.view = DrawView(
-                view=self.listener.view,
-                img_back=deck_square.img_back,
-                from_v2=V2(deck_square.rect.center),
-                to_v2=V2(player_square.rect.center),
-                callback=self._callback
-            )
-        return func
+    # def _mousedown(self, deck_square: DeckSquare, player_square: PlayerSquare) -> Callable[[], None]:
+    #     def func() -> None:
+    #         self.listener.view = DrawView(
+    #             view=self.listener.view,
+    #             img_back=deck_square.img_back,
+    #             from_v2=V2(deck_square.rect.center),
+    #             to_v2=V2(player_square.rect.center),
+    #             callback=self._callback
+    #         )
+    #     return func
 
-    def _callback(self) -> None:
-        self.listener.view = self
+    # def _callback(self) -> None:
+    #     self.listener.view = self
