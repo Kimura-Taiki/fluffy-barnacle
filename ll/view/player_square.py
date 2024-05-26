@@ -15,11 +15,10 @@ class PlayerSquare():
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
 
-    def __init__(self, player: Player, rect: Rect, listener: Listener, deck_v2: V2) -> None:
+    def __init__(self, player: Player, rect: Rect, listener: Listener) -> None:
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.listener = listener
-        self.deck_v2 = deck_v2
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,
@@ -27,12 +26,12 @@ class PlayerSquare():
             canvas=self.img
         ) for i, kard in enumerate(self.player.log)]
         self.draw = self._draw
-        self.hover = lambda :None
-        self.mousedown = self._mousedown
-        self.active = lambda :None
-        self.mouseup = lambda :None
-        self.drag = lambda :None
-        self.dragend = lambda :None
+        self.hover = lambda: None
+        self.mousedown = lambda: None
+        self.active = lambda: None
+        self.mouseup = lambda: None
+        self.drag = lambda: None
+        self.dragend = lambda: None
 
     def get_hover(self) -> Element | None:
         return self if cursor_in_rect(rect=self.rect) else None
@@ -42,15 +41,15 @@ class PlayerSquare():
         for log_square in self.log_squares:
             log_square.draw()
 
-    def _mousedown(self) -> None:
-        self.listener.view = DrawView(
-            view=self.listener.view,
-            from_v2=self.deck_v2,
-            to_v2=V2(self.rect.center),
-            callback=self._callback)
+    # def _mousedown(self) -> None:
+    #     self.listener.view = DrawView(
+    #         view=self.listener.view,
+    #         from_v2=self.deck_v2,
+    #         to_v2=V2(self.rect.center),
+    #         callback=self._callback)
 
-    def _callback(self) -> None:
-        raise EOFError("ヨシっ！")
+    # def _callback(self) -> None:
+    #     raise EOFError("ヨシっ！")
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)

@@ -15,6 +15,7 @@ class DeckSquare():
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.count_log = self.count
         self.img = self._img()
+        self.img_back = transform.rotozoom(surface=IMG_BACK, angle=0.0, scale=self.rect.w/self._RATIO[0])
 
     def get_hover(self) -> Element | None:
         return None

@@ -11,6 +11,9 @@ from ptc.element import Element
 from ptc.square import Square
 from ptc.listener import Listener
 
+_H = WY*2/5
+_D = WX*3/16
+
 from ptc.view import View
 class BoardView():
     def __init__(self, board: Board, subject: Player, listener: Listener) -> None:
@@ -38,17 +41,25 @@ class BoardView():
 
     def _squares(self) -> list[Square]:
         opponents = [player for player in self.board.players if player != self.subject]
-        w = WX/len(opponents)
-        h = WY*2/5
-        d = WX*3/16
-        ds = DeckSquare(deck=self.board.deck, rect=Rect(0, WY-h, d, h))
+        # w = WX/len(opponents)
+        # h = WY*2/5
+        # d = WX*3/16
+        ds = DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
         deck_square: list[Square] = [ds]
-        opponents_squares: list[Square] = [
-            PlayerSquare(player=player, rect=Rect(w*i, 0, w, h), listener=self.listener,
-                         deck_v2=V2(ds.rect.center))
-            for i, player in enumerate(opponents)]
+        opponents_squares = self._opponents_squares(opponents=opponents)
+        # opponents_squares: list[Square] = [
+        #     PlayerSquare(player=player, rect=Rect(w*i, 0, w, h), listener=self.listener,)
+        #     for i, player in enumerate(opponents)]
         subject_square: list[Square] = [
-            PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h), listener=self.listener,
-                         deck_v2=V2(ds.rect.center))
+            PlayerSquare(player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), listener=self.listener,)
             ] if self.subject in self.board.players else []
         return opponents_squares+subject_square+deck_square
+
+    def _opponents_squares(self, opponents: list[Player]) -> list[Square]:
+        w = WX/len(opponents)
+        li: list[Square] = [PlayerSquare(
+            player=player,
+            rect=Rect(w*i, 0, w, _H),
+            listener=self.listener,)
+            for i, player in enumerate(opponents)]
+        return li
