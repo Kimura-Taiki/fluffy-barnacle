@@ -78,4 +78,4 @@ class BoardView():
         return func
 
     def _callback(self) -> None:
-        raise EOFError("ヨシ！")
+        self.listener.view = self
