@@ -42,9 +42,12 @@ class PlayerSquare():
             log_square.draw()
 
     def _mousedown(self) -> None:
-        # print(f"{self.player.name}をクリックしたよ")
-        # self.listener.listen(nf=NfExit())
-        self.listener.view = DrawView(view=self.listener.view)
+        self.listener.view = DrawView(
+            view=self.listener.view,
+            callback=self._callback)
+
+    def _callback(self) -> None:
+        raise EOFError("ヨシっ！")
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)

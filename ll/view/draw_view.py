@@ -1,3 +1,5 @@
+from typing import Callable
+
 from any.screen import screen, WX, WY
 from any.propagation import propagation
 from any.font import MS_MINCHO_COL
@@ -5,8 +7,9 @@ from ptc.element import Element
 
 from ptc.view import View
 class DrawView():
-    def __init__(self, view: View) -> None:
+    def __init__(self, view: View, callback: Callable[[], None]) -> None:
         self.board_view = view
+        self.callback = callback
 
     def rearrange(self) -> None:
         ...
