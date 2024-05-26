@@ -5,6 +5,7 @@ from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
 from model.player import Player
 from view.log_square import LogSquare
+from view.draw_view import DrawView
 from nf.exit import NfExit
 from ptc.listener import Listener
 
@@ -42,7 +43,8 @@ class PlayerSquare():
 
     def _mousedown(self) -> None:
         # print(f"{self.player.name}をクリックしたよ")
-        self.listener.listen(nf=NfExit())
+        # self.listener.listen(nf=NfExit())
+        self.listener.view = DrawView(view=self.listener.view)
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
