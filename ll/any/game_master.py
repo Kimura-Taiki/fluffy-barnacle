@@ -21,6 +21,7 @@ class GameMaster():
 
         propagation.resolve_pygame_events(get_hover=self.view.get_hover())
         self.view.draw()
+        self.view.elapse()
         # from any.timer_functions import frames
         # from any.screen import screen, WX, WY
         # from any.font import MS_MINCHO_COL

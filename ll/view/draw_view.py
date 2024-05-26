@@ -35,5 +35,12 @@ class DrawView():
         )
         screen.blit(
             source=self.img_back,
-            dest=self.from_v2.lerp(self.to_v2, (frames()-self.frames)/_WAIT)-V2(self.img_back.get_size())/2
+            dest=self.from_v2.lerp(self.to_v2, self._ratio())-V2(self.img_back.get_size())/2
         )
+
+    def elapse(self) -> None:
+        if self._ratio() >= 1:
+            self.callback()
+
+    def _ratio(self) -> float:
+        return (frames()-self.frames)/_WAIT

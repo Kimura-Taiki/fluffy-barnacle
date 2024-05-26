@@ -39,6 +39,9 @@ class BoardView():
         # if hover := self.get_hover():
         #     screen.fill(color=(255, 0, 0), rect=((hover.dest)-(10, 10), (20, 20)))
 
+    def elapse(self) -> None:
+        ...
+
     def _squares(self) -> list[Square]:
         opponents = [player for player in self.board.players if player != self.subject]
         ds = DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
