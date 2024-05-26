@@ -1,4 +1,3 @@
-import pygame
 from pygame import Rect
 from time import time
 from typing import Callable
@@ -12,7 +11,6 @@ _DEST = (WX-380, 300)
 _SIZE = (380, 40)
 
 def timer_functions() -> tuple[Callable[[], None], Callable[[], None], Callable[[], int]]:
-    from time import time
     log = 0.0
     times = [0.01]*FRAMES_PER_SECOND
     frame_count = 0
@@ -26,7 +24,6 @@ def timer_functions() -> tuple[Callable[[], None], Callable[[], None], Callable[
         times.append(elapsed_time)
         times.pop(0)
         rect_fill(color="lemonchiffon", rect=Rect((_DEST), (_SIZE)))
-        # pygame.draw.rect(surface=screen, color="lemonchiffon", rect=[WX-340, 240, WX, 40], width=0)
         screen.blit(source=MS_MINCHO_COL(
             f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}", _FONT_SIZE, "black"),
             dest=_DEST)

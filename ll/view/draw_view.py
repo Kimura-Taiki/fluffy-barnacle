@@ -2,9 +2,13 @@ from pygame import Surface, Vector2 as V2
 from typing import Callable
 
 from any.font import MS_MINCHO_COL
-from any.screen import screen, WX, WY
+from any.screen import screen, WX, WY, FRAMES_PER_SECOND
 from any.timer_functions import frames
 from ptc.element import Element
+
+_SECONDS = 0.5
+_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
+print(_WAIT)
 
 from ptc.view import View
 # from ptc.element import Element
@@ -31,5 +35,5 @@ class DrawView():
         )
         screen.blit(
             source=self.img_back,
-            dest=self.from_v2.lerp(self.to_v2, (frames()-self.frames)/180)-V2(self.img_back.get_size())/2
+            dest=self.from_v2.lerp(self.to_v2, (frames()-self.frames)/_WAIT)-V2(self.img_back.get_size())/2
         )
