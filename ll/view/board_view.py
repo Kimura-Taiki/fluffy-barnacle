@@ -1,4 +1,4 @@
-from pygame import Rect
+from pygame import Rect, Vector2 as V2
 
 from any.screen import screen, IMG_BG, WX, WY
 from any.propagation import propagation
@@ -40,11 +40,14 @@ class BoardView():
         w = WX/len(opponents)
         h = WY*2/5
         d = WX*3/16
+        ds = DeckSquare(deck=self.board.deck, rect=Rect(0, WY-h, d, h))
+        deck_square: list[Square] = [ds]
         opponents_squares: list[Square] = [
-            PlayerSquare(player=player, rect=Rect(w*i, 0, w, h), listener=self.listener)
+            PlayerSquare(player=player, rect=Rect(w*i, 0, w, h), listener=self.listener,
+                         deck_v2=V2(ds.rect.center))
             for i, player in enumerate(opponents)]
         subject_square: list[Square] = [
-            PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h), listener=self.listener)
+            PlayerSquare(player=self.subject, rect=Rect(w/2, WY-h, w, h), listener=self.listener,
+                         deck_v2=V2(ds.rect.center))
             ] if self.subject in self.board.players else []
-        deck_square: list[Square] = [DeckSquare(deck=self.board.deck, rect=Rect(0, WY-h, d, h))]
         return opponents_squares+subject_square+deck_square

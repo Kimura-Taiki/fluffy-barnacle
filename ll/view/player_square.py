@@ -1,4 +1,4 @@
-from pygame import Rect, Surface, SRCALPHA, transform
+from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
@@ -15,10 +15,11 @@ class PlayerSquare():
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
 
-    def __init__(self, player: Player, rect: Rect, listener: Listener) -> None:
+    def __init__(self, player: Player, rect: Rect, listener: Listener, deck_v2: V2) -> None:
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.listener = listener
+        self.deck_v2 = deck_v2
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,
@@ -44,6 +45,8 @@ class PlayerSquare():
     def _mousedown(self) -> None:
         self.listener.view = DrawView(
             view=self.listener.view,
+            from_v2=self.deck_v2,
+            to_v2=V2(self.rect.center),
             callback=self._callback)
 
     def _callback(self) -> None:
