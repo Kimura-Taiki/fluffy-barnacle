@@ -16,6 +16,7 @@ class DrawView():
         self.from_v2 = from_v2
         self.to_v2 = to_v2
         self.callback = callback
+        self.time = 0
 
     def rearrange(self) -> None:
         ...
@@ -28,5 +29,9 @@ class DrawView():
         screen.blit(
             source=MS_MINCHO_COL("in drawing...", 64, "black"),
             dest=(WX/2-112, WY/2-32)
+        )
+        screen.blit(
+            source=self.img_back,
+            dest=self.from_v2.lerp(self.to_v2, 0.9)-V2(self.img_back.get_size())/2
         )
         propagation.mouse_over()

@@ -78,12 +78,3 @@ class BoardView():
 
     def _callback(self) -> None:
         raise EOFError("ヨシ！")
-    # def _mousedown(self) -> None:
-    #     self.listener.view = DrawView(
-    #         view=self.listener.view,
-    #         from_v2=self.deck_v2,
-    #         to_v2=V2(self.rect.center),
-    #         callback=self._callback)
-
-    # def _callback(self) -> None:
-    #     raise EOFError("ヨシっ！")
