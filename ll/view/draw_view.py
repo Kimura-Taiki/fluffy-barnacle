@@ -8,7 +8,6 @@ from ptc.element import Element
 
 _SECONDS = 0.5
 _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
-print(_WAIT)
 
 from ptc.view import View
 # from ptc.element import Element

@@ -1,9 +1,6 @@
 from pygame import Vector2 as V2
-from typing import Callable
 
-from model.board import Board
 from ptc.listener import Listener
-from ptc.view import View
 from view.deck_square import DeckSquare
 from view.player_square import PlayerSquare
 from view.draw_view import DrawView
@@ -16,7 +13,6 @@ class DrawKardsController():
         self.player_square = player_square
 
     def action(self) -> None:
-        print("Action!", self)
         self._old_view = self.listener.view
         self.listener.view = DrawView(
             view=self._old_view,
@@ -31,17 +27,3 @@ class DrawKardsController():
         draw_kard = deck.pop(0)
         self.listener.board._replace(deck=deck, draw_kard=draw_kard)
         self.listener.view = self._old_view
-
-    # def _action(self, deck_square: DeckSquare, player_square: PlayerSquare) -> Callable[[], None]:
-    #     def func() -> None:
-    #         self.listener.view = DrawView(
-    #             view=self.listener.view,
-    #             img_back=deck_square.img_back,
-    #             from_v2=V2(deck_square.rect.center),
-    #             to_v2=V2(player_square.rect.center),
-    #             callback=self._callback
-    #         )
-    #     return func
-
-    # def _callback(self) -> None:
-    #     self.listener.view = self

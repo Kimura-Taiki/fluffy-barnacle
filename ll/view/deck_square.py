@@ -1,4 +1,4 @@
-from pygame import Rect, Color, Surface, SRCALPHA, transform, image
+from pygame import Rect, Color, Surface, SRCALPHA, transform
 
 from any.pictures import IMG_BACK, IMG_REST, IMG_NUM
 from any.func import rect_fill, ratio_rect, translucented_color

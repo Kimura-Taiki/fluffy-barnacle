@@ -1,12 +1,10 @@
-from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
+from pygame import Rect, Surface, SRCALPHA, transform
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
 from model.player import Player
 from view.log_square import LogSquare
-from view.draw_view import DrawView
-from nf.exit import NfExit
 from ptc.listener import Listener
 
 from ptc.square import Square
@@ -19,7 +17,6 @@ class PlayerSquare():
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.listener = listener
-        print("PlayerSquare.listener", self.listener)
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,
@@ -41,16 +38,6 @@ class PlayerSquare():
         screen.blit(source=self.img, dest=self.rect)
         for log_square in self.log_squares:
             log_square.draw()
-
-    # def _mousedown(self) -> None:
-    #     self.listener.view = DrawView(
-    #         view=self.listener.view,
-    #         from_v2=self.deck_v2,
-    #         to_v2=V2(self.rect.center),
-    #         callback=self._callback)
-
-    # def _callback(self) -> None:
-    #     raise EOFError("ヨシっ！")
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
