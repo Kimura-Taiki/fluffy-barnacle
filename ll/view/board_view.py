@@ -23,6 +23,7 @@ class BoardView():
         self.subject = subject
         self.listener = listener
         print("BoardView.listener", self.listener.__class__)
+        # self.squares: list[Square] = []
         self.squares = self._squares()
 
     def rearrange(self) -> None:
@@ -45,6 +46,7 @@ class BoardView():
         ...
 
     def _squares(self) -> list[Square]:
+    # def create_squares(self) -> None:
         opponents = [player for player in self.board.players if player != self.subject]
         ds = DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
         deck_square: list[Square] = [ds]
@@ -52,6 +54,7 @@ class BoardView():
         subject_square: list[Square] = [
             PlayerSquare(player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), listener=self.listener,)
             ] if self.subject in self.board.players else []
+        # self.squares = opponents_squares+subject_square+deck_square
         return opponents_squares+subject_square+deck_square
 
     def _opponents_squares(self, opponents: list[Player], ds: DeckSquare) -> list[Square]:
@@ -63,8 +66,7 @@ class BoardView():
             for i, player in enumerate(opponents)]
         for ps in pss:
             ps.mousedown = DrawKardsController(
-                board=self.board,
-                view=self,
+                listener=self.listener,
                 deck_square=ds,
                 player_square=ps,
             ).action
