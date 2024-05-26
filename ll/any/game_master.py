@@ -5,16 +5,12 @@ from any.propagation import propagation
 from any.screen import clock, FRAMES_PER_SECOND
 from model.board import Board
 from ptc.view import View, EMPTY_VIEW
-from ptc.notification import Notification
 
-from ptc.listener import Listener
+from ptc.bridge import Bridge
 class GameMaster():
     def __init__(self, board: Board, view: View=EMPTY_VIEW) -> None:
         self.board = board
         self.view = view
-
-    def listen(self, nf: Notification) -> None:
-        self.board = nf.created_board(board=self.board)
 
     def mainloop(self) -> None:
         start_timer()

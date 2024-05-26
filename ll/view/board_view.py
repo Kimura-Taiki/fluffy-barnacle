@@ -9,17 +9,17 @@ from view.player_square import PlayerSquare
 from view.deck_square import DeckSquare
 from ptc.element import Element
 from ptc.square import Square
-from ptc.listener import Listener
+from ptc.bridge import Bridge
 
 _H = WY*2/5
 _D = WX*3/16
 
 from ptc.view import View
 class BoardView():
-    def __init__(self, board: Board, subject: Player, listener: Listener) -> None:
+    def __init__(self, board: Board, subject: Player, bridge: Bridge) -> None:
         self.board = board
         self.subject = subject
-        self.listener = listener
+        self.bridge = bridge
         self.squares = self._squares()
 
     def rearrange(self) -> None:
@@ -47,7 +47,7 @@ class BoardView():
         deck_square: list[Square] = [ds]
         opponents_squares = self._opponents_squares(opponents=opponents, ds=ds)
         subject_square: list[Square] = [
-            PlayerSquare(player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), listener=self.listener,)
+            PlayerSquare(player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), bridge=self.bridge,)
             ] if self.subject in self.board.players else []
         return opponents_squares+subject_square+deck_square
 
@@ -56,11 +56,11 @@ class BoardView():
         pss = [PlayerSquare(
             player=player,
             rect=Rect(w*i, 0, w, _H),
-            listener=self.listener,)
+            bridge=self.bridge,)
             for i, player in enumerate(opponents)]
         for ps in pss:
             ps.mousedown = DrawKardsController(
-                listener=self.listener,
+                bridge=self.bridge,
                 deck_square=ds,
                 player_square=ps,
             ).action

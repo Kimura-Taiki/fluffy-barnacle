@@ -5,7 +5,7 @@ from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
 from model.player import Player
 from view.log_square import LogSquare
-from ptc.listener import Listener
+from ptc.bridge import Bridge
 
 from ptc.square import Square
 from ptc.element import Element
@@ -13,10 +13,10 @@ class PlayerSquare():
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
 
-    def __init__(self, player: Player, rect: Rect, listener: Listener) -> None:
+    def __init__(self, player: Player, rect: Rect, bridge: Bridge) -> None:
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
-        self.listener = listener
+        self.bridge = bridge
         self.img = self._img()
         self.log_squares = [LogSquare(
             kard=kard,

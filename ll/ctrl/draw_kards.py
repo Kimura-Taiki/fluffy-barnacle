@@ -1,20 +1,20 @@
 from pygame import Vector2 as V2
 
-from ptc.listener import Listener
+from ptc.bridge import Bridge
 from view.deck_square import DeckSquare
 from view.player_square import PlayerSquare
 from view.draw_view import DrawView
 
 from ptc.controller import Controller
 class DrawKardsController():
-    def __init__(self, listener: Listener, deck_square: DeckSquare, player_square: PlayerSquare) -> None:
-        self.listener = listener
+    def __init__(self, bridge: Bridge, deck_square: DeckSquare, player_square: PlayerSquare) -> None:
+        self.bridge = bridge
         self.deck_square = deck_square
         self.player_square = player_square
 
     def action(self) -> None:
-        self._old_view = self.listener.view
-        self.listener.view = DrawView(
+        self._old_view = self.bridge.view
+        self.bridge.view = DrawView(
             view=self._old_view,
             img_back=self.deck_square.img_back,
             from_v2=V2(self.deck_square.rect.center),
@@ -23,7 +23,7 @@ class DrawKardsController():
         )
 
     def callback(self) -> None:
-        deck = self.listener.board.deck
+        deck = self.bridge.board.deck
         draw_kard = deck.pop(0)
-        self.listener.board._replace(deck=deck, draw_kard=draw_kard)
-        self.listener.view = self._old_view
+        self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
+        self.bridge.view = self._old_view
