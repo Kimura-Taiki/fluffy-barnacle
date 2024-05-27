@@ -47,7 +47,7 @@ class BoardView():
     def elapse(self) -> None:
         ...
 
-    def draw_kard_action(self, player: Player, suffix: Callable[[], None] = lambda:None) -> Callable[[], None]:
+    def draw_kard_action(self, player: Player, suffix: Callable[..., None] = lambda:None) -> Callable[[], None]:
         if (ps := self._player_square(player=player)):
             return self._draw_kard_ps_ds_func(
                 ps=ps,

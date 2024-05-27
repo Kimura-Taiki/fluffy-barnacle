@@ -12,7 +12,7 @@ _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 from ptc.view import View
 from ptc.element import Element
 class DrawView():
-    def __init__(self, view: View, img_back: Surface, from_v2: V2, to_v2: V2, callback: Callable[[], None]) -> None:
+    def __init__(self, view: View, img_back: Surface, from_v2: V2, to_v2: V2, callback: Callable[..., None]) -> None:
         self.board_view = view
         self.img_back = img_back
         self.from_v2 = from_v2

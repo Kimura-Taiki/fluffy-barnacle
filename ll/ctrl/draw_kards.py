@@ -9,7 +9,7 @@ from view.draw_view import DrawView
 from ptc.controller import Controller
 class DrawKardsController():
     def __init__(
-            self, bridge: Bridge, img_back: Surface, from_v2: V2, to_v2: V2, player: Player, suffix: Callable[[], None]
+            self, bridge: Bridge, img_back: Surface, from_v2: V2, to_v2: V2, player: Player, suffix: Callable[..., None]
     ) -> None:
         self.bridge = bridge
         self.img_back = img_back

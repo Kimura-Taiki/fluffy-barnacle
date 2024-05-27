@@ -24,7 +24,7 @@ _BAND_H = int(_FONT_H*1.5)
 from ptc.view import View
 from ptc.element import Element
 class TurnStartView():
-    def __init__(self, board_view: BoardView, callback: Callable[[], None]) -> None:
+    def __init__(self, board_view: BoardView, callback: Callable[..., None]) -> None:
         self.board_view = board_view
         self.callback = callback
         self.img_band = self._img_band()
