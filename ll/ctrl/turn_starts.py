@@ -1,4 +1,3 @@
-from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
 from view.board_view import BoardView
 from view.turn_start_view import TurnStartView
@@ -26,4 +25,4 @@ class TurnStartsController():
         )()
 
     def _suffix(self) -> None:
-        print(self.bridge.board)
+        ...

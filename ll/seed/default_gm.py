@@ -14,6 +14,6 @@ def _make_board() -> Board:
 
 board = _make_board()
 gm = GameMaster(board=board)
-view = BoardView(board=board, subject=OBSERVER, bridge=gm)
+view = BoardView(subject=OBSERVER, bridge=gm)
 gm.view = view
 SetupsController(bridge=gm).action()

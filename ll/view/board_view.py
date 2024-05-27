@@ -17,8 +17,7 @@ _D = WX*3/16
 
 from ptc.view import View
 class BoardView():
-    def __init__(self, board: Board, subject: Player, bridge: Bridge) -> None:
-        self.board = board
+    def __init__(self, subject: Player, bridge: Bridge) -> None:
         self.subject = subject
         self.bridge = bridge
         self.deck_square = self._deck_square()
@@ -96,3 +95,7 @@ class BoardView():
             square for square in self.squares if\
             isinstance(square, PlayerSquare) and
             square.player.name == player.name), None)
+
+    @property
+    def board(self) -> Board:
+        return self.bridge.board
