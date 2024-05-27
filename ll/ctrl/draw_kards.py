@@ -1,34 +1,35 @@
-from pygame import Vector2 as V2
+from pygame import Surface, Vector2 as V2
 
+from model.player import Player
 from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
-from view.deck_square import DeckSquare
-from view.player_square import PlayerSquare
 from view.draw_view import DrawView
 
 from ptc.controller import Controller
 class DrawKardsController():
-    def __init__(self, bridge: Bridge, deck_square: DeckSquare, player_square: PlayerSquare) -> None:
+    def __init__(self, bridge: Bridge, img_back: Surface, from_v2: V2, to_v2: V2, player: Player) -> None:
         self.bridge = bridge
-        self.deck_square = deck_square
-        self.player_square = player_square
+        self.img_back = img_back
+        self.from_v2 = from_v2
+        self.to_v2 = to_v2
+        self.player = player
 
     def action(self) -> None:
         self._old_view = self.bridge.view
         self.bridge.view = DrawView(
             view=self._old_view,
-            img_back=self.deck_square.img_back,
-            from_v2=V2(self.deck_square.rect.center),
-            to_v2=V2(self.player_square.rect.center),
-            callback=self.callback
+            img_back=self.img_back,
+            from_v2=self.from_v2,
+            to_v2=self.to_v2,
+            callback=self._default_callback
         )
 
-    def callback(self) -> None:
+    def _default_callback(self) -> None:
         deck = self.bridge.board.deck
         draw_kard = deck.pop(0)
-        if self.player_square.player.hand == EMPTY_KARD:
+        if self.player.hand == EMPTY_KARD:
             players=[player._replace(hand=draw_kard)
-                        if player.name == self.player_square.player.name else player
+                        if player.name == self.player.name else player
                         for player in self.bridge.board.players]
             self.bridge.board = self.bridge.board._replace(
                 deck=deck,

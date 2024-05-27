@@ -1,4 +1,4 @@
-from pygame import Rect
+from pygame import Rect, Vector2 as V2
 from typing import Callable
 
 from any.screen import screen, WX, WY
@@ -81,8 +81,10 @@ class BoardView():
     def _draw_kard_ps_ds_func(self, ps: PlayerSquare, ds: DeckSquare) -> Callable[[], None]:
         return DrawKardsController(
             bridge=self.bridge,
-            deck_square=ds,
-            player_square=ps,
+            img_back=ds.img_back,
+            from_v2=V2(ds.rect.center),
+            to_v2=V2(ps.rect.center),
+            player=ps.player
         ).action
 
     def _player_square(self, player: Player) -> PlayerSquare | None:

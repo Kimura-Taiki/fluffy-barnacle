@@ -4,6 +4,3 @@ from typing import runtime_checkable, Protocol, Any
 class Controller(Protocol):
     def action(self) -> None:
         ...
-
-    def callback(self, **kwargs: Any) -> None:
-        ...
