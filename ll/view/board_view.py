@@ -3,7 +3,7 @@ from typing import Callable
 
 from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
-from ctrl.draw_kards import DrawKardsController
+from ctrl.old_draw_kards import OldDrawKardsController
 from model.board import Board
 from model.player import Player
 from view.player_square import PlayerSquare
@@ -81,7 +81,7 @@ class BoardView():
     def _draw_kard_ps_ds_func(
             self, ps: PlayerSquare, ds: DeckSquare, suffix: Callable[[], None]=lambda:None
     ) -> Callable[[], None]:
-        return DrawKardsController(
+        return OldDrawKardsController(
             bridge=self.bridge,
             img_back=ds.img_back,
             from_v2=V2(ds.rect.center),
