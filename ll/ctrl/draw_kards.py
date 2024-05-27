@@ -1,4 +1,5 @@
 from pygame import Surface, Vector2 as V2
+from typing import Callable
 
 from model.player import Player
 from model.kard import EMPTY_KARD
@@ -7,12 +8,15 @@ from view.draw_view import DrawView
 
 from ptc.controller import Controller
 class DrawKardsController():
-    def __init__(self, bridge: Bridge, img_back: Surface, from_v2: V2, to_v2: V2, player: Player) -> None:
+    def __init__(
+            self, bridge: Bridge, img_back: Surface, from_v2: V2, to_v2: V2, player: Player, suffix: Callable[[], None]
+    ) -> None:
         self.bridge = bridge
         self.img_back = img_back
         self.from_v2 = from_v2
         self.to_v2 = to_v2
         self.player = player
+        self.suffix = suffix
 
     def action(self) -> None:
         self._old_view = self.bridge.view

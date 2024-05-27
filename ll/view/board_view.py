@@ -52,7 +52,7 @@ class BoardView():
         if (ps := self._player_square(player=player)):
             return self._draw_kard_ps_ds_func(
                 ps=ps,
-                ds=self.deck_square
+                ds=self.deck_square,
             )
         else:
             raise ValueError(
@@ -78,13 +78,16 @@ class BoardView():
             ps.mousedown = self._draw_kard_ps_ds_func(ps=ps, ds=ds)
         return pss
 
-    def _draw_kard_ps_ds_func(self, ps: PlayerSquare, ds: DeckSquare) -> Callable[[], None]:
+    def _draw_kard_ps_ds_func(
+            self, ps: PlayerSquare, ds: DeckSquare, suffix: Callable[[], None]=lambda:None
+    ) -> Callable[[], None]:
         return DrawKardsController(
             bridge=self.bridge,
             img_back=ds.img_back,
             from_v2=V2(ds.rect.center),
             to_v2=V2(ps.rect.center),
-            player=ps.player
+            player=ps.player,
+            suffix=suffix
         ).action
 
     def _player_square(self, player: Player) -> PlayerSquare | None:
