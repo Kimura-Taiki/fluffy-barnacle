@@ -25,10 +25,10 @@ class DrawKardsController():
             img_back=self.img_back,
             from_v2=self.from_v2,
             to_v2=self.to_v2,
-            callback=self._default_callback
+            callback=self._callback
         )
 
-    def _default_callback(self) -> None:
+    def _callback(self) -> None:
         deck = self.bridge.board.deck
         draw_kard = deck.pop(0)
         if self.player.hand == EMPTY_KARD:
