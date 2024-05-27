@@ -4,7 +4,7 @@ from typing import Callable
 from model.player import Player
 from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
-from view.draw_view import DrawView
+from view.linear_view import LinearView
 
 from ptc.controller import Controller
 class DrawKardsController():
@@ -20,7 +20,7 @@ class DrawKardsController():
 
     def action(self) -> None:
         self._old_view = self.bridge.view
-        self.bridge.view = DrawView(
+        self.bridge.view = LinearView(
             view=self._old_view,
             img_back=self.img_back,
             from_v2=self.from_v2,
