@@ -28,4 +28,5 @@ class SetupsController():
         self.bridge.board = self.bridge.board._replace(
             turn_player=self.bridge.board.players[0]
         )
+        print("TurnPlayer", self.bridge.board.turn_player)
         TurnStartsController(bridge=self.bridge).action()
