@@ -22,6 +22,7 @@ _FONT_H = 96
 _BAND_H = int(_FONT_H*1.5)
 
 from ptc.view import View
+from ptc.element import Element
 class TurnStartView():
     def __init__(self, board_view: BoardView, callback: Callable[[], None]) -> None:
         self.board_view = board_view
@@ -29,14 +30,21 @@ class TurnStartView():
         self.img_band = self._img_band()
         self.img_title = self._img_title()
         self.frames = frames()
+        self.draw = self._draw
+        self.hover = lambda: None
+        self.mousedown = self.callback
+        self.active = lambda: None
+        self.mouseup = lambda: None
+        self.drag = lambda: None
+        self.dragend = lambda: None
 
     def rearrange(self) -> None:
         ...
 
     def get_hover(self) -> Element | None:
-        return None
+        return self
 
-    def draw(self) -> None:
+    def _draw(self) -> None:
         self.board_view.draw()
         screen.blit(source=self.img_band, dest=(0, WY/2-_BAND_H/2))
         if self._ratio() < _FI_RATIO:

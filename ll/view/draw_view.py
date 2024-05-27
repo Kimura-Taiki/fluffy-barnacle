@@ -10,7 +10,7 @@ _SECONDS = 0.5
 _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.view import View
-# from ptc.element import Element
+from ptc.element import Element
 class DrawView():
     def __init__(self, view: View, img_back: Surface, from_v2: V2, to_v2: V2, callback: Callable[[], None]) -> None:
         self.board_view = view
@@ -19,14 +19,21 @@ class DrawView():
         self.to_v2 = to_v2
         self.callback = callback
         self.frames = frames()
+        self.draw = self._draw
+        self.hover = lambda: None
+        self.mousedown = self.callback
+        self.active = lambda: None
+        self.mouseup = lambda: None
+        self.drag = lambda: None
+        self.dragend = lambda: None
 
     def rearrange(self) -> None:
         ...
 
     def get_hover(self) -> Element | None:
-        return None
+        return self
 
-    def draw(self) -> None:
+    def _draw(self) -> None:
         self.board_view.draw()
         screen.blit(
             source=MS_MINCHO_COL("in drawing...", 64, "black"),
