@@ -42,3 +42,4 @@ class DrawKardsController():
         else:
             self.bridge.board = self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
         self.bridge.view = self._old_view
+        self.suffix()

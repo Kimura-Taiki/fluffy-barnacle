@@ -21,15 +21,19 @@ class SetupsController():
         view = self.bridge.view
         if not isinstance(view, BoardView):
             raise ValueError("SetupsControllerを起動する時はBoardViewでないと")
+        print("action : pre_if")
         if handless_player:
+            print("action : if_True")
             view.draw_kard_action(
                 player=handless_player,
                 suffix=self._draw_suffix
-            )
+            )()
         else:
+            print("action : if_False")
             self._game_start()
 
     def _draw_suffix(self) -> None:
+        print("_draw_suffix")
         self.action()
 
     def _game_start(self) -> None:

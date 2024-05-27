@@ -1,4 +1,5 @@
 from any.game_master import GameMaster
+from ctrl.setups import SetupsController
 from model.board import Board
 from model.player import Player, OBSERVER
 from view.board_view import BoardView
@@ -15,3 +16,4 @@ board = _make_board()
 gm = GameMaster(board=board)
 view = BoardView(board=board, subject=OBSERVER, bridge=gm)
 gm.view = view
+SetupsController(bridge=gm).action()
