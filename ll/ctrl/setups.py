@@ -3,6 +3,7 @@ from pygame import Vector2 as V2
 from ctrl.draw_kards import DrawKardsController
 from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
+from view.board_view import BoardView
 from view.deck_square import DeckSquare
 from view.player_square import PlayerSquare
 from view.draw_view import DrawView
@@ -17,39 +18,19 @@ class SetupsController():
 
     def action(self) -> None:
         handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
-        bv = self.bridge.view
+        view = self.bridge.view
+        if not isinstance(view, BoardView):
+            raise ValueError("SetupsControllerを起動する時はBoardViewでないと")
         if handless_player:
-            draw_func = 
-
-    def callback(self, player) -> None:
-        handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
-        if handless_player:
-            DrawKardsController(
-                bridge=self.bridge,
-                deck_square=self.bridge.view.
-            ).action()
-
-    def action(self) -> None:
-        self._old_view = self.bridge.view
-        self.bridge.view = DrawView(
-            view=self._old_view,
-            img_back=self.deck_square.img_back,
-            from_v2=V2(self.deck_square.rect.center),
-            to_v2=V2(self.player_square.rect.center),
-            callback=self.callback
-        )
-
-    def callback(self) -> None:
-        deck = self.bridge.board.deck
-        draw_kard = deck.pop(0)
-        if self.player_square.player.hand == EMPTY_KARD:
-            players=[player._replace(hand=draw_kard)
-                        if player.name == self.player_square.player.name else player
-                        for player in self.bridge.board.players]
-            self.bridge.board = self.bridge.board._replace(
-                deck=deck,
-                players=players
+            view.draw_kard_action(
+                player=handless_player,
+                suffix=self._draw_suffix
             )
         else:
-            self.bridge.board = self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
-        self.bridge.view = self._old_view
+            self._game_start()
+
+    def _draw_suffix(self) -> None:
+        self.action()
+
+    def _game_start(self) -> None:
+        raise EOFError("良し！")
