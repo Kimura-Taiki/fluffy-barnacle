@@ -20,7 +20,14 @@ class BoardView():
         self.board = board
         self.subject = subject
         self.bridge = bridge
-        self.squares = self._squares()
+        self.deck_square = self._deck_square()
+        self.subject_square = self._subject_square()
+        self.opponents_squares = self._opponents_squares(opponents=self.board.players, ds=self.deck_square)
+        self.squares = [
+            square for square in ([self.deck_square, self.subject_square]+self.opponents_squares)
+            if isinstance(square, Square)
+        ]
+        # self.squares = self._squares()
 
     def rearrange(self) -> None:
         ...
@@ -40,6 +47,14 @@ class BoardView():
 
     def elapse(self) -> None:
         ...
+
+    def _deck_square(self) -> DeckSquare:
+        return DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
+    
+    def _subject_square(self) -> PlayerSquare | None:
+        return PlayerSquare(
+            player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), bridge=self.bridge,
+            ) if self.subject in self.board.players else None
 
     def _squares(self) -> list[Square]:
         opponents = [player for player in self.board.players if player != self.subject]

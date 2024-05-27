@@ -1,5 +1,24 @@
-from pygame import Vector2 as V2
+from typing import Callable
+from functools import partial
 
-vs = V2(100, 0)
-ve = V2(0, 300)
-print(vs.lerp(ve, .3))
+MonoFunc = Callable[[], None]
+
+class Ctrl():
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    def action(self, func: Callable[[MonoFunc], None]) -> None:
+        func(self.callback)
+
+    def callback(self, i: int=0) -> None:
+        print(f"{self.name}'s Callback : i={i}")
+
+ccc = Ctrl(name="Controller")
+
+ccc.callback()
+
+def set_i(func: MonoFunc) -> None:
+    func(i=100)
+    partial(func, i=200)()
+
+ccc.action(set_i)
