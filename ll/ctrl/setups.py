@@ -17,12 +17,9 @@ class SetupsController():
 
     def action(self) -> None:
         handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
+        bv = self.bridge.view
         if handless_player:
-            DrawKardsController(
-                bridge=self.bridge,
-                deck_square=self.deck_square
-            )
-        self.callback()
+            draw_func = 
 
     def callback(self, player) -> None:
         handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)

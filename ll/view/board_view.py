@@ -48,23 +48,16 @@ class BoardView():
     def elapse(self) -> None:
         ...
 
-    def player_square(self, player: Player) -> PlayerSquare | None:
-        return next((
-            square for square in self.squares if\
-            isinstance(square, PlayerSquare) and
-            square.player.name == player.name), None)
-
-    # def draw_kard(self, player: Player) -> Callable[[], None]:
-    #     if (ps := self.player_square(player=player)):
-    #         return DrawKardsController(
-    #             bridge=self.bridge,
-    #             deck_square=self.deck_square,
-    #             player_square=ps,
-    #         ).action
-    #     else:
-    #         raise ValueError(
-    #             f"該当プレイヤーはいません\nplayer.name = {player.name}"+
-    #             f"\nBoardView.board.player.names = {[player.name for player in self.board.players]}")
+    def draw_kard_action(self, player: Player, ) -> Callable[[], None]:
+        if (ps := self._player_square(player=player)):
+            return self._draw_kard_ps_ds_func(
+                ps=ps,
+                ds=self.deck_square
+            )
+        else:
+            raise ValueError(
+                f"該当プレイヤーはいません\nplayer.name = {player.name}"+
+                f"\nBoardView.board.player.names = {[player.name for player in self.board.players]}")
 
     def _deck_square(self) -> DeckSquare:
         return DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
@@ -91,3 +84,9 @@ class BoardView():
             deck_square=ds,
             player_square=ps,
         ).action
+
+    def _player_square(self, player: Player) -> PlayerSquare | None:
+        return next((
+            square for square in self.squares if\
+            isinstance(square, PlayerSquare) and
+            square.player.name == player.name), None)
