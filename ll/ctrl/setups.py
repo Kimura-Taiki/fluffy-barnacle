@@ -9,21 +9,28 @@ from view.draw_view import DrawView
 
 from ptc.controller import Controller
 class SetupsController():
-    def __init__(self, bridge: Bridge, deck_square: DeckSquare, player_square: PlayerSquare) -> None:
+    # def __init__(self, bridge: Bridge, deck_square: DeckSquare, player_square: PlayerSquare) -> None:
+    def __init__(self, bridge: Bridge) -> None:
         self.bridge = bridge
-        self.deck_square = deck_square
-        self.player_square = player_square
+        # self.deck_square = deck_square
+        # self.player_square = player_square
 
-    # def action(self) -> None:
-    #     self.callback()
+    def action(self) -> None:
+        handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
+        if handless_player:
+            DrawKardsController(
+                bridge=self.bridge,
+                deck_square=self.deck_square
+            )
+        self.callback()
 
-    # def callback(self) -> None:
-    #     handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
-    #     if handless_player:
-    #         DrawKardsController(
-    #             bridge=self.bridge,
-    #             deck_square=self.bridge.view.
-    #         ).action()
+    def callback(self, player) -> None:
+        handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
+        if handless_player:
+            DrawKardsController(
+                bridge=self.bridge,
+                deck_square=self.bridge.view.
+            ).action()
 
     def action(self) -> None:
         self._old_view = self.bridge.view
