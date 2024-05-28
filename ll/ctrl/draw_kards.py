@@ -12,11 +12,17 @@ from view.player_square import PlayerSquare
 
 from ptc.controller import Controller
 class DrawKardsController():
-    def __init__(self, board_view: BoardView, player: Player, suffix: Callable[..., None]) -> None:
+    def __init__(
+            self,
+            board_view: BoardView,
+            player: Player,
+            pq: PlayerSquare | None=None,
+            suffix: Callable[..., None]=lambda : None,
+        ) -> None:
         self.board_view = board_view
         self.player = player
         self.suffix = suffix
-        self.pq = self._player_square()
+        self.pq = pq if pq else self._player_square()
         self.dq = board_view.deck_square
 
     def action(self) -> None:

@@ -1,12 +1,23 @@
-from z1 import Board
-from z2 import Card
+from dataclasses import dataclass
+from typing import Callable
 
-def do0(board: Board) -> None:
-    print("Do0です")
+class Hoge():
+    def __init__(self, band: int=0, text: str="", action: Callable[..., None] | None=None) -> None:
+        self.band = band
+        self.text = text
+        if action:
+            self.action = action
+        else:
+            self.action = PrintHoge(self).action
 
-def do1(board: Board) -> None:
-    print([card.name for card in board.cards])
+@dataclass
+class PrintHoge():
+    hoge: Hoge
 
-board = Board(cards=[Card(name="000", do=do0), Card(name="1", do=do1)])
-for card in board.cards:
-    card.do(board)
+    def action(self) -> None:
+        band = "-"*self.hoge.band
+        print(band+self.hoge.text+band)
+
+hhh = Hoge(5, "huhuhu")
+PrintHoge(hhh).action()
+hhh.action()

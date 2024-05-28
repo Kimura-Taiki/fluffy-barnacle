@@ -1,9 +1,7 @@
-from pygame import Rect, Vector2 as V2
-from typing import Callable
+from pygame import Rect
 
 from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
-from ctrl.old_draw_kards import OldDrawKardsController
 from model.board import Board
 from model.player import Player
 from view.player_square import PlayerSquare
@@ -22,7 +20,7 @@ class BoardView():
         self.bridge = bridge
         self.deck_square = self._deck_square()
         self.subject_square = self._subject_square()
-        self.opponents_squares = self._opponents_squares(opponents=self.board.players, ds=self.deck_square)
+        self.opponents_squares = self._opponents_squares(opponents=self.board.players, dq=self.deck_square)
         self.squares: list[Square] = [
             square for square in (self.deck_square, self.subject_square, *self.opponents_squares)
             if square is not None
@@ -47,18 +45,6 @@ class BoardView():
     def elapse(self) -> None:
         ...
 
-    def _gg_draw_kard_action(self, player: Player, suffix: Callable[..., None] = lambda:None) -> Callable[[], None]:
-        if (ps := self._player_square(player=player)):
-            return self._draw_kard_ps_ds_func(
-                ps=ps,
-                ds=self.deck_square,
-                suffix=suffix
-            )
-        else:
-            raise ValueError(
-                f"該当プレイヤーはいません\nplayer.name = {player.name}"+
-                f"\nBoardView.board.player.names = {[player.name for player in self.board.players]}")
-
     def _deck_square(self) -> DeckSquare:
         return DeckSquare(deck=self.board.deck, rect=Rect(0, WY-_H, _D, _H))
     
@@ -67,34 +53,22 @@ class BoardView():
             player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), bridge=self.bridge,
             ) if self.subject in self.board.players else None
 
-    def _opponents_squares(self, opponents: list[Player], ds: DeckSquare) -> list[PlayerSquare]:
+    def _opponents_squares(self, opponents: list[Player], dq: DeckSquare) -> list[PlayerSquare]:
         w = WX/len(opponents)
         pss = [PlayerSquare(
             player=player,
             rect=Rect(w*i, 0, w, _H),
             bridge=self.bridge,)
             for i, player in enumerate(opponents)]
-        for ps in pss:
-            ps.mousedown = self._draw_kard_ps_ds_func(ps=ps, ds=ds)
+        for pq in pss:
+            from ctrl.draw_kards import DrawKardsController
+            pq.mousedown = DrawKardsController(
+                board_view=self,
+                player=pq.player,
+                pq=pq,
+                suffix=lambda:None,
+            ).action
         return pss
-
-    def _draw_kard_ps_ds_func(
-            self, ps: PlayerSquare, ds: DeckSquare, suffix: Callable[[], None]=lambda:None
-    ) -> Callable[[], None]:
-        return OldDrawKardsController(
-            bridge=self.bridge,
-            img_back=ds.img_back,
-            from_v2=V2(ds.rect.center),
-            to_v2=V2(ps.rect.center),
-            player=ps.player,
-            suffix=suffix
-        ).action
-
-    def _player_square(self, player: Player) -> PlayerSquare | None:
-        return next((
-            square for square in self.squares if\
-            isinstance(square, PlayerSquare) and
-            square.player.name == player.name), None)
 
     @property
     def board(self) -> Board:
