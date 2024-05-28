@@ -2,7 +2,7 @@ from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 from typing import Callable
 
 from any.font import MS_MINCHO_COL
-from any.func import rect_fill
+from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
 from any.timer_functions import frames
 from ptc.element import Element
@@ -70,7 +70,7 @@ class TurnStartView():
 
     def _img_band(self) -> Surface:
         img = Surface(size=(WX, _BAND_H), flags=SRCALPHA)
-        rect_fill(color="white", rect=Rect(0, 0, WX, _BAND_H), surface=img)
+        rect_fill(color=translucented_color("white"), rect=Rect(0, 0, WX, _BAND_H), surface=img)
         return img
 
     def _img_title(self) -> Surface:
