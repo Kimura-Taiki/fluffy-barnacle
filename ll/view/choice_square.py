@@ -1,7 +1,7 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 
 from any.screen import screen
-from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
+from any.func import rect_fill, ratio_rect, translucented_color
 from any.pictures import IMG_BACK
 from model.kard import Kard, EMPTY_KARD
 from ptc.bridge import Bridge
@@ -10,7 +10,6 @@ from ptc.element import Element
 from ptc.square import Square
 class ChoiceSquare():
     _RATIO = (480, 432)
-    _LOG_RATIO = (136, 190)
 
     def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
