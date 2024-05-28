@@ -20,7 +20,7 @@ class BoardView():
         self.bridge = bridge
         self.deck_square = self._deck_square()
         self.subject_square = self._subject_square()
-        self.opponents_squares = self._opponents_squares(opponents=self.board.players, dq=self.deck_square)
+        self.opponents_squares = self._opponents_squares(opponents=self.board.players)
         self.squares: list[Square] = [
             square for square in (self.deck_square, self.subject_square, *self.opponents_squares)
             if square is not None
@@ -53,7 +53,7 @@ class BoardView():
             player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), bridge=self.bridge,
             ) if self.subject in self.board.players else None
 
-    def _opponents_squares(self, opponents: list[Player], dq: DeckSquare) -> list[PlayerSquare]:
+    def _opponents_squares(self, opponents: list[Player]) -> list[PlayerSquare]:
         w = WX/len(opponents)
         pss = [PlayerSquare(
             player=player,
