@@ -51,7 +51,7 @@ class BoardView():
     def _subject_square(self) -> PlayerSquare | None:
         return PlayerSquare(
             player=self.subject, rect=Rect(_D, WY-_H, WX/4, _H), bridge=self.bridge,
-            ) if self.subject in self.board.players else None
+        ) if self.subject in self.board.players else None
 
     def _opponents_squares(self, opponents: list[Player]) -> list[PlayerSquare]:
         w = WX/len(opponents)

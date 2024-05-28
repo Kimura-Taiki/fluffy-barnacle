@@ -22,15 +22,21 @@ class DrawKardsController():
         self.board_view = board_view
         self.player = player
         self.suffix = suffix
-        self.pq = pq if pq else self._player_square()
-        self.dq = board_view.deck_square
+        dq = board_view.deck_square
+        self.img_back = dq.img_back
+        self.from_v2 = V2(dq.rect.center)
+        # self.pq = pq if pq else self._player_square()
+        self.to_v2 = V2((pq if pq else self._player_square()).rect.center)
 
     def action(self) -> None:
         OldDrawKardsController(
             bridge=self.board_view.bridge,
-            img_back=self.dq.img_back,
-            from_v2=V2(self.dq.rect.center),
-            to_v2=V2(self.pq.rect.center),
+            # img_back=self.dq.img_back,
+            # from_v2=V2(self.dq.rect.center),
+            # to_v2=V2(self.pq.rect.center),
+            img_back=self.img_back,
+            from_v2=self.from_v2,
+            to_v2=self.to_v2,
             player=self.player,
             suffix=self.suffix
         ).action()
