@@ -1,11 +1,9 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 
 from any.screen import screen
-from any.font import MS_MINCHO_COL
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.pictures import IMG_BACK
-from model.kard import Kard
-from model.player import Player, OBSERVER
+from model.kard import Kard, EMPTY_KARD
 from ptc.bridge import Bridge
 from ptc.element import Element
 
@@ -20,11 +18,17 @@ class HandSquare():
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
         self.img = self._img()
+        self.hands = self._now_hands
 
     def get_hover(self) -> Element | None:
         return None
 
     def draw(self) -> None:
+        if EMPTY_KARD in self._now_hands:
+            return
+        if self.hands != self._now_hands:
+            self.hands = self._now_hands
+            self.img = self._img()
         screen.blit(source=self.img, dest=self.rect)
 
     def _img(self) -> Surface:
@@ -41,3 +45,7 @@ class HandSquare():
             dest=V2(self._RATIO)/2-V2(img_left.get_size())/2+(80, 0)
         )
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
+
+    @property
+    def _now_hands(self) -> list[Kard]:
+        return [self.bridge.board.draw_kard, self.bridge.board.turn_player.hand]
