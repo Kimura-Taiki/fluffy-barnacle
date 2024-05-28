@@ -14,11 +14,13 @@ from ptc.controller import Controller
 class DrawKardsController():
     def __init__(
             self,
+            bridge: Bridge,
             board_view: BoardView,
             player: Player,
             pq: PlayerSquare | None=None,
             suffix: Callable[..., None]=lambda : None,
         ) -> None:
+        self.bridge = bridge
         self.board_view = board_view
         self.player = player
         self.suffix = suffix
@@ -40,6 +42,16 @@ class DrawKardsController():
             player=self.player,
             suffix=self.suffix
         ).action()
+
+    # def action(self) -> None:
+    #     self._old_view = self.bridge.view
+    #     self.bridge.view = LinearView(
+    #         view=self._old_view,
+    #         img_back=self.img_back,
+    #         from_v2=self.from_v2,
+    #         to_v2=self.to_v2,
+    #         callback=self._callback
+    #     )
 
     def _player_square(self) -> PlayerSquare:
         if ps := next((

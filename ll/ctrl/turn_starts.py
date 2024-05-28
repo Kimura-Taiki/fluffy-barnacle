@@ -21,6 +21,7 @@ class TurnStartsController():
         if not isinstance(view, BoardView):
             raise ValueError("TurnStartsControllerを起動する時はBoardViewでないと")
         DrawKardsController(
+            bridge=self.bridge,
             board_view=view,
             player=self.bridge.board.turn_player,
             suffix=self._suffix

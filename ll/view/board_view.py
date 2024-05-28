@@ -63,6 +63,7 @@ class BoardView():
         for pq in pss:
             from ctrl.draw_kards import DrawKardsController
             pq.mousedown = DrawKardsController(
+                bridge=self.bridge,
                 board_view=self,
                 player=pq.player,
                 pq=pq,

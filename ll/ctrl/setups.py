@@ -16,6 +16,7 @@ class SetupsController():
             raise ValueError("SetupsControllerを起動する時はBoardViewでないと")
         if handless_player:
             DrawKardsController(
+                bridge=self.bridge,
                 board_view=view,
                 player=handless_player,
                 suffix=self._draw_suffix
