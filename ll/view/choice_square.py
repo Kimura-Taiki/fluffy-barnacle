@@ -8,13 +8,11 @@ from ptc.bridge import Bridge
 from ptc.element import Element
 
 from ptc.square import Square
-class HandSquare():
+class ChoiceSquare():
     _RATIO = (480, 432)
     _LOG_RATIO = (136, 190)
 
-    def __init__(self, player_kard: Kard, draw_kard: Kard, rect: Rect, bridge: Bridge) -> None:
-        self.player_kard = Kard
-        self.draw_kard = Kard
+    def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
         self.img = self._img()

@@ -3,10 +3,9 @@ from pygame import Rect
 from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
 from model.board import Board
-from model.kard import Kard, EMPTY_KARD
 from model.player import Player
 from view.deck_square import DeckSquare
-from view.hand_square import HandSquare
+from view.choice_square import ChoiceSquare
 from view.player_square import PlayerSquare
 from ptc.element import Element
 from ptc.square import Square
@@ -24,7 +23,7 @@ class BoardView:
         self.deck_square = self._deck_square()
         self.subject_square = self._subject_square()
         self.opponents_squares = self._opponents_squares(opponents=self.board.players)
-        self.hand_square = HandSquare(EMPTY_KARD, EMPTY_KARD, Rect(_D+_W, _H, _C, WY-_H), self.bridge)
+        self.hand_square = ChoiceSquare(rect=Rect(_D+_W, _H, _C, WY-_H), bridge=self.bridge)
         self.squares: list[Square] = [
             square for square in (self.deck_square, self.subject_square, *self.opponents_squares, self.hand_square)
             if square is not None
