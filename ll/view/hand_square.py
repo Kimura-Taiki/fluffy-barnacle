@@ -7,8 +7,6 @@ from ptc.bridge import Bridge
 from ptc.square import Square
 from ptc.element import Element
 class HandSquare():
-    _RATIO = (306, 402)
-
     def __init__(self, kard: Kard, angle: float, scale: float, center: V2, bridge: Bridge, canvas: Surface) -> None:
         self.kard = kard
         self.angle = angle
@@ -20,7 +18,8 @@ class HandSquare():
         self.vertices = self._vertices()
         self.draw = self._draw
         self.hover = lambda: None
-        self.mousedown = lambda: None
+        self.mousedown = self._mousedown
+        # self.mousedown = lambda: None
         self.active = lambda: None
         self.mouseup = lambda: None
         self.drag = lambda: None
@@ -41,6 +40,11 @@ class HandSquare():
             source=self.img,
             dest=self.center-V2(self.img.get_size())/2
         )
+        for v2 in self.vertices:
+            self.canvas.fill(
+                color="red",
+                rect=((v2-V2(10, 10)), (20, 20))
+            )
 
     def _img(self) -> Surface:
         return transform.rotozoom(
@@ -60,3 +64,6 @@ class HandSquare():
             self.center.x+(cos(rad)*from_v2.x-sin(rad)*from_v2.y)*self.scale,
             self.center.y+(sin(rad)*from_v2.x+cos(rad)*from_v2.y)*self.scale,
         )
+    
+    def _mousedown(self) -> None:
+        raise EOFError(self.kard)

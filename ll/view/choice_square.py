@@ -19,10 +19,15 @@ class ChoiceSquare():
         self.hqs = self._hqs()
 
     def get_hover(self) -> Element | None:
+        if self._is_negative:
+            return None
+        for square in self.hqs[::-1]:
+            if element := square.get_hover():
+                return element
         return None
 
     def draw(self) -> None:
-        if EMPTY_KARD in self._now_hands:
+        if self._is_negative:
             return
         if self.hands != self._now_hands:
             self.hands = self._now_hands
@@ -38,8 +43,7 @@ class ChoiceSquare():
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
     
     def _hqs(self) -> list[HandSquare]:
-        print(V2(self.rect.center)+V2(80, 0))
-        return [] if EMPTY_KARD in self._now_hands else [
+        return [] if self._is_negative else [
             HandSquare(
                 kard=self.hands[0],
                 angle=5.0,
@@ -57,6 +61,10 @@ class ChoiceSquare():
                 canvas=screen
             ),
         ]
+    
+    @property
+    def _is_negative(self) -> bool:
+        return EMPTY_KARD in self._now_hands
 
     @property
     def _now_hands(self) -> list[Kard]:
