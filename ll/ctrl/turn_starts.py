@@ -1,3 +1,4 @@
+from ctrl.draw_kards import DrawKardsController
 from ptc.bridge import Bridge
 from view.board_view import BoardView
 from view.turn_start_view import TurnStartView
@@ -19,10 +20,11 @@ class TurnStartsController():
         view = self.bridge.view
         if not isinstance(view, BoardView):
             raise ValueError("TurnStartsControllerを起動する時はBoardViewでないと")
-        view.draw_kard_action(
+        DrawKardsController(
+            board_view=view,
             player=self.bridge.board.turn_player,
             suffix=self._suffix
-        )()
+        ).action()
 
     def _suffix(self) -> None:
         ...

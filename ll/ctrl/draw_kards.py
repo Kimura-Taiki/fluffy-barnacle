@@ -20,14 +20,14 @@ class DrawKardsController():
         self.dq = board_view.deck_square
 
     def action(self) -> None:
-        return OldDrawKardsController(
+        OldDrawKardsController(
             bridge=self.board_view.bridge,
             img_back=self.dq.img_back,
             from_v2=V2(self.dq.rect.center),
             to_v2=V2(self.pq.rect.center),
             player=self.player,
             suffix=self.suffix
-        ).action
+        ).action()
 
     def _player_square(self) -> PlayerSquare:
         if ps := next((

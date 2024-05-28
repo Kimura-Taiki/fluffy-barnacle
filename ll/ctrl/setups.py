@@ -1,3 +1,4 @@
+from ctrl.draw_kards import DrawKardsController
 from ctrl.turn_starts import TurnStartsController
 from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
@@ -14,10 +15,11 @@ class SetupsController():
         if not isinstance(view, BoardView):
             raise ValueError("SetupsControllerを起動する時はBoardViewでないと")
         if handless_player:
-            view.draw_kard_action(
+            DrawKardsController(
+                board_view=view,
                 player=handless_player,
                 suffix=self._draw_suffix
-            )()
+            ).action()
         else:
             self._game_start()
 
