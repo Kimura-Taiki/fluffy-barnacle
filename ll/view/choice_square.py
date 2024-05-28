@@ -2,8 +2,8 @@ from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color
-from any.pictures import IMG_BACK
 from model.kard import Kard, EMPTY_KARD
+from view.hand_square import HandSquare
 from ptc.bridge import Bridge
 from ptc.element import Element
 
@@ -14,8 +14,9 @@ class ChoiceSquare():
     def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.img = self._img()
         self.hands = self._now_hands
+        self.img = self._img()
+        self.hqs = self._hqs()
 
     def get_hover(self) -> Element | None:
         return None
@@ -26,22 +27,36 @@ class ChoiceSquare():
         if self.hands != self._now_hands:
             self.hands = self._now_hands
             self.img = self._img()
+            self.hqs = self._hqs()
         screen.blit(source=self.img, dest=self.rect)
+        for hq in self.hqs:
+            hq.draw()
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         rect_fill(color=translucented_color("white"), rect=Rect((0, 0), self._RATIO), surface=img)
-        img_left = transform.rotozoom(surface=IMG_BACK, angle=5.0, scale=0.8)
-        img_right = transform.rotozoom(surface=IMG_BACK, angle=-5.0, scale=0.8)
-        img.blit(
-            source=img_left,
-            dest=V2(self._RATIO)/2-V2(img_left.get_size())/2-(80, 0)
-        )
-        img.blit(
-            source=img_right,
-            dest=V2(self._RATIO)/2-V2(img_left.get_size())/2+(80, 0)
-        )
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
+    
+    def _hqs(self) -> list[HandSquare]:
+        print(V2(self.rect.center)+V2(80, 0))
+        return [] if EMPTY_KARD in self._now_hands else [
+            HandSquare(
+                kard=self.hands[0],
+                angle=5.0,
+                scale=0.8*self.rect.w/self._RATIO[0],
+                center=V2(self.rect.center)-V2(80, 0),
+                bridge=self.bridge,
+                canvas=screen
+            ),
+            HandSquare(
+                kard=self.hands[1],
+                angle=-5.0,
+                scale=0.8*self.rect.w/self._RATIO[0],
+                center=V2(self.rect.center)+V2(80, 0),
+                bridge=self.bridge,
+                canvas=screen
+            ),
+        ]
 
     @property
     def _now_hands(self) -> list[Kard]:

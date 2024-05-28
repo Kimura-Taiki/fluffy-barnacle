@@ -1,11 +1,13 @@
-from pygame import Surface, image
+from pygame import Surface
 from typing import NamedTuple
+
+from any.pictures import picload
 
 class Kard(NamedTuple):
     name: str
     png_file: str
 
     def picture(self) -> Surface:
-        return image.load(self.png_file).convert_alpha()
+        return picload(self.png_file)
 
 EMPTY_KARD = Kard(name="empty", png_file="")

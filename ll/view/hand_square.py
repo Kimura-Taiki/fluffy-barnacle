@@ -1,10 +1,7 @@
-from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2, mouse, image
+from pygame import Surface, transform, Vector2 as V2, mouse
 from math import sin, cos, radians
 
-from any.screen import screen
-from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
-from any.pictures import IMG_BACK
-from model.kard import Kard, EMPTY_KARD
+from model.kard import Kard
 from ptc.bridge import Bridge
 
 from ptc.square import Square
