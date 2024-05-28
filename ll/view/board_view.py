@@ -15,7 +15,7 @@ from ptc.bridge import Bridge
 _W = WX / 4
 _H = WY * 2 / 5
 _D = WX * 3 / 16
-_C = WX * 5 /16
+_C = WX * 6 /16
 
 class BoardView:
     def __init__(self, subject: Player, bridge: Bridge) -> None:
@@ -24,7 +24,7 @@ class BoardView:
         self.deck_square = self._deck_square()
         self.subject_square = self._subject_square()
         self.opponents_squares = self._opponents_squares(opponents=self.board.players)
-        self.hand_square = HandSquare(EMPTY_KARD, EMPTY_KARD, Rect(_D+_W, WY-_H, _C, _H), self.bridge)
+        self.hand_square = HandSquare(EMPTY_KARD, EMPTY_KARD, Rect(_D+_W, _H, _C, WY-_H), self.bridge)
         self.squares: list[Square] = [
             square for square in (self.deck_square, self.subject_square, *self.opponents_squares, self.hand_square)
             if square is not None
