@@ -63,4 +63,5 @@ class HandSquare():
         )
     
     def _mousedown(self) -> None:
-        raise EOFError(self.kard)
+        self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
+        # self.bridge.board.advance_to_next_turn()

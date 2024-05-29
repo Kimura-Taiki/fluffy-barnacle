@@ -17,12 +17,6 @@ class Board():
     def draw(self, player: Player) -> None:
         player.hands.append(self.deck.pop(0))
 
-    def use_draw_kard(self) -> None:
-        raise EOFError("Board.use_draw_kard")
-
-    def use_hand_kard(self) -> None:
-        raise EOFError("Board.use_hand_kard")
-
     def use_kard(self, player: Player, kard: Kard) -> None:
         self.diskard(player=player, kard=kard)
         print(f"Use kard {kard}")
