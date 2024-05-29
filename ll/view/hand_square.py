@@ -2,10 +2,10 @@ from pygame import Surface, transform, Vector2 as V2, mouse
 from math import sin, cos, radians
 
 from model.kard import Kard
+from model.ui_element import UIElement
 from ptc.bridge import Bridge
 
 from ptc.square import Square
-from ptc.element import Element
 class HandSquare():
     def __init__(self, kard: Kard, angle: float, scale: float, center: V2, bridge: Bridge, canvas: Surface) -> None:
         self.kard = kard
@@ -16,16 +16,9 @@ class HandSquare():
         self.canvas = canvas
         self.img = self._img()
         self.vertices = self._vertices()
-        self.draw = self._draw
-        self.hover = lambda: None
-        self.mousedown = self._mousedown
-        # self.mousedown = lambda: None
-        self.active = lambda: None
-        self.mouseup = lambda: None
-        self.drag = lambda: None
-        self.dragend = lambda: None
+        self.ui_element = UIElement(mousedown=self._mousedown)
 
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         inside = False
         mx, my = mouse.get_pos()
         for i in range(4):
@@ -33,9 +26,9 @@ class HandSquare():
             x2, y2 = self.vertices[(i+1) % 4]
             if ((y1 <= my and my < y2) or (y2 <= my and my < y1)) and (mx < (x2-x1)*(my-y1)/(y2-y1)+x1):
                 inside = not inside
-        return self if inside else None
+        return self.ui_element if inside else None
 
-    def _draw(self) -> None:
+    def draw(self) -> None:
         self.canvas.blit(
             source=self.img,
             dest=self.center-V2(self.img.get_size())/2

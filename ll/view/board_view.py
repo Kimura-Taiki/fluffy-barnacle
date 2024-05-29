@@ -4,10 +4,10 @@ from any.screen import screen, WX, WY
 from any.pictures import IMG_BG
 from model.board import Board
 from model.player import Player
+from model.ui_element import UIElement
 from view.deck_square import DeckSquare
 from view.choice_square import ChoiceSquare
 from view.player_square import PlayerSquare
-from ptc.element import Element
 from ptc.square import Square
 from ptc.bridge import Bridge
 
@@ -24,8 +24,9 @@ class BoardView:
         self.subject_square = self._subject_square()
         self.opponents_squares = self._opponents_squares(opponents=self.board.players)
         self.hand_square = ChoiceSquare(rect=Rect(_D+_W, _H, _C, WY-_H), bridge=self.bridge)
+        li = (self.deck_square, self.subject_square, *self.opponents_squares, self.hand_square)
         self.squares: list[Square] = [
-            square for square in (self.deck_square, self.subject_square, *self.opponents_squares, self.hand_square)
+            square for square in li
             if square is not None
         ]
 
@@ -33,7 +34,7 @@ class BoardView:
         """レイアウトの再配置を行います"""
         ...
 
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         """ホバー中の要素を取得します"""
         for square in self.squares:
             if element := square.get_hover():
@@ -68,7 +69,7 @@ class BoardView:
             for i, player in enumerate(opponents)]
         for pq in pss:
             from ctrl.draw_kards import DrawKardsController
-            pq.mousedown = DrawKardsController(
+            pq.ui_element.mousedown = DrawKardsController(
                 bridge=self.bridge,
                 board_view=self,
                 player=pq.player,

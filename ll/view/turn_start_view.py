@@ -5,7 +5,7 @@ from any.font import MS_MINCHO_COL
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
 from any.timer_functions import frames
-from ptc.element import Element
+from model.ui_element import UIElement
 from view.board_view import BoardView
 
 _FADE_IN_SECONDS = 0.25
@@ -22,7 +22,6 @@ _FONT_H = 96
 _BAND_H = int(_FONT_H*1.5)
 
 from ptc.view import View
-from ptc.element import Element
 class TurnStartView():
     def __init__(self, board_view: BoardView, callback: Callable[..., None]) -> None:
         self.board_view = board_view
@@ -30,21 +29,17 @@ class TurnStartView():
         self.img_band = self._img_band()
         self.img_title = self._img_title()
         self.frames = frames()
-        self.draw = self._draw
-        self.hover = lambda: None
-        self.mousedown = self.callback
-        self.active = lambda: None
-        self.mouseup = lambda: None
-        self.drag = lambda: None
-        self.dragend = lambda: None
+        self.ui_element = UIElement(
+            mousedown=self.callback,
+        )
 
     def rearrange(self) -> None:
         ...
 
-    def get_hover(self) -> Element | None:
-        return self
+    def get_hover(self) -> UIElement | None:
+        return self.ui_element
 
-    def _draw(self) -> None:
+    def draw(self) -> None:
         self.board_view.draw()
         screen.blit(source=self.img_band, dest=(0, WY/2-_BAND_H/2))
         if self._ratio() < _FI_RATIO:

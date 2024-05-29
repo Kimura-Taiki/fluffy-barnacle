@@ -2,7 +2,7 @@ from pygame import Rect, Surface, SRCALPHA, transform, image
 
 from any.func import ratio_rect
 from model.kard import Kard
-from ptc.element import Element
+from model.ui_element import UIElement
 
 from ptc.square import Square
 class LogSquare():
@@ -14,7 +14,7 @@ class LogSquare():
         self.img = self._img()
         self.canvas = canvas
 
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         return None
 
     def draw(self) -> None:

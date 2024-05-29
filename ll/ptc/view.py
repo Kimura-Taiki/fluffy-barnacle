@@ -1,10 +1,10 @@
 from typing import Protocol, runtime_checkable
 
-from ptc.element import Element
+from model.ui_element import UIElement
 
 @runtime_checkable
 class View(Protocol):
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         ...
 
     def draw(self) -> None:
@@ -14,7 +14,7 @@ class View(Protocol):
         ...
 
 class _EmptyView():
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         return None
 
     def draw(self) -> None:

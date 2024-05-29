@@ -5,7 +5,7 @@ from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard, EMPTY_KARD
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
-from ptc.element import Element
+from model.ui_element import UIElement
 
 from ptc.square import Square
 class ChoiceSquare():
@@ -18,7 +18,7 @@ class ChoiceSquare():
         self.img = self._img()
         self.hqs = self._hqs()
 
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         if self._is_negative:
             return None
         for square in self.hqs[::-1]:

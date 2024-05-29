@@ -4,11 +4,11 @@ from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
 from model.player import Player, OBSERVER
+from model.ui_element import UIElement
 from view.log_square import LogSquare
 from ptc.bridge import Bridge
 
 from ptc.square import Square
-from ptc.element import Element
 class PlayerSquare():
     _RATIO = (320, 288)
     _LOG_RATIO = (136, 190)
@@ -23,18 +23,12 @@ class PlayerSquare():
             rect=Rect((10+i*80, 70), self._LOG_RATIO),
             canvas=self.img
         ) for i, kard in enumerate(self.player.log)]
-        self.draw = self._draw
-        self.hover = lambda: None
-        self.mousedown = lambda: None
-        self.active = lambda: None
-        self.mouseup = lambda: None
-        self.drag = lambda: None
-        self.dragend = lambda: None
+        self.ui_element = UIElement()
 
-    def get_hover(self) -> Element | None:
-        return self if cursor_in_rect(rect=self.rect) else None
+    def get_hover(self) -> UIElement | None:
+        return self.ui_element if cursor_in_rect(rect=self.rect) else None
 
-    def _draw(self) -> None:
+    def draw(self) -> None:
         if self.player != self._now_player:
             self.player = self._now_player
             self.img = self._img()

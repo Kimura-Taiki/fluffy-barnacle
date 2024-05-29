@@ -4,7 +4,7 @@ from any.pictures import IMG_BACK, IMG_REST, IMG_NUM
 from any.func import rect_fill, ratio_rect, translucented_color
 from any.screen import screen
 from model.kard import Kard
-from ptc.element import Element
+from model.ui_element import UIElement
 
 from ptc.square import Square
 class DeckSquare():
@@ -17,7 +17,7 @@ class DeckSquare():
         self.img = self._img()
         self.img_back = transform.rotozoom(surface=IMG_BACK, angle=0.0, scale=self.rect.w/self._RATIO[0])
 
-    def get_hover(self) -> Element | None:
+    def get_hover(self) -> UIElement | None:
         return None
 
     def draw(self) -> None:

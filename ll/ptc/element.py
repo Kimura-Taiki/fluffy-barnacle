@@ -1,11 +1,11 @@
-from typing import runtime_checkable, Protocol, Callable
+# from typing import runtime_checkable, Protocol, Callable
 
-@runtime_checkable
-class Element(Protocol):
-    draw: Callable[[], None]
-    hover: Callable[[], None]
-    mousedown: Callable[[], None]
-    active: Callable[[], None]
-    mouseup: Callable[[], None]
-    drag: Callable[[], None]
-    dragend: Callable[[], None]
+# @runtime_checkable
+# class Element(Protocol):
+#     draw: Callable[[], None]
+#     hover: Callable[[], None]
+#     mousedown: Callable[[], None]
+#     active: Callable[[], None]
+#     mouseup: Callable[[], None]
+#     drag: Callable[[], None]
+#     dragend: Callable[[], None]
