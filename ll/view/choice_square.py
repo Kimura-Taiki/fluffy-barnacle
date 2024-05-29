@@ -45,23 +45,23 @@ class ChoiceSquare():
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
     
     def _hqs(self) -> list[HandSquare]:
-        return [] if not self._has_two_hands else [
+        if not self._has_two_hands:
+            return []
+        base_scale = 0.8 * self.rect.w / self._RATIO[0]
+        centers = [
+            V2(self.rect.center) - V2(80, 0),
+            V2(self.rect.center) + V2(80, 0)
+        ]
+        angles = [5.0, -5.0]
+        return [
             HandSquare(
-                kard=self._hands[0],
-                angle=5.0,
-                scale=0.8*self.rect.w/self._RATIO[0],
-                center=V2(self.rect.center)-V2(80, 0),
+                kard=self._hands[i],
+                angle=angles[i],
+                scale=base_scale,
+                center=centers[i],
                 bridge=self.bridge,
                 canvas=screen,
-            ),
-            HandSquare(
-                kard=self._hands[1],
-                angle=-5.0,
-                scale=0.8*self.rect.w/self._RATIO[0],
-                center=V2(self.rect.center)+V2(80, 0),
-                bridge=self.bridge,
-                canvas=screen,
-            ),
+            ) for i in range(2)
         ]
 
     def _view_params(self) -> tuple[Any, ...]:

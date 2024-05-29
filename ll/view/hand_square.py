@@ -53,13 +53,13 @@ class HandSquare():
         hx, hy = V2(self.kard.picture().get_size())/2
         li = [V2(-hx, -hy), V2(hx, -hy), V2(hx, hy), V2(-hx, hy)]
         return [self._rotated_vertices(v2*self.scale) for v2 in li]
-    
+
     def _rotated_vertices(self, from_v2: V2) -> V2:
         rad = radians(-self.angle)
         return V2(
             self.center.x+(cos(rad)*from_v2.x-sin(rad)*from_v2.y),
             self.center.y+(sin(rad)*from_v2.x+cos(rad)*from_v2.y),
         )
-    
+
     def _mousedown(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
