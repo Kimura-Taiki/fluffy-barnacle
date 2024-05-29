@@ -51,7 +51,8 @@ class ChoiceSquare():
                 scale=0.8*self.rect.w/self._RATIO[0],
                 center=V2(self.rect.center)-V2(80, 0),
                 bridge=self.bridge,
-                canvas=screen
+                canvas=screen,
+                mousedown=self._use_draw_kard
             ),
             HandSquare(
                 kard=self.hands[1],
@@ -59,20 +60,19 @@ class ChoiceSquare():
                 scale=0.8*self.rect.w/self._RATIO[0],
                 center=V2(self.rect.center)+V2(80, 0),
                 bridge=self.bridge,
-                canvas=screen
+                canvas=screen,
+                mousedown=self._use_hand_kard
             ),
         ]
-    
+
     def _use_draw_kard(self) -> None:
-        name = self.bridge.board.turn_player.name
-        self.bridge.board = self.bridge.board._replace(
-            
-        )
-        ...
+        self.bridge.board.use_draw_kard()
+        print(self._now_hands, self._is_negative, f"Bridge ID : {id(self.bridge)}", f"Board ID : {id(self.bridge.board)}")
 
     def _use_hand_kard(self) -> None:
-        ...
-    
+        self.bridge.board.use_hand_kard()
+        print(self._now_hands, self._is_negative, f"Bridge ID : {id(self.bridge)}", f"Board ID : {id(self.bridge.board)}")
+
     @property
     def _is_negative(self) -> bool:
         return EMPTY_KARD in self._now_hands

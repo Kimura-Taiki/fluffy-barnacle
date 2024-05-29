@@ -1,5 +1,6 @@
 from pygame import Surface, transform, Vector2 as V2, mouse
 from math import sin, cos, radians
+from typing import Callable
 
 from model.kard import Kard
 from model.ui_element import UIElement
@@ -7,7 +8,12 @@ from ptc.bridge import Bridge
 
 from ptc.square import Square
 class HandSquare():
-    def __init__(self, kard: Kard, angle: float, scale: float, center: V2, bridge: Bridge, canvas: Surface) -> None:
+    def __init__(
+            self, kard: Kard, angle: float, scale: float, center: V2,
+            bridge: Bridge, canvas: Surface, mousedown: Callable[[], None]
+    ) -> None:
+        # pass
+    # def __init__(self, kard: Kard, angle: float, scale: float, center: V2, bridge: Bridge, canvas: Surface) -> None:
         self.kard = kard
         self.angle = angle
         self.scale = scale
@@ -16,7 +22,8 @@ class HandSquare():
         self.canvas = canvas
         self.img = self._img()
         self.vertices = self._vertices()
-        self.ui_element = UIElement(mousedown=self._mousedown)
+        self.ui_element = UIElement(mousedown=mousedown)
+        # self.ui_element = UIElement(mousedown=self._mousedown)
 
     def get_hover(self) -> UIElement | None:
         inside = False
@@ -58,5 +65,5 @@ class HandSquare():
             self.center.y+(sin(rad)*from_v2.x+cos(rad)*from_v2.y),
         )
     
-    def _mousedown(self) -> None:
-        raise EOFError(self.kard)
+    # def _mousedown(self) -> None:
+    #     raise EOFError(self.kard)

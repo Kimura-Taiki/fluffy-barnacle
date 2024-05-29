@@ -3,6 +3,7 @@ from typing import NamedTuple
 from model.kard import Kard, EMPTY_KARD
 from model.deck import make_deck
 from model.player import Player, OBSERVER
+# from ptc.bridge import Bridge
 
 class Board(NamedTuple):
     players: list[Player]
@@ -26,15 +27,18 @@ class Board(NamedTuple):
             rest=self.draw_kard
         )
 
+    # def hoge(self, bridge: Bridge) -> None:
+    #     ...
+
     def use_kard(self, idx: int, use: Kard, rest: Kard) -> None:
         self.players[idx] = self.players[idx]._replace(
             hand=rest,
             log=self.players[idx].log+[use]
         )
         self = self._replace(
-            draw=EMPTY_KARD
+            draw_kard=EMPTY_KARD
         )
-        print(f"Use {use}")
+        print(f"Use {use}", f"Board ID : {id(self)}")
 
     def advance_to_next_turn(self) -> None:
         shift = (self.turn_player_index+1)%len(self.players)
