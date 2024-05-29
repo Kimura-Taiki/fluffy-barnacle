@@ -3,9 +3,13 @@ from math import sin, cos, radians
 
 from any.mouse_dispatcher import mouse_dispatcher
 from any.pictures import IMG_WHITE
+from any.screen import FRAMES_PER_SECOND
 from model.kard import Kard
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
+
+_SECONDS = 0.1
+_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.square import Square
 class HandSquare():
@@ -19,6 +23,8 @@ class HandSquare():
         self.center = center
         self.bridge = bridge
         self.canvas = canvas
+        self.hover_frames = 0
+        self.hover_grad = 0.0
         self.img = self._img()
         self.img_white = self._img_white()
         self.vertices = self._vertices()
@@ -37,16 +43,17 @@ class HandSquare():
     def draw(self) -> None:
         self.canvas.blit(
             source=self.img,
-            dest=self.center-V2(self.img.get_size())/2
+            dest=self._dest
         )
-        if mouse_dispatcher.hover == self.ui_element:
-            self.canvas.blit(
-                source=self.img_white,
-                dest=self.center-V2(self.img.get_size())/2
-            )
+        self.img_white.set_alpha(int(255*self.hover_grad))
+        self.canvas.blit(
+            source=self.img_white,
+            dest=self._dest
+        )
 
     def elapse(self) -> None:
-        ...
+        self.hover_frames = self.hover_frames+1 if mouse_dispatcher.hover == self.ui_element else 0
+        self.hover_grad = min(1.0, self.hover_frames/_WAIT)
 
     def _img(self) -> Surface:
         return transform.rotozoom(
@@ -73,6 +80,10 @@ class HandSquare():
             self.center.x+(cos(rad)*from_v2.x-sin(rad)*from_v2.y),
             self.center.y+(sin(rad)*from_v2.x+cos(rad)*from_v2.y),
         )
+
+    @property
+    def _dest(self) -> V2:
+        return self.center-V2(self.img.get_size())/2-V2(0, 0).lerp(V2(0, 40), self.hover_grad)*self.scale
 
     def _mousedown(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
