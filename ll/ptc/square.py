@@ -9,3 +9,6 @@ class Square(Protocol):
 
     def draw(self) -> None:
         ...
+
+    def elapse(self) -> None:
+        ...

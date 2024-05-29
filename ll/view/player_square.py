@@ -36,6 +36,10 @@ class PlayerSquare():
         for log_square in self.log_squares:
             log_square.draw()
 
+    def elapse(self) -> None:
+        for lq in self.log_squares:
+            lq.elapse()
+
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         hand_name = "empty" if len(self.player.hands) == 0 else self.player.hands[0].name

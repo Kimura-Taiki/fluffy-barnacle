@@ -49,7 +49,8 @@ class BoardView:
 
     def elapse(self) -> None:
         """時間経過の処理を行います"""
-        ...
+        for square in self.squares:
+            square.elapse()
 
     def _deck_square(self) -> DeckSquare:
         return DeckSquare(deck=self.board.deck, rect=Rect(0, WY - _H, _D, _H))

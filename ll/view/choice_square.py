@@ -39,6 +39,10 @@ class ChoiceSquare():
         for hq in self.hqs:
             hq.draw()
 
+    def elapse(self) -> None:
+        for hq in self.hqs:
+            hq.elapse()
+
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         rect_fill(color=translucented_color("white"), rect=Rect((0, 0), self._RATIO), surface=img)

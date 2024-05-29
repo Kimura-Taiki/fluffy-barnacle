@@ -45,6 +45,9 @@ class HandSquare():
                 dest=self.center-V2(self.img.get_size())/2
             )
 
+    def elapse(self) -> None:
+        ...
+
     def _img(self) -> Surface:
         return transform.rotozoom(
             surface=self.kard.picture(),

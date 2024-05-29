@@ -20,6 +20,9 @@ class LogSquare():
     def draw(self) -> None:
         self.canvas.blit(source=self.img, dest=self.rect)
 
+    def elapse(self) -> None:
+        ...
+
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         img.blit(

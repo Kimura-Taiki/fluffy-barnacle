@@ -26,6 +26,9 @@ class DeckSquare():
             self.img = self._img()
         screen.blit(source=self.img, dest=self.rect)
 
+    def elapse(self) -> None:
+        ...
+
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         rect_fill(color=translucented_color(Color("coral")), rect=Rect((0, 0), self._RATIO), surface=img)
