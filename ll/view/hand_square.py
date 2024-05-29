@@ -1,6 +1,8 @@
 from pygame import Surface, transform, Vector2 as V2, mouse
 from math import sin, cos, radians
 
+from any.mouse_dispatcher import mouse_dispatcher
+from any.pictures import IMG_WHITE
 from model.kard import Kard
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
@@ -18,6 +20,7 @@ class HandSquare():
         self.bridge = bridge
         self.canvas = canvas
         self.img = self._img()
+        self.img_white = self._img_white()
         self.vertices = self._vertices()
         self.ui_element = UIElement(mousedown=self._mousedown)
 
@@ -36,15 +39,22 @@ class HandSquare():
             source=self.img,
             dest=self.center-V2(self.img.get_size())/2
         )
-        for v2 in self.vertices:
-            self.canvas.fill(
-                color="red",
-                rect=((v2-V2(10, 10)), (20, 20))
+        if mouse_dispatcher.hover == self.ui_element:
+            self.canvas.blit(
+                source=self.img_white,
+                dest=self.center-V2(self.img.get_size())/2
             )
 
     def _img(self) -> Surface:
         return transform.rotozoom(
             surface=self.kard.picture(),
+            angle=self.angle,
+            scale=self.scale
+        )
+
+    def _img_white(self) -> Surface:
+        return transform.rotozoom(
+            surface=IMG_WHITE,
             angle=self.angle,
             scale=self.scale
         )
@@ -63,3 +73,6 @@ class HandSquare():
 
     def _mousedown(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
+        self.bridge.board.advance_to_next_turn()
+        from ctrl.turn_starts import TurnStartsController
+        TurnStartsController(bridge=self.bridge).action()

@@ -6,5 +6,6 @@ def picload(file: str) -> Surface:
 IMG_BG = picload("bg")
 
 IMG_BACK = picload("back")
+IMG_WHITE = picload("white")
 IMG_REST = picload("rest")
 IMG_NUM = picload("num")
