@@ -3,6 +3,7 @@ from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard, EMPTY_KARD
+from model.player import Player
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
 from model.ui_element import UIElement
@@ -61,6 +62,16 @@ class ChoiceSquare():
                 canvas=screen
             ),
         ]
+    
+    def _use_draw_kard(self) -> None:
+        name = self.bridge.board.turn_player.name
+        self.bridge.board = self.bridge.board._replace(
+            
+        )
+        ...
+
+    def _use_hand_kard(self) -> None:
+        ...
     
     @property
     def _is_negative(self) -> bool:

@@ -1,23 +1,32 @@
-from dataclasses import dataclass
-from typing import Callable
 
-class Hoge():
-    def __init__(self, band: int=0, text: str="", action: Callable[..., None] | None=None) -> None:
-        self.band = band
-        self.text = text
-        if action:
-            self.action = action
-        else:
-            self.action = PrintHoge(self).action
+# from typing import NamedTuple
 
-@dataclass
-class PrintHoge():
-    hoge: Hoge
+# class Gewo(NamedTuple):
+#     x: int
+#     y: int
 
-    def action(self) -> None:
-        band = "-"*self.hoge.band
-        print(band+self.hoge.text+band)
+# class Hoge(NamedTuple):
+#     gewos: list[Gewo]
 
-hhh = Hoge(5, "huhuhu")
-PrintHoge(hhh).action()
-hhh.action()
+# hhh = Hoge([Gewo(0, 1), Gewo(1, 2), Gewo(3, 5), Gewo(8, 13), Gewo(21, 34)])
+
+# print(hhh)
+# hhh._replace(
+#     gewos=[Gewo(1, 1), Gewo(4, 2), Gewo(9, 3), Gewo(16, 4), Gewo(25, 5)]
+# )
+# print(hhh)
+# hhh.gewos[2]._replace(
+#     x=99,
+#     y=99
+# )
+# print(hhh)
+
+# li = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
+# z = "Zehta"
+# idx = li.index(z)
+# print(li.index("Gamma"), li.index(z))
+
+n = 3
+li = list(range(4))
+cu = li[n:]+li[:n]
+print(li, cu)
