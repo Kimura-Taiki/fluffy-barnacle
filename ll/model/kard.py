@@ -9,5 +9,3 @@ class Kard(NamedTuple):
 
     def picture(self) -> Surface:
         return picload(self.png_file)
-
-EMPTY_KARD = Kard(name="empty", png_file="")

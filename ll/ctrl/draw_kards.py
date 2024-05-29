@@ -2,7 +2,6 @@ from pygame import Vector2 as V2
 from typing import Callable
 
 from model.player import Player
-from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
 from view.board_view import BoardView
 from view.linear_view import LinearView
@@ -50,17 +49,6 @@ class DrawKardsController():
             )
 
     def _callback(self) -> None:
-        deck = self.bridge.board.deck
-        draw_kard = deck.pop(0)
-        if self.player.hand == EMPTY_KARD:
-            players=[player._replace(hand=draw_kard)
-                        if player.name == self.player.name else player
-                        for player in self.bridge.board.players]
-            self.bridge.board = self.bridge.board._replace(
-                deck=deck,
-                players=players
-            )
-        else:
-            self.bridge.board = self.bridge.board._replace(deck=deck, draw_kard=draw_kard)
+        self.bridge.board.draw(player=self.player)
         self.bridge.view = self._old_view
         self.suffix()

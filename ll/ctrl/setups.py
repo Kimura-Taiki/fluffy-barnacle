@@ -1,6 +1,5 @@
 from ctrl.draw_kards import DrawKardsController
 from ctrl.turn_starts import TurnStartsController
-from model.kard import EMPTY_KARD
 from ptc.bridge import Bridge
 from view.board_view import BoardView
 
@@ -10,7 +9,9 @@ class SetupsController():
         self.bridge = bridge
 
     def action(self) -> None:
-        handless_player = next((player for player in self.bridge.board.players if player.hand == EMPTY_KARD), None)
+        handless_player = next((
+            player for player in self.bridge.board.players if len(player.hands) == 0
+        ), None)
         view = self.bridge.view
         if not isinstance(view, BoardView):
             raise ValueError("SetupsControllerを起動する時はBoardViewでないと")
@@ -28,7 +29,5 @@ class SetupsController():
         self.action()
 
     def _game_start(self) -> None:
-        self.bridge.board = self.bridge.board._replace(
-            turn_player=self.bridge.board.players[0]
-        )
+        self.bridge.board.game_start()
         TurnStartsController(bridge=self.bridge).action()

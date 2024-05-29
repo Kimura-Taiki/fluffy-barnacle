@@ -1,21 +1,22 @@
 from pygame import Color
-from typing import NamedTuple
+from dataclasses import dataclass, field
 from enum import Enum, auto
 
 from any.func import ColorValue
-from model.kard import Kard, EMPTY_KARD
+from model.kard import Kard
 
 class Genus(Enum):
     OBS = auto()
     MAN = auto()
     COM = auto()
 
-class Player(NamedTuple):
+@dataclass
+class Player():
     genus: Genus
     name: str
     color: Color
-    hand: Kard=EMPTY_KARD
-    log: list[Kard]=[]
+    hands: list[Kard] = field(default_factory=list)
+    log: list[Kard] = field(default_factory=list)
     alive: bool=True
 
     @classmethod

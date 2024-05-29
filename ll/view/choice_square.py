@@ -2,7 +2,7 @@ from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color
-from model.kard import Kard, EMPTY_KARD
+from model.kard import Kard
 from model.player import Player
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
@@ -20,7 +20,7 @@ class ChoiceSquare():
         self.hqs = self._hqs()
 
     def get_hover(self) -> UIElement | None:
-        if self._is_negative:
+        if not self._has_two_hands:
             return None
         for square in self.hqs[::-1]:
             if element := square.get_hover():
@@ -28,7 +28,7 @@ class ChoiceSquare():
         return None
 
     def draw(self) -> None:
-        if self._is_negative:
+        if not self._has_two_hands:
             return
         if self.hands != self._now_hands:
             self.hands = self._now_hands
@@ -44,7 +44,7 @@ class ChoiceSquare():
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
     
     def _hqs(self) -> list[HandSquare]:
-        return [] if self._is_negative else [
+        return [] if not self._has_two_hands else [
             HandSquare(
                 kard=self.hands[0],
                 angle=5.0,
@@ -52,7 +52,6 @@ class ChoiceSquare():
                 center=V2(self.rect.center)-V2(80, 0),
                 bridge=self.bridge,
                 canvas=screen,
-                mousedown=self._use_draw_kard
             ),
             HandSquare(
                 kard=self.hands[1],
@@ -61,22 +60,13 @@ class ChoiceSquare():
                 center=V2(self.rect.center)+V2(80, 0),
                 bridge=self.bridge,
                 canvas=screen,
-                mousedown=self._use_hand_kard
             ),
         ]
 
-    def _use_draw_kard(self) -> None:
-        self.bridge.board.use_draw_kard()
-        print(self._now_hands, self._is_negative, f"Bridge ID : {id(self.bridge)}", f"Board ID : {id(self.bridge.board)}")
-
-    def _use_hand_kard(self) -> None:
-        self.bridge.board.use_hand_kard()
-        print(self._now_hands, self._is_negative, f"Bridge ID : {id(self.bridge)}", f"Board ID : {id(self.bridge.board)}")
-
     @property
-    def _is_negative(self) -> bool:
-        return EMPTY_KARD in self._now_hands
+    def _has_two_hands(self) -> bool:
+        return len(self.bridge.board.turn_player.hands) == 2
 
     @property
     def _now_hands(self) -> list[Kard]:
-        return [self.bridge.board.draw_kard, self.bridge.board.turn_player.hand]
+        return self.bridge.board.turn_player.hands
