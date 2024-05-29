@@ -20,9 +20,11 @@ class Board():
     def use_kard(self, player: Player, kard: Kard) -> None:
         self.diskard(player=player, kard=kard)
         print(f"Use kard {kard}")
+        print(self)
 
     def diskard(self, player: Player, kard: Kard) -> None:
         player.hands.remove(kard)
+        player.log.append(kard)
 
     def advance_to_next_turn(self) -> None:
         shift = (self.players.index(self.turn_player)+1)%len(self.players)

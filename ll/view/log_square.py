@@ -1,4 +1,4 @@
-from pygame import Rect, Surface, SRCALPHA, transform, image
+from pygame import Rect, Surface, SRCALPHA, transform
 
 from any.func import ratio_rect
 from model.kard import Kard
@@ -24,7 +24,7 @@ class LogSquare():
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         img.blit(
             source=transform.rotozoom(
-                surface=image.load(f"ll/pic/{self.kard.png_file}").convert_alpha(),
+                surface=self.kard.picture(),
                 angle=0.0, scale=0.4),
             dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])

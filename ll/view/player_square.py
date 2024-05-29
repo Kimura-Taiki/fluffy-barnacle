@@ -21,11 +21,7 @@ class PlayerSquare():
         self.bridge = bridge
         self.view_params = (0, 0)
         self.img = self._img()
-        self.log_squares = [LogSquare(
-            kard=kard,
-            rect=Rect((10+i*80, 70), self._LOG_RATIO),
-            canvas=self.img
-        ) for i, kard in enumerate(self.player.log)]
+        self.log_squares = self._log_squares()
         self.ui_element = UIElement()
 
     def get_hover(self) -> UIElement | None:
@@ -35,6 +31,7 @@ class PlayerSquare():
         if self._view_params() != self.view_params:
             self.view_params = self._view_params()
             self.img = self._img()
+            self.log_squares = self._log_squares()
         screen.blit(source=self.img, dest=self.rect)
         for log_square in self.log_squares:
             log_square.draw()
@@ -46,10 +43,16 @@ class PlayerSquare():
         img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
 
+    def _log_squares(self) -> list[LogSquare]:
+        return [LogSquare(
+            kard=kard,
+            rect=Rect((10+i*80, 70), self._LOG_RATIO),
+            canvas=self.img
+        ) for i, kard in enumerate(self.player.log)]
+
+    def _view_params(self) -> tuple[Any, ...]:
+        return (deepcopy(self.player.log), deepcopy(self.player.hands))
+
     @property
     def _now_player(self) -> Player:
         return next((player for player in self.bridge.board.players if player.name == self.player.name), OBSERVER)
-
-    # def _view_params(self) -> tuple[Any, ...]:
-    def _view_params(self) -> tuple[Any, ...]:
-        return (deepcopy(self.player.log), deepcopy(self.player.hands))
