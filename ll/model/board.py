@@ -20,7 +20,7 @@ class Board():
     def use_kard(self, player: Player, kard: Kard) -> None:
         self.diskard(player=player, kard=kard)
         print(f"Use kard {kard}")
-        print(self)
+        print(player.hands)
 
     def diskard(self, player: Player, kard: Kard) -> None:
         player.hands.remove(kard)

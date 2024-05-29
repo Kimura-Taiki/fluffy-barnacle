@@ -1,9 +1,10 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
+from typing import Any
+from copy import deepcopy
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard
-from model.player import Player
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
 from model.ui_element import UIElement
@@ -15,7 +16,7 @@ class ChoiceSquare():
     def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.hands = self._now_hands
+        self.view_params = (0, 0)
         self.img = self._img()
         self.hqs = self._hqs()
 
@@ -30,8 +31,8 @@ class ChoiceSquare():
     def draw(self) -> None:
         if not self._has_two_hands:
             return
-        if self.hands != self._now_hands:
-            self.hands = self._now_hands
+        if self.view_params != self._view_params():
+            self.view_params = self._view_params()
             self.img = self._img()
             self.hqs = self._hqs()
         screen.blit(source=self.img, dest=self.rect)
@@ -46,7 +47,7 @@ class ChoiceSquare():
     def _hqs(self) -> list[HandSquare]:
         return [] if not self._has_two_hands else [
             HandSquare(
-                kard=self.hands[0],
+                kard=self._hands[0],
                 angle=5.0,
                 scale=0.8*self.rect.w/self._RATIO[0],
                 center=V2(self.rect.center)-V2(80, 0),
@@ -54,7 +55,7 @@ class ChoiceSquare():
                 canvas=screen,
             ),
             HandSquare(
-                kard=self.hands[1],
+                kard=self._hands[1],
                 angle=-5.0,
                 scale=0.8*self.rect.w/self._RATIO[0],
                 center=V2(self.rect.center)+V2(80, 0),
@@ -63,10 +64,13 @@ class ChoiceSquare():
             ),
         ]
 
+    def _view_params(self) -> tuple[Any, ...]:
+        return (0, deepcopy(self._hands))
+    
     @property
-    def _has_two_hands(self) -> bool:
-        return len(self.bridge.board.turn_player.hands) == 2
+    def _hands(self) -> list[Kard]:
+        return self.bridge.board.turn_player.hands
 
     @property
-    def _now_hands(self) -> list[Kard]:
-        return self.bridge.board.turn_player.hands
+    def _has_two_hands(self) -> bool:
+        return len(self._hands) == 2

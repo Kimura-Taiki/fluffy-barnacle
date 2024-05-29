@@ -1,6 +1,5 @@
 from pygame import Surface, transform, Vector2 as V2, mouse
 from math import sin, cos, radians
-from typing import Callable
 
 from model.kard import Kard
 from model.ui_element import UIElement
@@ -64,4 +63,3 @@ class HandSquare():
     
     def _mousedown(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
-        # self.bridge.board.advance_to_next_turn()
