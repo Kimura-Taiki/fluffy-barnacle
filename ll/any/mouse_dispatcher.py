@@ -5,7 +5,7 @@ from pygame import Vector2 as V2, QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTO
 from any.screen import screen
 from model.ui_element import UIElement
 
-class Propagation():
+class MouseDispatcher():
     def __init__(self) -> None:
         self.clicked: bool = False
         self.hover: UIElement | None = None
@@ -44,4 +44,4 @@ class Propagation():
         elif self.hover:
             self.hover.hover()
 
-propagation = Propagation()
+mouse_dispatcher = MouseDispatcher()

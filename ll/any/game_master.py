@@ -1,7 +1,7 @@
 import pygame
 
 from any.timer_functions import start_timer, end_timer
-from any.propagation import propagation
+from any.mouse_dispatcher import mouse_dispatcher
 from any.screen import clock, FRAMES_PER_SECOND
 from model.board import Board
 from ptc.view import View, EMPTY_VIEW
@@ -15,7 +15,7 @@ class GameMaster():
     def mainloop(self) -> None:
         start_timer()
 
-        propagation.resolve_pygame_events(get_hover=self.view.get_hover())
+        mouse_dispatcher.resolve_pygame_events(get_hover=self.view.get_hover())
         self.view.draw()
         self.view.elapse()
         # from any.timer_functions import frames
@@ -25,7 +25,7 @@ class GameMaster():
         #     source=MS_MINCHO_COL(f"{frames()}frames", 64, "black"),
         #     dest=(WX/2, WY/2)
         # )
-        propagation.mouse_over()
+        mouse_dispatcher.mouse_over()
 
         end_timer()
         pygame.display.update()
