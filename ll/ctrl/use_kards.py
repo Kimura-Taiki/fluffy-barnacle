@@ -3,6 +3,7 @@ from ctrl.turn_starts import TurnStartsController
 from model.kard import Kard
 from ptc.bridge import Bridge
 from view.board_view import BoardView
+from view.use_kard_view import UseKardView
 
 from ptc.controller import Controller
 class UseKardsController():
@@ -12,6 +13,15 @@ class UseKardsController():
 
     def action(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
+        self._old_view = self.bridge.view
+        self.bridge.view = UseKardView(
+            view=self._old_view,
+            kard=self.kard,
+            callback=self._callback
+        )
+
+    def _callback(self) -> None:
+        self.bridge.view = self._old_view
         self.bridge.board.advance_to_next_turn()
         TurnStartsController(bridge=self.bridge).action()
 

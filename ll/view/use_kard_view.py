@@ -1,7 +1,6 @@
 from pygame import Surface, Vector2 as V2
 from typing import Callable
 
-from any.font import MS_MINCHO_COL
 from any.pictures import IMG_BRIGHT
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
 from any.timer_functions import frames
@@ -40,8 +39,9 @@ class UseKardView():
 
     def _img_bright_kard(self) -> Surface:
         img = Surface(size=self.img_kard.get_size())
-        img.blit(source=self.img_kard)
+        img.blit(source=self.img_kard, dest=(0, 0))
         img.blit(source=IMG_BRIGHT, dest=(0, self._shift_y()))
+        return img
 
     def _shift_y(self) -> int:
         h = self.img_kard.get_height()
