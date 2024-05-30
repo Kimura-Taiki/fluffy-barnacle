@@ -86,7 +86,5 @@ class HandSquare():
         return self.center-V2(self.img.get_size())/2-V2(0, 0).lerp(V2(0, 40), self.hover_grad)*self.scale
 
     def _mousedown(self) -> None:
-        self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
-        self.bridge.board.advance_to_next_turn()
-        from ctrl.turn_starts import TurnStartsController
-        TurnStartsController(bridge=self.bridge).action()
+        from ctrl.use_kards import UseKardsController
+        UseKardsController(bridge=self.bridge, kard=self.kard).action()
