@@ -5,6 +5,7 @@ from any.pictures import picload
 
 class Kard(NamedTuple):
     name: str
+    rank: int
     png_file: str
 
     def picture(self) -> Surface:
