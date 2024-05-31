@@ -1,7 +1,10 @@
+from any.font import MS_MINCHO_COL
 from ctrl.draw_kards import DrawKardsController
 from ptc.bridge import Bridge
 from view.board_view import BoardView
-from view.turn_start_view import TurnStartView
+from view.message_view import MessageView
+
+_FONT_H = 96
 
 from ptc.controller import Controller
 class TurnStartsController():
@@ -13,7 +16,11 @@ class TurnStartsController():
         if not isinstance(view, BoardView):
             raise ValueError("TurnStartsControllerを起動する時はBoardViewでないと")
         self._old_view = self.bridge.view
-        self.bridge.view = TurnStartView(board_view=view, callback=self._draw_callback)
+        self.bridge.view = MessageView(
+            board_view=view,
+            img_mes=MS_MINCHO_COL(f"{self.bridge.board.turn_player.name}'s Turn", _FONT_H, "black"),
+            callback=self._draw_callback
+        )
 
     def _draw_callback(self) -> None:
         self.bridge.view = self._old_view

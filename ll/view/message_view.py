@@ -1,7 +1,6 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 from typing import Callable
 
-from any.font import MS_MINCHO_COL
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
 from any.timer_functions import frames
@@ -18,8 +17,6 @@ _WAIT = int(
 )
 _FI_RATIO = (FRAMES_PER_SECOND*_FADE_IN_SECONDS)/_WAIT
 _SEE_RATIO = (FRAMES_PER_SECOND*(_FADE_IN_SECONDS+_SEEING_SECONDS))/_WAIT
-# _FONT_H = 96
-# _BAND_H = int(_FONT_H*1.5)
 _BAND_H = 24
 
 from ptc.view import View
@@ -29,7 +26,6 @@ class MessageView():
         self.img_mes = img_mes
         self.img_band = self._img_band()
         self.callback = callback
-        # self.img_title = self._img_title()
         self.frames = frames()
         self.ui_element = UIElement(
             mousedown=self.callback,
@@ -43,7 +39,7 @@ class MessageView():
 
     def draw(self) -> None:
         self.board_view.draw()
-        screen.blit(source=self.img_band, dest=(0, WY/2-_BAND_H/2))
+        screen.blit(source=self.img_band, dest=(0, WY/2-self.img_band.get_height()/2))
         if self._ratio() < _FI_RATIO:
             from_v2 = self._left_v2()
             to_v2 = self._center_v2()
@@ -66,7 +62,7 @@ class MessageView():
             self.callback()
 
     def _img_band(self) -> Surface:
-        img = Surface(size=(WX, self.img_mes.get_width()+_BAND_H*2), flags=SRCALPHA)
+        img = Surface(size=(WX, self.img_mes.get_height()+_BAND_H*2), flags=SRCALPHA)
         rect_fill(color=translucented_color("white"), rect=Rect(0, 0, WX, img.get_height()), surface=img)
         return img
 
