@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
 from model.kard import Kard
-from model.deck import make_deck
+from model.deck import make_deck, KARD_HIME
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -19,12 +19,13 @@ class Board():
 
     def use_kard(self, player: Player, kard: Kard) -> None:
         self.diskard(player=player, kard=kard)
-        print(f"Use kard {kard}")
-        print(player.hands)
 
     def diskard(self, player: Player, kard: Kard) -> None:
         player.hands.remove(kard)
         player.log.append(kard)
+        if kard == KARD_HIME:
+            print(f"{player.name} is out!")
+            player.alive = False
 
     def advance_to_next_turn(self) -> None:
         shift = (self.players.index(self.turn_player)+1)%len(self.players)
