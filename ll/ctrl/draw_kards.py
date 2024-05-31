@@ -3,6 +3,7 @@ from typing import Callable
 
 from model.player import Player
 from ptc.bridge import Bridge
+from ptc.view import View
 from view.board_view import BoardView
 from view.linear_view import LinearView
 from view.player_square import PlayerSquare
@@ -12,12 +13,14 @@ class DrawKardsController():
     def __init__(
             self,
             bridge: Bridge,
-            board_view: BoardView,
+            board_view: View,
             player: Player,
             pq: PlayerSquare | None=None,
             suffix: Callable[..., None]=lambda : None,
         ) -> None:
         self.bridge = bridge
+        if not isinstance(board_view, BoardView):
+            raise ValueError("DrawKardsController を起動する時はBoardViewでないと", board_view)
         self.board_view = board_view
         self.player = player
         self.suffix = suffix
