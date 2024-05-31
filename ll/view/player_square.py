@@ -1,4 +1,4 @@
-from pygame import Rect, Surface, SRCALPHA, transform
+from pygame import Rect, Surface, SRCALPHA, transform, Color
 from typing import Any
 from copy import deepcopy
 
@@ -9,6 +9,26 @@ from model.player import Player, OBSERVER
 from model.ui_element import UIElement
 from view.log_square import LogSquare
 from ptc.bridge import Bridge
+
+from pygame import Color
+def _blend_colors(c1: Color, c2: Color, t: float=0.5) -> Color:
+    """
+    2つの色の中間色を計算する関数。
+    
+    :param a: 最初の色 (pygame.Color)
+    :param b: 2番目の色 (pygame.Color)
+    :param t: 補間パラメータ (0.0から1.0の範囲)
+    :return: 中間色 (pygame.Color)
+    """
+    if not (0.0 <= t <= 1.0):
+        raise ValueError("補間パラメータtは0.0から1.0の範囲でなければなりません。")
+    
+    r = c1.r + (c2.r - c1.r) * t
+    g = c1.g + (c2.g - c1.g) * t
+    b = c1.b + (c2.b - c1.b) * t
+    a = c1.a + (c2.a - c1.a) * t
+    
+    return Color(int(r), int(g), int(b), int(a))
 
 from ptc.square import Square
 class PlayerSquare():
@@ -43,9 +63,14 @@ class PlayerSquare():
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         hand_name = "empty" if len(self.player.hands) == 0 else self.player.hands[0].name
-        rect_fill(color=translucented_color(self.player.color), rect=Rect((0, 0), self._RATIO), surface=img)
+        rect_fill(color=self._color(), rect=Rect((0, 0), self._RATIO), surface=img)
         img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
+    
+    def _color(self) -> Color:
+        tc = translucented_color(self.player.color)
+        bc = Color("black")
+        return tc if self.player.alive else _blend_colors(tc, bc, 0.8)
 
     def _log_squares(self) -> list[LogSquare]:
         return [LogSquare(
@@ -55,7 +80,7 @@ class PlayerSquare():
         ) for i, kard in enumerate(self.player.log)]
 
     def _view_params(self) -> tuple[Any, ...]:
-        return (deepcopy(self.player.log), deepcopy(self.player.hands))
+        return (deepcopy(self.player.log), deepcopy(self.player.hands), self.player.alive)
 
     @property
     def _now_player(self) -> Player:
