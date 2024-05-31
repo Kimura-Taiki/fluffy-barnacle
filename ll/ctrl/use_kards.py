@@ -22,8 +22,40 @@ class UseKardsController():
 
     def _callback(self) -> None:
         self.bridge.view = self._old_view
+        funcs = [
+            self._use_banpei, self._use_heisi, self._use_douke, self._use_kisi, self._use_souryo,
+            self._use_mazyutusi, self._use_syougun, self._use_daizin, self._use_hime
+        ]
+        funcs[self.kard.rank]()
         self.bridge.board.advance_to_next_turn()
         TurnStartsController(bridge=self.bridge).action()
+
+    def _use_banpei(self) -> None:
+        raise ValueError("番兵は使う想定にありません")
+
+    def _use_heisi(self) -> None:
+        print("カード「兵士」を使ったよ")
+
+    def _use_douke(self) -> None:
+        print("カード「道化」を使ったよ")
+
+    def _use_kisi(self) -> None:
+        print("カード「騎士」を使ったよ")
+
+    def _use_souryo(self) -> None:
+        print("カード「僧侶」を使ったよ")
+
+    def _use_mazyutusi(self) -> None:
+        print("カード「魔術師」を使ったよ")
+
+    def _use_syougun(self) -> None:
+        print("カード「将軍」を使ったよ")
+
+    def _use_daizin(self) -> None:
+        print("カード「大臣」を使ったよ")
+
+    def _use_hime(self) -> None:
+        print("カード「姫」を使ったよ")
 
     # def action(self) -> None:
     #     handless_player = next((
