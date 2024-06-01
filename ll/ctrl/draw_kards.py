@@ -31,13 +31,17 @@ class DrawKardsController():
 
     def action(self) -> None:
         self._old_view = self.bridge.view
-        self.bridge.view = LinearView(
+        liner_view = LinearView(
             view=self._old_view,
             img_back=self.img_back,
             from_v2=self.from_v2,
             to_v2=self.to_v2,
-            callback=self._callback
         )
+        self.bridge.view = liner_view
+        self.bridge.whileloop(cond=liner_view.in_progress)
+        self.bridge.board.draw(player=self.player)
+        self.bridge.view = self._old_view
+        self.suffix()
 
     def _player_square(self) -> PlayerSquare:
         if ps := next((
@@ -50,8 +54,3 @@ class DrawKardsController():
             raise ValueError(
                 f"該当プレイヤーはいません\nplayer.name = {self.player.name}"
             )
-
-    def _callback(self) -> None:
-        self.bridge.board.draw(player=self.player)
-        self.bridge.view = self._old_view
-        self.suffix()

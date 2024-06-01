@@ -1,4 +1,5 @@
 import pygame
+from typing import Callable
 
 from any.timer_functions import start_timer, end_timer
 from any.mouse_dispatcher import mouse_dispatcher
@@ -31,3 +32,6 @@ class GameMaster():
         pygame.display.update()
         clock.tick(FRAMES_PER_SECOND)
 
+    def whileloop(self, cond: Callable[[], bool]) -> None:
+        while cond():
+            self.mainloop()

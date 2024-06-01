@@ -1,4 +1,4 @@
-from typing import Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable, Callable
 
 from model.board import Board
 from ptc.view import View
@@ -7,3 +7,6 @@ from ptc.view import View
 class Bridge(Protocol):
     board: Board
     view: View
+
+    def whileloop(self, cond: Callable[[], bool]) -> None:
+        ...
