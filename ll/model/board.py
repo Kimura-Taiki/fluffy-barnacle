@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Callable
 
 from model.kard import Kard
 from model.deck import make_deck, KARD_HIME
@@ -9,7 +10,7 @@ class Board():
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
-
+    diskard_hime: Callable[[Player], None] = lambda p : None
 
     def game_start(self) -> None:
         self.turn_player = self.players[0]
@@ -25,6 +26,7 @@ class Board():
         player.log.append(kard)
         if kard == KARD_HIME:
             print(f"{player.name} is out!")
+            self.diskard_hime(player)
             player.alive = False
 
     def advance_to_next_turn(self) -> None:

@@ -52,8 +52,9 @@ class UseKardsController():
         print("カード「大臣」を使ったよ")
 
     def _use_hime(self) -> None:
-        print("UseKardsController._use_hime", self.bridge.view)
-        MessagesController(
-            bridge=self.bridge,
-            img_mes=MS_MINCHO_COL(f"「姫」を捨てたので{self.bridge.board.turn_player.name}は脱落します", _FONT, "black"),
-        ).action()
+        ...
+        # print("UseKardsController._use_hime", self.bridge.view)
+        # MessagesController(
+        #     bridge=self.bridge,
+        #     img_mes=MS_MINCHO_COL(f"「姫」を捨てたので{self.bridge.board.turn_player.name}は脱落します", _FONT, "black"),
+        # ).action()
