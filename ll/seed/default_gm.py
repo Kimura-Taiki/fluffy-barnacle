@@ -1,6 +1,7 @@
 from any.game_master import GameMaster
 from ctrl.bright_kards import BrightKardsController
 from ctrl.defeat_by_ministers import DefeatsByMinistersController
+from ctrl.draw_kards import DrawKardsController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.setups import SetupsController
@@ -34,6 +35,9 @@ view = BoardView(subject=OBSERVER, bridge=gm)
 gm.view = view
 
 board.exchange_kards_async = ExchangeKardsController(
+    bridge=gm
+).action
+board.draw_kard_async = DrawKardsController(
     bridge=gm
 ).action
 

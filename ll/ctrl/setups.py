@@ -1,4 +1,3 @@
-from ctrl.draw_kards import DrawKardsController
 from ctrl.turn_starts import TurnStartsController
 from ptc.bridge import Bridge
 
@@ -11,11 +10,7 @@ class SetupsController():
         while (handless_player := next((
             player for player in self.bridge.board.players if len(player.hands) == 0
         ), None)):
-            DrawKardsController(
-                bridge=self.bridge,
-                board_view=self.bridge.view,
-                player=handless_player,
-            ).action()
+            self.bridge.board.draw(player=handless_player)
         else:
             self._game_start()
 
