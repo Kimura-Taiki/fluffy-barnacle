@@ -27,13 +27,12 @@ class DrawKardsController():
         self.to_v2 = V2((pq if pq else self._player_square()).rect.center)
 
     def action(self) -> None:
-        liner_view = LinearView(
+        self.bridge.whileloop(new_view=LinearView(
             view=self.bridge.view,
             img_back=self.img_back,
             from_v2=self.from_v2,
             to_v2=self.to_v2,
-        )
-        self.bridge.new_whileloop(new_view=liner_view)
+        ))
         self.bridge.board.draw(player=self.player)
 
     def _player_square(self) -> PlayerSquare:

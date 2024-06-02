@@ -11,10 +11,9 @@ class SetupsController():
         while (handless_player := next((
             player for player in self.bridge.board.players if len(player.hands) == 0
         ), None)):
-            view = self.bridge.view
             DrawKardsController(
                 bridge=self.bridge,
-                board_view=view,
+                board_view=self.bridge.view,
                 player=handless_player,
             ).action()
         else:
