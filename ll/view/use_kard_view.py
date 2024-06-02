@@ -1,5 +1,4 @@
 from pygame import Surface, Vector2 as V2
-from typing import Callable
 
 from any.pictures import IMG_BRIGHT
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
@@ -12,13 +11,13 @@ _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.view import View
 class UseKardView():
-    def __init__(self, view: View, kard: Kard, callback: Callable[..., None]) -> None:
+    def __init__(self, view: View, kard: Kard) -> None:
         self.board_view = view
         self.kard = kard
         self.img_kard = kard.picture()
-        self.callback = callback
+        self._drawing_in_progress = True
         self.frames = frames()
-        self.ui_element = UIElement(mousedown=self.callback)
+        self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
         ...
@@ -35,7 +34,10 @@ class UseKardView():
 
     def elapse(self) -> None:
         if self._ratio() >= 1:
-            self.callback()
+            self._complete()
+
+    def in_progress(self) -> bool:
+        return self._drawing_in_progress
 
     def _img_bright_kard(self) -> Surface:
         img = Surface(size=self.img_kard.get_size())
@@ -49,3 +51,6 @@ class UseKardView():
 
     def _ratio(self) -> float:
         return (frames()-self.frames)/_WAIT
+
+    def _complete(self) -> None:
+        self._drawing_in_progress = False

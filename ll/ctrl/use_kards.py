@@ -16,13 +16,12 @@ class UseKardsController():
     def action(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
         self._old_view = self.bridge.view
-        self.bridge.view = UseKardView(
+        user_kard_view = UseKardView(
             view=self._old_view,
             kard=self.kard,
-            callback=self._callback
         )
-
-    def _callback(self) -> None:
+        self.bridge.view = user_kard_view
+        self.bridge.whileloop(cond=user_kard_view.in_progress)
         self.bridge.view = self._old_view
         coroutines = [
             self._use_banpei, self._use_heisi, self._use_douke, self._use_kisi, self._use_souryo,

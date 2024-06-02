@@ -45,6 +45,6 @@ class LinearView():
 
     def _ratio(self) -> float:
         return (frames()-self.frames)/_WAIT
-    
+
     def _complete(self) -> None:
         self._drawing_in_progress = False
