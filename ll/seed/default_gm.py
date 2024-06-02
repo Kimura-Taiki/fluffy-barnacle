@@ -4,6 +4,7 @@ from ctrl.defeat_by_ministers import DefeatsByMinistersController
 from ctrl.draw_kards import DrawKardsController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.exchange_kards import ExchangeKardsController
+from ctrl.guards import GuardsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from model.board import Board
@@ -22,6 +23,9 @@ def _make_board() -> Board:
 board = _make_board()
 gm = GameMaster(board=board)
 
+board.guard_async = GuardsController(
+    bridge=gm
+).action
 board.defeat_by_daizin_async = DefeatsByMinistersController(
     bridge=gm
 ).action

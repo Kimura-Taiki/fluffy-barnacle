@@ -8,13 +8,15 @@ _kard1 = Kard(name="兵士", rank=1, png_file="img1")
 _kard2 = Kard(name="道化", rank=2, png_file="img2")
 _kard3 = Kard(name="騎士", rank=3, png_file="img3")
 _kard4 = Kard(name="僧侶", rank=4, png_file="img4")
-_kard5 = Kard(name="魔術師", rank=5, png_file="img5")
-_kard6 = Kard(name="将軍", rank=6, png_file="img6")
+# _kard5 = Kard(name="魔術師", rank=5, png_file="img5")
+# _kard6 = Kard(name="将軍", rank=6, png_file="img6")
 # _kard7 = Kard(name="大臣", rank=7, png_file="img7")
 # _kard8 = Kard(name="姫", rank=8, png_file="img8")
+KARD_MAZYUTUSI = Kard(name="魔術師", rank=5, png_file="img5")
+KARD_SYOUGUN = Kard(name="将軍", rank=6, png_file="img6")
 KARD_DAIZIN = Kard(name="大臣", rank=7, png_file="img7")
 KARD_HIME = Kard(name="姫", rank=8, png_file="img8")
-_kards = [_kard0, _kard1, _kard2, _kard3, _kard4, _kard5, _kard6, KARD_DAIZIN, KARD_HIME]
+_kards = [_kard0, _kard1, _kard2, _kard3, _kard4, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_DAIZIN, KARD_HIME]
 _ids = [1]*5+[2, 3, 4, 5]*2+[6, 7, 8]
 
 def make_deck() -> list[Kard]:
@@ -41,6 +43,7 @@ def make_deck() -> list[Kard]:
     # 「僧侶」
     deck.insert(0, _kards[4])
     deck.insert(1, _kards[5])
+    deck.insert(2, _kards[6])
     deck.insert(4, _kards[8])
 
     return deck

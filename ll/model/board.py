@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_HIME, KARD_DAIZIN
+from model.deck import make_deck, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -15,6 +15,7 @@ class Board:
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
     defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
     diskard_hime_async: Callable[[Player], None] = lambda p: None
+    guard_async: Callable[[Kard], None] = lambda k: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
     rummage_async: Callable[[Player], None] = lambda p: None
 
@@ -72,6 +73,9 @@ class Board:
 
     def rummage(self, player: Player) -> None:
         """プレイヤーがカードを捨てて、新しいカードを引く処理を行います。"""
+        if player.protected:
+            self.guard_async(KARD_MAZYUTUSI)
+            return
         self.diskard(player=player, kard=player.hands[0])
         if player.alive:
             self.rummage_async(player)
@@ -79,6 +83,9 @@ class Board:
 
     def exchange_kards(self, p1: Player, p2: Player) -> None:
         """二人のプレイヤー間でカードを交換する処理を行います。"""
+        if p1.protected or p2.protected:
+            self.guard_async(KARD_SYOUGUN)
+            return
         self.exchange_kards_async(p1, p2)
         p1.hands, p2.hands = p2.hands, p1.hands
 
