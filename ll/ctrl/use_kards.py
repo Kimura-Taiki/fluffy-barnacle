@@ -1,11 +1,6 @@
-# from any.font import MS_MINCHO_COL
-# from ctrl.messages import MessagesController
 from ctrl.turn_starts import TurnStartsController
 from model.kard import Kard
 from ptc.bridge import Bridge
-# from view.use_kard_view import UseKardView
-
-# _FONT = 28
 
 from ptc.controller import Controller
 class UseKardsController():
@@ -15,10 +10,6 @@ class UseKardsController():
 
     def action(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
-        # self.bridge.whileloop(new_view=UseKardView(
-        #     view=self.bridge.view,
-        #     kard=self.kard,
-        # ))
         coroutines = [
             self._use_banpei, self._use_heisi, self._use_douke, self._use_kisi, self._use_souryo,
             self._use_mazyutusi, self._use_syougun, self._use_daizin, self._use_hime
@@ -53,8 +44,3 @@ class UseKardsController():
 
     def _use_hime(self) -> None:
         ...
-        # print("UseKardsController._use_hime", self.bridge.view)
-        # MessagesController(
-        #     bridge=self.bridge,
-        #     img_mes=MS_MINCHO_COL(f"「姫」を捨てたので{self.bridge.board.turn_player.name}は脱落します", _FONT, "black"),
-        # ).action()

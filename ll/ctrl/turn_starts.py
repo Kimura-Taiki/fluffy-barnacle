@@ -20,3 +20,6 @@ class TurnStartsController():
             board_view=self.bridge.view,
             player=self.bridge.board.turn_player,
         ).action()
+        if not self.bridge.board.turn_player.alive:
+            self.bridge.board.advance_to_next_turn()
+            TurnStartsController(bridge=self.bridge).action()
