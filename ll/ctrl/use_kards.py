@@ -1,4 +1,3 @@
-from ctrl.turn_starts import TurnStartsController
 from model.kard import Kard
 from ptc.bridge import Bridge
 from view.player_select_view import PlayerSelectView
@@ -17,7 +16,7 @@ class UseKardsController():
         ]
         coroutines[self.kard.rank]()
         self.bridge.board.advance_to_next_turn()
-        TurnStartsController(bridge=self.bridge).action()
+        self.bridge.board.turn_start()
 
     def _use_banpei(self) -> None:
         raise ValueError("番兵は使う想定にありません")

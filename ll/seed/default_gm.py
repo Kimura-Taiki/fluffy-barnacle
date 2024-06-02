@@ -4,6 +4,7 @@ from ctrl.defeat_by_ministers import DefeatsByMinistersController
 from ctrl.draw_kards import DrawKardsController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.exchange_kards import ExchangeKardsController
+from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from model.board import Board
 from model.player import Player, OBSERVER
@@ -28,6 +29,9 @@ board.diskard_hime_async = DiskardHimesController(
     bridge=gm
 ).action
 board.use_kard_async = BrightKardsController(
+    bridge=gm
+).action
+board.turn_start_async = TurnStartsController(
     bridge=gm
 ).action
 

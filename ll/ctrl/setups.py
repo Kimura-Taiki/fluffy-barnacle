@@ -1,4 +1,3 @@
-from ctrl.turn_starts import TurnStartsController
 from ptc.bridge import Bridge
 
 from ptc.controller import Controller
@@ -16,4 +15,4 @@ class SetupsController():
 
     def _game_start(self) -> None:
         self.bridge.board.game_start()
-        TurnStartsController(bridge=self.bridge).action()
+        self.bridge.board.turn_start()

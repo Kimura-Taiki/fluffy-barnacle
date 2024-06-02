@@ -11,6 +11,7 @@ class Board:
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
     draw_kard_async: Callable[[Player], None] = lambda p: None
+    turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
     defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
     diskard_hime_async: Callable[[Player], None] = lambda p: None
@@ -28,6 +29,14 @@ class Board:
         if KARD_DAIZIN in player.hands and sum(kard.rank for kard in player.hands) >= 12:
             self.defeat_by_daizin_async(player)
             self.retire(player=player)
+
+    def turn_start(self) -> None:
+        self.turn_start_async()
+        self.turn_player.protected = False
+        self.draw(player=self.turn_player)
+        if not self.turn_player.alive:
+            self.advance_to_next_turn()
+            self.turn_start()
 
     def use_kard(self, player: Player, kard: Kard) -> None:
         """プレイヤーがカードを使用する処理を行います。"""
@@ -57,6 +66,9 @@ class Board:
                 self.turn_player = player
                 return
         raise ValueError("生存者がいません", self)
+    
+    def protect(self, player: Player) -> None:
+        player.protected = True
 
     def rummage(self, player: Player) -> None:
         """プレイヤーがカードを捨てて、新しいカードを引く処理を行います。"""

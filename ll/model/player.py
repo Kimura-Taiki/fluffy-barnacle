@@ -18,6 +18,7 @@ class Player():
     hands: list[Kard] = field(default_factory=list)
     log: list[Kard] = field(default_factory=list)
     alive: bool=True
+    protected: bool=False
 
     @classmethod
     def new_man(cls, name: str, color: ColorValue) -> 'Player':
