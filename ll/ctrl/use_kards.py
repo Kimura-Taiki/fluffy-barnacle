@@ -1,6 +1,7 @@
 from ctrl.turn_starts import TurnStartsController
 from model.kard import Kard
 from ptc.bridge import Bridge
+from view.player_select_view import PlayerSelectView
 
 from ptc.controller import Controller
 class UseKardsController():
@@ -38,6 +39,10 @@ class UseKardsController():
 
     def _use_syougun(self) -> None:
         print("カード「将軍」を使ったよ")
+        self.bridge.whileloop(new_view=PlayerSelectView(
+            bridge=self.bridge,
+            exclude=self.bridge.board.turn_player,
+        ))
 
     def _use_daizin(self) -> None:
         print("カード「大臣」を使ったよ")
