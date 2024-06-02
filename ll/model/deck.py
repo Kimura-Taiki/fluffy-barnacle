@@ -24,10 +24,13 @@ def make_deck() -> list[Kard]:
     # # 「姫」の処理を実装する為に１枚目を姫に修正
     # deck.insert(0, _kards[8])
 
-    # 「大臣」の処理を実装する為に２枚目を大臣に修正
-    deck.insert(0, _kards[7])
-    deck.insert(1, _kards[7])
-    deck.insert(4, _kards[8])
-    deck.insert(5, _kards[1])
+    # # 「大臣」の処理を実装する為に１枚目を大臣に修正
+    # deck.insert(0, _kards[7])
+    # deck.insert(1, _kards[7])
+    # deck.insert(4, _kards[8])
+    # deck.insert(5, _kards[1])
+
+    # 「将軍」の処理を実装する為に１枚目を将軍に変更
+    deck.insert(0, _kards[6])
 
     return deck

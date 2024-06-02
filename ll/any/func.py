@@ -1,5 +1,5 @@
 from pygame import Surface, SRCALPHA, Color, Rect, mouse
-from typing import Sequence
+from typing import Sequence, Any, TypeVar
 from copy import deepcopy
 
 from any.screen import screen
@@ -24,3 +24,11 @@ def translucented_color(color: ColorValue, a: int=128) -> Color:
 def cursor_in_rect(rect: Rect) -> bool:
     mx, my = mouse.get_pos()
     return rect.left <= mx and mx <= rect.right and rect.top <= my and my <= rect.bottom
+
+T = TypeVar('T')
+
+def enforce(__object: Any, __type: type[T]) -> T:
+    if not isinstance(__object, __type):
+        raise ValueError(f"{__object} is not an instance of {__type.__name__}")
+    return __object
+
