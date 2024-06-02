@@ -1,4 +1,4 @@
-from pygame import Rect, Surface, SRCALPHA, transform, Color
+from pygame import Rect, Surface, SRCALPHA, transform, Color, Vector2 as V2
 from typing import Any
 from copy import deepcopy
 
@@ -85,3 +85,20 @@ class PlayerSquare():
     @property
     def _now_player(self) -> Player:
         return next((player for player in self.bridge.board.players if player.name == self.player.name), OBSERVER)
+
+    @classmethod
+    def search_by_player(cls, squares: list[Square], player: Player) -> 'PlayerSquare':
+        if ps := next((
+            square for square in squares if
+            isinstance(square, PlayerSquare) and
+            square.player.name == player.name
+        ), None):
+            return ps
+        else:
+            raise ValueError(
+                f"該当プレイヤーはいません\nplayer = {player}"
+            )
+
+    @classmethod
+    def search_v2_by_player(cls, squares: list[Square], player: Player) -> V2:
+        return V2(cls.search_by_player(squares=squares, player=player).rect.center)
