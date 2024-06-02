@@ -59,7 +59,9 @@ class PlayerSelectView:
     def _player_squares(self) -> list[PlayerSquare]:
         li: list[PlayerSquare] = []
         for square in self.board_view.squares:
-            if isinstance(square, PlayerSquare) and square.player != self.exclude:
+            if isinstance(square, PlayerSquare)\
+            and square.player != self.exclude\
+            and square.player.alive:
                 li.append(self._player_square(pq=square))
         return li
 

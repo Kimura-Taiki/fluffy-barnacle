@@ -36,5 +36,6 @@ def make_deck() -> list[Kard]:
     # 「魔術師」
     deck.insert(0, _kards[5])
     deck.insert(1, _kards[8])
+    deck.insert(2, _kards[5])
 
     return deck
