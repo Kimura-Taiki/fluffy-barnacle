@@ -14,7 +14,6 @@ class DrawKardsController():
             bridge: Bridge,
             board_view: View,
             player: Player,
-            pq: PlayerSquare | None=None,
         ) -> None:
         self.bridge = bridge
         if not isinstance(board_view, BoardView):
@@ -24,7 +23,10 @@ class DrawKardsController():
         dq = board_view.deck_square
         self.img_back = dq.img_back
         self.from_v2 = V2(dq.rect.center)
-        self.to_v2 = V2((pq if pq else self._player_square()).rect.center)
+        self.to_v2 = PlayerSquare.search_v2_by_player(
+            squares=self.board_view.squares,
+            player=player
+        )
 
     def action(self) -> None:
         self.bridge.whileloop(new_view=LinearView(
@@ -34,15 +36,3 @@ class DrawKardsController():
             to_v2=self.to_v2,
         ))
         self.bridge.board.draw(player=self.player)
-
-    def _player_square(self) -> PlayerSquare:
-        if ps := next((
-            square for square in self.board_view.squares if
-            isinstance(square, PlayerSquare) and
-            square.player.name == self.player.name
-        ), None):
-            return ps
-        else:
-            raise ValueError(
-                f"該当プレイヤーはいません\nplayer.name = {self.player.name}"
-            )

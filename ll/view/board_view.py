@@ -63,20 +63,12 @@ class BoardView:
     def _opponents_squares(self, opponents: list[Player]) -> list[PlayerSquare]:
         opponents = [player for player in opponents if player != self.subject]  # 主題を除外
         w = WX / len(opponents)
-        pss = [PlayerSquare(
+        return [PlayerSquare(
             player=player,
             rect=Rect(w * i, 0, w, _H),
             bridge=self.bridge,)
-            for i, player in enumerate(opponents)]
-        for pq in pss:
-            from ctrl.draw_kards import DrawKardsController
-            pq.ui_element.mousedown = DrawKardsController(
-                bridge=self.bridge,
-                board_view=self,
-                player=pq.player,
-                pq=pq,
-            ).action
-        return pss
+            for i, player in enumerate(opponents)
+        ]
 
     @property
     def board(self) -> Board:
