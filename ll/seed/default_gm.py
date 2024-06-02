@@ -1,4 +1,5 @@
 from any.game_master import GameMaster
+from ctrl.bright_kards import BrightKardsController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.setups import SetupsController
 from model.board import Board
@@ -17,7 +18,10 @@ def _make_board() -> Board:
 board = _make_board()
 gm = GameMaster(board=board)
 
-board.diskard_hime = DiskardHimesController(
+board.diskard_hime_async = DiskardHimesController(
+    bridge=gm
+).action
+board.use_kard_async = BrightKardsController(
     bridge=gm
 ).action
 

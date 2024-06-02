@@ -10,7 +10,8 @@ class Board():
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
-    diskard_hime: Callable[[Player], None] = lambda p : None
+    use_kard_async: Callable[[Player, Kard], None] = lambda p, k : None
+    diskard_hime_async: Callable[[Player], None] = lambda p : None
 
     def game_start(self) -> None:
         self.turn_player = self.players[0]
@@ -19,6 +20,7 @@ class Board():
         player.hands.append(self.deck.pop(0))
 
     def use_kard(self, player: Player, kard: Kard) -> None:
+        self.use_kard_async(player, kard)
         self.diskard(player=player, kard=kard)
 
     def diskard(self, player: Player, kard: Kard) -> None:
@@ -26,7 +28,7 @@ class Board():
         player.log.append(kard)
         if kard == KARD_HIME:
             print(f"{player.name} is out!")
-            self.diskard_hime(player)
+            self.diskard_hime_async(player)
             player.alive = False
 
     def advance_to_next_turn(self) -> None:
