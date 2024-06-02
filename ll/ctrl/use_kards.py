@@ -29,8 +29,6 @@ class UseKardsController():
             self._use_mazyutusi, self._use_syougun, self._use_daizin, self._use_hime
         ]
         coroutines[self.kard.rank]()
-
-    def _advance_to_next_turn(self) -> None:
         self.bridge.board.advance_to_next_turn()
         TurnStartsController(bridge=self.bridge).action()
 
@@ -39,31 +37,24 @@ class UseKardsController():
 
     def _use_heisi(self) -> None:
         print("カード「兵士」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_douke(self) -> None:
         print("カード「道化」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_kisi(self) -> None:
         print("カード「騎士」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_souryo(self) -> None:
         print("カード「僧侶」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_mazyutusi(self) -> None:
         print("カード「魔術師」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_syougun(self) -> None:
         print("カード「将軍」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_daizin(self) -> None:
         print("カード「大臣」を使ったよ")
-        self._advance_to_next_turn()
 
     def _use_hime(self) -> None:
         print("UseKardsController._use_hime", self.bridge.view)
@@ -71,4 +62,3 @@ class UseKardsController():
             bridge=self.bridge,
             img_mes=MS_MINCHO_COL(f"「姫」を捨てたので{self.bridge.board.turn_player.name}は脱落します", _FONT, "black"),
         ).action()
-        self._advance_to_next_turn()
