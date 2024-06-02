@@ -43,8 +43,13 @@ class UseKardsController():
             bridge=self.bridge,
             exclude=self.bridge.board.turn_player,
         )))
-        print(psv.selected_player)
-        raise EOFError("良し！")
+        self.bridge.board.exchange_kards(
+            p1=self.bridge.board.turn_player,
+            p2=psv.selected_player
+        )
+#       10        20        30        40        50        60        70       79
+        # print(psv.selected_player)
+        # raise EOFError("良し！")
         
 
     def _use_daizin(self) -> None:

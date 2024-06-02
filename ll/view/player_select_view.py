@@ -23,7 +23,7 @@ class PlayerSelectView:
         self.board_view = enforce(bridge.view, BoardView)
         self.player_squares = self._player_squares()
         self.other_squares = self._other_squares()
-        self.selected_player: Player | None = None
+        self.selected_player: Player = OBSERVER
         self.frames = frames()
 
     def rearrange(self) -> None:
@@ -54,7 +54,7 @@ class PlayerSelectView:
         ...
 
     def in_progress(self) -> bool:
-        return bool(not self.selected_player)
+        return self.selected_player == OBSERVER
 
     def _player_squares(self) -> list[PlayerSquare]:
         li: list[PlayerSquare] = []
