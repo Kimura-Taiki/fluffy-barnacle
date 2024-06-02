@@ -1,5 +1,4 @@
 from pygame import Vector2 as V2
-from typing import Callable
 
 from model.player import Player
 from ptc.bridge import Bridge
@@ -28,17 +27,14 @@ class DrawKardsController():
         self.to_v2 = V2((pq if pq else self._player_square()).rect.center)
 
     def action(self) -> None:
-        self._old_view = self.bridge.view
         liner_view = LinearView(
-            view=self._old_view,
+            view=self.bridge.view,
             img_back=self.img_back,
             from_v2=self.from_v2,
             to_v2=self.to_v2,
         )
-        self.bridge.view = liner_view
-        self.bridge.whileloop(cond=liner_view.in_progress)
+        self.bridge.new_whileloop(new_view=liner_view)
         self.bridge.board.draw(player=self.player)
-        self.bridge.view = self._old_view
 
     def _player_square(self) -> PlayerSquare:
         if ps := next((

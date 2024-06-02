@@ -35,3 +35,11 @@ class GameMaster():
     def whileloop(self, cond: Callable[[], bool]) -> None:
         while cond():
             self.mainloop()
+
+    from ptc.transition import Transition
+    def new_whileloop(self, new_view: Transition) -> None:
+        old_view = self.view
+        self.view = new_view
+        while new_view.in_progress():
+            self.mainloop()
+        self.view = old_view
