@@ -71,9 +71,11 @@ class PlayerSelectView:
                 rect=pq.rect
             )
         copy_pq = copy(pq)
-        copy_pq.ui_element = UIElement(hover=lambda : hover(pq=copy_pq))
+        copy_pq.ui_element = UIElement(
+            hover=lambda : hover(pq=copy_pq),
+            mousedown=lambda : self._complete(player=copy_pq.player)
+        )
         return copy_pq
-
 
     def _other_squares(self) -> list[Square]:
         li: list[Square] = []
@@ -81,3 +83,6 @@ class PlayerSelectView:
             if not isinstance(square, PlayerSquare):
                 li.append(square)
         return li
+
+    def _complete(self, player: Player) -> None:
+        self.selected_player = player

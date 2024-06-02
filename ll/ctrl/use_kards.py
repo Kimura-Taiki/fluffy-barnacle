@@ -39,10 +39,13 @@ class UseKardsController():
 
     def _use_syougun(self) -> None:
         print("カード「将軍」を使ったよ")
-        self.bridge.whileloop(new_view=PlayerSelectView(
+        self.bridge.whileloop(new_view=(psv := PlayerSelectView(
             bridge=self.bridge,
             exclude=self.bridge.board.turn_player,
-        ))
+        )))
+        print(psv.selected_player)
+        raise EOFError("良し！")
+        
 
     def _use_daizin(self) -> None:
         print("カード「大臣」を使ったよ")
