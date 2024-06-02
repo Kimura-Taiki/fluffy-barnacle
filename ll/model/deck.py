@@ -41,5 +41,6 @@ def make_deck() -> list[Kard]:
     # 「僧侶」
     deck.insert(0, _kards[4])
     deck.insert(1, _kards[5])
+    deck.insert(4, _kards[8])
 
     return deck

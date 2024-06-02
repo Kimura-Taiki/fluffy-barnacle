@@ -2,7 +2,7 @@ from pygame import Rect, Surface, SRCALPHA, transform, Color, Vector2 as V2
 from typing import Any
 from copy import deepcopy
 
-from any.screen import screen, WV2
+from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
 from any.pictures import IMG_SHIELD
@@ -60,7 +60,7 @@ class PlayerSquare():
         if self.player.alive and self.player.protected:
             screen.blit(
                 source=self.img_shield,
-                dest=WV2/2-V2(self.img_shield.get_size())/2
+                dest=V2(self.rect.center)-V2(self.img_shield.get_size())/2
             )
 
     def elapse(self) -> None:
@@ -77,7 +77,7 @@ class PlayerSquare():
     def _img_shield(self) -> Surface:
         img_nega = transform.rotozoom(surface=IMG_SHIELD, angle=0.0, scale=self.rect.w/self._RATIO[0])
         img_nega.set_alpha(128)
-        img = Surface(size=img_nega.get_size())
+        img = Surface(size=img_nega.get_size(), flags=SRCALPHA)
         img.blit(source=img_nega, dest=(0, 0))
         return img
 
