@@ -2,9 +2,10 @@ from pygame import Rect, Surface, SRCALPHA, transform, Color, Vector2 as V2
 from typing import Any
 from copy import deepcopy
 
-from any.screen import screen
+from any.screen import screen, WV2
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
 from any.font import MS_MINCHO_COL
+from any.pictures import IMG_SHIELD
 from model.player import Player, OBSERVER
 from model.ui_element import UIElement
 from view.log_square import LogSquare
@@ -41,6 +42,7 @@ class PlayerSquare():
         self.bridge = bridge
         self.view_params = (0, 0)
         self.img = self._img()
+        self.img_shield = self._img_shield()
         self.log_squares = self._log_squares()
         self.ui_element = UIElement()
 
@@ -55,6 +57,11 @@ class PlayerSquare():
         screen.blit(source=self.img, dest=self.rect)
         for log_square in self.log_squares:
             log_square.draw()
+        if self.player.alive and self.player.protected:
+            screen.blit(
+                source=self.img_shield,
+                dest=WV2/2-V2(self.img_shield.get_size())/2
+            )
 
     def elapse(self) -> None:
         for lq in self.log_squares:
@@ -66,7 +73,14 @@ class PlayerSquare():
         rect_fill(color=self._color(), rect=Rect((0, 0), self._RATIO), surface=img)
         img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
-    
+
+    def _img_shield(self) -> Surface:
+        img_nega = transform.rotozoom(surface=IMG_SHIELD, angle=0.0, scale=self.rect.w/self._RATIO[0])
+        img_nega.set_alpha(128)
+        img = Surface(size=img_nega.get_size())
+        img.blit(source=img_nega, dest=(0, 0))
+        return img
+
     def _color(self) -> Color:
         tc = translucented_color(self.player.color)
         bc = Color("black")

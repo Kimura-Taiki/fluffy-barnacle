@@ -32,6 +32,7 @@ class UseKardsController():
 
     def _use_souryo(self) -> None:
         print("カード「僧侶」を使ったよ")
+        self.bridge.board.protect(player=self.bridge.board.turn_player)
 
     def _use_mazyutusi(self) -> None:
         print("カード「魔術師」を使ったよ")

@@ -33,9 +33,13 @@ def make_deck() -> list[Kard]:
     # # 「将軍」の処理を実装する為に１枚目を将軍に変更
     # deck.insert(0, _kards[6])
 
-    # 「魔術師」
-    deck.insert(0, _kards[5])
-    deck.insert(1, _kards[8])
-    deck.insert(2, _kards[5])
+    # # 「魔術師」
+    # deck.insert(0, _kards[5])
+    # deck.insert(1, _kards[8])
+    # deck.insert(2, _kards[5])
+
+    # 「僧侶」
+    deck.insert(0, _kards[4])
+    deck.insert(1, _kards[5])
 
     return deck
