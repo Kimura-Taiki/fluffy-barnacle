@@ -10,9 +10,10 @@ class Board():
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
-    use_kard_async: Callable[[Player, Kard], None] = lambda p, k : None
-    defeat_by_daizin_async: Callable[[Player], None] = lambda p : None
-    diskard_hime_async: Callable[[Player], None] = lambda p : None
+    use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
+    defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
+    diskard_hime_async: Callable[[Player], None] = lambda p: None
+    exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
 
     def game_start(self) -> None:
         self.turn_player = self.players[0]
@@ -51,8 +52,8 @@ class Board():
         raise ValueError("生存者がいません", self)
 
     def exchange_kards(self, p1: Player, p2: Player) -> None:
-        hands1, hands2 = p1.hands, p2.hands
-        p1.hands, p2.hands = hands2, hands1
+        self.exchange_kards_async(p1, p2)
+        p1.hands, p2.hands = p2.hands, p1.hands
 
     @classmethod
     def new_board(cls, players: list[Player]) -> 'Board':
