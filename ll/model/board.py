@@ -27,9 +27,12 @@ class Board():
         player.hands.remove(kard)
         player.log.append(kard)
         if kard == KARD_HIME:
-            print(f"{player.name} is out!")
             self.diskard_hime_async(player)
-            player.alive = False
+            self.retire(player=player)
+
+    def retire(self, player: Player) -> None:
+        print(f"{player.name} is out!")
+        player.alive = False
 
     def advance_to_next_turn(self) -> None:
         shift = (self.players.index(self.turn_player)+1)%len(self.players)
