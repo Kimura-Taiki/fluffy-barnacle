@@ -36,6 +36,10 @@ class UseKardsController():
 
     def _use_mazyutusi(self) -> None:
         print("カード「魔術師」を使ったよ")
+        self.bridge.whileloop(new_view=(psv := PlayerSelectView(
+            bridge=self.bridge,
+        )))
+        self.bridge.board.rummage(player=psv.selected_player)
 
     def _use_syougun(self) -> None:
         print("カード「将軍」を使ったよ")

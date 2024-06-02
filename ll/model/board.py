@@ -14,6 +14,7 @@ class Board():
     defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
     diskard_hime_async: Callable[[Player], None] = lambda p: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
+    rummage_async: Callable[[Player], None] = lambda p: None
 
     def game_start(self) -> None:
         self.turn_player = self.players[0]
@@ -50,6 +51,12 @@ class Board():
                 self.turn_player = player
                 return
         raise ValueError("生存者がいません", self)
+
+    def rummage(self, player: Player) -> None:
+        self.diskard(player=player, kard=player.hands[0])
+        if player.alive:
+            self.rummage_async(player)
+            self.draw(player=player)
 
     def exchange_kards(self, p1: Player, p2: Player) -> None:
         self.exchange_kards_async(p1, p2)
