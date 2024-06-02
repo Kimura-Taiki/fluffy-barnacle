@@ -1,5 +1,4 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
-from typing import Callable
 
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
@@ -21,14 +20,14 @@ _BAND_H = 24
 
 from ptc.view import View
 class MessageView():
-    def __init__(self, board_view: BoardView, img_mes: Surface, callback: Callable[..., None]) -> None:
+    def __init__(self, board_view: BoardView, img_mes: Surface) -> None:
         self.board_view = board_view
         self.img_mes = img_mes
         self.img_band = self._img_band()
-        self.callback = callback
+        self._drawing_in_progress = True
         self.frames = frames()
         self.ui_element = UIElement(
-            mousedown=self.callback,
+            mousedown=self._complete,
         )
 
     def rearrange(self) -> None:
@@ -59,7 +58,10 @@ class MessageView():
 
     def elapse(self) -> None:
         if self._ratio() >= 1:
-            self.callback()
+            self._complete()
+
+    def in_progress(self) -> bool:
+        return self._drawing_in_progress
 
     def _img_band(self) -> Surface:
         img = Surface(size=(WX, self.img_mes.get_height()+_BAND_H*2), flags=SRCALPHA)
@@ -80,3 +82,6 @@ class MessageView():
 
     def _right_v2(self) -> V2:
         return V2(WX, self._title_y())
+
+    def _complete(self) -> None:
+        self._drawing_in_progress = False

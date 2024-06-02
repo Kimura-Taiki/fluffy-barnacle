@@ -16,12 +16,11 @@ class MessagesController():
         self.suffix = suffix
 
     def action(self) -> None:
-        self.bridge.view = MessageView(
+        message_view = MessageView(
             board_view=self._old_view,
             img_mes=self.img_mes,
-            callback=self._draw_callback
         )
-
-    def _draw_callback(self) -> None:
+        self.bridge.view = message_view
+        self.bridge.whileloop(cond=message_view.in_progress)
         self.bridge.view = self._old_view
         self.suffix()
