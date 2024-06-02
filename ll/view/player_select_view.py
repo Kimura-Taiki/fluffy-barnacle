@@ -65,9 +65,9 @@ class PlayerSelectView:
 
     def _player_square(self, pq: PlayerSquare) -> PlayerSquare:
         def hover(pq: PlayerSquare) -> None:
-            time = frames()-self.frames
+            a = int(abs((frames()-self.frames)%(_WAIT*2)-_WAIT)/_WAIT*128)+64
             rect_fill(
-                color=translucented_color(color="white"),
+                color=translucented_color(color="white", a=a),
                 rect=pq.rect
             )
         copy_pq = copy(pq)
