@@ -10,17 +10,24 @@ _kard3 = Kard(name="騎士", rank=3, png_file="img3")
 _kard4 = Kard(name="僧侶", rank=4, png_file="img4")
 _kard5 = Kard(name="魔術師", rank=5, png_file="img5")
 _kard6 = Kard(name="将軍", rank=6, png_file="img6")
-_kard7 = Kard(name="大臣", rank=7, png_file="img7")
+# _kard7 = Kard(name="大臣", rank=7, png_file="img7")
 # _kard8 = Kard(name="姫", rank=8, png_file="img8")
+KARD_DAIZIN = Kard(name="大臣", rank=7, png_file="img7")
 KARD_HIME = Kard(name="姫", rank=8, png_file="img8")
-_kards = [_kard0, _kard1, _kard2, _kard3, _kard4, _kard5, _kard6, _kard7, KARD_HIME]
+_kards = [_kard0, _kard1, _kard2, _kard3, _kard4, _kard5, _kard6, KARD_DAIZIN, KARD_HIME]
 _ids = [1]*5+[2, 3, 4, 5]*2+[6, 7, 8]
 
 def make_deck() -> list[Kard]:
     deck = [deepcopy(_kards[i]) for i in _ids]
     shuffle(deck)
 
-    # 「姫」の処理を実装する為に１枚目を姫に修正
-    deck.insert(0, _kards[8])
+    # # 「姫」の処理を実装する為に１枚目を姫に修正
+    # deck.insert(0, _kards[8])
+
+    # 「大臣」の処理を実装する為に２枚目を大臣に修正
+    deck.insert(0, _kards[7])
+    deck.insert(1, _kards[7])
+    deck.insert(4, _kards[8])
+    deck.insert(5, _kards[1])
 
     return deck

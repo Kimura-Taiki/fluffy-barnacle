@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_HIME
+from model.deck import make_deck, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -18,6 +18,8 @@ class Board():
 
     def draw(self, player: Player) -> None:
         player.hands.append(self.deck.pop(0))
+        if KARD_DAIZIN in player.hands and sum([kard.rank for kard in player.hands]) >= 12:
+            ...
 
     def use_kard(self, player: Player, kard: Kard) -> None:
         self.use_kard_async(player, kard)
@@ -33,6 +35,10 @@ class Board():
     def retire(self, player: Player) -> None:
         print(f"{player.name} is out!")
         player.alive = False
+        while len(player.hands) > 0:
+            kard = player.hands[0]
+            player.hands.remove(kard)
+            player.log.append(kard)
 
     def advance_to_next_turn(self) -> None:
         shift = (self.players.index(self.turn_player)+1)%len(self.players)
