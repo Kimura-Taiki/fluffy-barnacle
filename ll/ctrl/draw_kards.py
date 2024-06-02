@@ -16,14 +16,12 @@ class DrawKardsController():
             board_view: View,
             player: Player,
             pq: PlayerSquare | None=None,
-            suffix: Callable[..., None]=lambda : None,
         ) -> None:
         self.bridge = bridge
         if not isinstance(board_view, BoardView):
             raise ValueError("DrawKardsController を起動する時はBoardViewでないと", board_view)
         self.board_view = board_view
         self.player = player
-        self.suffix = suffix
         dq = board_view.deck_square
         self.img_back = dq.img_back
         self.from_v2 = V2(dq.rect.center)
@@ -41,7 +39,6 @@ class DrawKardsController():
         self.bridge.whileloop(cond=liner_view.in_progress)
         self.bridge.board.draw(player=self.player)
         self.bridge.view = self._old_view
-        self.suffix()
 
     def _player_square(self) -> PlayerSquare:
         if ps := next((

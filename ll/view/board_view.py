@@ -75,7 +75,6 @@ class BoardView:
                 board_view=self,
                 player=pq.player,
                 pq=pq,
-                suffix=lambda: None,
             ).action
         return pss
 
