@@ -70,5 +70,5 @@ class UseKardsController():
         MessagesController(
             bridge=self.bridge,
             img_mes=MS_MINCHO_COL(f"「姫」を捨てたので{self.bridge.board.turn_player.name}は脱落します", _FONT, "black"),
-            suffix=self._advance_to_next_turn
         ).action()
+        self._advance_to_next_turn()
