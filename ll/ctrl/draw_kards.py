@@ -1,10 +1,12 @@
 from pygame import Vector2 as V2
 
+from any.screen import screen
 from model.player import Player
 from ptc.bridge import Bridge
 from ptc.view import View
 from view.board_view import BoardView
-from view.linear_view import LinearView
+from view.linear_transition import LinearTransition
+from view.moves_view import MovesView
 from view.player_square import PlayerSquare
 
 from ptc.controller import Controller
@@ -29,10 +31,13 @@ class DrawKardsController():
         )
 
     def action(self) -> None:
-        self.bridge.whileloop(new_view=LinearView(
+        self.bridge.whileloop(new_view=MovesView(
             view=self.bridge.view,
-            img_back=self.img_back,
-            from_v2=self.from_v2,
-            to_v2=self.to_v2,
+            transitions=[LinearTransition(
+                img_actor=self.img_back,
+                from_v2=self.from_v2,
+                to_v2=self.to_v2,
+                canvas=screen
+            )]
         ))
         self.bridge.board.draw(player=self.player)
