@@ -10,6 +10,7 @@ class Board():
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
+    draw_kard_async: Callable[[Player], None] = lambda p: None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
     defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
     diskard_hime_async: Callable[[Player], None] = lambda p: None
@@ -20,6 +21,7 @@ class Board():
         self.turn_player = self.players[0]
 
     def draw(self, player: Player) -> None:
+        self.draw_kard_async(player)
         player.hands.append(self.deck.pop(0))
         if KARD_DAIZIN in player.hands and sum([kard.rank for kard in player.hands]) >= 12:
             self.defeat_by_daizin_async(player)
