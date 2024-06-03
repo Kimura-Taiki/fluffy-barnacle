@@ -1,4 +1,4 @@
-from pygame import Surface, SRCALPHA, Color, Rect, mouse
+from pygame import Surface, SRCALPHA, Color, Rect, mouse, Vector2 as V2
 from typing import Sequence, Any, TypeVar
 from copy import deepcopy
 
@@ -12,7 +12,7 @@ def rect_fill(color: ColorValue, rect: Rect, surface: Surface=screen) -> None:
     source.fill(color=color)
     surface.blit(source=source, dest=rect)
 
-def ratio_rect(rect: Rect, ratio: tuple[int | float, int | float]) -> Rect:
+def ratio_rect(rect: Rect, ratio: tuple[int | float, int | float] | V2) -> Rect:
     w, h = (ratio[0]*rect.h/ratio[1], rect.h) if rect.w*ratio[1] > rect.h*ratio[0] else (rect.w, ratio[1]*rect.w/ratio[0])
     return Rect(rect.left+(rect.w-w)/2, rect.top+(rect.h-h)/2, w, h)
 

@@ -4,6 +4,7 @@ from ctrl.defeat_by_duels import DefeatByDuelsController
 from ctrl.defeat_by_ministers import DefeatByMinistersController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.draw_kards import DrawKardsController
+from ctrl.duels import DuelsController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.guards import GuardsController
 from ctrl.protects import ProtectsController
@@ -41,6 +42,9 @@ board.diskard_hime_async = DiskardHimesController(
     bridge=gm
 ).action
 
+board.duel_async = DuelsController(
+    bridge=gm
+).action
 board.defeat_by_duel_async = DefeatByDuelsController(
     bridge=gm
 ).action
