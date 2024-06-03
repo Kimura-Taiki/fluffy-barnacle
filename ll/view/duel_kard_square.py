@@ -1,11 +1,10 @@
 from pygame import Surface, Vector2 as V2, transform, Rect
 
 from any.func import ratio_rect
-from any.pictures import IMG_BACK
+from any.pictures import IMG_DUEL, IMG_BACK
 from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import frames
 from model.ui_element import UIElement
-from view.duel_icon_square import DuelIconSquare
 
 _RATIO = V2(880, 475)
 _SECONDS = 0.5
@@ -19,8 +18,7 @@ class DuelTransition():
         self.frames = frames()
         self.canvas = canvas
         self.img_back = self._img_zoom(img=IMG_BACK)
-        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=_SECONDS)
-        self.shift_v2 = V2(self.rect.topleft)
+        self.img_duel = self._img_zoom(img=IMG_DUEL)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -32,7 +30,11 @@ class DuelTransition():
     def draw(self) -> None:
         self.canvas.blit(source=self.img_back, dest=self._dest_left())
         self.canvas.blit(source=self.img_back, dest=self._dest_right())
-        self.diq.shift_draw(shift_v2=self.shift_v2)
+        img_rz = self._img_rz()
+        self.canvas.blit(
+            source=img_rz,
+            dest=V2(self.rect.center)-V2(img_rz.get_size())/2
+        )
 
     def elapse(self) -> None:
         if self._ratio() >= 1:
@@ -53,6 +55,13 @@ class DuelTransition():
         from_v2 = V2(self.rect.topright)
         to_v2 = V2(self.rect.topright)-V2(self.img_back.get_width(), 0)
         return from_v2.lerp(to_v2, self._ratio())
+    
+    def _img_rz(self) -> Surface:
+        return transform.rotozoom(
+            surface=self.img_duel,
+            angle=0.0,
+            scale=3.0-self._ratio()*2
+        )
 
     def _ratio(self) -> float:
         return (frames()-self.frames)/_WAIT
