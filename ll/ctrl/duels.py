@@ -3,7 +3,7 @@ from pygame import Rect
 from any.screen import screen
 from model.player import Player
 from ptc.bridge import Bridge
-from view.duel_transition import DuelTransition
+from view.duel_engage_transition import DuelEngageTransition
 from view.moves_view import MovesView
 
 class DuelsController():
@@ -13,7 +13,7 @@ class DuelsController():
     def action(self, p1: Player, p2: Player) -> None:
         self.bridge.whileloop(new_view=MovesView(
             view=self.bridge.view,
-            transitions=[DuelTransition(
+            transitions=[DuelEngageTransition(
                 rect=Rect(200, 120, 880, 475),
                 p1=p1,
                 p2=p2,

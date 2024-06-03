@@ -13,7 +13,7 @@ _SECONDS = 0.5
 _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.transition import Transition
-class DuelTransition():
+class DuelEngageTransition():
     def __init__(self, rect: Rect, p1: Player, p2: Player, canvas: Surface) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self._drawing_in_progress = True
