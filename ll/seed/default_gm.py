@@ -1,8 +1,9 @@
 from any.game_master import GameMaster
 from ctrl.bright_kards import BrightKardsController
-from ctrl.defeat_by_ministers import DefeatsByMinistersController
-from ctrl.draw_kards import DrawKardsController
+from ctrl.defeat_by_duels import DefeatByDuelsController
+from ctrl.defeat_by_ministers import DefeatByMinistersController
 from ctrl.diskard_himes import DiskardHimesController
+from ctrl.draw_kards import DrawKardsController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.guards import GuardsController
 from ctrl.protects import ProtectsController
@@ -40,6 +41,9 @@ board.diskard_hime_async = DiskardHimesController(
     bridge=gm
 ).action
 
+board.defeat_by_duel_async = DefeatByDuelsController(
+    bridge=gm
+).action
 board.protect_async = ProtectsController(
     bridge=gm
 ).action
@@ -49,7 +53,7 @@ board.guard_async = GuardsController(
 board.exchange_kards_async = ExchangeKardsController(
     bridge=gm
 ).action
-board.defeat_by_daizin_async = DefeatsByMinistersController(
+board.defeat_by_daizin_async = DefeatByMinistersController(
     bridge=gm
 ).action
 
