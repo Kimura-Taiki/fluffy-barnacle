@@ -23,7 +23,7 @@ class DuelKardOpenSquare():
         self.wait = int(FRAMES_PER_SECOND*seconds)
         self.img_back = self._img_back()
         self.to_v2 = V2(rect.topleft)
-        self.from_v2 = self.to_v2+V2(self.img_back.get_width(), 0)*(-1 if is_left else 1)
+        self.from_v2 = self.to_v2+V2(self.img_back.get_width(), 0)*(-2 if is_left else 2)
 
     def rearrange(self) -> None:
         ...

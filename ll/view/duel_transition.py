@@ -1,11 +1,10 @@
-from pygame import Surface, Vector2 as V2, transform, Rect
+from pygame import Surface, Vector2 as V2, Rect
 
 from any.func import ratio_rect
 from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import frames
 from model.player import Player
 from model.ui_element import UIElement
-from ptc.square import Square
 from view.duel_kard_open_square import DuelKardOpenSquare
 from view.duel_icon_square import DuelIconSquare
 
@@ -27,7 +26,7 @@ class DuelTransition():
             is_left=is_left, canvas=canvas, seconds=_SECONDS
         ) for tpl, player, is_left in li]
         self.offset = V2(self.rect.topleft)
-        self.squares: list[Square] = [self.diq, self.left_dkoq, self.right_dkoq]
+        self.squares: list[DuelIconSquare | DuelKardOpenSquare] = [self.diq, self.left_dkoq, self.right_dkoq]
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -38,7 +37,7 @@ class DuelTransition():
 
     def draw(self) -> None:
         for square in self.squares:
-            square.draw()
+            square.offset_draw(offset=self.offset)
 
     def elapse(self) -> None:
         if self._ratio() >= 1:
