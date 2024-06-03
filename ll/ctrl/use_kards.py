@@ -29,6 +29,14 @@ class UseKardsController():
 
     def _use_kisi(self) -> None:
         print("カード「騎士」を使ったよ")
+        self.bridge.whileloop(new_view=(psv := PlayerSelectView(
+            bridge=self.bridge,
+            exclude=self.bridge.board.turn_player,
+        )))
+        self.bridge.board.duel(
+            p1=self.bridge.board.turn_player,
+            p2=psv.selected_player
+        )
 
     def _use_souryo(self) -> None:
         print("カード「僧侶」を使ったよ")

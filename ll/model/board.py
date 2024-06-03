@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
+from model.deck import make_deck, KARD_KISI, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -13,12 +13,14 @@ class Board:
     draw_kard_async: Callable[[Player], None] = lambda p: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
-    defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
-    diskard_hime_async: Callable[[Player], None] = lambda p: None
+    duel_async: Callable[[Player, Player], None] = lambda p1, p2: None
+    defeat_by_duel_async: Callable[[Player], None] = lambda p: None
     protect_async: Callable[[Player], None] = lambda p: None
     guard_async: Callable[[Kard], None] = lambda k: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
     rummage_async: Callable[[Player], None] = lambda p: None
+    defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
+    diskard_hime_async: Callable[[Player], None] = lambda p: None
 
     def game_start(self) -> None:
         """ゲームの開始時に呼び出され、最初のターンプレイヤーを設定します。"""
@@ -68,7 +70,19 @@ class Board:
                 self.turn_player = player
                 return
         raise ValueError("生存者がいません", self)
-    
+
+    def duel(self, p1: Player, p2: Player) -> None:
+        if p1.protected or p2.protected:
+            self.guard_async(KARD_KISI)
+            return
+        self.duel_async(p1, p2)
+        if p1.hands[0].rank > p2.hands[0].rank:
+            self.defeat_by_duel_async(p2)
+            self.retire(player=p2)
+        elif p1.hands[0].rank < p2.hands[0].rank:
+            self.defeat_by_duel_async(p1)
+            self.retire(player=p1)
+
     def protect(self, player: Player) -> None:
         self.protect_async(player)
         player.protected = True
