@@ -5,6 +5,7 @@ from ctrl.draw_kards import DrawKardsController
 from ctrl.diskard_himes import DiskardHimesController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.guards import GuardsController
+from ctrl.protects import ProtectsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from model.board import Board
@@ -23,29 +24,32 @@ def _make_board() -> Board:
 board = _make_board()
 gm = GameMaster(board=board)
 
-board.guard_async = GuardsController(
-    bridge=gm
-).action
-board.defeat_by_daizin_async = DefeatsByMinistersController(
-    bridge=gm
-).action
-board.diskard_hime_async = DiskardHimesController(
-    bridge=gm
-).action
-board.use_kard_async = BrightKardsController(
+view = BoardView(subject=OBSERVER, bridge=gm)
+gm.view = view
+
+board.draw_kard_async = DrawKardsController(
     bridge=gm
 ).action
 board.turn_start_async = TurnStartsController(
     bridge=gm
 ).action
+board.use_kard_async = BrightKardsController(
+    bridge=gm
+).action
+board.diskard_hime_async = DiskardHimesController(
+    bridge=gm
+).action
 
-view = BoardView(subject=OBSERVER, bridge=gm)
-gm.view = view
-
+board.protect_async = ProtectsController(
+    bridge=gm
+).action
+board.guard_async = GuardsController(
+    bridge=gm
+).action
 board.exchange_kards_async = ExchangeKardsController(
     bridge=gm
 ).action
-board.draw_kard_async = DrawKardsController(
+board.defeat_by_daizin_async = DefeatsByMinistersController(
     bridge=gm
 ).action
 

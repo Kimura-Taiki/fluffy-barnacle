@@ -15,6 +15,7 @@ class Board:
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
     defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
     diskard_hime_async: Callable[[Player], None] = lambda p: None
+    protect_async: Callable[[Player], None] = lambda p: None
     guard_async: Callable[[Kard], None] = lambda k: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
     rummage_async: Callable[[Player], None] = lambda p: None
@@ -69,6 +70,7 @@ class Board:
         raise ValueError("生存者がいません", self)
     
     def protect(self, player: Player) -> None:
+        self.protect_async(player)
         player.protected = True
 
     def rummage(self, player: Player) -> None:
