@@ -15,6 +15,8 @@ class DuelsController():
             view=self.bridge.view,
             transitions=[DuelTransition(
                 rect=Rect(200, 120, 880, 475),
+                p1=p1,
+                p2=p2,
                 canvas=screen
             )]
         ))
