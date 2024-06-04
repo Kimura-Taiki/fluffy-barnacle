@@ -3,7 +3,7 @@ from typing import TypeVar
 
 from any.func import ratio_rect, img_zoom, dest_rect_center
 from any.screen import FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
 
@@ -17,14 +17,14 @@ class DuelKardSlashSquare():
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
         self._drawing_in_progress = True
-        self.frames = frames()
         self.canvas = canvas
-        self.wait = int(FRAMES_PER_SECOND*seconds)
+        self._ratio = make_ratio_func(wait=int(FRAMES_PER_SECOND*seconds))
         self.img_front = img_zoom(
             img=kard.picture(),
             rect=self.rect,
             ratio=_RATIO
         )
+
 
     def rearrange(self) -> None:
         ...
@@ -58,9 +58,6 @@ class DuelKardSlashSquare():
 
     def in_progress(self) -> bool:
         return self._drawing_in_progress
-
-    def _ratio(self) -> float:
-        return 1.0 if self.wait == 0 else (frames()-self.frames)/self.wait
 
     def _complete(self) -> None:
         self._drawing_in_progress = False

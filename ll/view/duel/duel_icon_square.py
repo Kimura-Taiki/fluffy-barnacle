@@ -3,7 +3,7 @@ from pygame import Surface, Vector2 as V2, transform, Rect
 from any.func import ratio_rect
 from any.pictures import IMG_DUEL
 from any.screen import FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
 
 _RATIO = V2(280, 280)
@@ -13,10 +13,9 @@ class DuelIconSquare():
     def __init__(self, rect: Rect, canvas: Surface, seconds: float=0.0) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self._drawing_in_progress = True
-        self.frames = frames()
         self.canvas = canvas
-        self.wait = int(FRAMES_PER_SECOND*seconds)
         self.img_duel = self._img_duel()
+        self._ratio = make_ratio_func(wait=int(FRAMES_PER_SECOND*seconds)) if seconds else lambda: 1.0
 
     def rearrange(self) -> None:
         ...
@@ -50,9 +49,6 @@ class DuelIconSquare():
             angle=0.0,
             scale=3.0-self._ratio()*2
         )
-
-    def _ratio(self) -> float:
-        return 1.0 if self.wait == 0 else (frames()-self.frames)/self.wait
 
     def _complete(self) -> None:
         self._drawing_in_progress = False

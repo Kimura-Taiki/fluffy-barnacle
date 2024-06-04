@@ -2,7 +2,7 @@ from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
 from view.board_view import BoardView
 
@@ -25,7 +25,7 @@ class MessageView():
         self.img_mes = img_mes
         self.img_band = self._img_band()
         self._drawing_in_progress = True
-        self.frames = frames()
+        self._ratio = make_ratio_func(wait=_WAIT)
         self.ui_element = UIElement(
             mousedown=self._complete,
         )
@@ -67,9 +67,6 @@ class MessageView():
         img = Surface(size=(WX, self.img_mes.get_height()+_BAND_H*2), flags=SRCALPHA)
         rect_fill(color=translucented_color("white"), rect=Rect(0, 0, WX, img.get_height()), surface=img)
         return img
-
-    def _ratio(self) -> float:
-        return (frames()-self.frames)/_WAIT
 
     def _title_y(self) -> int:
         return int(WY/2-self.img_mes.get_height()/2)

@@ -2,7 +2,7 @@ from pygame import Surface, Vector2 as V2
 
 from any.pictures import IMG_BRIGHT
 from any.screen import screen, WX, WY, FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
 
@@ -16,7 +16,7 @@ class UseKardView():
         self.kard = kard
         self.img_kard = kard.picture()
         self._drawing_in_progress = True
-        self.frames = frames()
+        self._ratio = make_ratio_func(wait=_WAIT)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -48,9 +48,6 @@ class UseKardView():
     def _shift_y(self) -> int:
         h = self.img_kard.get_height()
         return int(-12-h+2*h*self._ratio())
-
-    def _ratio(self) -> float:
-        return (frames()-self.frames)/_WAIT
 
     def _complete(self) -> None:
         self._drawing_in_progress = False

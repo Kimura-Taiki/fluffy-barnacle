@@ -31,3 +31,16 @@ def timer_functions() -> tuple[Callable[[], None], Callable[[], None], Callable[
         return frame_count
     return start_timer, end_timer, frames
 start_timer, end_timer, frames = timer_functions()
+
+def make_ratio_func(wait: int) -> Callable[[], float]:
+    start = frames()
+    def ratio() -> float:
+        return min(1.0, max((frames()-start)/wait, 0.0))
+    return ratio
+
+def make_triangle_wave_func(period: int) -> Callable[[], float]:
+    start = frames()
+    def triangle_wave() -> float:
+        phase = (frames()-start) % period
+        return abs(phase-period/2)/(period/2)
+    return triangle_wave

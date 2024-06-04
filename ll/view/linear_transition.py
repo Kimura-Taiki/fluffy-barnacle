@@ -1,7 +1,7 @@
 from pygame import Surface, Vector2 as V2
 
 from any.screen import FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
 
 _SECONDS = 0.5
@@ -14,7 +14,7 @@ class LinearTransition():
         self.from_v2 = from_v2
         self.to_v2 = to_v2
         self._drawing_in_progress = True
-        self.frames = frames()
+        self._ratio = make_ratio_func(wait=_WAIT)
         self.canvas = canvas
 
     def rearrange(self) -> None:
@@ -35,9 +35,6 @@ class LinearTransition():
 
     def in_progress(self) -> bool:
         return self._drawing_in_progress
-
-    def _ratio(self) -> float:
-        return (frames()-self.frames)/_WAIT
 
     def _complete(self) -> None:
         self._drawing_in_progress = False

@@ -2,7 +2,7 @@ from pygame import Surface, Vector2 as V2, Rect
 
 from any.func import ratio_rect
 from any.screen import FRAMES_PER_SECOND
-from any.timer_functions import frames
+from any.timer_functions import make_ratio_func
 from model.player import Player
 from model.ui_element import UIElement
 from view.duel.duel_icon_square import DuelIconSquare
@@ -17,12 +17,12 @@ class DuelOpenTransition():
     def __init__(self, rect: Rect, p1: Player, p2: Player, canvas: Surface) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self._drawing_in_progress = True
-        self.frames = frames()
         self.canvas = canvas
         self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
         self.left_dkoq, self.right_dkoq = self.dkoqs(p1=p1, p2=p2)
         self.offset = V2(self.rect.topleft)
         self.squares: list[DuelIconSquare | DuelKardOpenSquare] = [self.diq, self.left_dkoq, self.right_dkoq]
+        self._ratio = make_ratio_func(wait=_WAIT)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -52,9 +52,6 @@ class DuelOpenTransition():
             canvas=self.canvas, seconds=f
         ) for tpl, player, f in li]
         return (dkoqs[0], dkoqs[1])
-
-    def _ratio(self) -> float:
-        return (frames()-self.frames)/_WAIT
 
     def _complete(self) -> None:
         self._drawing_in_progress = False
