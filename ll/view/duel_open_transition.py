@@ -5,7 +5,7 @@ from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import frames
 from model.player import Player
 from model.ui_element import UIElement
-from view.duel_kard_move_square import DuelKardMoveSquare
+from view.duel_kard_open_square import DuelKardOpenSquare
 from view.duel_icon_square import DuelIconSquare
 
 _RATIO = V2(880, 475)
@@ -19,14 +19,10 @@ class DuelOpenTransition():
         self._drawing_in_progress = True
         self.frames = frames()
         self.canvas = canvas
-        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=_SECONDS)
-        li: list[tuple[tuple[int, int], Player, bool]] = [((0, 0), p1, True), ((540, 0), p2, False)]
-        self.left_dkmq, self.right_dkmq = [DuelKardMoveSquare(
-            rect=Rect(tpl, (340, 475)), kard=player.hands[0],
-            is_left=is_left, canvas=canvas, seconds=_SECONDS
-        ) for tpl, player, is_left in li]
+        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
+        self.left_dkoq, self.right_dkoq = self.dkoqs(p1=p1, p2=p2)
         self.offset = V2(self.rect.topleft)
-        self.squares: list[DuelIconSquare | DuelKardMoveSquare] = [self.diq, self.left_dkmq, self.right_dkmq]
+        self.squares: list[DuelIconSquare | DuelKardOpenSquare] = [self.diq, self.left_dkoq, self.right_dkoq]
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -45,6 +41,17 @@ class DuelOpenTransition():
 
     def in_progress(self) -> bool:
         return self._drawing_in_progress
+
+    def dkoqs(self, p1: Player, p2: Player) -> tuple[DuelKardOpenSquare, DuelKardOpenSquare]:
+        li: list[tuple[tuple[int, int], Player, float]] = [
+            ((0, 0), p1, _SECONDS if p1.hands[0].rank < p2.hands[0].rank else 0.0),
+            ((540, 0), p2, _SECONDS if p1.hands[0].rank > p2.hands[0].rank else 0.0)
+        ]
+        dkoqs = [DuelKardOpenSquare(
+            rect=Rect(tpl, (340, 475)), kard=player.hands[0],
+            canvas=self.canvas, seconds=f
+        ) for tpl, player, f in li]
+        return (dkoqs[0], dkoqs[1])
 
     def _ratio(self) -> float:
         return (frames()-self.frames)/_WAIT
