@@ -5,8 +5,8 @@ from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import frames
 from model.player import Player
 from model.ui_element import UIElement
-from view.duel_icon_square import DuelIconSquare
-from view.duel_kard_open_square import DuelKardOpenSquare
+from view.duel.duel_icon_square import DuelIconSquare
+from view.duel.duel_kard_open_square import DuelKardOpenSquare
 
 _RATIO = V2(880, 475)
 _SECONDS = 0.5

@@ -3,9 +3,9 @@ from pygame import Rect
 from any.screen import screen
 from model.player import Player
 from ptc.bridge import Bridge
-from view.duel_engage_transition import DuelEngageTransition
-from view.duel_open_transition import DuelOpenTransition
-from view.duel_slash_transition import DuelSlashTransition
+from view.duel.duel_engage_transition import DuelEngageTransition
+from view.duel.duel_open_transition import DuelOpenTransition
+from view.duel.duel_slash_transition import DuelSlashTransition
 from view.moves_view import MovesView
 
 class DuelsController():
