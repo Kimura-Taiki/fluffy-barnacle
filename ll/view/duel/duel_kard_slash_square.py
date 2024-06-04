@@ -1,5 +1,4 @@
 from pygame import Surface, Vector2 as V2, Rect
-from typing import TypeVar
 
 from any.func import ratio_rect, img_zoom, dest_rect_center
 from any.timer_functions import make_ratio_func

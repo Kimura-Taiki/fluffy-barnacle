@@ -1,8 +1,9 @@
 from pygame import Surface, Vector2 as V2, Rect
-from typing import TypeVar, Generic
+from typing import runtime_checkable, Protocol
 
 from any.func import ratio_rect
 from any.timer_functions import make_ratio_func
+from model.kard import Kard
 from model.player import Player
 from model.ui_element import UIElement
 from view.duel.duel_kard_open_square import DuelKardOpenSquare
@@ -11,6 +12,19 @@ from view.duel.duel_icon_square import DuelIconSquare
 
 _RATIO = V2(880, 475)
 _SECONDS = 0.5
+
+@runtime_checkable
+class _Dq(Protocol):
+    def offset_draw(self, offset: V2=V2(0, 0)) -> None:
+        ...
+
+@runtime_checkable
+class _Dkq(Protocol):
+    def __init__(
+            self, rect: Rect, kard: Kard,
+            canvas: Surface, seconds: float
+        ) -> None:
+        ...
 
 from ptc.transition import Transition
 class DuelSlashTransition():
@@ -21,9 +35,9 @@ class DuelSlashTransition():
         self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
         self.left_dq, self.right_dq = self.dqs(p1=p1, p2=p2)
         self.offset = V2(self.rect.topleft)
-        self.squares: list[
-            DuelIconSquare | DuelKardOpenSquare | DuelKardSlashSquare
-        ] = [self.diq, self.left_dq, self.right_dq]
+        self.squares = [q for q in [
+            self.diq, self.left_dq, self.right_dq
+        ] if isinstance(q, _Dq)]
         self._ratio = make_ratio_func(seconds=_SECONDS)
         self.ui_element = UIElement(mousedown=self._complete)
 
@@ -45,14 +59,11 @@ class DuelSlashTransition():
         return self._drawing_in_progress
 
     def dqs(self, p1: Player, p2: Player) -> tuple[
-        DuelKardOpenSquare | DuelKardSlashSquare,
-        DuelKardOpenSquare | DuelKardSlashSquare
+        _Dkq, _Dkq
     ]:
-        T = TypeVar('T')
-        # T = Generic()
         ll = p1.hands[0].rank < p2.hands[0].rank
         rl = p1.hands[0].rank > p2.hands[0].rank
-        li: list[T, tuple[tuple[int, int], Player, float]] = [
+        li: list[tuple[type[_Dkq], tuple[int, int], Player, float]] = [
             (DuelKardSlashSquare if ll else DuelKardOpenSquare,
              (0, 0), p1, _SECONDS if ll else 0.0),
             (DuelKardSlashSquare if rl else DuelKardOpenSquare,
