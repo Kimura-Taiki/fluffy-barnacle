@@ -1,7 +1,6 @@
 from pygame import Surface, Vector2 as V2, Rect
 
 from any.func import ratio_rect
-from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import make_ratio_func
 from model.player import Player
 from model.ui_element import UIElement
@@ -10,14 +9,13 @@ from view.duel.duel_icon_square import DuelIconSquare
 
 _RATIO = V2(880, 475)
 _SECONDS = 0.5
-_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.transition import Transition
 class DuelEngageTransition():
     def __init__(self, rect: Rect, p1: Player, p2: Player, canvas: Surface) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self._drawing_in_progress = True
-        self._ratio = make_ratio_func(wait=_WAIT)
+        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.canvas = canvas
         self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=_SECONDS)
         li: list[tuple[tuple[int, int], Player, bool]] = [((0, 0), p1, True), ((540, 0), p2, False)]

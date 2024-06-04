@@ -2,7 +2,6 @@ from pygame import Surface, Vector2 as V2, transform, Rect
 
 from any.func import ratio_rect, img_zoom, dest_rect_center
 from any.pictures import IMG_BACK
-from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
@@ -24,7 +23,7 @@ class DuelKardOpenSquare():
             rect=self.rect,
             ratio=_RATIO
         )
-        self._ratio = make_ratio_func(wait=int(FRAMES_PER_SECOND*seconds)) if seconds else lambda: 0.0
+        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 0.0
 
     def rearrange(self) -> None:
         ...
@@ -36,10 +35,8 @@ class DuelKardOpenSquare():
         self.offset_draw()
 
     def offset_draw(self, offset: V2=V2(0, 0)) -> None:
-        # img = self.img_open() if self.wait else self.img_back
         img = self.img_open()
         self.canvas.blit(
-            # source=img,
             source=img,
             dest=dest_rect_center(rect=self.rect, img=img)+offset
         )

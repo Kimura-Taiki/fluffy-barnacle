@@ -3,7 +3,7 @@ from copy import copy
 
 from any.func import enforce, rect_fill, translucented_color
 from any.pictures import IMG_BG
-from any.screen import screen, WX, WY, FRAMES_PER_SECOND
+from any.screen import screen, WX, WY
 from any.timer_functions import make_triangle_wave_func
 from model.player import Player, OBSERVER
 from model.ui_element import UIElement
@@ -12,7 +12,7 @@ from ptc.square import Square
 from view.board_view import BoardView
 from view.player_square import PlayerSquare
 
-_PERIOD = int(FRAMES_PER_SECOND*1.0)
+_SECONDS = 1.0
 
 from ptc.transition import Transition
 class PlayerSelectView:
@@ -23,7 +23,7 @@ class PlayerSelectView:
         self.player_squares = self._player_squares()
         self.other_squares = self._other_squares()
         self.selected_player: Player = OBSERVER
-        self._wave = make_triangle_wave_func(period=_PERIOD)
+        self._wave = make_triangle_wave_func(seconds=_SECONDS)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""

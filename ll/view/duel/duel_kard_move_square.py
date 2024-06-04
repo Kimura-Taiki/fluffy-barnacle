@@ -2,7 +2,6 @@ from pygame import Surface, Vector2 as V2, transform, Rect
 
 from any.func import ratio_rect
 from any.pictures import IMG_BACK
-from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
@@ -22,7 +21,7 @@ class DuelKardMoveSquare():
         self.img_back = self._img_back()
         self.to_v2 = V2(rect.topleft)
         self.from_v2 = self.to_v2+V2(self.img_back.get_width(), 0)*(-2 if is_left else 2)
-        self._ratio = make_ratio_func(wait=int(FRAMES_PER_SECOND*seconds)) if seconds else lambda: 1.0
+        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 1.0
 
     def rearrange(self) -> None:
         ...

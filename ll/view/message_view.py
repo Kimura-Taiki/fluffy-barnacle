@@ -1,7 +1,7 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
 from any.func import rect_fill, translucented_color
-from any.screen import screen, WX, WY, FRAMES_PER_SECOND
+from any.screen import screen, WX, WY
 from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
 from view.board_view import BoardView
@@ -9,13 +9,9 @@ from view.board_view import BoardView
 _FADE_IN_SECONDS = 0.25
 _SEEING_SECONDS = 0.5
 _FADE_OUT_SECONDS = 0.25
-_WAIT = int(
-    FRAMES_PER_SECOND*(
-        _FADE_IN_SECONDS+_SEEING_SECONDS+_FADE_OUT_SECONDS
-    )
-)
-_FI_RATIO = (FRAMES_PER_SECOND*_FADE_IN_SECONDS)/_WAIT
-_SEE_RATIO = (FRAMES_PER_SECOND*(_FADE_IN_SECONDS+_SEEING_SECONDS))/_WAIT
+_TOTAL_SECONDS = _FADE_IN_SECONDS+_SEEING_SECONDS+_FADE_OUT_SECONDS
+_FI_RATIO = _FADE_IN_SECONDS/_TOTAL_SECONDS
+_SEE_RATIO = (_FADE_IN_SECONDS+_SEEING_SECONDS)/_TOTAL_SECONDS
 _BAND_H = 24
 
 from ptc.view import View
@@ -25,7 +21,7 @@ class MessageView():
         self.img_mes = img_mes
         self.img_band = self._img_band()
         self._drawing_in_progress = True
-        self._ratio = make_ratio_func(wait=_WAIT)
+        self._ratio = make_ratio_func(seconds=_TOTAL_SECONDS)
         self.ui_element = UIElement(
             mousedown=self._complete,
         )

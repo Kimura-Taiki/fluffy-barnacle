@@ -1,13 +1,12 @@
 from pygame import Surface, Vector2 as V2
 
 from any.pictures import IMG_BRIGHT
-from any.screen import screen, WX, WY, FRAMES_PER_SECOND
+from any.screen import screen, WX, WY
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
 
 _SECONDS = 0.5
-_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.view import View
 class UseKardView():
@@ -16,7 +15,7 @@ class UseKardView():
         self.kard = kard
         self.img_kard = kard.picture()
         self._drawing_in_progress = True
-        self._ratio = make_ratio_func(wait=_WAIT)
+        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:

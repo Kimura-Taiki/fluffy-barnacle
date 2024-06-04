@@ -1,12 +1,11 @@
 from pygame import Surface, Vector2 as V2, transform
 
 from any.pictures import IMG_SHIELD
-from any.screen import WV2, FRAMES_PER_SECOND
+from any.screen import WV2
 from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
 
 _SECONDS = 0.5
-_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.transition import Transition
 class ShieldTransition():
@@ -14,7 +13,7 @@ class ShieldTransition():
         self.from_v2 = WV2/2
         self.to_v2 = to_v2
         self._drawing_in_progress = True
-        self._ratio = make_ratio_func(wait=_WAIT)
+        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.canvas = canvas
 
     def rearrange(self) -> None:
