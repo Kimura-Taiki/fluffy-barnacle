@@ -1,6 +1,6 @@
 from pygame import Surface, Vector2 as V2, transform, Rect
 
-from any.func import ratio_rect, img_zoom, dest_rect_center
+from any.func import ratio_rect
 from any.pictures import IMG_BACK
 from any.screen import FRAMES_PER_SECOND
 from any.timer_functions import frames
@@ -10,9 +10,10 @@ from model.ui_element import UIElement
 _RATIO = V2(340, 475)
 
 from ptc.transition import Transition
-class DuelKardOpenSquare():
+class DuelKardMoveSquare():
     def __init__(
-            self, rect: Rect, kard: Kard, canvas: Surface, seconds: float=0.0
+            self, rect: Rect, kard: Kard, is_left: bool,
+            canvas: Surface, seconds: float=0.0
         ) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
@@ -20,12 +21,9 @@ class DuelKardOpenSquare():
         self.frames = frames()
         self.canvas = canvas
         self.wait = int(FRAMES_PER_SECOND*seconds)
-        self.img_back = img_zoom(img=IMG_BACK, rect=self.rect, ratio=_RATIO)
-        self.img_front = img_zoom(
-            img=kard.picture(),
-            rect=self.rect,
-            ratio=_RATIO
-        )
+        self.img_back = self._img_back()
+        self.to_v2 = V2(rect.topleft)
+        self.from_v2 = self.to_v2+V2(self.img_back.get_width(), 0)*(-2 if is_left else 2)
 
     def rearrange(self) -> None:
         ...
@@ -37,10 +35,9 @@ class DuelKardOpenSquare():
         self.offset_draw()
 
     def offset_draw(self, offset: V2=V2(0, 0)) -> None:
-        img = self.img_open() if self.wait else self.img_back
         self.canvas.blit(
-            source=img,
-            dest=dest_rect_center(rect=self.rect, img=img)+offset
+            source=self.img_back,
+            dest=self.from_v2.lerp(self.to_v2, self._ratio())+offset
         )
 
     def elapse(self) -> None:
@@ -50,11 +47,8 @@ class DuelKardOpenSquare():
     def in_progress(self) -> bool:
         return self._drawing_in_progress
 
-    def img_open(self) -> Surface:
-        img, sx = (self.img_back, self.img_back.get_width()*(0.5-f)/0.5)\
-            if (f := self._ratio()) < 0.5 else\
-                (self.img_front, self.img_back.get_width()*(f-0.5)/0.5)
-        return transform.smoothscale(surface=img, size=(sx, IMG_BACK.get_height()))
+    def _img_back(self) -> Surface:
+        return transform.rotozoom(surface=IMG_BACK, angle=0.0, scale=self.rect.w/_RATIO.x)
 
     def _ratio(self) -> float:
         return 1.0 if self.wait == 0 else (frames()-self.frames)/self.wait

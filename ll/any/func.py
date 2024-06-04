@@ -1,4 +1,4 @@
-from pygame import Surface, SRCALPHA, Color, Rect, mouse, Vector2 as V2
+from pygame import Surface, SRCALPHA, Color, Rect, mouse, Vector2 as V2, transform
 from typing import Sequence, Any, TypeVar
 from copy import deepcopy
 
@@ -15,6 +15,16 @@ def rect_fill(color: ColorValue, rect: Rect, surface: Surface=screen) -> None:
 def ratio_rect(rect: Rect, ratio: tuple[int | float, int | float] | V2) -> Rect:
     w, h = (ratio[0]*rect.h/ratio[1], rect.h) if rect.w*ratio[1] > rect.h*ratio[0] else (rect.w, ratio[1]*rect.w/ratio[0])
     return Rect(rect.left+(rect.w-w)/2, rect.top+(rect.h-h)/2, w, h)
+
+def dest_rect_center(rect: Rect, img: Surface) -> V2:
+    return V2(rect.center)-V2(img.get_size())/2
+
+def img_zoom(img: Surface, rect: Rect, ratio: V2) -> Surface:
+    return transform.rotozoom(
+        surface=img,
+        angle=0.0,
+        scale=rect.w/ratio.x
+    )
 
 def translucented_color(color: ColorValue, a: int=128) -> Color:
     ret = deepcopy(Color(color))
