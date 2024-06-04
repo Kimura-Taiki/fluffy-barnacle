@@ -1,5 +1,5 @@
 from pygame import Surface, SRCALPHA, Color, Rect, mouse, Vector2 as V2, transform
-from typing import Sequence, Any, TypeVar
+from typing import Sequence, Any, TypeVar, Callable
 from copy import deepcopy
 
 from any.screen import screen
@@ -41,4 +41,14 @@ def enforce(__object: Any, __type: type[T]) -> T:
     if not isinstance(__object, __type):
         raise ValueError(f"{__object} is not an instance of {__type.__name__}")
     return __object
+
+def make_progress_funcs() -> tuple[Callable[[], bool], Callable[[], None]]:
+    in_drawing_progress = True
+    def in_progress() -> bool:
+        nonlocal in_drawing_progress
+        return in_drawing_progress
+    def _complete() -> None:
+        nonlocal in_drawing_progress
+        in_drawing_progress = False
+    return in_progress, _complete
 

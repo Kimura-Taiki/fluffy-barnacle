@@ -1,7 +1,7 @@
 from pygame import Surface, Vector2 as V2, Rect
 from typing import runtime_checkable, Protocol
 
-from any.func import ratio_rect
+from any.func import ratio_rect, make_progress_funcs
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.player import Player
@@ -9,9 +9,6 @@ from model.ui_element import UIElement
 from view.duel.duel_kard_open_square import DuelKardOpenSquare
 from view.duel.duel_kard_slash_square import DuelKardSlashSquare
 from view.duel.duel_icon_square import DuelIconSquare
-
-_RATIO = V2(880, 475)
-_SECONDS = 0.5
 
 @runtime_checkable
 class _Dq(Protocol):
@@ -26,11 +23,15 @@ class _Dkq(Protocol):
         ) -> None:
         ...
 
+_RATIO = V2(880, 475)
+_SECONDS = 0.5
+
 from ptc.transition import Transition
 class DuelSlashTransition():
     def __init__(self, rect: Rect, p1: Player, p2: Player, canvas: Surface) -> None:
+        self.in_progress, self._complete = make_progress_funcs()
+        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
-        self._drawing_in_progress = True
         self.canvas = canvas
         self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
         self.left_dq, self.right_dq = self.dqs(p1=p1, p2=p2)
@@ -38,7 +39,6 @@ class DuelSlashTransition():
         self.squares = [q for q in [
             self.diq, self.left_dq, self.right_dq
         ] if isinstance(q, _Dq)]
-        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -54,9 +54,6 @@ class DuelSlashTransition():
     def elapse(self) -> None:
         if self._ratio() >= 1:
             self._complete()
-
-    def in_progress(self) -> bool:
-        return self._drawing_in_progress
 
     def dqs(self, p1: Player, p2: Player) -> tuple[
         _Dkq, _Dkq
@@ -74,6 +71,3 @@ class DuelSlashTransition():
             canvas=self.canvas, seconds=f
         ) for cls, tpl, player, f in li]
         return (dqs[0], dqs[1])
-
-    def _complete(self) -> None:
-        self._drawing_in_progress = False
