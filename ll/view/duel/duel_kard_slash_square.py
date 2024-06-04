@@ -1,6 +1,6 @@
 from pygame import Surface, Vector2 as V2, Rect
 
-from any.func import ratio_rect, img_zoom, dest_rect_center
+from any.func import ratio_rect, img_zoom, dest_rect_center, make_progress_funcs
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
@@ -12,17 +12,16 @@ class DuelKardSlashSquare():
     def __init__(
             self, rect: Rect, kard: Kard, canvas: Surface, seconds: float=0.0
         ) -> None:
+        self.in_progress, self._complete = make_progress_funcs()
+        self._ratio = make_ratio_func(seconds=seconds)
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
-        self._drawing_in_progress = True
         self.canvas = canvas
-        self._ratio = make_ratio_func(seconds=seconds)
         self.img_front = img_zoom(
             img=kard.picture(),
             rect=self.rect,
             ratio=_RATIO
         )
-
 
     def rearrange(self) -> None:
         ...
@@ -53,9 +52,3 @@ class DuelKardSlashSquare():
     def elapse(self) -> None:
         if self._ratio() >= 1:
             self._complete()
-
-    def in_progress(self) -> bool:
-        return self._drawing_in_progress
-
-    def _complete(self) -> None:
-        self._drawing_in_progress = False

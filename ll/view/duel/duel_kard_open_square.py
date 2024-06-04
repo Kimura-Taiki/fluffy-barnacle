@@ -1,6 +1,6 @@
 from pygame import Surface, Vector2 as V2, transform, Rect
 
-from any.func import ratio_rect, img_zoom, dest_rect_center
+from any.func import ratio_rect, img_zoom, dest_rect_center, make_progress_funcs
 from any.pictures import IMG_BACK
 from any.timer_functions import make_ratio_func
 from model.kard import Kard
@@ -13,9 +13,10 @@ class DuelKardOpenSquare():
     def __init__(
             self, rect: Rect, kard: Kard, canvas: Surface, seconds: float=0.0
         ) -> None:
+        self.in_progress, self._complete = make_progress_funcs()
+        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 0.0
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
-        self._drawing_in_progress = True
         self.canvas = canvas
         self.img_back = img_zoom(img=IMG_BACK, rect=self.rect, ratio=_RATIO)
         self.img_front = img_zoom(
@@ -23,7 +24,6 @@ class DuelKardOpenSquare():
             rect=self.rect,
             ratio=_RATIO
         )
-        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 0.0
 
     def rearrange(self) -> None:
         ...
@@ -45,14 +45,8 @@ class DuelKardOpenSquare():
         if self._ratio() >= 1:
             self._complete()
 
-    def in_progress(self) -> bool:
-        return self._drawing_in_progress
-
     def img_open(self) -> Surface:
         img, sx = (self.img_back, self.img_back.get_width()*(0.5-f)/0.5)\
             if (f := self._ratio()) < 0.5 else\
                 (self.img_front, self.img_back.get_width()*(f-0.5)/0.5)
         return transform.smoothscale(surface=img, size=(sx, IMG_BACK.get_height()))
-
-    def _complete(self) -> None:
-        self._drawing_in_progress = False

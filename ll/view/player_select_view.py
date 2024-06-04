@@ -1,7 +1,7 @@
 from pygame import Rect
 from copy import copy
 
-from any.func import enforce, rect_fill, translucented_color
+from any.func import enforce, rect_fill, translucented_color, make_progress_funcs
 from any.pictures import IMG_BG
 from any.screen import screen, WX, WY
 from any.timer_functions import make_triangle_wave_func
@@ -17,13 +17,14 @@ _SECONDS = 1.0
 from ptc.transition import Transition
 class PlayerSelectView:
     def __init__(self, bridge: Bridge, exclude: Player=OBSERVER) -> None:
+        self.in_progress, self._pre_complete = make_progress_funcs()
+        self.selected_player: Player = OBSERVER
+        self._wave = make_triangle_wave_func(seconds=_SECONDS)
         self.bridge = bridge
         self.exclude = exclude
         self.board_view = enforce(bridge.view, BoardView)
         self.player_squares = self._player_squares()
         self.other_squares = self._other_squares()
-        self.selected_player: Player = OBSERVER
-        self._wave = make_triangle_wave_func(seconds=_SECONDS)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""
@@ -51,9 +52,6 @@ class PlayerSelectView:
     def elapse(self) -> None:
         """時間経過の処理を行います"""
         ...
-
-    def in_progress(self) -> bool:
-        return self.selected_player == OBSERVER
 
     def _player_squares(self) -> list[PlayerSquare]:
         li: list[PlayerSquare] = []
@@ -86,4 +84,5 @@ class PlayerSelectView:
         return li
 
     def _complete(self, player: Player) -> None:
+        self._pre_complete()
         self.selected_player = player

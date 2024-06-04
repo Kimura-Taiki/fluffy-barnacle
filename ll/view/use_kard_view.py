@@ -1,5 +1,6 @@
 from pygame import Surface, Vector2 as V2
 
+from any.func import make_progress_funcs
 from any.pictures import IMG_BRIGHT
 from any.screen import screen, WX, WY
 from any.timer_functions import make_ratio_func
@@ -11,11 +12,11 @@ _SECONDS = 0.5
 from ptc.view import View
 class UseKardView():
     def __init__(self, view: View, kard: Kard) -> None:
+        self.in_progress, self._complete = make_progress_funcs()
+        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.board_view = view
         self.kard = kard
         self.img_kard = kard.picture()
-        self._drawing_in_progress = True
-        self._ratio = make_ratio_func(seconds=_SECONDS)
         self.ui_element = UIElement(mousedown=self._complete)
 
     def rearrange(self) -> None:
@@ -35,9 +36,6 @@ class UseKardView():
         if self._ratio() >= 1:
             self._complete()
 
-    def in_progress(self) -> bool:
-        return self._drawing_in_progress
-
     def _img_bright_kard(self) -> Surface:
         img = Surface(size=self.img_kard.get_size())
         img.blit(source=self.img_kard, dest=(0, 0))
@@ -47,6 +45,3 @@ class UseKardView():
     def _shift_y(self) -> int:
         h = self.img_kard.get_height()
         return int(-12-h+2*h*self._ratio())
-
-    def _complete(self) -> None:
-        self._drawing_in_progress = False

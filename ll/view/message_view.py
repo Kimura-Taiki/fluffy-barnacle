@@ -1,6 +1,6 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
-from any.func import rect_fill, translucented_color
+from any.func import rect_fill, translucented_color, make_progress_funcs
 from any.screen import screen, WX, WY
 from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
@@ -17,10 +17,10 @@ _BAND_H = 24
 from ptc.view import View
 class MessageView():
     def __init__(self, board_view: BoardView, img_mes: Surface) -> None:
+        self.in_progress, self._complete = make_progress_funcs()
         self.board_view = board_view
         self.img_mes = img_mes
         self.img_band = self._img_band()
-        self._drawing_in_progress = True
         self._ratio = make_ratio_func(seconds=_TOTAL_SECONDS)
         self.ui_element = UIElement(
             mousedown=self._complete,
@@ -56,9 +56,6 @@ class MessageView():
         if self._ratio() >= 1:
             self._complete()
 
-    def in_progress(self) -> bool:
-        return self._drawing_in_progress
-
     def _img_band(self) -> Surface:
         img = Surface(size=(WX, self.img_mes.get_height()+_BAND_H*2), flags=SRCALPHA)
         rect_fill(color=translucented_color("white"), rect=Rect(0, 0, WX, img.get_height()), surface=img)
@@ -75,6 +72,3 @@ class MessageView():
 
     def _right_v2(self) -> V2:
         return V2(WX, self._title_y())
-
-    def _complete(self) -> None:
-        self._drawing_in_progress = False
