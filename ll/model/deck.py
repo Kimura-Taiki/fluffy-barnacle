@@ -51,10 +51,13 @@ def make_deck() -> list[Kard]:
     # deck.insert(4, _kards[8])
 
     # 「騎士」
-    deck.insert(0, _kards[3])
+    deck.insert(0, _kards[5])
     deck.insert(1, _kards[5])
     deck.insert(2, _kards[6])
     deck.insert(3, _kards[4])
-    deck.insert(4, _kards[5])
+    deck.insert(4, _kards[3])
+    deck.insert(5, _kards[3])
+    deck.insert(6, _kards[3])
+    deck.insert(7, _kards[3])
 
     return deck
