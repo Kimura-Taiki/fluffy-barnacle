@@ -1,17 +1,18 @@
 from pygame import Surface, Vector2 as V2, transform, Rect
 
-from any.func import ratio_rect, make_progress_funcs
+from any.func import ratio_rect
 from any.pictures import IMG_DUEL
-from any.timer_functions import make_ratio_func
 from model.ui_element import UIElement
+from view.progress_helper import ProgressHelper
 
 _RATIO = V2(280, 280)
 
 from ptc.transition import Transition
 class DuelIconSquare():
     def __init__(self, rect: Rect, canvas: Surface, seconds: float=0.0) -> None:
-        self.in_progress, self._complete = make_progress_funcs()
-        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 1.0
+        self._ratio, self.in_progress, _, _, _, self.elapse\
+            = ProgressHelper(seconds=seconds).provide_progress_funcs()
+        self._ratio = self._ratio if seconds else lambda : 1.0
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
         self.img_duel = self._img_duel()
@@ -31,10 +32,6 @@ class DuelIconSquare():
             source=img_rz,
             dest=V2(self.rect.center)-V2(img_rz.get_size())/2+offset
         )
-
-    def elapse(self) -> None:
-        if self._ratio() >= 1:
-            self._complete()
 
     def _img_duel(self) -> Surface:
         return transform.rotozoom(surface=IMG_DUEL, angle=0.0, scale=self.rect.w/_RATIO.x)

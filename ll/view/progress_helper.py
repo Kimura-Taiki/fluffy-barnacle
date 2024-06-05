@@ -5,7 +5,7 @@ from model.ui_element import UIElement
 
 class ProgressHelper:
     '''
-    in_progressを中心としたメソッド群を提供します。
+    in_progressを中心としたメンバー群を提供します。
 
     seconds引数に0.0を入れた場合、ratio_funcは常に0.0を返します。
     '''

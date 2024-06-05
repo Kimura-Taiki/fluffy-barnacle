@@ -1,10 +1,10 @@
 from pygame import Surface, Vector2 as V2, transform, Rect
 
-from any.func import ratio_rect, make_progress_funcs
+from any.func import ratio_rect
 from any.pictures import IMG_BACK
-from any.timer_functions import make_ratio_func
 from model.kard import Kard
 from model.ui_element import UIElement
+from view.progress_helper import ProgressHelper
 
 _RATIO = V2(340, 475)
 
@@ -14,8 +14,9 @@ class DuelKardMoveSquare():
             self, rect: Rect, kard: Kard, is_left: bool,
             canvas: Surface, seconds: float=0.0
         ) -> None:
-        self.in_progress, self._complete = make_progress_funcs()
-        self._ratio = make_ratio_func(seconds=seconds) if seconds else lambda: 1.0
+        self._ratio, self.in_progress, _, _, _, self.elapse\
+            = ProgressHelper(seconds=seconds).provide_progress_funcs()
+        self._ratio = self._ratio if seconds else lambda: 1.0
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
         self.canvas = canvas
@@ -37,10 +38,6 @@ class DuelKardMoveSquare():
             source=self.img_back,
             dest=self.from_v2.lerp(self.to_v2, self._ratio())+offset
         )
-
-    def elapse(self) -> None:
-        if self._ratio() >= 1:
-            self._complete()
 
     def _img_back(self) -> Surface:
         return transform.rotozoom(surface=IMG_BACK, angle=0.0, scale=self.rect.w/_RATIO.x)

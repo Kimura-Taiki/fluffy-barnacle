@@ -7,7 +7,7 @@ from view.duel.duel_kard_open_square import DuelKardOpenSquare
 from view.progress_helper import ProgressHelper
 
 _RATIO = V2(880, 475)
-_SECONDS = 0.5*5
+_SECONDS = 0.5
 
 from ptc.transition import Transition
 class DuelOpenTransition():

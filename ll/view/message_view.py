@@ -1,10 +1,9 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
-from any.func import rect_fill, translucented_color, make_progress_funcs
+from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY
-from any.timer_functions import make_ratio_func
-from model.ui_element import UIElement
 from view.board_view import BoardView
+from view.progress_helper import ProgressHelper
 
 _FADE_IN_SECONDS = 0.25
 _SEEING_SECONDS = 0.5
@@ -17,20 +16,14 @@ _BAND_H = 24
 from ptc.view import View
 class MessageView():
     def __init__(self, board_view: BoardView, img_mes: Surface) -> None:
-        self.in_progress, self._complete = make_progress_funcs()
+        self._ratio, self.in_progress, _, _, self.get_hover, self.elapse\
+            = ProgressHelper(seconds=_TOTAL_SECONDS).provide_progress_funcs()
         self.board_view = board_view
         self.img_mes = img_mes
         self.img_band = self._img_band()
-        self._ratio = make_ratio_func(seconds=_TOTAL_SECONDS)
-        self.ui_element = UIElement(
-            mousedown=self._complete,
-        )
 
     def rearrange(self) -> None:
         ...
-
-    def get_hover(self) -> UIElement | None:
-        return self.ui_element
 
     def draw(self) -> None:
         self.board_view.draw()
@@ -51,10 +44,6 @@ class MessageView():
             source=self.img_mes,
             dest=from_v2.lerp(to_v2, ratio)
         )
-
-    def elapse(self) -> None:
-        if self._ratio() >= 1:
-            self._complete()
 
     def _img_band(self) -> Surface:
         img = Surface(size=(WX, self.img_mes.get_height()+_BAND_H*2), flags=SRCALPHA)
