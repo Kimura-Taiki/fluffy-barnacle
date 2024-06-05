@@ -3,20 +3,19 @@ from pygame import Surface, Vector2 as V2, transform, Rect
 from any.func import ratio_rect
 from any.pictures import IMG_BACK
 from model.kard import Kard
-from model.ui_element import UIElement
 from view.progress_helper import ProgressHelper
 
 _RATIO = V2(340, 475)
 
-from ptc.transition import Transition
+from ptc.square import Square
 class DuelKardMoveSquare():
     def __init__(
             self, rect: Rect, kard: Kard, is_left: bool,
             canvas: Surface, seconds: float=0.0
         ) -> None:
-        self._ratio, self.in_progress, _, _, _, self.elapse\
-            = ProgressHelper(seconds=seconds).provide_progress_funcs()
+        self._ratio = ProgressHelper(seconds=seconds).ratio
         self._ratio = self._ratio if seconds else lambda: 1.0
+        self.get_hover = ProgressHelper.empty_get_hover
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.kard = kard
         self.canvas = canvas
@@ -26,9 +25,6 @@ class DuelKardMoveSquare():
 
     def rearrange(self) -> None:
         ...
-
-    def get_hover(self) -> UIElement | None:
-        return None
 
     def draw(self) -> None:
         self.offset_draw()

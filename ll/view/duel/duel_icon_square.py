@@ -2,7 +2,6 @@ from pygame import Surface, Vector2 as V2, transform, Rect
 
 from any.func import ratio_rect
 from any.pictures import IMG_DUEL
-from model.ui_element import UIElement
 from view.progress_helper import ProgressHelper
 
 _RATIO = V2(280, 280)
@@ -10,18 +9,15 @@ _RATIO = V2(280, 280)
 from ptc.transition import Transition
 class DuelIconSquare():
     def __init__(self, rect: Rect, canvas: Surface, seconds: float=0.0) -> None:
-        self._ratio, self.in_progress, _, _, _, self.elapse\
-            = ProgressHelper(seconds=seconds).provide_progress_funcs()
+        self._ratio = ProgressHelper(seconds=seconds).ratio
         self._ratio = self._ratio if seconds else lambda : 1.0
+        self.get_hover = ProgressHelper.empty_get_hover
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
         self.img_duel = self._img_duel()
 
     def rearrange(self) -> None:
         ...
-
-    def get_hover(self) -> UIElement | None:
-        return None
 
     def draw(self) -> None:
         self.offset_draw()

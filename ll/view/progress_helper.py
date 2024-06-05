@@ -10,12 +10,12 @@ class ProgressHelper:
     seconds引数に0.0を入れた場合、ratio_funcは常に0.0を返します。
     '''
     def __init__(self, seconds: float) -> None:
-        self.ratio_func = make_ratio_func(seconds=seconds) if seconds else lambda : 0.0
+        self.ratio = make_ratio_func(seconds=seconds) if seconds else lambda : 0.0
         self.ui_element = UIElement(mousedown=self.complete)
         self._in_progress = True
 
     def in_progress(self) -> bool:
-        return (self.ratio_func() < 1) and self._in_progress
+        return (self.ratio() < 1) and self._in_progress
 
     def complete(self) -> None:
         self._in_progress = False
@@ -35,4 +35,8 @@ class ProgressHelper:
         メソッド六種を一括して供給します。
         不要なメソッドの項目には「_」を指定してください。戻り値を6つ全て取らないとエラーです。
         '''
-        return self.ratio_func, self.in_progress, self.complete, self.ui_element, self.get_hover, self.elapse
+        return self.ratio, self.in_progress, self.complete, self.ui_element, self.get_hover, self.elapse
+
+    @classmethod
+    def empty_get_hover(cls) -> UIElement | None:
+        return None
