@@ -32,12 +32,7 @@ class DuelSlashTransition():
             = ProgressHelper(seconds=_SECONDS).provide_progress_funcs()
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
-        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
-        self.left_dq, self.right_dq = self.dqs(p1=p1, p2=p2)
-        self.offset = V2(self.rect.topleft)
-        self.squares = [q for q in [
-            self.diq, self.left_dq, self.right_dq
-        ] if isinstance(q, _Dq)]
+        self.squares = self._squares(p1=p1, p2=p2)
 
     def rearrange(self) -> None:
         ...
@@ -46,7 +41,7 @@ class DuelSlashTransition():
         for square in self.squares:
             square.offset_draw(offset=self.offset)
 
-    def dqs(self, p1: Player, p2: Player) -> tuple[
+    def _dqs(self, p1: Player, p2: Player) -> tuple[
         _Dkq, _Dkq
     ]:
         ll = p1.hands[0].rank < p2.hands[0].rank
@@ -62,3 +57,11 @@ class DuelSlashTransition():
             canvas=self.canvas, seconds=f
         ) for cls, tpl, player, f in li]
         return (dqs[0], dqs[1])
+
+    def _squares(self, p1: Player, p2: Player) -> list[_Dq]:
+        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=self.canvas, seconds=0.0)
+        self.left_dq, self.right_dq = self._dqs(p1=p1, p2=p2)
+        self.offset = V2(self.rect.topleft)
+        return [q for q in [
+            self.diq, self.left_dq, self.right_dq
+        ] if isinstance(q, _Dq)]

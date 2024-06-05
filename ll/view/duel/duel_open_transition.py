@@ -16,10 +16,7 @@ class DuelOpenTransition():
             = ProgressHelper(seconds=_SECONDS).provide_progress_funcs()
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
-        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=0.0)
-        self.left_dkoq, self.right_dkoq = self.dkoqs(p1=p1, p2=p2)
-        self.offset = V2(self.rect.topleft)
-        self.squares: list[DuelIconSquare | DuelKardOpenSquare] = [self.diq, self.left_dkoq, self.right_dkoq]
+        self.squares = self._squares(p1=p1, p2=p2)
 
     def rearrange(self) -> None:
         ...
@@ -38,3 +35,9 @@ class DuelOpenTransition():
             canvas=self.canvas, seconds=f
         ) for tpl, player, f in li]
         return (dkoqs[0], dkoqs[1])
+
+    def _squares(self, p1: Player, p2: Player) -> list[DuelIconSquare | DuelKardOpenSquare]:
+        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=self.canvas, seconds=0.0)
+        self.left_dkoq, self.right_dkoq = self.dkoqs(p1=p1, p2=p2)
+        self.offset = V2(self.rect.topleft)
+        return [self.diq, self.left_dkoq, self.right_dkoq]

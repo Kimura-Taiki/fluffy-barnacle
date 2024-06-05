@@ -16,14 +16,7 @@ class DuelEngageTransition():
             = ProgressHelper(seconds=_SECONDS).provide_progress_funcs()
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
-        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=canvas, seconds=_SECONDS)
-        li: list[tuple[tuple[int, int], Player, bool]] = [((0, 0), p1, True), ((540, 0), p2, False)]
-        self.left_dkoq, self.right_dkoq = [DuelKardMoveSquare(
-            rect=Rect(tpl, (340, 475)), kard=player.hands[0],
-            is_left=is_left, canvas=canvas, seconds=_SECONDS
-        ) for tpl, player, is_left in li]
-        self.offset = V2(self.rect.topleft)
-        self.squares: list[DuelIconSquare | DuelKardMoveSquare] = [self.diq, self.left_dkoq, self.right_dkoq]
+        self.squares = self._squares(p1=p1, p2=p2)
 
     def rearrange(self) -> None:
         ...
@@ -31,3 +24,14 @@ class DuelEngageTransition():
     def draw(self) -> None:
         for square in self.squares:
             square.offset_draw(offset=self.offset)
+
+    def _squares(self, p1: Player, p2: Player) -> list[DuelIconSquare | DuelKardMoveSquare]:
+        self.diq = DuelIconSquare(rect=Rect(300, 95, 280, 280), canvas=self.canvas, seconds=_SECONDS)
+        li: list[tuple[tuple[int, int], Player, bool]] = [((0, 0), p1, True), ((540, 0), p2, False)]
+        self.left_dkoq, self.right_dkoq = [DuelKardMoveSquare(
+            rect=Rect(tpl, (340, 475)), kard=player.hands[0],
+            is_left=is_left, canvas=self.canvas, seconds=_SECONDS
+        ) for tpl, player, is_left in li]
+        self.offset = V2(self.rect.topleft)
+        return [self.diq, self.left_dkoq, self.right_dkoq]
+
