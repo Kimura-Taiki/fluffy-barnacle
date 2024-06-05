@@ -26,7 +26,8 @@ def _make_board() -> Board:
 board = _make_board()
 gm = GameMaster(board=board)
 
-view = BoardView(subject=OBSERVER, bridge=gm)
+# view = BoardView(subject=OBSERVER, bridge=gm)
+view = BoardView(subject=board.players[0], bridge=gm)
 gm.view = view
 
 board.draw_kard_async = DrawKardsController(

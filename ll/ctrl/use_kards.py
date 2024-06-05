@@ -26,6 +26,10 @@ class UseKardsController():
 
     def _use_douke(self) -> None:
         print("カード「道化」を使ったよ")
+        self.bridge.whileloop(new_view=(psv := PlayerSelectView(
+            bridge=self.bridge,
+            exclude=self.bridge.board.turn_player,
+        )))
 
     def _use_kisi(self) -> None:
         print("カード「騎士」を使ったよ")
