@@ -1,5 +1,6 @@
 from model.kard import Kard
 from ptc.bridge import Bridge
+from ptc.main_view import MainView
 from view.player_select_view import PlayerSelectView
 
 from ptc.controller import Controller
@@ -30,6 +31,13 @@ class UseKardsController():
             bridge=self.bridge,
             exclude=self.bridge.board.turn_player,
         )))
+        if not isinstance((main_view := self.bridge.view), MainView):
+            raise ValueError("「道化」を使う時はMainViewじゃないと")
+        self.bridge.board.peep(
+            peeper=self.bridge.board.turn_player,
+            watched=psv.selected_player,
+            subject=main_view.subject,
+        )
 
     def _use_kisi(self) -> None:
         print("カード「騎士」を使ったよ")

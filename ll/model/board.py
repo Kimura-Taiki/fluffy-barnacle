@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_KISI, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
+from model.deck import make_deck, KARD_DOUKE, KARD_KISI, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -10,9 +10,11 @@ class Board:
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
+
     draw_kard_async: Callable[[Player], None] = lambda p: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
+    peep_async: Callable[[Player, Player, Player], None] = lambda p1, p2, p3: None
     duel_async: Callable[[Player, Player], None] = lambda p1, p2: None
     defeat_by_duel_async: Callable[[Player], None] = lambda p: None
     protect_async: Callable[[Player], None] = lambda p: None
@@ -70,6 +72,12 @@ class Board:
                 self.turn_player = player
                 return
         raise ValueError("生存者がいません", self)
+
+    def peep(self, peeper: Player, watched: Player, subject: Player) -> None:
+        if watched.protected:
+            self.guard_async(KARD_DOUKE)
+            return
+        self.peep_async(peeper, watched, subject)
 
     def duel(self, p1: Player, p2: Player) -> None:
         if p1.protected or p2.protected:

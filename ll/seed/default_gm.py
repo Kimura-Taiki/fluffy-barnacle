@@ -7,6 +7,7 @@ from ctrl.draw_kards import DrawKardsController
 from ctrl.duels import DuelsController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.guards import GuardsController
+from ctrl.peeps import PeepsController
 from ctrl.protects import ProtectsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
@@ -43,6 +44,9 @@ board.diskard_hime_async = DiskardHimesController(
     bridge=gm
 ).action
 
+board.peep_async = PeepsController(
+    bridge=gm
+).action
 board.duel_async = DuelsController(
     bridge=gm
 ).action
