@@ -1,14 +1,17 @@
+from pygame import Rect, Vector2 as V2
+
 from any.font import MS_MINCHO_COL
 from any.func import enforce
 from any.pictures import IMG_PEEP
-from any.screen import screen
+from any.screen import screen, WV2
 from ctrl.messages import MessagesController
 from model.player import Player
 from ptc.bridge import Bridge
 from view.board_view import BoardView
 from view.linear_transition import LinearTransition
-from view.player_square import PlayerSquare
 from view.moves_view import MovesView
+from view.peep_transition import PeepTransition
+from view.player_square import PlayerSquare
 
 _FONT = 28
 
@@ -35,7 +38,21 @@ class PeepsController():
                 canvas=screen
             )]
         ))
-        MessagesController(
-            bridge=self.bridge,
-            img_mes=MS_MINCHO_COL(f"{peeper.name}は{watched.name}の手札を覗きました", _FONT, "black"),
-        ).action()
+        if peeper == subject:
+            self.bridge.whileloop(new_view=MovesView(
+                view=self.bridge.view,
+                transitions=[PeepTransition(
+                    rect=Rect(WV2/2-V2(340, 475)/2, V2(340, 475)),
+                    kard=watched.hands[0],
+                    canvas=screen,
+                )]
+            ))
+            MessagesController(
+                bridge=self.bridge,
+                img_mes=MS_MINCHO_COL(f"{watched.name}の手札は「{watched.hands[0].name}」でした", _FONT, "black"),
+            ).action()
+        else:
+            MessagesController(
+                bridge=self.bridge,
+                img_mes=MS_MINCHO_COL(f"{peeper.name}は{watched.name}の手札を覗きました", _FONT, "black"),
+            ).action()
