@@ -13,14 +13,14 @@ from view.board_view import BoardView
 from view.player_square import PlayerSquare
 from view.progress_helper import ProgressHelper
 
-_SECONDS = 1.0
+_PERIOD = 1.0
 
 from ptc.transition import Transition
 class PlayerSelectView:
     def __init__(self, bridge: Bridge, exclude: Player=OBSERVER) -> None:
-        self._wave = make_triangle_wave_func(seconds=_SECONDS)
+        self._wave = make_triangle_wave_func(seconds=_PERIOD)
         _, self.in_progress, self._pre_complete, _, _, self.elapse\
-            = ProgressHelper(seconds=_SECONDS).provide_progress_funcs()
+            = ProgressHelper(seconds=0.0).provide_progress_funcs()
         self.selected_player: Player = OBSERVER
         self.bridge = bridge
         self.exclude = exclude
@@ -82,5 +82,5 @@ class PlayerSelectView:
         return li
 
     def _complete(self, player: Player) -> None:
-        self._pre_complete()
         self.selected_player = player
+        self._pre_complete()

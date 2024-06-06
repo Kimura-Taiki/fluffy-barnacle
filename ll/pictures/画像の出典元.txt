@@ -1,0 +1,8 @@
+----アイドルマスター シンデレラガールズ スターライトステージ----
+
+----日本コロムビア----
+bg.png      https://columbia.jp/idolmaster/COCC-17149.html
+back.png    https://columbia.jp/idolmaster/COCC-17149.html
+
+----イラストAC----
+peep.png    https://www.ac-illust.com/main/detail.php?id=2367753
