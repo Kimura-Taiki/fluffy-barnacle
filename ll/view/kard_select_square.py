@@ -11,8 +11,8 @@ from ptc.bridge import Bridge
 from view.kard_square import KardSquare
 
 _RATIO = V2(1280, 640)
-_SECONDS = 0.1
-_WAIT = int(FRAMES_PER_SECOND*_SECONDS)
+# _SECONDS = 0.1
+# _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
 from ptc.square import Square
 class KardSelectSquare():
@@ -51,16 +51,16 @@ class KardSelectSquare():
 
     def _squares(self) -> list[KardSquare]:
         li: list[KardSquare] = []
-        n = 10
+        n = 7
         r = 2303
         o_v2 = V2(640, r+375)
         for i in range(n):
             deg = -10.0+20.0*i/(n-1)-90.0
             rad = radians(deg)
             i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
-            from model.deck import KARD_HIME
+            from model.deck import _kards
             li.append(KardSquare(
-                kard=KARD_HIME,
+                kard=_kards[i+2],
                 angle=-(deg+90),
                 scale=self.rect.w/_RATIO.x,
                 center=i_v2,

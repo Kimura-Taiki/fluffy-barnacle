@@ -82,4 +82,4 @@ class KardSquare():
 
     @property
     def _dest(self) -> V2:
-        return self.center-V2(self.img.get_size())/2-V2(0, 0).lerp(V2(0, 40), self.hover_grad)*self.scale
+        return self.center-V2(self.img.get_size())/2-V2(0, 0).lerp(V2(0, 100), self.hover_grad)*self.scale
