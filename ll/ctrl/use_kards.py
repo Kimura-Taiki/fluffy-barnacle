@@ -1,6 +1,7 @@
 from model.kard import Kard
 from ptc.bridge import Bridge
 from ptc.main_view import MainView
+from view.kard_select_view import KardSelectView
 from view.player_select_view import PlayerSelectView
 
 from ptc.controller import Controller
@@ -24,6 +25,9 @@ class UseKardsController():
 
     def _use_heisi(self) -> None:
         print("カード「兵士」を使ったよ")
+        self.bridge.whileloop(new_view=(ksv := KardSelectView(
+            bridge=self.bridge
+        )))
 
     def _use_douke(self) -> None:
         print("カード「道化」を使ったよ")

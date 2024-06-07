@@ -1,24 +1,24 @@
-from pygame import Surface, transform, Vector2 as V2, mouse, Rect, SRCALPHA
+from pygame import Surface, Vector2 as V2, Rect, SRCALPHA
 from math import sin, cos, radians
 
-from any.func import ratio_rect, img_zoom, rect_fill, translucented_color, dest_rect_center
-from any.mouse_dispatcher import mouse_dispatcher
-from any.pictures import IMG_WHITE, IMG_BACK
-from any.screen import FRAMES_PER_SECOND
-from model.kard import Kard
+from any.func import ratio_rect, img_zoom, rect_fill, translucented_color
+from any.screen import screen, WV2
+from model.deck import _kards
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
 from view.kard_square import KardSquare
 
 _RATIO = V2(1280, 640)
-# _SECONDS = 0.1
-# _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
-from ptc.square import Square
-class KardSelectSquare():
-    def __init__(self, rect: Rect, canvas: Surface) -> None:
+from ptc.transition import Transition
+class KardSelectView():
+    def __init__(
+            self, bridge: Bridge, rect: Rect=Rect((0, 0), WV2),
+            canvas: Surface=screen
+        ) -> None:
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
+        self.view = bridge.view
         self.img = self._img()
         self.squares = self._squares()
 
@@ -29,11 +29,17 @@ class KardSelectSquare():
         return None
 
     def draw(self) -> None:
+        self.view.draw()
         rect_fill(
-            color=translucented_color(color="lightsteelblue"),
-            rect=self.rect,
+            color=translucented_color(color="black", a=64),
+            rect=Rect((0, 0), WV2),
             surface=self.canvas
         )
+        # rect_fill(
+        #     color=translucented_color(color="lightsteelblue"),
+        #     rect=self.rect,
+        #     surface=self.canvas
+        # )
         self.canvas.blit(
             source=self.img,
             dest=self.rect.topleft
@@ -44,6 +50,9 @@ class KardSelectSquare():
     def elapse(self) -> None:
         for square in self.squares:
             square.elapse()
+
+    def in_progress(self) -> bool:
+        return True
 
     def _img(self) -> Surface:
         img = Surface(size=_RATIO, flags=SRCALPHA)
@@ -58,7 +67,6 @@ class KardSelectSquare():
             deg = -10.0+20.0*i/(n-1)-90.0
             rad = radians(deg)
             i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
-            from model.deck import _kards
             li.append(KardSquare(
                 kard=_kards[i+2],
                 angle=-(deg+90),

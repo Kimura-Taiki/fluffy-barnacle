@@ -10,7 +10,6 @@ from view.choice_square import ChoiceSquare
 from view.player_square import PlayerSquare
 from ptc.square import Square
 from ptc.bridge import Bridge
-from view.kard_select_square import KardSelectSquare
 
 _W = WX / 4
 _H = WY * 2 / 5
@@ -30,8 +29,6 @@ class BoardView:
             square for square in li
             if square is not None
         ]
-        self.kss = KardSelectSquare(rect=Rect(0, 40, 1280, 640), canvas=screen)
-        self.squares.append(self.kss)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""
