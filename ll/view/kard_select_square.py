@@ -9,7 +9,7 @@ from model.kard import Kard
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
 
-_RATIO = V2(800, 510)
+_RATIO = V2(1280, 640)
 _SECONDS = 0.1
 _WAIT = int(FRAMES_PER_SECOND*_SECONDS)
 
@@ -38,7 +38,7 @@ class KardSelectSquare():
         img = Surface(size=_RATIO, flags=SRCALPHA)
         n = 10
         r = 2303
-        o_v2 = V2(400, r+240)
+        o_v2 = V2(640, r+340)
         print(f"諸元 : n={n}, r={r}, o_v2={o_v2}")
         for i in range(n):
             deg = -10.0+20.0*i/(n-1)-90.0

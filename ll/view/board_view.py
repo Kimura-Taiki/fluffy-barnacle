@@ -30,7 +30,7 @@ class BoardView:
             square for square in li
             if square is not None
         ]
-        self.kss = KardSelectSquare(rect=Rect(240, 100, 800, 510), canvas=screen)
+        self.kss = KardSelectSquare(rect=Rect(0, 40, 1280, 640), canvas=screen)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""
