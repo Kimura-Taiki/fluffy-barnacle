@@ -10,6 +10,7 @@ from view.choice_square import ChoiceSquare
 from view.player_square import PlayerSquare
 from ptc.square import Square
 from ptc.bridge import Bridge
+from view.kard_select_square import KardSelectSquare
 
 _W = WX / 4
 _H = WY * 2 / 5
@@ -29,6 +30,7 @@ class BoardView:
             square for square in li
             if square is not None
         ]
+        self.kss = KardSelectSquare(rect=Rect(240, 100, 800, 510), canvas=screen)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""
@@ -46,6 +48,7 @@ class BoardView:
         screen.blit(source=IMG_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
+        self.kss.draw()
 
     def elapse(self) -> None:
         """時間経過の処理を行います"""
