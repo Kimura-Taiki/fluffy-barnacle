@@ -31,6 +31,7 @@ class BoardView:
             if square is not None
         ]
         self.kss = KardSelectSquare(rect=Rect(0, 40, 1280, 640), canvas=screen)
+        self.squares.append(self.kss)
 
     def rearrange(self) -> None:
         """レイアウトの再配置を行います"""
@@ -38,7 +39,7 @@ class BoardView:
 
     def get_hover(self) -> UIElement | None:
         """ホバー中の要素を取得します"""
-        for square in self.squares:
+        for square in self.squares[::-1]:
             if element := square.get_hover():
                 return element
         return None
@@ -48,7 +49,6 @@ class BoardView:
         screen.blit(source=IMG_BG, dest=[0, 0])
         for square in self.squares:
             square.draw()
-        self.kss.draw()
 
     def elapse(self) -> None:
         """時間経過の処理を行います"""
