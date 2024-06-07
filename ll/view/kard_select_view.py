@@ -3,10 +3,12 @@ from math import sin, cos, radians
 
 from any.func import ratio_rect, img_zoom, rect_fill, translucented_color
 from any.screen import screen, WV2
-from model.deck import _kards
+from model.deck import _kards, KARD_BANPEI
+from model.kard import Kard
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
 from view.kard_square import KardSquare
+from view.progress_helper import ProgressHelper
 
 _RATIO = V2(1280, 640)
 
@@ -16,11 +18,15 @@ class KardSelectView():
             self, bridge: Bridge, rect: Rect=Rect((0, 0), WV2),
             canvas: Surface=screen
         ) -> None:
+        _, self.in_progress, self._pre_complete, _, _, _\
+            = ProgressHelper(seconds=0.0).provide_progress_funcs()
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
         self.view = bridge.view
         self.img = self._img()
         self.squares = self._squares()
+        self._selected = False
+        self.selected_kard = KARD_BANPEI
 
     def get_hover(self) -> UIElement | None:
         for square in self.squares[::-1]:
@@ -35,11 +41,6 @@ class KardSelectView():
             rect=Rect((0, 0), WV2),
             surface=self.canvas
         )
-        # rect_fill(
-        #     color=translucented_color(color="lightsteelblue"),
-        #     rect=self.rect,
-        #     surface=self.canvas
-        # )
         self.canvas.blit(
             source=self.img,
             dest=self.rect.topleft
@@ -51,32 +52,36 @@ class KardSelectView():
         for square in self.squares:
             square.elapse()
 
-    def in_progress(self) -> bool:
-        return True
-
     def _img(self) -> Surface:
         img = Surface(size=_RATIO, flags=SRCALPHA)
         return img_zoom(img=img,rect=self.rect, ratio=_RATIO)
 
     def _squares(self) -> list[KardSquare]:
-        li: list[KardSquare] = []
         n = 7
+        return [self._kq(i=i, n=n) for i in range(n)]
+
+    def _kq(self, i: int, n: int) -> KardSquare:
         r = 2303
         o_v2 = V2(640, r+375)
-        for i in range(n):
-            deg = -10.0+20.0*i/(n-1)-90.0
-            rad = radians(deg)
-            i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
-            li.append(KardSquare(
-                kard=_kards[i+2],
-                angle=-(deg+90),
-                scale=self.rect.w/_RATIO.x,
-                center=i_v2,
-                canvas=self.canvas,
-                mousedown=lambda : None
-            ))
-        return li
+        deg = -10.0+20.0*i/(n-1)-90.0
+        rad = radians(deg)
+        i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
+        kard = _kards[i+2]
+        ui_element = UIElement(
+            mousedown=lambda : self._complete(kard=kard)
+        )
+        return KardSquare(
+            kard=kard,
+            angle=-(deg+90),
+            scale=self.rect.w/_RATIO.x,
+            center=i_v2,
+            canvas=self.canvas,
+            ui_element=ui_element
+        )
 
+    def _complete(self, kard: Kard) -> None:
+        self.selected_kard = kard
+        self._pre_complete()
 
 def ie_v2_from_radian(radian: float) -> V2:
     return V2(cos(radian), sin(radian))

@@ -72,6 +72,10 @@ class Board:
                 self.turn_player = player
                 return
         raise ValueError("生存者がいません", self)
+    
+    def arrest(self, player: Player, kard: Kard) -> None:
+        if player.hands[0] == kard:
+            self.retire(player=player)
 
     def peep(self, peeper: Player, watched: Player, subject: Player) -> None:
         if watched.protected:

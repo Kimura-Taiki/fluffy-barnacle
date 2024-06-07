@@ -25,9 +25,17 @@ class UseKardsController():
 
     def _use_heisi(self) -> None:
         print("カード「兵士」を使ったよ")
+        self.bridge.whileloop(new_view=(psv := PlayerSelectView(
+            bridge=self.bridge,
+            exclude=self.bridge.board.turn_player,
+        )))
         self.bridge.whileloop(new_view=(ksv := KardSelectView(
             bridge=self.bridge
         )))
+        self.bridge.board.arrest(
+            player=psv.selected_player,
+            kard=ksv.selected_kard,
+        )
 
     def _use_douke(self) -> None:
         print("カード「道化」を使ったよ")

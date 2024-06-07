@@ -15,7 +15,7 @@ from ptc.square import Square
 class KardSquare():
     def __init__(
             self, kard: Kard, angle: float, scale: float, center: V2,
-            canvas: Surface, mousedown: Callable[[], None]=lambda : None
+            canvas: Surface, ui_element: UIElement
     ) -> None:
         self.kard = kard
         self.angle = angle
@@ -27,7 +27,7 @@ class KardSquare():
         self.img = self._img()
         self.img_white = self._img_white()
         self.vertices = self._vertices()
-        self.ui_element = UIElement(mousedown=mousedown)
+        self.ui_element = ui_element
 
     def get_hover(self) -> UIElement | None:
         inside = False
