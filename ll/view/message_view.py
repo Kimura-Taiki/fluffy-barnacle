@@ -2,7 +2,6 @@ from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY
-from view.board_view import BoardView
 from view.progress_helper import ProgressHelper
 
 _FADE_IN_SECONDS = 0.25
@@ -15,10 +14,10 @@ _BAND_H = 24
 
 from ptc.view import View
 class MessageView():
-    def __init__(self, board_view: BoardView, img_mes: Surface) -> None:
+    def __init__(self, view: View, img_mes: Surface) -> None:
         self._ratio, self.in_progress, _, _, self.get_hover, self.elapse\
             = ProgressHelper(seconds=_TOTAL_SECONDS).provide_progress_funcs()
-        self.board_view = board_view
+        self.view = view
         self.img_mes = img_mes
         self.img_band = self._img_band()
 
@@ -26,7 +25,7 @@ class MessageView():
         ...
 
     def draw(self) -> None:
-        self.board_view.draw()
+        self.view.draw()
         screen.blit(source=self.img_band, dest=(0, WY/2-self.img_band.get_height()/2))
         if self._ratio() < _FI_RATIO:
             from_v2 = self._left_v2()
