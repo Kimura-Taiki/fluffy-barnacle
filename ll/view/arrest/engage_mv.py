@@ -6,13 +6,13 @@ from model.kard import Kard
 from ptc.bridge import Bridge
 from view.arrest.img_wanted import img_wanted
 from view.linear_transition import LinearTransition
-from view.transition.zoom_transition import ZoomTransitions
+from view.transition.zoom_transition import ZoomTransition
 from view.moves_view import MovesView
 
 def engage_mv(bridge: Bridge, rect: Rect, kard: Kard) -> MovesView:
     return MovesView(
         view=bridge.view,
-        transitions=[ZoomTransitions(
+        transitions=[ZoomTransition(
             img_actor=IMG_DUEL,
             center=V2(rect.center),
             from_scale=3.0,

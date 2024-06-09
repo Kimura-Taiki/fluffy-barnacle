@@ -1,11 +1,13 @@
 from pygame import Rect, Vector2 as V2
 
+from any.pictures import IMG_HAZURE
 from model.kard import Kard
 from model.player import Player
 from ptc.bridge import Bridge
 from view.arrest.engage_mv import engage_mv
-from view.linear_transition import LinearTransition
-from view.transition.zoom_transition import ZoomTransitions
+from view.arrest.face_up_mv import face_up_mv
+# from view.linear_transition import LinearTransition
+# from view.transition.zoom_transition import ZoomTransitions
 # from view.arrest.engage_transition import EngageTransition
 # from view.arrest.open_transition import OpenTransition
 # from view.arrest.slash_transition import SlashTransition
@@ -23,6 +25,13 @@ class ArrestsController():
             bridge=self.bridge,
             rect=_Rect,
             kard=kard
+        ))
+        pk = player.hands[0]
+        self.bridge.whileloop(new_view=face_up_mv(
+            bridge=self.bridge,
+            rect=_Rect,
+            kard=kard,
+            img_after=pk.picture() if pk == kard else IMG_HAZURE
         ))
 
 

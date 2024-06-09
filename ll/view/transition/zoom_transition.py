@@ -5,7 +5,7 @@ from view.progress_helper import ProgressHelper
 _SECONDS = 0.5
 
 from ptc.transition import Transition
-class ZoomTransitions():
+class ZoomTransition():
     def __init__(
             self, img_actor: Surface, center: V2, from_scale: float,
             to_scale: float, canvas: Surface, seconds: float=_SECONDS
