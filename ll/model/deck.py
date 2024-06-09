@@ -29,6 +29,49 @@ _kards: list[Kard] = [
 def make_deck() -> list[Kard]:
     deck = deepcopy(_deck)
     shuffle(deck)
+
+#     # # 「姫」の処理を実装する為に１枚目を姫に修正
+#     # deck.insert(0, _kards[8])
+
+#     # # 「大臣」の処理を実装する為に１枚目を大臣に修正
+#     # deck.insert(0, _kards[7])
+#     # deck.insert(1, _kards[7])
+#     # deck.insert(4, _kards[8])
+#     # deck.insert(5, _kards[1])
+
+#     # # 「将軍」の処理を実装する為に１枚目を将軍に変更
+#     # deck.insert(0, _kards[6])
+
+#     # # 「魔術師」
+#     # deck.insert(0, _kards[5])
+#     # deck.insert(1, _kards[8])
+#     # deck.insert(2, _kards[5])
+
+#     # # 「僧侶」
+#     # deck.insert(0, _kards[4])
+#     # deck.insert(1, _kards[5])
+#     # deck.insert(2, _kards[6])
+#     # deck.insert(4, _kards[8])
+
+#     # # 「騎士」
+#     # deck.insert(0, _kards[5])
+#     # deck.insert(1, _kards[5])
+#     # deck.insert(2, _kards[6])
+#     # deck.insert(3, _kards[4])
+#     # deck.insert(4, _kards[3])
+#     # deck.insert(5, _kards[3])
+#     # deck.insert(6, _kards[3])
+#     # deck.insert(7, _kards[3])
+
+#     # # 「道化」
+#     # deck.insert(0, _kards[2])
+#     # deck.insert(1, _kards[2])
+
+    # 「兵士」
+    deck.insert(0, _kards[2])
+    deck.insert(1, _kards[1])
+    deck.insert(4, _kards[4])
+
     return deck
 
 print("make_deck", make_deck())

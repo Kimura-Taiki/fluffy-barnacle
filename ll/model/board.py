@@ -1,8 +1,10 @@
+#       10        20        30        40        50        60        70       79
 from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_DOUKE, KARD_KISI, KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
+from model.deck import make_deck, KARD_HEISI, KARD_DOUKE, KARD_KISI,\
+    KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -14,6 +16,8 @@ class Board:
     draw_kard_async: Callable[[Player], None] = lambda p: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
+
+    arrest_async: Callable[[Player, Kard], None] = lambda p, k: None
     peep_async: Callable[[Player, Player, Player], None] = lambda p1, p2, p3: None
     duel_async: Callable[[Player, Player], None] = lambda p1, p2: None
     defeat_by_duel_async: Callable[[Player], None] = lambda p: None
@@ -74,6 +78,10 @@ class Board:
         raise ValueError("生存者がいません", self)
     
     def arrest(self, player: Player, kard: Kard) -> None:
+        if player.protected:
+            self.guard_async(KARD_HEISI)
+            return
+        self.arrest_async(player, kard)
         if player.hands[0] == kard:
             self.retire(player=player)
 

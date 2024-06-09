@@ -11,7 +11,7 @@ class Kard():
 
     def picture(self) -> Surface:
         return picload(self.png_file)
-    
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Kard):
             return False

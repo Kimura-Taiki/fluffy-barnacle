@@ -1,4 +1,5 @@
 from any.game_master import GameMaster
+from ctrl.arrests import ArrestsController
 from ctrl.bright_kards import BrightKardsController
 from ctrl.defeat_by_duels import DefeatByDuelsController
 from ctrl.defeat_by_ministers import DefeatByMinistersController
@@ -44,6 +45,9 @@ board.diskard_hime_async = DiskardHimesController(
     bridge=gm
 ).action
 
+board.arrest_async = ArrestsController(
+    bridge=gm
+).action
 board.peep_async = PeepsController(
     bridge=gm
 ).action
