@@ -5,7 +5,7 @@ from view.message_view import MessageView
 
 from ptc.controller import Controller
 class MessagesController():
-    def __init__(self, bridge: Bridge, img_mes: Surface) -> None:
+    def __init__(self, bridge: Bridge, img_mes: Surface | str) -> None:
         self.bridge = bridge
         self.img_mes = img_mes
 

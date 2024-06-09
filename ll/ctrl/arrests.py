@@ -8,6 +8,7 @@ from view.arrest.bind_mv import bind_mv
 from view.arrest.engage_mv import engage_mv
 from view.arrest.face_up_mv import face_up_mv
 from view.arrest.hazure_mv import hazure_mv
+from view.message_view import MessageView
 
 _Rect = Rect(200, 120, 880, 480)
 _Huda = V2(340, 475)
@@ -35,6 +36,10 @@ class ArrestsController():
                 rect=_Rect,
                 kard=kard,
                 img_actor=pk.picture()
+            ))
+            self.bridge.whileloop(new_view=MessageView(
+                view=self.bridge.view,
+                img_mes=f"兵士に見つかった{player.name}は脱落します"
             ))
         else:
             self.bridge.whileloop(new_view=hazure_mv(
