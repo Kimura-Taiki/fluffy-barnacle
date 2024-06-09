@@ -1,5 +1,6 @@
 from pygame import Surface, Vector2 as V2, SRCALPHA, Rect
 
+from any.font import MS_MINCHO_COL
 from any.func import rect_fill, translucented_color
 from any.screen import screen, WX, WY
 from view.progress_helper import ProgressHelper
@@ -11,14 +12,15 @@ _TOTAL_SECONDS = _FADE_IN_SECONDS+_SEEING_SECONDS+_FADE_OUT_SECONDS
 _FI_RATIO = _FADE_IN_SECONDS/_TOTAL_SECONDS
 _SEE_RATIO = (_FADE_IN_SECONDS+_SEEING_SECONDS)/_TOTAL_SECONDS
 _BAND_H = 24
+_FONT = 28
 
 from ptc.view import View
 class MessageView():
-    def __init__(self, view: View, img_mes: Surface) -> None:
+    def __init__(self, view: View, img_mes: Surface | str) -> None:
         self._ratio, self.in_progress, _, _, self.get_hover, self.elapse\
             = ProgressHelper(seconds=_TOTAL_SECONDS).provide_progress_funcs()
         self.view = view
-        self.img_mes = img_mes
+        self.img_mes = img_mes if isinstance(img_mes, Surface) else MS_MINCHO_COL(img_mes, _FONT, "black")
         self.img_band = self._img_band()
 
     def rearrange(self) -> None:
