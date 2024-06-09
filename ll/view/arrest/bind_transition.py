@@ -28,7 +28,9 @@ class BindTransition():
         img = self.img_actor.copy()
         params: list[tuple[Surface, V2, V2]] = [
             (IMG_CHAIN_L, -_CV2, V2()),
-            (IMG_CHAIN_R, V2(_CV2.x, -_CV2.y), V2())
+            (IMG_CHAIN_R, V2(_CV2.x, -_CV2.y), V2()),
+            (IMG_CHAIN_L, -_CV2+V2(0, 475-_CV2.y), V2(0, 475-_CV2.y)),
+            (IMG_CHAIN_R, V2(_CV2.x, -_CV2.y)+V2(0, 475-_CV2.y), V2(0, 475-_CV2.y)),
         ]
         for source, from_v2, to_v2 in params:
             img.blit(

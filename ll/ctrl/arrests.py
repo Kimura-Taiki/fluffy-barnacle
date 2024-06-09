@@ -4,9 +4,10 @@ from any.pictures import IMG_HAZURE
 from model.kard import Kard
 from model.player import Player
 from ptc.bridge import Bridge
+from view.arrest.bind_mv import bind_mv
 from view.arrest.engage_mv import engage_mv
 from view.arrest.face_up_mv import face_up_mv
-from view.arrest.bind_mv import bind_mv
+from view.arrest.hazure_mv import hazure_mv
 
 _Rect = Rect(200, 120, 880, 480)
 _Huda = V2(340, 475)
@@ -28,9 +29,16 @@ class ArrestsController():
             kard=kard,
             img_after=pk.picture() if pk == kard else IMG_HAZURE
         ))
-        self.bridge.whileloop(new_view=bind_mv(
-            bridge=self.bridge,
-            rect=_Rect,
-            kard=kard,
-            img_actor=pk.picture()
-        ))
+        if pk == kard:
+            self.bridge.whileloop(new_view=bind_mv(
+                bridge=self.bridge,
+                rect=_Rect,
+                kard=kard,
+                img_actor=pk.picture()
+            ))
+        else:
+            self.bridge.whileloop(new_view=hazure_mv(
+                bridge=self.bridge,
+                rect=_Rect,
+                kard=kard
+            ))
