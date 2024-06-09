@@ -7,9 +7,10 @@ _SECONDS = 0.5
 
 from ptc.transition import Transition
 class LinearTransition():
-    def __init__(self, img_actor: Surface, from_v2: V2, to_v2: V2, canvas: Surface) -> None:
+    def __init__(self, img_actor: Surface, from_v2: V2, to_v2: V2, canvas: Surface, seconds: float=_SECONDS) -> None:
         self._ratio, self.in_progress, _, _, _, self.elapse\
-            = ProgressHelper(seconds=_SECONDS).provide_progress_funcs()
+            = ProgressHelper(seconds=seconds).provide_progress_funcs()
+        self.get_hover = ProgressHelper.empty_get_hover
         self.img_actor = img_actor
         self.from_v2 = from_v2
         self.to_v2 = to_v2
@@ -17,9 +18,6 @@ class LinearTransition():
 
     def rearrange(self) -> None:
         ...
-
-    def get_hover(self) -> UIElement | None:
-        return None
 
     def draw(self) -> None:
         self.canvas.blit(
