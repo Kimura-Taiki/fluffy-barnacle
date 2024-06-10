@@ -1,6 +1,5 @@
 from pygame import Surface, Vector2 as V2
 
-from model.ui_element import UIElement
 from view.progress_helper import ProgressHelper
 
 _SECONDS = 0.5

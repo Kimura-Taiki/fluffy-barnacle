@@ -5,7 +5,7 @@ from any.screen import screen
 from model.kard import Kard
 from ptc.bridge import Bridge
 from view.arrest.img_wanted import img_wanted
-from view.linear_transition import LinearTransition
+from view.transition.linear_transition import LinearTransition
 from view.transition.zoom_transition import ZoomTransition
 from view.moves_view import MovesView
 

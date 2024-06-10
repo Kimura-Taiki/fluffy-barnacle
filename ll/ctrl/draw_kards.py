@@ -5,7 +5,7 @@ from any.screen import screen
 from model.player import Player
 from ptc.bridge import Bridge
 from view.board_view import BoardView
-from view.linear_transition import LinearTransition
+from view.transition.linear_transition import LinearTransition
 from view.moves_view import MovesView
 from view.player_square import PlayerSquare
 
