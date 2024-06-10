@@ -1,0 +1,11 @@
+board:
+  win_by_strengths: "手札が最も強い{player_name}が勝利しました"
+  win_by_survivals: "生き残った{player_name}が勝利しました"
+kard:
+  arrests: "兵士に見つかった{player_name}は脱落します"
+  peeps_subjective: "{watched_name}の手札は「{kard_name}」でした"
+  peeps_objective: "{peeper_name}は{watched_name}の手札を覗きました"
+  defeat_by_duels: "決闘に敗れた{player_name}は脱落します"
+  guards: "「{kard_name}」の効果は「僧侶」に防がれます"
+  defeat_by_ministers: "「大臣」を含む強さの合計が12以上になったので{player_name}は脱落します"
+  diskard_himes: "「姫」を捨てたので{player_name}は脱落します"
