@@ -1,6 +1,7 @@
 from pygame import Surface, Vector2 as V2, transform
 
 from any.pictures import IMG_BACK
+from any.screen import screen
 from view.progress_helper import ProgressHelper
 
 _SECONDS = 0.5
@@ -8,7 +9,7 @@ _SECONDS = 0.5
 from ptc.transition import Transition
 class FaceUpTransition():
     def __init__(
-            self, img_after: Surface, center: V2, canvas: Surface,
+            self, img_after: Surface, center: V2, canvas: Surface=screen,
             img_before: Surface=IMG_BACK, seconds: float=_SECONDS
     ) -> None:
         self._ratio, self.in_progress, _, _, _, self.elapse\

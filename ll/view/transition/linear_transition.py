@@ -1,12 +1,16 @@
 from pygame import Surface, Vector2 as V2
 
+from any.screen import screen
 from view.progress_helper import ProgressHelper
 
 _SECONDS = 0.5
 
 from ptc.transition import Transition
 class LinearTransition():
-    def __init__(self, img_actor: Surface, from_v2: V2, to_v2: V2, canvas: Surface, seconds: float=_SECONDS) -> None:
+    def __init__(
+            self, img_actor: Surface, from_v2: V2, to_v2: V2,
+            canvas: Surface=screen, seconds: float=_SECONDS
+    ) -> None:
         self._ratio, self.in_progress, _, _, _, self.elapse\
             = ProgressHelper(seconds=seconds).provide_progress_funcs()
         self.get_hover = ProgressHelper.empty_get_hover

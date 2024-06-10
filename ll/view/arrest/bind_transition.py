@@ -1,6 +1,7 @@
 from pygame import Surface, Vector2 as V2
 
 from any.pictures import IMG_CHAIN_L, IMG_CHAIN_R
+from any.screen import screen
 from view.progress_helper import ProgressHelper
 
 _SECONDS = 0.5
@@ -9,7 +10,8 @@ _CV2 = V2(340, 270)
 from ptc.transition import Transition
 class BindTransition():
     def __init__(
-            self, img_actor: Surface, center: V2, canvas: Surface, seconds: float=_SECONDS
+            self, img_actor: Surface, center: V2,
+            canvas: Surface=screen, seconds: float=_SECONDS
     ) -> None:
         self._ratio, self.in_progress, _, _, _, self.elapse\
             = ProgressHelper(seconds=seconds).provide_progress_funcs()
