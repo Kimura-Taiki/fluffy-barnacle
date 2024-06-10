@@ -4,10 +4,10 @@ from random import shuffle
 from model.kard import Kard
 
 _params: list[tuple[str, int, str]] = [
-    ("兵士", 1, "img11a"), ("兵士", 1, "img11b"), ("兵士", 1, "img11c"), ("兵士", 1, "img11d"), 
-    ("兵士", 1, "img11e"), ("道化", 2, "img12a"), ("道化", 2, "img12b"), ("騎士", 3, "img13a"), 
-    ("騎士", 3, "img13b"), ("僧侶", 4, "img14a"), ("僧侶", 4, "img14b"), ("魔術師", 5, "img15a"), 
-    ("魔術師", 5, "img15b"), ("将軍", 6, "img16a"), ("大臣", 7, "img17a"), ("姫", 8, "img18a"), 
+    ("兵士", 1, "img01a"), ("兵士", 1, "img01b"), ("兵士", 1, "img01c"), ("兵士", 1, "img01d"), 
+    ("兵士", 1, "img01e"), ("道化", 2, "img02a"), ("道化", 2, "img02b"), ("騎士", 3, "img03a"), 
+    ("騎士", 3, "img03b"), ("僧侶", 4, "img04a"), ("僧侶", 4, "img04b"), ("魔術師", 5, "img05a"), 
+    ("魔術師", 5, "img05b"), ("将軍", 6, "img06a"), ("大臣", 7, "img07a"), ("姫", 8, "img08a"), 
 ]
 _deck = [Kard(name=name, rank=rank, png_file=f"dere1/{png_file}") for name, rank, png_file in _params]
 
