@@ -1,0 +1,6 @@
+en:
+  elimination_message: "{player_name} was eliminated due to the effect of the {kard_name}."
+jp:
+  elimination_message: "{kard_name}の効果で{player_name}は脱落しました。"
+kr:
+  elimination_message: "{kard_name}의 효과로 {player_name}는 탈락했습니다."
