@@ -1,6 +1,6 @@
 from pygame import Rect, Vector2 as V2
 
-from any.pictures import IMG_DUEL, IMG_HAZURE
+from any.pictures import IMG_ARREST, IMG_HAZURE
 from any.screen import screen
 from model.kard import Kard
 from ptc.bridge import Bridge
@@ -12,7 +12,7 @@ def hazure_mv(bridge: Bridge, rect: Rect, kard: Kard) -> MovesView:
     return MovesView(
         view=bridge.view,
         transitions=[StaticTransition(
-            img_actor=IMG_DUEL,
+            img_actor=IMG_ARREST,
             center=V2(rect.center),
             canvas=screen
         ),

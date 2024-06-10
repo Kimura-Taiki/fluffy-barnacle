@@ -1,6 +1,6 @@
 from pygame import Rect, Vector2 as V2, Surface
 
-from any.pictures import IMG_DUEL
+from any.pictures import IMG_ARREST
 from any.screen import screen
 from model.kard import Kard
 from ptc.bridge import Bridge
@@ -13,7 +13,7 @@ def face_up_mv(bridge: Bridge, rect: Rect, kard: Kard, img_after: Surface) -> Mo
     return MovesView(
         view=bridge.view,
         transitions=[StaticTransition(
-            img_actor=IMG_DUEL,
+            img_actor=IMG_ARREST,
             center=V2(rect.center),
             canvas=screen
         ),

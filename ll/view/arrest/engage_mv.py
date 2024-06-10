@@ -1,6 +1,6 @@
 from pygame import Rect, Vector2 as V2
 
-from any.pictures import IMG_BACK, IMG_DUEL
+from any.pictures import IMG_BACK, IMG_ARREST
 from any.screen import screen
 from model.kard import Kard
 from ptc.bridge import Bridge
@@ -13,7 +13,7 @@ def engage_mv(bridge: Bridge, rect: Rect, kard: Kard) -> MovesView:
     return MovesView(
         view=bridge.view,
         transitions=[ZoomTransition(
-            img_actor=IMG_DUEL,
+            img_actor=IMG_ARREST,
             center=V2(rect.center),
             from_scale=3.0,
             to_scale=1.0,
