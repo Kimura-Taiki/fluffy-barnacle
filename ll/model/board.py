@@ -12,10 +12,13 @@ class Board:
     players: list[Player]
     deck: list[Kard]
     turn_player: Player = field(default_factory=lambda: OBSERVER)
+    reserve: list[Kard] = field(default_factory=lambda: [])
 
     draw_kard_async: Callable[[Player], None] = lambda p: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
+    win_by_survival_async: Callable[[Player], None] = lambda p: None
+    win_by_strength_async: Callable[[Player], None] = lambda p: None
 
     arrest_async: Callable[[Player, Kard], None] = lambda p, k: None
     peep_async: Callable[[Player, Player, Player], None] = lambda p1, p2, p3: None
@@ -30,6 +33,7 @@ class Board:
 
     def game_start(self) -> None:
         """ゲームの開始時に呼び出され、最初のターンプレイヤーを設定します。"""
+        self.reserve.append(self.deck.pop(-1))
         self.turn_player = self.players[0]
 
     def draw(self, player: Player) -> None:
@@ -41,12 +45,21 @@ class Board:
             self.retire(player=player)
 
     def turn_start(self) -> None:
+        if len(self.deck) == 0:
+            for winner in self.highest_ranked_alive_players():
+                self.win_by_strength_async(winner)
+            exit()
         self.turn_start_async()
         self.turn_player.protected = False
         self.draw(player=self.turn_player)
         if not self.turn_player.alive:
             self.advance_to_next_turn()
             self.turn_start()
+
+    def highest_ranked_alive_players(self) -> list[Player]:
+        alive_players = [player for player in self.players if player.alive]
+        max_rank = max(player.hands[0].rank for player in alive_players)
+        return [player for player in alive_players if player.hands[0].rank == max_rank]
 
     def use_kard(self, player: Player, kard: Kard) -> None:
         """プレイヤーがカードを使用する処理を行います。"""
@@ -67,6 +80,9 @@ class Board:
         player.alive = False
         player.log.extend(player.hands)
         player.hands.clear()
+        if len((winner := [player for player in self.players if player.alive])) == 1:
+            self.win_by_survival_async(winner[0])
+            exit()
 
     def advance_to_next_turn(self) -> None:
         """次のターンプレイヤーを設定します。"""

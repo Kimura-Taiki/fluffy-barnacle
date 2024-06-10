@@ -67,9 +67,9 @@ def make_deck() -> list[Kard]:
 #     # deck.insert(0, _kards[2])
 #     # deck.insert(1, _kards[2])
 
-    # 「兵士」
-    deck.insert(0, _kards[1])
-    deck.insert(1, _kards[1])
-    deck.insert(4, _kards[4])
+    # # 「兵士」
+    # deck.insert(0, _kards[1])
+    # deck.insert(1, _kards[1])
+    # deck.insert(4, _kards[4])
 
     return deck

@@ -12,6 +12,8 @@ from ctrl.peeps import PeepsController
 from ctrl.protects import ProtectsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
+from ctrl.win_by_strengths import WinByStrengthsController
+from ctrl.win_by_survivals import WinBySurvivalsController
 from model.board import Board
 from model.player import Player, OBSERVER
 from view.board_view import BoardView
@@ -42,6 +44,12 @@ board.use_kard_async = BrightKardsController(
     bridge=gm
 ).action
 board.diskard_hime_async = DiskardHimesController(
+    bridge=gm
+).action
+board.win_by_survival_async = WinBySurvivalsController(
+    bridge=gm
+).action
+board.win_by_strength_async = WinByStrengthsController(
     bridge=gm
 ).action
 
