@@ -10,9 +10,9 @@ from model.player import Player, OBSERVER
 @dataclass
 class Board:
     players: list[Player]
-    deck: list[Kard]
-    turn_player: Player = field(default_factory=lambda: OBSERVER)
-    reserve: list[Kard] = field(default_factory=lambda: [])
+    deck: list[Kard] = field(default_factory=lambda : [])
+    turn_player: Player = field(default_factory=lambda : OBSERVER)
+    reserve: list[Kard] = field(default_factory=lambda : [])
 
     draw_kard_async: Callable[[Player], None] = lambda p: None
     turn_start_async: Callable[[], None] = lambda : None

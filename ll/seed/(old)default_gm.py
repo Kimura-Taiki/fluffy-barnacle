@@ -1,26 +1,22 @@
 from any.game_master import GameMaster
+from ctrl.arrests import ArrestsController
 from ctrl.bright_kards import BrightKardsController
+from ctrl.defeat_by_duels import DefeatByDuelsController
+from ctrl.defeat_by_ministers import DefeatByMinistersController
+from ctrl.diskard_himes import DiskardHimesController
 from ctrl.draw_kards import DrawKardsController
+from ctrl.duels import DuelsController
+from ctrl.exchange_kards import ExchangeKardsController
+from ctrl.guards import GuardsController
+from ctrl.peeps import PeepsController
+from ctrl.protects import ProtectsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from ctrl.win_by_strengths import WinByStrengthsController
 from ctrl.win_by_survivals import WinBySurvivalsController
 from model.board import Board
-from model.player import Player
-from seed.default_deck import inject_deck
+from model.player import Player, OBSERVER
 from view.board_view import BoardView
-
-# def _make_board() -> Board:
-#     players: list[Player] = [
-#         Player.new_man(name="Johann", color="crimson"),
-#         Player.new_man(name="Seiji", color="darkgreen"),
-#         Player.new_man(name="William", color="purple"),
-#         Player.new_man(name="Gastone", color="gold")
-#     ]
-#     return Board.new_board(players=players)
-
-# board = _make_board()
-# gm = GameMaster(board=board)
 
 def _make_board() -> Board:
     players: list[Player] = [
@@ -29,14 +25,14 @@ def _make_board() -> Board:
         Player.new_man(name="William", color="purple"),
         Player.new_man(name="Gastone", color="gold")
     ]
-    return Board(players=players)
+    return Board.new_board(players=players)
 
 board = _make_board()
 gm = GameMaster(board=board)
+
+# view = BoardView(subject=OBSERVER, bridge=gm)
 view = BoardView(subject=board.players[0], bridge=gm)
 gm.view = view
-inject_deck(bridge=gm)
-print("gm.board.deck=", gm.board.deck)
 
 board.draw_kard_async = DrawKardsController(
     bridge=gm

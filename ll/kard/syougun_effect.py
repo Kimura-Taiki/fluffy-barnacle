@@ -1,5 +1,8 @@
+from typing import Callable
+
 from any.func import enforce
 from any.screen import screen
+from kard.guard_message import guard_message
 from model.board import Board
 from model.player import Player
 from ptc.bridge import Bridge
@@ -10,10 +13,20 @@ from view.player_square import PlayerSquare
 from view.player_select_view import PlayerSelectView
 
 class SyougunEffect():
-    def __init__(self) -> None:
+    def __init__(self, bridge: Bridge) -> None:
+        self.guard_async: Callable[[], None] = lambda : None
         pass
 
-    def use_func(self, board: Board, player: Player) -> None:
+    def use_func(self, bridge: Bridge, player: Player) -> None:
+        self.guard_async = lambda : guard_message(bridge=bridge, kard_name="将軍")
+        ...
+
+    def exchange_kards(self, board: Board, p1: Player, p2: Player) -> None:
+        if p1.protected or p2.protected:
+            guard_message(bridge=)
+            return
+        self.exchange_kards_async(p1, p2)
+        p1.hands, p2.hands = p2.hands, p1.hands
         
 
 def exchange_kards(self, p1: Player, p2: Player) -> None:
