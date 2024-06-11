@@ -1,3 +1,4 @@
+from any.locales import lomes
 from model.player import Player
 from ptc.bridge import Bridge
 from view.message_view import MessageView
@@ -9,5 +10,5 @@ class DefeatByMinistersController():
     def action(self, player: Player) -> None:
         self.bridge.whileloop(new_view=MessageView(
             view=self.bridge.view,
-            img_mes=f"「大臣」を含む強さの合計が12以上になったので{player.name}は脱落します"
+            img_mes=lomes(folder="kard", key="defeat_by_ministers", player_name=player.name)
         ))

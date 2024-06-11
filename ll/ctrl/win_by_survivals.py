@@ -1,3 +1,4 @@
+from any.locales import lomes
 from model.player import Player
 from ptc.bridge import Bridge
 from view.message_view import MessageView
@@ -9,5 +10,5 @@ class WinBySurvivalsController():
     def action(self, player: Player) -> None:
         self.bridge.whileloop(new_view=MessageView(
             view=self.bridge.view,
-            img_mes=f"生き残った{player.name}が勝利しました"
+            img_mes=lomes(folder="board", key="win_by_survivals", player_name=player.name)
         ))

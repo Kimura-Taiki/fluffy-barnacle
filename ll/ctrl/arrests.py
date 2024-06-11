@@ -1,5 +1,6 @@
 from pygame import Rect, Vector2 as V2
 
+from any.locales import lomes
 from any.pictures import IMG_HAZURE
 from model.kard import Kard
 from model.player import Player
@@ -39,7 +40,7 @@ class ArrestsController():
             ))
             self.bridge.whileloop(new_view=MessageView(
                 view=self.bridge.view,
-                img_mes=f"兵士に見つかった{player.name}は脱落します"
+                img_mes=lomes(folder="kard", key="arrests", player_name=player.name)
             ))
         else:
             self.bridge.whileloop(new_view=hazure_mv(

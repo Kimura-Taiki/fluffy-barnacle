@@ -37,5 +37,7 @@ class Locales:
         return template.format(**kwargs)
 
 # # 使用例
-# locales = Locales()
-# print(locales.get_message(folder="board", key="win_by_strengths", player_name="Hoge"))
+locales = Locales()
+def lomes(folder: str, key: str, **kwargs: str) -> str:
+    return locales.get_message(folder=folder, key=key, **kwargs)
+# print(lomes(folder="board", key="win_by_strengths", player_name="Hoge"))

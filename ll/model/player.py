@@ -20,6 +20,10 @@ class Player():
     alive: bool=True
     protected: bool=False
 
+    @property
+    def hand(self) -> Kard:
+        return self.hands[0]
+
     @classmethod
     def new_man(cls, name: str, color: ColorValue) -> 'Player':
         return Player(

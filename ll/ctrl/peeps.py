@@ -1,6 +1,7 @@
 from pygame import Rect, Vector2 as V2
 
 from any.func import enforce
+from any.locales import lomes
 from any.pictures import IMG_PEEP
 from any.screen import screen, WV2
 from model.player import Player
@@ -46,10 +47,16 @@ class PeepsController():
             ))
             self.bridge.whileloop(new_view=MessageView(
                 view=self.bridge.view,
-                img_mes=f"{watched.name}の手札は「{watched.hands[0].name}」でした"
+                img_mes=lomes(
+                    folder="kard", key="peeps_subjective",
+                    watched_name=watched.name, kard_name=watched.hand.name
+                )
             ))
         else:
             self.bridge.whileloop(new_view=MessageView(
                 view=self.bridge.view,
-                img_mes=f"{peeper.name}は{watched.name}の手札を覗きました"
+                img_mes=lomes(
+                    folder="kard", key="peeps_objective",
+                    peeper_name=peeper.name, watched_name=watched.name
+                )
             ))
