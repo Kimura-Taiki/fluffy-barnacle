@@ -2,6 +2,7 @@ from copy import deepcopy
 from random import shuffle
 
 from model.kard import Kard
+from model.in_effect_kard import InEffectKard
 from model.kard_core import KardCore
 
 _kc_params: list[tuple[str, int]] = [
@@ -15,9 +16,9 @@ _deck_params: list[tuple[KardCore, str]] = [
     (_kcs[3], "img03b"), (_kcs[4], "img04a"), (_kcs[4], "img04b"), (_kcs[5], "img05a"), 
     (_kcs[5], "img05b"), (_kcs[6], "img06a"), (_kcs[7], "img07a"), (_kcs[8], "img08a"), 
 ]
-_deck = [Kard(kard_core=kc, png_file=f"dere1/{png_file}") for kc, png_file in _deck_params]
+_deck = [InEffectKard(kard_core=kc, png_file=f"dere1/{png_file}") for kc, png_file in _deck_params]
 
-KARD_BANPEI = Kard(kard_core=_kcs[0], png_file="")
+KARD_BANPEI = InEffectKard(kard_core=_kcs[0], png_file="")
 KARD_HEISI = _deck[0]
 KARD_DOUKE = _deck[5]
 KARD_KISI = _deck[7]

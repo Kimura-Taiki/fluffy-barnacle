@@ -3,8 +3,8 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-from model.deck import make_deck, KARD_HEISI, KARD_DOUKE, KARD_KISI,\
-    KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
+# from model.deck import make_deck, KARD_HEISI, KARD_DOUKE, KARD_KISI,\
+#     KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -40,6 +40,7 @@ class Board:
         """プレイヤーがカードを引く処理を行います。"""
         self.draw_kard_async(player)
         player.hands.append(self.deck.pop(0))
+        from model.deck import KARD_DAIZIN
         if KARD_DAIZIN in player.hands and sum(kard.rank for kard in player.hands) >= 12:
             self.defeat_by_daizin_async(player)
             self.retire(player=player)
@@ -70,6 +71,7 @@ class Board:
         """プレイヤーがカードを捨てる処理を行います。"""
         player.hands.remove(kard)
         player.log.append(kard)
+        from model.deck import KARD_HIME
         if kard == KARD_HIME:
             self.diskard_hime_async(player)
             self.retire(player=player)
@@ -95,6 +97,7 @@ class Board:
     
     def arrest(self, player: Player, kard: Kard) -> None:
         if player.protected:
+            from model.deck import KARD_HEISI
             self.guard_async(KARD_HEISI)
             return
         self.arrest_async(player, kard)
@@ -103,12 +106,14 @@ class Board:
 
     def peep(self, peeper: Player, watched: Player, subject: Player) -> None:
         if watched.protected:
+            from model.deck import KARD_DOUKE
             self.guard_async(KARD_DOUKE)
             return
         self.peep_async(peeper, watched, subject)
 
     def duel(self, p1: Player, p2: Player) -> None:
         if p1.protected or p2.protected:
+            from model.deck import KARD_KISI
             self.guard_async(KARD_KISI)
             return
         self.duel_async(p1, p2)
@@ -126,6 +131,7 @@ class Board:
     def rummage(self, player: Player) -> None:
         """プレイヤーがカードを捨てて、新しいカードを引く処理を行います。"""
         if player.protected:
+            from model.deck import KARD_MAZYUTUSI
             self.guard_async(KARD_MAZYUTUSI)
             return
         self.diskard(player=player, kard=player.hands[0])
@@ -136,6 +142,7 @@ class Board:
     def exchange_kards(self, p1: Player, p2: Player) -> None:
         """二人のプレイヤー間でカードを交換する処理を行います。"""
         if p1.protected or p2.protected:
+            from model.deck import KARD_SYOUGUN
             self.guard_async(KARD_SYOUGUN)
             return
         self.exchange_kards_async(p1, p2)
@@ -144,4 +151,12 @@ class Board:
     @classmethod
     def new_board(cls, players: list[Player]) -> 'Board':
         """新しいゲームボードを初期化するクラスメソッド。"""
-        return Board(players=players, deck=make_deck())
+        from model.deck import make_deck
+        # return Board(players=players, deck=make_deck())
+        board = Board(players=players, deck=make_deck())
+        for kard in board.deck:
+            verb = kard.board_func
+            verb(board)
+            kard.board_func(board)
+            print("heei", kard)
+        return board
