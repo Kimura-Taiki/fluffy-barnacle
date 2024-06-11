@@ -1,15 +1,22 @@
 from copy import deepcopy
 from random import shuffle
+from typing import Callable
 
-from model.kard import Kard
+from model.board import Board
 from model.in_effect_kard import InEffectKard
+from model.kard import Kard
 from model.kard_core import KardCore
+from model.player import Player
+from ptc.bridge import Bridge
 
-_kc_params: list[tuple[str, int]] = [
-    ("(番兵)", 0), ("兵士", 1), ("道化", 2), ("騎士", 3), ("僧侶", 4),
-    ("魔術師", 5), ("将軍", 6), ("大臣", 7), ("姫", 8)
+_func = lambda bridge, player: print("Hoge")
+
+_kc_params: list[tuple[str, int, Callable[[Bridge, Player], None]]] = [
+    ("(番兵)", 0, _func), ("兵士", 1, _func), ("道化", 2, _func),
+    ("騎士", 3, _func), ("僧侶", 4, _func), ("魔術師", 5, _func),
+    ("将軍", 6, _func), ("大臣", 7, _func), ("姫", 8, _func)
 ]
-_kcs = [KardCore(name, rank) for name, rank in _kc_params]
+_kcs = [KardCore(name, rank, func) for name, rank, func in _kc_params]
 _deck_params: list[tuple[KardCore, str]] = [
     (_kcs[1], "img01a"), (_kcs[1], "img01b"), (_kcs[1], "img01c"), (_kcs[1], "img01d"), 
     (_kcs[1], "img01e"), (_kcs[2], "img02a"), (_kcs[2], "img02b"), (_kcs[3], "img03a"), 
