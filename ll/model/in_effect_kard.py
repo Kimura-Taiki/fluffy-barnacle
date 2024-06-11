@@ -5,6 +5,7 @@ from typing import Any
 from any.pictures import picload
 from model.board import Board
 from model.kard_core import KardCore
+from model.player import Player
 
 
 @dataclass(frozen=True)
@@ -28,5 +29,5 @@ class InEffectKard():
     def rank(self) -> int:
         return self.kard_core.rank
     
-    def board_func(self, board: Board) -> None:
-        self.kard_core.func(board)
+    def use_func(self, board: Board, player: Player) -> None:
+        self.kard_core.use_func(board, player)

@@ -43,9 +43,6 @@ board.turn_start_async = TurnStartsController(
 board.use_kard_async = BrightKardsController(
     bridge=gm
 ).action
-board.diskard_hime_async = DiskardHimesController(
-    bridge=gm
-).action
 board.win_by_survival_async = WinBySurvivalsController(
     bridge=gm
 ).action
@@ -53,29 +50,32 @@ board.win_by_strength_async = WinByStrengthsController(
     bridge=gm
 ).action
 
-board.arrest_async = ArrestsController(
-    bridge=gm
-).action
-board.peep_async = PeepsController(
-    bridge=gm
-).action
-board.duel_async = DuelsController(
-    bridge=gm
-).action
-board.defeat_by_duel_async = DefeatByDuelsController(
-    bridge=gm
-).action
-board.protect_async = ProtectsController(
-    bridge=gm
-).action
-board.guard_async = GuardsController(
-    bridge=gm
-).action
-board.exchange_kards_async = ExchangeKardsController(
-    bridge=gm
-).action
-board.defeat_by_daizin_async = DefeatByMinistersController(
-    bridge=gm
-).action
+# board.arrest_async = ArrestsController(
+#     bridge=gm
+# ).action
+# board.peep_async = PeepsController(
+#     bridge=gm
+# ).action
+# board.duel_async = DuelsController(
+#     bridge=gm
+# ).action
+# board.defeat_by_duel_async = DefeatByDuelsController(
+#     bridge=gm
+# ).action
+# board.protect_async = ProtectsController(
+#     bridge=gm
+# ).action
+# board.guard_async = GuardsController(
+#     bridge=gm
+# ).action
+# board.exchange_kards_async = ExchangeKardsController(
+#     bridge=gm
+# ).action
+# board.defeat_by_daizin_async = DefeatByMinistersController(
+#     bridge=gm
+# ).action
+# board.diskard_hime_async = DiskardHimesController(
+#     bridge=gm
+# ).action
 
 SetupsController(bridge=gm).action()

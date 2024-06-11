@@ -7,4 +7,10 @@ class Kard(Protocol):
     picture: Callable[[], Surface]
     name: str
     rank: int
-    board_func: Callable[[Any], None]
+    use_func: Callable[[Any, Any], None]
+    '''
+    use_func(Board, Player) -> None
+
+    カードを使用した際に起動する命令です。
+    第１引数にBoard,第２引数にPlayerを代入してください。
+    '''
