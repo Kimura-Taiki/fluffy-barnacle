@@ -2,16 +2,22 @@ from copy import deepcopy
 from random import shuffle
 
 from model.kard import Kard
+from model.kard_core import KardCore
 
-_params: list[tuple[str, int, str]] = [
-    ("兵士", 1, "img01a"), ("兵士", 1, "img01b"), ("兵士", 1, "img01c"), ("兵士", 1, "img01d"), 
-    ("兵士", 1, "img01e"), ("道化", 2, "img02a"), ("道化", 2, "img02b"), ("騎士", 3, "img03a"), 
-    ("騎士", 3, "img03b"), ("僧侶", 4, "img04a"), ("僧侶", 4, "img04b"), ("魔術師", 5, "img05a"), 
-    ("魔術師", 5, "img05b"), ("将軍", 6, "img06a"), ("大臣", 7, "img07a"), ("姫", 8, "img08a"), 
+_kc_params: list[tuple[str, int]] = [
+    ("(番兵)", 0), ("兵士", 1), ("道化", 2), ("騎士", 3), ("僧侶", 4),
+    ("魔術師", 5), ("将軍", 6), ("大臣", 7), ("姫", 8)
 ]
-_deck = [Kard(name=name, rank=rank, png_file=f"dere1/{png_file}") for name, rank, png_file in _params]
+_kcs = [KardCore(name, rank) for name, rank in _kc_params]
+_deck_params: list[tuple[KardCore, str]] = [
+    (_kcs[1], "img01a"), (_kcs[1], "img01b"), (_kcs[1], "img01c"), (_kcs[1], "img01d"), 
+    (_kcs[1], "img01e"), (_kcs[2], "img02a"), (_kcs[2], "img02b"), (_kcs[3], "img03a"), 
+    (_kcs[3], "img03b"), (_kcs[4], "img04a"), (_kcs[4], "img04b"), (_kcs[5], "img05a"), 
+    (_kcs[5], "img05b"), (_kcs[6], "img06a"), (_kcs[7], "img07a"), (_kcs[8], "img08a"), 
+]
+_deck = [Kard(kard_core=kc, png_file=f"dere1/{png_file}") for kc, png_file in _deck_params]
 
-KARD_BANPEI = Kard(name="(番兵)", rank=0, png_file="")
+KARD_BANPEI = Kard(kard_core=_kcs[0], png_file="")
 KARD_HEISI = _deck[0]
 KARD_DOUKE = _deck[5]
 KARD_KISI = _deck[7]
