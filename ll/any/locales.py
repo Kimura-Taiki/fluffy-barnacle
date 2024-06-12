@@ -3,7 +3,8 @@ from typing import TypedDict, Any
 
 # 型ヒントの定義
 BoardDict = dict[str, str]
-KardDict = dict[str, str]
+YakuDict = dict[str, str]
+KardDict = dict[str, YakuDict]
 
 class LangDict(TypedDict):
     board: BoardDict
@@ -35,9 +36,22 @@ class Locales:
             raise KeyError(f"Key '{key}' not found in folder '{folder}'.")
         
         return template.format(**kwargs)
+    
+    def yaku_message(self, folder: str, key: str, **kwargs: str) -> str:
+        kard_dict = self._messages["kard"]
+        yaku_dict = kard_dict.get(folder)
+        if yaku_dict is None:
+            raise ValueError(f"Folder '{folder}' not found in messages.")
+        template = yaku_dict.get(key)
+        if template is None:
+            raise KeyError(f"Key '{key}' not found in folder '{folder}'.")
+        return template.format(**kwargs)
 
 # # 使用例
 locales = Locales()
 def lomes(folder: str, key: str, **kwargs: str) -> str:
     return locales.get_message(folder=folder, key=key, **kwargs)
 # print(lomes(folder="board", key="win_by_strengths", player_name="Hoge"))
+
+def kames(folder: str, key: str, **kwargs: str) -> str:
+    return locales.yaku_message(folder=folder, key=key, **kwargs)
