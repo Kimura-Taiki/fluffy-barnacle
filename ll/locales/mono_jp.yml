@@ -1,4 +1,5 @@
 board:
+  turn_starts: "{player_name}の手番です"
   guards: "「{kard_name}」の効果が防がれました"
   win_by_strengths: "手札が最も強い{player_name}が勝利しました"
   win_by_survivals: "生き残った{player_name}が勝利しました"

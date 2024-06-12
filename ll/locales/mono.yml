@@ -1,4 +1,5 @@
 board:
+  turn_starts: "{turn_player}'s Turn"
   guards: "「{kard_name}」's attack blocked"
   win_by_strengths: "{player_name} with the strongest hand has won"
   win_by_survivals: "The last surviving {player_name} has won"
