@@ -14,6 +14,6 @@ class TurnStartsController():
         self.bridge.whileloop(new_view=MessageView(
             view=self.bridge.view,
             img_mes=MS_MINCHO_COL(lomes(
-                folder="board", key="turn_starts", turn_player=self.bridge.board.turn_player.name
+                folder="board", key="turn_starts", player_name=self.bridge.board.turn_player.name
             ), _FONT_H, "black"),
         ))

@@ -1,0 +1,28 @@
+board:
+  turn_starts: "{turn_player}'s Turn"
+  guards: "「{kard_name}」's attack blocked"
+  win_by_strengths: "{player_name} with the strongest hand has won"
+  win_by_survivals: "The last surviving {player_name} has won"
+kard:
+  heisi:
+    name: "Guard"
+    arrests: "{player_name} was found by a Guard and dropped out"
+  douke:
+    name: "Clown"
+    peeps_subjective: "{watched_name}'s hand was 「{kard_name}」"
+    peeps_objective: "{peeper_name} peeked at {watched_name}'s hand"
+  kisi:
+    name: "Knight"
+    defeat_by_duels: "{player_name} lost the duel and dropped out"
+  souryo:
+    name: "Priestess"
+  mazyutusi:
+    name: "Wizard"
+  syougun:
+    name: "General"
+  daizin:
+    name: "Minister"
+    defeat_by_ministers: "The sum strength of 「Minister」 and another card in his/her hand is 12 or greater and dropped out"
+  hime:
+    name: "Princess"
+    diskard_himes: "{player_name} threw away 「Princess」 and dropped out"

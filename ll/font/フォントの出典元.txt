@@ -1,0 +1,15 @@
+
+----Mac内蔵フォント----
+NewYork.ttf
+
+参考：Macフォントの利用に関する質問
+https://discussionsjapan.apple.com/thread/252627620?answerId=254949958122&sortBy=best#254949958122
+
+----MicroSoft----
+msmincho001.ttf
+
+----朝鮮日報----
+ChosunGs.TTF    https://event.chosun.com/100/100font.html
+
+----フロップデザイン(アプリ明朝)----
+アプリ明朝.otf    https://flopdesign.com/blog/font/5852/
