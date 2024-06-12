@@ -16,7 +16,7 @@ kard:
     name: "기사"
     defeat_by_duels: "결투에서 패배한 {player_name}는 탈락합니다"
   souryo:
-    name: "승려"
+    name: "수녀"
   mazyutusi:
     name: "마법사"
   syougun:

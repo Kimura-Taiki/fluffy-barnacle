@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Callable
+
 from model.kard_id import KardID
 from model.player import Player
 from ptc.bridge import Bridge

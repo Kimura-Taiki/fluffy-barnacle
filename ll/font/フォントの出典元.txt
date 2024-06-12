@@ -1,5 +1,6 @@
 
 ----Mac内蔵フォント----
+SFCamera.ttf
 NewYork.ttf
 
 参考：Macフォントの利用に関する質問

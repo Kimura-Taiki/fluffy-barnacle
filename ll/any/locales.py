@@ -17,7 +17,7 @@ def load_yaml(file_name: str) -> LangDict:
     return data
 
 class Locales:
-    def __init__(self, file_name: str = "mono.yml", base_path: str = "ll/locales") -> None:
+    def __init__(self, file_name: str = "mono_jp.yml", base_path: str = "ll/locales") -> None:
         self._messages: LangDict = self._load_messages(file_name, base_path)
 
     def _load_messages(self, file_name: str, base_path: str) -> LangDict:
