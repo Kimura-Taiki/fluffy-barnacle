@@ -7,8 +7,7 @@ from ptc.bridge import Bridge
 @dataclass(frozen=True)
 class KardCore:
     id: KardID
-    # name: Callable[[], str]
-    name: str
+    name: Callable[[], str]
     rank: int
     use_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
 

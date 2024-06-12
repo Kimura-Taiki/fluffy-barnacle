@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from random import shuffle
 from typing import Callable
 
+from any.locales import kames
 from kard.syougun_effect import SyougunEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
@@ -44,15 +45,19 @@ class DefaultDeck():
     def _kard_cores(self) -> list[KardCore]:
         return [KardCore(id, name, rank, func) for id, name, rank, func in self._kc_params()]
     
-    def _kc_params(self) -> list[tuple[KardID, str, int, Callable[[Bridge, Player], None]]]:
+    def _kc_params(self) -> list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]]:
         print("HEEI")
         _func = lambda bridge, player: print("Hoge")
-        kc_params: list[tuple[KardID, str, int, Callable[[Bridge, Player], None]]] = [
-            (KardID.BANPEI, "(番兵)", 0, _func),
-            (KardID.HEISI, "兵士", 1, _func), (KardID.DOUKE, "道化", 2, _func),
-            (KardID.KISI, "騎士", 3, _func), (KardID.SOURYO, "僧侶", 4, _func),
-            (KardID.MAZYUTUSI, "魔術師", 5, _func), (KardID.SYOUGUN, "将軍", 6, SyougunEffect().use_func),
-            (KardID.DAIZIN, "大臣", 7, _func), (KardID.HIME, "姫", 8, _func)
+        kc_params: list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]] = [
+            (KardID.BANPEI, lambda : "(番兵)", 0, _func),
+            (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, _func),
+            (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
+            (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, _func),
+            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, _func),
+            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, _func),
+            (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, SyougunEffect().use_func),
+            (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
+            (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)
         ]
         return kc_params
 

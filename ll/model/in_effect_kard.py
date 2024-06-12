@@ -24,7 +24,7 @@ class InEffectKard():
 
     @property
     def name(self) -> str:
-        return self.kard_core.name
+        return self.kard_core.name()
     
     @property
     def rank(self) -> int:
