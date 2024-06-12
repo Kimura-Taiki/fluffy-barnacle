@@ -1,8 +1,8 @@
-from copy import deepcopy
 from dataclasses import dataclass
 from random import shuffle
 from typing import Callable
 
+from kard.syougun_effect import SyougunEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
 from model.kard_core import KardCore
@@ -20,7 +20,7 @@ class DefaultDeck():
             self.bridge.board.deck.append(deck.pop(0))
 
     def _make_deck(self) -> list[Kard]:
-        deck = deepcopy(self._original_deck())
+        deck = self._original_deck()
         shuffle(deck)
         return deck
     
@@ -48,7 +48,7 @@ class DefaultDeck():
         kc_params: list[tuple[str, int, Callable[[Bridge, Player], None]]] = [
             ("(番兵)", 0, _func), ("兵士", 1, _func), ("道化", 2, _func),
             ("騎士", 3, _func), ("僧侶", 4, _func), ("魔術師", 5, _func),
-            ("将軍", 6, _func), ("大臣", 7, _func), ("姫", 8, _func)
+            ("将軍", 6, SyougunEffect().use_func), ("大臣", 7, _func), ("姫", 8, _func)
         ]
         return kc_params
 
