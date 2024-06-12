@@ -1,8 +1,8 @@
 from model.kard import Kard
 from ptc.bridge import Bridge
-from ptc.main_view import MainView
-from view.kard_select_view import KardSelectView
-from view.player_select_view import PlayerSelectView
+# from ptc.main_view import MainView
+# from view.kard_select_view import KardSelectView
+# from view.player_select_view import PlayerSelectView
 
 from ptc.controller import Controller
 class UseKardsController():

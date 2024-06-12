@@ -36,7 +36,6 @@ gm = GameMaster(board=board)
 view = BoardView(subject=board.players[0], bridge=gm)
 gm.view = view
 inject_deck(bridge=gm)
-print("gm.board.deck=", gm.board.deck)
 
 board.draw_kard_async = DrawKardsController(
     bridge=gm
