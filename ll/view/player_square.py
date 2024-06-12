@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
-from any.font import MS_MINCHO_COL
+from any.font import LL_RENDER
 from any.pictures import IMG_SHIELD
 from model.player import Player, OBSERVER
 from model.ui_element import UIElement
@@ -71,7 +71,7 @@ class PlayerSquare():
         img = Surface(size=self._RATIO, flags=SRCALPHA)
         hand_name = "empty" if len(self.player.hands) == 0 else self.player.hands[0].name
         rect_fill(color=self._color(), rect=Rect((0, 0), self._RATIO), surface=img)
-        img.blit(source=MS_MINCHO_COL(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
+        img.blit(source=LL_RENDER(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])
 
     def _img_shield(self) -> Surface:

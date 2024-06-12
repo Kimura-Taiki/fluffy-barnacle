@@ -1,4 +1,4 @@
-from any.font import MS_MINCHO_COL
+from any.font import LL_RENDER
 from any.locales import lomes
 from ptc.bridge import Bridge
 from view.message_view import MessageView
@@ -13,7 +13,7 @@ class TurnStartsController():
     def action(self) -> None:
         self.bridge.whileloop(new_view=MessageView(
             view=self.bridge.view,
-            img_mes=MS_MINCHO_COL(lomes(
+            img_mes=LL_RENDER(lomes(
                 folder="board", key="turn_starts", player_name=self.bridge.board.turn_player.name
             ), _FONT_H, "black"),
         ))

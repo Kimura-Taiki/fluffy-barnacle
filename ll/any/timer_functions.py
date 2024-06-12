@@ -3,7 +3,7 @@ from time import time
 from typing import Callable
 
 from any.func import rect_fill
-from any.font import MS_MINCHO_COL
+from any.font import LL_RENDER
 from any.screen import screen, WX, FRAMES_PER_SECOND
 
 _FONT_SIZE = 36
@@ -24,7 +24,7 @@ def timer_functions() -> tuple[Callable[[], None], Callable[[], None], Callable[
         times.append(elapsed_time)
         times.pop(0)
         rect_fill(color="lemonchiffon", rect=Rect((_DEST), (_SIZE)))
-        screen.blit(source=MS_MINCHO_COL(
+        screen.blit(source=LL_RENDER(
             f"{(sum(times)/FRAMES_PER_SECOND*1000):.2f}ms/Loop, now{round(elapsed_time*1000, 2):.2f}", _FONT_SIZE, "black"),
             dest=_DEST)
     def frames() -> int:

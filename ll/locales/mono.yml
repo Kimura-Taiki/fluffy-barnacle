@@ -1,29 +1,29 @@
 board:
-  font: "SFCamera.ttf"
-  turn_starts: "{player_name}'s Turn"
-  guards: "「{kard_name}」's attack blocked"
-  win_by_strengths: "{player_name} with the strongest hand has won"
-  win_by_survivals: "The last surviving {player_name} has won"
+  font: "アプリ明朝.otf"
+  turn_starts: "{player_name}の手番です"
+  guards: "「{kard_name}」の効果が防がれました"
+  win_by_strengths: "手札が最も強い{player_name}が勝利しました"
+  win_by_survivals: "生き残った{player_name}が勝利しました"
 kard:
   heisi:
-    name: "Guard"
-    arrests: "{player_name} was found by a Guard and dropped out"
+    name: "兵士"
+    arrests: "兵士に見つかった{player_name}は脱落します"
   douke:
-    name: "Clown"
-    peeps_subjective: "{watched_name}'s hand was 「{kard_name}」"
-    peeps_objective: "{peeper_name} peeked at {watched_name}'s hand"
+    name: "道化"
+    peeps_subjective: "{watched_name}の手札は「{kard_name}」でした"
+    peeps_objective: "{peeper_name}は{watched_name}の手札を覗きました"
   kisi:
-    name: "Knight"
-    defeat_by_duels: "{player_name} lost the duel and dropped out"
+    name: "騎士"
+    defeat_by_duels: "決闘に敗れた{player_name}は脱落します"
   souryo:
-    name: "Priestess"
+    name: "僧侶"
   mazyutusi:
-    name: "Wizard"
+    name: "魔術師"
   syougun:
-    name: "General"
+    name: "将軍"
   daizin:
-    name: "Minister"
-    defeat_by_ministers: "The sum strength of 「Minister」 and another card in his/her hand is 12 or greater and dropped out"
+    name: "大臣"
+    defeat_by_ministers: "「大臣」を含む強さの合計が12以上になったので{player_name}は脱落します"
   hime:
-    name: "Princess"
-    diskard_himes: "{player_name} threw away 「Princess」 and dropped out"
+    name: "姫"
+    diskard_himes: "「姫」を捨てたので{player_name}は脱落します"
