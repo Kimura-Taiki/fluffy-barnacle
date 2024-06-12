@@ -66,7 +66,6 @@ class Board:
         """プレイヤーがカードを使用する処理を行います。"""
         self.use_kard_async(player, kard)
         self.diskard(player=player, kard=kard)
-        kard.use_func(self, self.turn_player)
 
     def diskard(self, player: Player, kard: Kard) -> None:
         """プレイヤーがカードを捨てる処理を行います。"""

@@ -12,6 +12,7 @@ class UseKardsController():
 
     def action(self) -> None:
         self.bridge.board.use_kard(player=self.bridge.board.turn_player, kard=self.kard)
+        self.kard.use_func(bridge=self.bridge, player=self.bridge.board.turn_player)
         # coroutines = [
         #     self._use_banpei, self._use_heisi, self._use_douke, self._use_kisi, self._use_souryo,
         #     self._use_mazyutusi, self._use_syougun, self._use_daizin, self._use_hime
