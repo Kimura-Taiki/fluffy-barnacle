@@ -3,7 +3,7 @@ from math import sin, cos, radians
 
 from any.func import ratio_rect, img_zoom, rect_fill, translucented_color
 from any.screen import screen, WV2
-from model.deck import _kards, KARD_BANPEI
+from seed.default_deck import _kards, KARD_BANPEI
 from model.kard import Kard
 from model.ui_element import UIElement
 from ptc.bridge import Bridge

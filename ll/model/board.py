@@ -148,16 +148,3 @@ class Board:
     #         return
     #     self.exchange_kards_async(p1, p2)
     #     p1.hands, p2.hands = p2.hands, p1.hands
-
-    @classmethod
-    def new_board(cls, players: list[Player]) -> 'Board':
-        """新しいゲームボードを初期化するクラスメソッド。"""
-        from model.deck import make_deck
-        return Board(players=players, deck=make_deck())
-        # board = Board(players=players, deck=make_deck())
-        # for kard in board.deck:
-        #     verb = kard.use_func
-        #     # verb(board)
-        #     # kard.use_func(board, )
-        #     print("heei", kard, verb)
-        # return board
