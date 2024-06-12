@@ -26,7 +26,7 @@ class KardSelectView():
         self.img = self._img()
         self.squares = self._squares()
         self._selected = False
-        self.selected_kard = KARD_BANPEI
+        self.selected_kard: Kard = KARD_BANPEI
 
     def get_hover(self) -> UIElement | None:
         for square in self.squares[::-1]:
