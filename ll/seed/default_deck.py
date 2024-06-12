@@ -44,6 +44,7 @@ class DefaultDeck():
         return [KardCore(name, rank, func) for name, rank, func in self._kc_params()]
     
     def _kc_params(self) -> list[tuple[str, int, Callable[[Bridge, Player], None]]]:
+        print("HEEI")
         _func = lambda bridge, player: print("Hoge")
         kc_params: list[tuple[str, int, Callable[[Bridge, Player], None]]] = [
             ("(番兵)", 0, _func), ("兵士", 1, _func), ("道化", 2, _func),

@@ -21,7 +21,7 @@ class InEffectKard():
         if not isinstance(other, InEffectKard):
             return False
         return self.kard_core == other.kard_core
-    
+
     @property
     def name(self) -> str:
         return self.kard_core.name

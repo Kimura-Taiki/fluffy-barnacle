@@ -39,6 +39,8 @@ class SyougunEffect():
         self.exchange_kards_controller = exchange_kards_controller
 
     def use_func(self, bridge: Bridge, player: Player) -> None:
+        ...
+        # return
         '''カード使用時に呼ばれる命令。
         ２人のプレイヤーを選択するまでを担う。
         プレイヤーがMANかCOMかOBSかで実際の選択が変わり得るが、
