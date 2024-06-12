@@ -1,28 +1,29 @@
 board:
-  turn_starts: "{player_name}의 차례입니다"
-  guards: "「{kard_name}」의 효과가 방어되었습니다"
-  win_by_strengths: "손패가 가장 강한 {player_name}가 승리했습니다"
-  win_by_survivals: "살아남은 {player_name}가 승리했습니다"
+  font: "SFCamera.ttf"
+  turn_starts: "{player_name}'s Turn"
+  guards: "「{kard_name}」's attack blocked"
+  win_by_strengths: "{player_name} with the strongest hand has won"
+  win_by_survivals: "The last surviving {player_name} has won"
 kard:
   heisi:
-    name: "병사"
-    arrests: "병사에게 발견된 {player_name}는 탈락합니다"
+    name: "Guard"
+    arrests: "{player_name} was found by a Guard and dropped out"
   douke:
-    name: "광대"
-    peeps_subjective: "{watched_name}의 손패는 「{kard_name}」였습니다"
-    peeps_objective: "{peeper_name}는 {watched_name}의 손패를 엿보았습니다"
+    name: "Clown"
+    peeps_subjective: "{watched_name}'s hand was 「{kard_name}」"
+    peeps_objective: "{peeper_name} peeked at {watched_name}'s hand"
   kisi:
-    name: "기사"
-    defeat_by_duels: "결투에서 패배한 {player_name}는 탈락합니다"
+    name: "Knight"
+    defeat_by_duels: "{player_name} lost the duel and dropped out"
   souryo:
-    name: "승려"
+    name: "Priestess"
   mazyutusi:
-    name: "마법사"
+    name: "Wizard"
   syougun:
-    name: "장군"
+    name: "General"
   daizin:
-    name: "영의정"
-    defeat_by_ministers: "「영의정」을 포함한 강함의 합계가 12 이상이 되었기 때문에 {player_name}는 탈락합니다"
+    name: "Minister"
+    defeat_by_ministers: "The sum strength of 「Minister」 and another card in his/her hand is 12 or greater and dropped out"
   hime:
-    name: "공주"
-    diskard_himes: "「공주」를 버렸기 때문에 {player_name}는 탈락합니다"
+    name: "Princess"
+    diskard_himes: "{player_name} threw away 「Princess」 and dropped out"

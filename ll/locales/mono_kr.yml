@@ -1,0 +1,29 @@
+board:
+  font: "ChosunGs.TTF"
+  turn_starts: "{player_name}의 차례입니다"
+  guards: "「{kard_name}」의 효과가 방어되었습니다"
+  win_by_strengths: "손패가 가장 강한 {player_name}가 승리했습니다"
+  win_by_survivals: "살아남은 {player_name}가 승리했습니다"
+kard:
+  heisi:
+    name: "병사"
+    arrests: "병사에게 발견된 {player_name}는 탈락합니다"
+  douke:
+    name: "광대"
+    peeps_subjective: "{watched_name}의 손패는 「{kard_name}」였습니다"
+    peeps_objective: "{peeper_name}는 {watched_name}의 손패를 엿보았습니다"
+  kisi:
+    name: "기사"
+    defeat_by_duels: "결투에서 패배한 {player_name}는 탈락합니다"
+  souryo:
+    name: "승려"
+  mazyutusi:
+    name: "마법사"
+  syougun:
+    name: "장군"
+  daizin:
+    name: "영의정"
+    defeat_by_ministers: "「영의정」을 포함한 강함의 합계가 12 이상이 되었기 때문에 {player_name}는 탈락합니다"
+  hime:
+    name: "공주"
+    diskard_himes: "「공주」를 버렸기 때문에 {player_name}는 탈락합니다"
