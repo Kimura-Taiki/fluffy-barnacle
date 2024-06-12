@@ -6,6 +6,7 @@ from kard.syougun_effect import SyougunEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
 from model.kard_core import KardCore
+from model.kard_id import KardID
 from model.player import Player
 from ptc.bridge import Bridge
 
@@ -41,15 +42,17 @@ class DefaultDeck():
         return deck_params
     
     def _kard_cores(self) -> list[KardCore]:
-        return [KardCore(name, rank, func) for name, rank, func in self._kc_params()]
+        return [KardCore(id, name, rank, func) for id, name, rank, func in self._kc_params()]
     
-    def _kc_params(self) -> list[tuple[str, int, Callable[[Bridge, Player], None]]]:
+    def _kc_params(self) -> list[tuple[KardID, str, int, Callable[[Bridge, Player], None]]]:
         print("HEEI")
         _func = lambda bridge, player: print("Hoge")
-        kc_params: list[tuple[str, int, Callable[[Bridge, Player], None]]] = [
-            ("(番兵)", 0, _func), ("兵士", 1, _func), ("道化", 2, _func),
-            ("騎士", 3, _func), ("僧侶", 4, _func), ("魔術師", 5, _func),
-            ("将軍", 6, SyougunEffect().use_func), ("大臣", 7, _func), ("姫", 8, _func)
+        kc_params: list[tuple[KardID, str, int, Callable[[Bridge, Player], None]]] = [
+            (KardID.BANPEI, "(番兵)", 0, _func),
+            (KardID.HEISI, "兵士", 1, _func), (KardID.DOUKE, "道化", 2, _func),
+            (KardID.KISI, "騎士", 3, _func), (KardID.SOURYO, "僧侶", 4, _func),
+            (KardID.MAZYUTUSI, "魔術師", 5, _func), (KardID.SYOUGUN, "将軍", 6, SyougunEffect().use_func),
+            (KardID.DAIZIN, "大臣", 7, _func), (KardID.HIME, "姫", 8, _func)
         ]
         return kc_params
 
