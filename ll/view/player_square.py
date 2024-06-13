@@ -40,7 +40,7 @@ class PlayerSquare():
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.view_params = (0, 0)
+        self.old_hash = -1
         self.img = self._img()
         self.img_shield = self._img_shield()
         self.log_squares = self._log_squares()
@@ -50,8 +50,9 @@ class PlayerSquare():
         return self.ui_element if cursor_in_rect(rect=self.rect) else None
 
     def draw(self) -> None:
-        if self._view_params() != self.view_params:
-            self.view_params = self._view_params()
+        if self.player.view_hash != self.old_hash:
+            print("更新", self.player.name)
+            self.old_hash = self.player.view_hash
             self.img = self._img()
             self.log_squares = self._log_squares()
         screen.blit(source=self.img, dest=self.rect)
@@ -92,9 +93,6 @@ class PlayerSquare():
             rect=Rect((10+i*80, 70), self._LOG_RATIO),
             canvas=self.img
         ) for i, kard in enumerate(self.player.log)]
-
-    def _view_params(self) -> tuple[Any, ...]:
-        return (deepcopy(self.player.log), deepcopy(self.player.hands), self.player.alive)
 
     @property
     def _now_player(self) -> Player:

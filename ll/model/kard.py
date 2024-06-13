@@ -22,3 +22,7 @@ class Kard(Protocol):
     @property
     def rank(self) -> int:
         ...
+
+    @property
+    def view_hash(self) -> int:
+        ...

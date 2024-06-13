@@ -7,7 +7,7 @@ from any.locales import kames
 from model.board import Board
 from model.player import Player
 from ptc.bridge import Bridge
-from seed.default_router import router
+# from seed.default_router import router
 from view.player_select_view import PlayerSelectView
 
 # @runtime_checkable

@@ -3,7 +3,7 @@ from typing import Any
 from copy import deepcopy
 
 from any.screen import screen
-from any.func import rect_fill, ratio_rect, translucented_color
+from any.func import rect_fill, ratio_rect, translucented_color, lcgs
 from model.kard import Kard
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
@@ -16,7 +16,7 @@ class ChoiceSquare():
     def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.view_params = (0, 0)
+        self.old_hash = -1
         self.img = self._img()
         self.hqs = self._hqs()
 
@@ -31,8 +31,8 @@ class ChoiceSquare():
     def draw(self) -> None:
         if not self._has_two_hands:
             return
-        if self.view_params != self._view_params():
-            self.view_params = self._view_params()
+        if self.old_hash != self._view_hash:
+            self.old_hash = self._view_hash
             self.img = self._img()
             self.hqs = self._hqs()
         screen.blit(source=self.img, dest=self.rect)
@@ -68,8 +68,12 @@ class ChoiceSquare():
             ) for i in range(2)
         ]
 
-    def _view_params(self) -> tuple[Any, ...]:
-        return (0, deepcopy(self._hands))
+    @property
+    def _view_hash(self) -> int:
+        hash = 2
+        for hand in self._hands:
+            hash = lcgs(hash, hand.view_hash, 3)
+        return hash
     
     @property
     def _hands(self) -> list[Kard]:
