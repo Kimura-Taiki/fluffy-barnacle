@@ -7,23 +7,51 @@ board:
 kard:
   heisi:
     name: "Guard"
+    text: |
+      In use: Name a non-Guard card
+      and choose another player.
+      If that player has that card,
+      he or she is out of the round.
     arrests: "{player_name} was found by a Guard and dropped out"
   douke:
     name: "Clown"
+    text: |
+      In use: Look at another player's hand.
     peeps_subjective: "{watched_name}'s hand was 「{kard_name}」"
     peeps_objective: "{peeper_name} peeked at {watched_name}'s hand"
   kisi:
     name: "Knight"
+    text: |
+      In use: You and another player secretly
+      compare hands. The player with
+      the lower value is out of the round.
     defeat_by_duels: "{player_name} lost the duel and dropped out"
   souryo:
     name: "Priestess"
+    text: |
+      In use: Until your next turn, ignore all
+      effects from other player's cards.
   mazyutusi:
     name: "Wizard"
+    text: |
+      In use: Choose any player (including
+      yourself) to discard his or her
+      hand and draw a new card.
   syougun:
     name: "General"
+    text: |
+      Trade hands with another
+      player of your choice.
   daizin:
     name: "Minister"
+    text: |
+      If you have this card and the
+      5 or higher value in your
+      hand, you are out of the round.
     defeat_by_ministers: "The sum strength of 「Minister」 and another card in his/her hand is 12 or greater and dropped out"
   hime:
     name: "Princess"
+    text: |
+      If you discard this card,
+      you are out of the round.
     diskard_himes: "{player_name} threw away 「Princess」 and dropped out"

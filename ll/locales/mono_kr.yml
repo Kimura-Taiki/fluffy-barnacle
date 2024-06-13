@@ -7,23 +7,53 @@ board:
 kard:
   heisi:
     name: "병사"
+    text: |
+      사용：다른 플레이어를 1명 선택해,
+      「병사」 이외의 카드명을 1개 말한다.
+      패와 일치하면
+      그 플레이어는 탈락한다.
     arrests: "병사에게 발견된 {player_name}는 탈락합니다"
   douke:
     name: "광대"
+    text: |
+      사용：다른 플레이어를 1명 선택해,
+      그 패를 본다.
     peeps_subjective: "{watched_name}의 손패는 「{kard_name}」였습니다"
     peeps_objective: "{peeper_name}는 {watched_name}의 손패를 엿보았습니다"
   kisi:
     name: "기사"
+    text: |
+      사용：다른 플레이어를 한 명 선택하고,
+      몰래 패의 힘을 비교한다.
+      가치가 작은 플레이어는
+      탈락한다.
     defeat_by_duels: "결투에서 패배한 {player_name}는 탈락합니다"
   souryo:
     name: "수녀"
+    text: |
+      사용：당신의 다음 번이 올 때까지,
+      당신에게 "사용："효과가 무효화됩니다.
   mazyutusi:
     name: "마법사"
+    text: |
+      사용：플레이어를 1명 선택합니다.
+      (당신이라도 좋다)
+      그 플레이어는 패를 버리고,
+      산찰에서 1장 당겨 새로운 패로 한다.
   syougun:
     name: "장군"
+    text: |
+      사용：다른 플레이어를 1명 선택해,
+      패를 교환한다.
   daizin:
     name: "영의정"
+    text: |
+      당신의 패의 가치의 합이
+      12개 이상이면 탈락한다.
     defeat_by_ministers: "「영의정」을 포함한 강함의 합계가 12 이상이 되었기 때문에 {player_name}는 탈락합니다"
   hime:
     name: "공주"
+    text: |
+      이 카드를 버리면
+      너는 탈락한다.
     diskard_himes: "「공주」를 버렸기 때문에 {player_name}는 탈락합니다"
