@@ -3,6 +3,7 @@ from random import shuffle
 from typing import Callable
 
 from any.locales import kames
+from any.router import router
 from kard.syougun_effect import SyougunEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard

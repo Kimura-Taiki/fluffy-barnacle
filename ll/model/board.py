@@ -9,7 +9,7 @@ from model.player import Player, OBSERVER
 
 @dataclass
 class Board:
-    players: list[Player]
+    players: list[Player] = field(default_factory=lambda : [])
     deck: list[Kard] = field(default_factory=lambda : [])
     turn_player: Player = field(default_factory=lambda : OBSERVER)
     reserve: list[Kard] = field(default_factory=lambda : [])
