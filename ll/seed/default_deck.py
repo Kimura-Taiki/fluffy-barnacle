@@ -41,12 +41,11 @@ class DefaultDeck():
             (_kcs[5], "img05b"), (_kcs[6], "img06a"), (_kcs[7], "img07a"), (_kcs[8], "img08a"), 
         ]
         return deck_params
-    
+
     def _kard_cores(self) -> list[KardCore]:
         return [KardCore(id, name, rank, func) for id, name, rank, func in self._kc_params()]
     
     def _kc_params(self) -> list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]]:
-        print("HEEI")
         _func = lambda bridge, player: print("Hoge")
         kc_params: list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]] = [
             (KardID.BANPEI, lambda : "(番兵)", 0, _func),
