@@ -7,23 +7,53 @@ board:
 kard:
   heisi:
     name: "兵士"
+    text: |
+      使用：他のプレイヤーを１人選び、
+      「兵士」以外のカード名を1つ言う。
+      それが手札と一致した場合、
+      そのプレイヤーは脱落する。
     arrests: "兵士に見つかった{player_name}は脱落します"
   douke:
     name: "道化"
+    text: |
+      使用：他のプレイヤーを１人選び、
+      その手札を見る。
     peeps_subjective: "{watched_name}の手札は「{kard_name}」でした"
     peeps_objective: "{peeper_name}は{watched_name}の手札を覗きました"
   kisi:
     name: "騎士"
+    text: |
+      使用：他のプレイヤーを１人選び、
+      ひそかに手札の強さを比べる。
+      強さが小さかったプレイヤーは
+      脱落する。
     defeat_by_duels: "決闘に敗れた{player_name}は脱落します"
   souryo:
     name: "僧侶"
+    text: |
+      使用：あなたの次の手番が来るまで、
+      あなたへの「使用：」効果は無効になる。
   mazyutusi:
     name: "魔術師"
+    text: |
+      使用：プレイヤーを１人選ぶ
+      （あなたでもよい）。
+      そのプレイヤーは手札を捨て札にし、
+      山札から１枚引いて新たな手札にする。
   syougun:
     name: "将軍"
+    text: |
+      使用：他のプレイヤーを１人選び、
+      手札を交換する。
   daizin:
     name: "大臣"
+    text: |
+      使用：他のプレイヤーを１人選び、
+      手札を交換する。
     defeat_by_ministers: "「大臣」を含む強さの合計が12以上になったので{player_name}は脱落します"
   hime:
     name: "姫"
+    text: |
+      このカードを捨て札にした場合、
+      あなたは脱落する。
     diskard_himes: "「姫」を捨てたので{player_name}は脱落します"
