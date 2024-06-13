@@ -12,5 +12,3 @@ class Router():
 
     def bridge_injector(self) -> Bridge:
         return self.bridge
-
-router = Router()

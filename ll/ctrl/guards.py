@@ -1,10 +1,17 @@
+from dataclasses import dataclass
+from typing import Callable
+
 from any.locales import lomes
 from ptc.bridge import Bridge
 from view.message_view import MessageView
 
+@dataclass
 class GuardsController():
-    def __init__(self, bridge: Bridge) -> None:
-        self.bridge = bridge
+    injector: Callable[[], Bridge]
+
+    @property
+    def bridge(self) -> Bridge:
+        return self.injector()
 
     def action(self, kard_name: str) -> None:
         self.bridge.whileloop(new_view=MessageView(
