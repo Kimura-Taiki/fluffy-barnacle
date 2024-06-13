@@ -1,5 +1,5 @@
 from pygame import Surface, SRCALPHA, Color, Rect, mouse, Vector2 as V2, transform
-from typing import Sequence, Any, TypeVar, Callable
+from typing import Sequence, Any, TypeVar
 from copy import deepcopy
 
 from any.screen import screen

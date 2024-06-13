@@ -62,8 +62,6 @@ class DefaultDeck():
             (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, _func),
             (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, _func),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.use_func),
-            # (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, SyougunEffect().use_func),
-            # (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, _func),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
             (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)
         ]

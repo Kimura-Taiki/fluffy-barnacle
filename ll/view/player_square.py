@@ -1,6 +1,4 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Color, Vector2 as V2
-from typing import Any
-from copy import deepcopy
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
