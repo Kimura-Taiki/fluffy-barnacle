@@ -1,55 +1,80 @@
-import pygame
-import sys
+from copy import deepcopy
+from dataclasses import dataclass, field
+from pygame import Surface
+from time import sleep
+from typing import Callable, Protocol, runtime_checkable
 
-# Pygame の初期化
-pygame.init()
+@dataclass
+class View:
+    image: Surface = field(default_factory=lambda : Surface((16, 16)))
 
-# 画面の設定
-screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Multi-Font Example")
+@dataclass
+class Router:
+    hooks: list[Callable[[], None]] = field(default_factory=list)
 
-# フォントの読み込み
-hiragana_font_path = "ll/font/msmincho001.ttf"
-hangul_font_path = "ll/font/ChosunGs.TTF"
-font_size = 48
+@dataclass
+class Model:
+    game_params: list[int] = field(default_factory=list)
+    router: Router = field(default_factory=Router)
 
-hiragana_font = pygame.font.Font(hiragana_font_path, font_size)
-hangul_font = pygame.font.Font(hangul_font_path, font_size)
+    def resolve_hooks(self) -> None:
+        print("非同期処理のテスト")
+        for hook in self.router.hooks:
+            hook()
 
-# テキストを定義
-text = "こんにちは 안녕하세요"
+@dataclass
+class Bridge:
+    view: View
+    model: Model
 
-# 文字に応じてフォントを切り替えて描画
-def render_text(surface, text, pos):
-    x, y = pos
-    for char in text:
-        if 'ぁ' <= char <= 'ん':  # 平仮名の範囲
-            font = hiragana_font
-        elif '가' <= char <= '힣':  # ハングルの範囲
-            font = hangul_font
-        else:
-            font = hiragana_font  # デフォルトのフォント
+@runtime_checkable
+class Controller(Protocol):
+    bridge: Bridge
 
-        char_surface = font.render(char, True, (255, 255, 255))
-        surface.blit(char_surface, (x, y))
-        x += char_surface.get_width()
+    def async_func(self) -> None:
+        ...
 
-# メインループ
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+@dataclass
+class Ctrl1:
+    bridge: Bridge
 
-    # 背景を黒色に塗りつぶす
-    screen.fill((0, 0, 0))
+    def async_func(self) -> None:
+        sleep(0.1)
+        print("async_funcの１号だよ")
 
-    # テキストを画面に描画
-    render_text(screen, text, (100, 100))
+@dataclass
+class Ctrl2:
+    bridge: Bridge
 
-    # 画面更新
-    pygame.display.flip()
+    def async_func(self) -> None:
+        sleep(0.4)
+        print("async_func２号です")
 
-# Pygame の終了
-pygame.quit()
-sys.exit()
+@dataclass
+class Ctrl3:
+    bridge: Bridge
+
+    def async_func(self) -> None:
+        sleep(0.9)
+        print("async_funcヶ３号也")
+
+
+vv = View()
+mm = Model()
+bb = Bridge(view=vv, model=mm)
+rr = Router(hooks=[
+    Ctrl1(bb).async_func,
+    Ctrl2(bb).async_func,
+    Ctrl3(bb).async_func
+])
+empty_rr = Router()
+mm.router = rr
+
+mm.resolve_hooks()
+
+mm.router = empty_rr
+copy_mm = deepcopy(mm)
+print("コピーしたよ")
+copy_mm.router = rr
+
+copy_mm.resolve_hooks()
