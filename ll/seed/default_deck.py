@@ -4,6 +4,7 @@ from typing import Callable
 
 from any.locales import kames
 from kard.syougun_effect import SyougunEffect
+from kard.wizard_effect import WizardEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
 from model.kard_core import KardCore
@@ -12,6 +13,9 @@ from model.player import Player
 from ptc.bridge import Bridge
 from seed.default_router import router
 
+wizard_effect = WizardEffect(
+    guards_async=router.guards_async,
+)
 syougun_effect = SyougunEffect(
     guards_async=router.guards_async,
     exchange_kards_async=router.exchange_kards_async
@@ -30,7 +34,11 @@ class DefaultDeck():
 
     def _make_deck(self) -> list[Kard]:
         deck = self._original_deck()
+        wiz1 = deck[11]
+        wiz2 = deck[12]
         shuffle(deck)
+        deck.insert(0, wiz1)
+        deck.insert(1, wiz2)
         return deck
     
     def _original_deck(self) -> list[Kard]:
@@ -60,7 +68,7 @@ class DefaultDeck():
             (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
             (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, _func),
             (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, _func),
-            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, _func),
+            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, wizard_effect.use_func),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.use_func),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
             (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)

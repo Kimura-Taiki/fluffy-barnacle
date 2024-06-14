@@ -49,7 +49,6 @@ class PlayerSquare():
 
     def draw(self) -> None:
         if self.player.view_hash != self.old_hash:
-            print("更新", self.player.name)
             self.old_hash = self.player.view_hash
             self.img = self._img()
             self.log_squares = self._log_squares()
@@ -68,7 +67,7 @@ class PlayerSquare():
 
     def _img(self) -> Surface:
         img = Surface(size=self._RATIO, flags=SRCALPHA)
-        hand_name = "empty" if len(self.player.hands) == 0 else self.player.hands[0].name
+        hand_name = "empty" if len(self.player.hands) == 0 else "".join(kard.name+"," for kard in self.player.hands)
         rect_fill(color=self._color(), rect=Rect((0, 0), self._RATIO), surface=img)
         img.blit(source=LL_RENDER(f"{self.player.name} ({hand_name})", 24, "black"), dest=(0, 0))
         return transform.rotozoom(surface=img, angle=0.0, scale=self.rect.w/self._RATIO[0])

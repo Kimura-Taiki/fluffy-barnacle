@@ -42,6 +42,6 @@ def enforce(__object: Any, __type: type[T]) -> T:
         raise ValueError(f"{__object} is not an instance of {__type.__name__}")
     return __object
 
-def lcgs(hash: int, a: int, b: int, m: int=(2^19-1)) -> int:
+def lcgs(hash: int, a: int, b: int, m: int=(2^31-1)) -> int:
     '''線形合同法でハッシュ値を算出する関数です'''
     return (a*hash+b) % m

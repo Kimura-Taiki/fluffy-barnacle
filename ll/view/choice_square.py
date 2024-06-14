@@ -30,6 +30,7 @@ class ChoiceSquare():
         if not self._has_two_hands:
             return
         if self.old_hash != self._view_hash:
+            print("hoi")
             self.old_hash = self._view_hash
             self.img = self._img()
             self.hqs = self._hqs()
