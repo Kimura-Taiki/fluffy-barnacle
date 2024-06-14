@@ -5,6 +5,7 @@ from any.locales import lomes
 from ptc.bridge import Bridge
 from view.message_view import MessageView
 
+from ptc.controller import Controller
 @dataclass
 class GuardsController():
     injector: Callable[[], Bridge]

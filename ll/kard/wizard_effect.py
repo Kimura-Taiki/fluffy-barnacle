@@ -30,7 +30,7 @@ class WizardEffect():
         '''Boardのデータを実際に更新する命令。
         '''
         if player.protected:
-            self.guards_async(kames(folder="wizard", key="name"))
+            self.guards_async(kames(folder="mazyutusi", key="name"))
             return
         board.diskard(player=player, kard=player.hand)
         board.draw(player=player)

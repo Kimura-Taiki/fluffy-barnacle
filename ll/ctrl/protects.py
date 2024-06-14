@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import Callable
+
 from any.func import enforce
 from any.screen import screen
 from model.player import Player
@@ -8,14 +11,18 @@ from view.player_square import PlayerSquare
 from view.shield_transition import ShieldTransition
 
 from ptc.controller import Controller
+@dataclass
 class ProtectsController():
-    def __init__(self, bridge: Bridge,) -> None:
-        self.bridge = bridge
-        self.board_view = enforce(bridge.view, BoardView)
+    injector: Callable[[], Bridge]
+
+    @property
+    def bridge(self) -> Bridge:
+        return self.injector()
 
     def action(self, player: Player) -> None:
+        board_view = enforce(self.bridge.view, BoardView)
         to_v2 = PlayerSquare.search_v2_by_player(
-            squares=self.board_view.squares,
+            squares=board_view.squares,
             player=player
         )
         self.bridge.whileloop(new_view=MovesView(

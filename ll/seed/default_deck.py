@@ -3,6 +3,7 @@ from random import shuffle
 from typing import Callable
 
 from any.locales import kames
+from kard.priestess_effect import PriestessEffect
 from kard.syougun_effect import SyougunEffect
 from kard.wizard_effect import WizardEffect
 from model.in_effect_kard import InEffectKard
@@ -13,6 +14,9 @@ from model.player import Player
 from ptc.bridge import Bridge
 from seed.default_router import router
 
+priestess_effect = PriestessEffect(
+    protects_async=router.protects_async,
+)
 wizard_effect = WizardEffect(
     guards_async=router.guards_async,
 )
@@ -34,11 +38,16 @@ class DefaultDeck():
 
     def _make_deck(self) -> list[Kard]:
         deck = self._original_deck()
+        pri1 = deck[9]
+        pri2 = deck[10]
         wiz1 = deck[11]
-        wiz2 = deck[12]
+        # wiz2 = deck[12]
         shuffle(deck)
-        deck.insert(0, wiz1)
-        deck.insert(1, wiz2)
+        deck.insert(0, pri1)
+        deck.insert(1, pri2)
+        deck.insert(5, wiz1)
+        # deck.insert(0, wiz1)
+        # deck.insert(1, wiz2)
         return deck
     
     def _original_deck(self) -> list[Kard]:
@@ -67,7 +76,7 @@ class DefaultDeck():
             (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, _func),
             (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
             (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, _func),
-            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, _func),
+            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, priestess_effect.use_func),
             (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, wizard_effect.use_func),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.use_func),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
