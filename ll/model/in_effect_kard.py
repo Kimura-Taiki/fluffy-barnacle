@@ -1,5 +1,5 @@
 from pygame import Surface
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from model.kard_core import KardCore
@@ -11,6 +11,11 @@ from ptc.bridge import Bridge
 class InEffectKard():
     kard_core: KardCore
     png_file: str
+
+    view_hash: tuple[Any, ...] = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, 'view_hash', (self.kard_core.id.value, self.png_file))
 
     def picture(self) -> Surface:
         return kp_cache.picture(key=(self.kard_core, self.png_file))
@@ -28,12 +33,5 @@ class InEffectKard():
     def rank(self) -> int:
         return self.kard_core.rank
 
-    @property
-    def view_hash(self) -> tuple[Any, ...]:
-        return (
-            self.kard_core.id.value,
-            self.png_file
-        )
-    
     def use_func(self, bridge: Bridge, player: Player) -> None:
         self.kard_core.use_func(bridge, player)
