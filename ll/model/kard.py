@@ -24,5 +24,5 @@ class Kard(Protocol):
         ...
 
     @property
-    def view_hash(self) -> int:
+    def view_hash(self) -> tuple[Any, ...]:
         ...

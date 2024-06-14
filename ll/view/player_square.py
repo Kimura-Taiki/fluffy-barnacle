@@ -1,4 +1,5 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Color, Vector2 as V2
+from typing import Any
 
 from any.screen import screen
 from any.func import rect_fill, ratio_rect, translucented_color, cursor_in_rect
@@ -38,7 +39,7 @@ class PlayerSquare():
         self.player = player
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.old_hash = -1
+        self.old_hash: tuple[Any, ...] = ()
         self.img = self._img()
         self.img_shield = self._img_shield()
         self.log_squares = self._log_squares()
@@ -49,6 +50,7 @@ class PlayerSquare():
 
     def draw(self) -> None:
         if self.player.view_hash != self.old_hash:
+            print("PlayerSquare.redraw")
             self.old_hash = self.player.view_hash
             self.img = self._img()
             self.log_squares = self._log_squares()

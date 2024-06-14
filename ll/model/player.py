@@ -1,8 +1,9 @@
 from pygame import Color
 from dataclasses import dataclass, field
 from enum import Enum, auto
+from typing import Any
 
-from any.func import ColorValue, lcgs
+from any.func import ColorValue
 from model.kard import Kard
 
 class Genus(Enum):
@@ -25,13 +26,11 @@ class Player():
         return self.hands[0]
 
     @property
-    def view_hash(self) -> int:
-        hash = (2 if self.alive else 3) * (5 if self.protected else 7)
-        for kard in self.hands:
-            hash = lcgs(hash, kard.view_hash, 11)
-        for kard in self.log:
-            hash = lcgs(hash, kard.view_hash, 13)
-        return hash
+    def view_hash(self) -> tuple[Any, ...]:
+        bool_hash = (self.alive, self.protected)
+        hands_hash = sum((kard.view_hash for kard in self.hands), ())
+        logs_hash = sum((kard.view_hash for kard in self.log), ())
+        return hands_hash+bool_hash+logs_hash
 
     @classmethod
     def new_man(cls, name: str, color: ColorValue) -> 'Player':

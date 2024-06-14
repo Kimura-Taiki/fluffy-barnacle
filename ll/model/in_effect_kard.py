@@ -1,7 +1,7 @@
 from pygame import Surface
 from dataclasses import dataclass
+from typing import Any
 
-from any.func import lcgs
 from model.kard_core import KardCore
 from model.kard_picture_cache import kp_cache
 from model.player import Player
@@ -29,10 +29,11 @@ class InEffectKard():
         return self.kard_core.rank
 
     @property
-    def view_hash(self) -> int:
-        id = self.kard_core.id.value
-        png_hash = abs(self.png_file.__hash__())
-        return lcgs(59, id, png_hash)
+    def view_hash(self) -> tuple[Any, ...]:
+        return (
+            self.kard_core.id.value,
+            self.png_file
+        )
     
     def use_func(self, bridge: Bridge, player: Player) -> None:
         self.kard_core.use_func(bridge, player)

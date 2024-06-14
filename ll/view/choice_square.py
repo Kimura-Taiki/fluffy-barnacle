@@ -1,7 +1,8 @@
 from pygame import Rect, Surface, SRCALPHA, transform, Vector2 as V2
+from typing import Any
 
 from any.screen import screen
-from any.func import rect_fill, ratio_rect, translucented_color, lcgs
+from any.func import rect_fill, ratio_rect, translucented_color
 from model.kard import Kard
 from view.hand_square import HandSquare
 from ptc.bridge import Bridge
@@ -14,7 +15,7 @@ class ChoiceSquare():
     def __init__(self, rect: Rect, bridge: Bridge) -> None:
         self.rect = ratio_rect(rect=rect, ratio=self._RATIO)
         self.bridge = bridge
-        self.old_hash = -1
+        self.old_hash: tuple[Any, ...] = ()
         self.img = self._img()
         self.hqs = self._hqs()
 
@@ -27,10 +28,8 @@ class ChoiceSquare():
         return None
 
     def draw(self) -> None:
-        if not self._has_two_hands:
-            return
         if self.old_hash != self._view_hash:
-            print("hoi")
+            print("ChoiceSquare.redraw")
             self.old_hash = self._view_hash
             self.img = self._img()
             self.hqs = self._hqs()
@@ -68,11 +67,8 @@ class ChoiceSquare():
         ]
 
     @property
-    def _view_hash(self) -> int:
-        hash = 2
-        for hand in self._hands:
-            hash = lcgs(hash, hand.view_hash, 3)
-        return hash
+    def _view_hash(self) -> tuple[Any, ...]:
+        return sum((kard.view_hash for kard in self._hands), ())
     
     @property
     def _hands(self) -> list[Kard]:
