@@ -4,9 +4,9 @@ from typing import Callable
 
 from any.locales import kames
 from kard.kisi_effect import KisiEffect
-from kard.priestess_effect import PriestessEffect
+from kard.souryo_effect import SouryoEffect
 from kard.syougun_effect import SyougunEffect
-from kard.wizard_effect import WizardEffect
+from kard.mazyutusi_effect import MazyutusiEffect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
 from model.kard_core import KardCore
@@ -19,10 +19,10 @@ kisi_effect = KisiEffect(
     guards_async=router.guards_async,
     duels_async=router.duels_async
 )
-priestess_effect = PriestessEffect(
+souryo_effect = SouryoEffect(
     protects_async=router.protects_async,
 )
-wizard_effect = WizardEffect(
+mazyutusi_effect = MazyutusiEffect(
     guards_async=router.guards_async,
 )
 syougun_effect = SyougunEffect(
@@ -83,10 +83,9 @@ class DefaultDeck():
             (KardID.BANPEI, lambda : "(番兵)", 0, _func),
             (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, _func),
             (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
-            # (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, _func),
             (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, kisi_effect.use_func),
-            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, priestess_effect.use_func),
-            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, wizard_effect.use_func),
+            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, souryo_effect.use_func),
+            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.use_func),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.use_func),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
             (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)

@@ -6,7 +6,7 @@ from model.player import Player
 from ptc.bridge import Bridge
 
 @dataclass
-class PriestessEffect():
+class SouryoEffect():
     protects_async: Callable[[Player], None]
     '''フックに掛ける非同期処理を担うController.action命令を注入する。
     '''

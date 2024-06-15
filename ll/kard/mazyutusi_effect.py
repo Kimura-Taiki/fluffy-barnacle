@@ -8,7 +8,7 @@ from ptc.bridge import Bridge
 from view.player_select_view import PlayerSelectView
 
 @dataclass
-class WizardEffect():
+class MazyutusiEffect():
     guards_async: Callable[[str], None]
     '''フックに掛ける非同期処理を担うController.action命令を注入する。
     '''
