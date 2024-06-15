@@ -1,29 +1,32 @@
-import yaml
-from typing import Any
+from random import randrange
 
-# YAMLファイルの読み込み
-def yml_load() -> dict[str, dict[str, str]]:
-    with open('messages.yml', 'r') as file:
-        messages: dict[str, dict[str, str]] = yaml.safe_load(file)
-    return messages
+N = 2
+K = 3
 
-messages = yml_load()
-print(messages)
+def trick(wins: list[int]) -> int:
+    index = randrange(0, len(wins)) 
+    wins[index] += 1
+    return wins[index]
 
-def get_message(language: str, message_key: str, **kwargs: str) -> str:
-    template = messages.get(language, {}).get(message_key, '')
-    return template.format(**kwargs)
+def game(player: int, win: int) -> int:
+    wins = [0]*player
+    tricks = 0
+    while True:
+        tricks += 1
+        if trick(wins=wins) >= win:
+            break
+    return tricks
 
-# 例として日本語のメッセージを取得
-kard_name = "カード名"
-player_name = "プレイヤー名"
-message = get_message('jp', 'elimination_message', kard_name=kard_name, player_name=player_name)
-print(message)
+def distri(player: int, win: int, attempts: int) -> list[int]:
+    li = [0]*(player*win)
+    for _ in range(attempts):
+        li[game(player=player, win=win)] += 1
+    return li
 
-# 例として英語のメッセージを取得
-message = get_message('en', 'elimination_message', kard_name=kard_name, player_name=player_name)
-print(message)
+def exp(player: int, win: int, attempts: int) -> float:
+    li1 = distri(player=player, win=win, attempts=attempts)
+    li2 = list(range(len(li1)))
+    return sum(x*y for x, y in zip(li1, li2))/sum(li1)
 
-# 例として韓国語のメッセージを取得
-message = get_message('kr', 'elimination_message', kard_name=kard_name, player_name=player_name)
-print(message)
+for p in range(1000, 10001, 1000):
+    print(f"{p}人時の勝敗確定トリック数期待値", exp(player=p, win=K, attempts=10000))

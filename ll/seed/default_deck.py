@@ -3,6 +3,7 @@ from random import shuffle
 from typing import Callable
 
 from any.locales import kames
+from kard.douke_effect import DoukeEffect
 from kard.kisi_effect import KisiEffect
 from kard.souryo_effect import SouryoEffect
 from kard.syougun_effect import SyougunEffect
@@ -15,6 +16,10 @@ from model.player import Player
 from ptc.bridge import Bridge
 from seed.default_router import router
 
+douke_effect = DoukeEffect(
+    guards_async=router.guards_async,
+    peeps_async=router.peeps_async
+)
 kisi_effect = KisiEffect(
     guards_async=router.guards_async,
     duels_async=router.duels_async
@@ -43,17 +48,19 @@ class DefaultDeck():
 
     def _make_deck(self) -> list[Kard]:
         deck = self._original_deck()
-        kis1 = deck[7]
-        kis2 = deck[8]
+        dou1 = deck[5]
+        dou2 = deck[6]
+        # kis1 = deck[7]
+        # kis2 = deck[8]
         pri1 = deck[9]
-        pri2 = deck[10]
+        # pri2 = deck[10]
         # wiz1 = deck[11]
         # wiz2 = deck[12]
         shuffle(deck)
         deck.insert(0, pri1)
-        deck.insert(1, pri2)
-        deck.insert(4, kis1)
-        deck.insert(5, kis2)
+        # deck.insert(1, pri2)
+        deck.insert(4, dou1)
+        deck.insert(5, dou2)
         # deck.insert(0, wiz1)
         # deck.insert(1, wiz2)
         return deck
@@ -82,7 +89,8 @@ class DefaultDeck():
         kc_params: list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]] = [
             (KardID.BANPEI, lambda : "(番兵)", 0, _func),
             (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, _func),
-            (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
+            (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, douke_effect.use_func),
+            # (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, _func),
             (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, kisi_effect.use_func),
             (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, souryo_effect.use_func),
             (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.use_func),

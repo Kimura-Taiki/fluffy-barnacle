@@ -10,6 +10,7 @@ class Router():
     duels_async: Callable[[Player, Player], None] = lambda p1, p2: None
     guards_async: Callable[[str], None] = lambda s: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
+    peeps_async: Callable[[Player, Player, Player], None] = lambda p1, p2, p3: None
     protects_async: Callable[[Player], None] = lambda p: None
 
     def bridge_injector(self) -> Bridge:

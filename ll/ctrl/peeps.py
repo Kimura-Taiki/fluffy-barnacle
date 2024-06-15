@@ -1,7 +1,9 @@
 from pygame import Rect, Vector2 as V2
+from dataclasses import dataclass
+from typing import Callable
 
 from any.func import enforce
-from any.locales import lomes
+from any.locales import kames
 from any.pictures import IMG_PEEP
 from any.screen import screen, WV2
 from model.player import Player
@@ -13,18 +15,22 @@ from view.moves_view import MovesView
 from view.peep_transition import PeepTransition
 from view.player_square import PlayerSquare
 
+@dataclass
 class PeepsController():
-    def __init__(self, bridge: Bridge) -> None:
-        self.bridge = bridge
-        self.board_view = enforce(bridge.view, BoardView)
+    injector: Callable[[], Bridge]
+
+    @property
+    def bridge(self) -> Bridge:
+        return self.injector()
 
     def action(self, peeper: Player, watched: Player, subject: Player) -> None:
+        board_view = enforce(self.bridge.view, BoardView)
         p_v2 = PlayerSquare.search_v2_by_player(
-            squares=self.board_view.squares,
+            squares=board_view.squares,
             player=peeper,
         )
         w_v2 = PlayerSquare.search_v2_by_player(
-            squares=self.board_view.squares,
+            squares=board_view.squares,
             player=watched,
         )
         self.bridge.whileloop(new_view=MovesView(
@@ -47,16 +53,16 @@ class PeepsController():
             ))
             self.bridge.whileloop(new_view=MessageView(
                 view=self.bridge.view,
-                img_mes=lomes(
-                    folder="kard", key="peeps_subjective",
+                img_mes=kames(
+                    folder="douke", key="peeps_subjective",
                     watched_name=watched.name, kard_name=watched.hand.name
                 )
             ))
         else:
             self.bridge.whileloop(new_view=MessageView(
                 view=self.bridge.view,
-                img_mes=lomes(
-                    folder="kard", key="peeps_objective",
+                img_mes=kames(
+                    folder="douke", key="peeps_objective",
                     peeper_name=peeper.name, watched_name=watched.name
                 )
             ))
