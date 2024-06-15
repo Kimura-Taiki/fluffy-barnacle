@@ -7,6 +7,7 @@ from model.player import Player
 @dataclass
 class Router():
     bridge: Bridge = field(default_factory=lambda: EMPTY_BRIDGE)
+    duels_async: Callable[[Player, Player], None] = lambda p1, p2: None
     guards_async: Callable[[str], None] = lambda s: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
     protects_async: Callable[[Player], None] = lambda p: None
