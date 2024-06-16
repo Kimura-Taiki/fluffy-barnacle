@@ -3,8 +3,6 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from model.kard import Kard
-# from model.deck import make_deck, KARD_HEISI, KARD_DOUKE, KARD_KISI,\
-#     KARD_MAZYUTUSI, KARD_SYOUGUN, KARD_HIME, KARD_DAIZIN
 from model.player import Player, OBSERVER
 
 @dataclass
@@ -21,17 +19,6 @@ class Board:
     diskard_func_async: Callable[[Player, Kard], None] = lambda p, k: None
     win_by_survival_async: Callable[[Player], None] = lambda p: None
     win_by_strength_async: Callable[[Player], None] = lambda p: None
-
-    # arrest_async: Callable[[Player, Kard], None] = lambda p, k: None
-    # peep_async: Callable[[Player, Player, Player], None] = lambda p1, p2, p3: None
-    # duel_async: Callable[[Player, Player], None] = lambda p1, p2: None
-    # defeat_by_duel_async: Callable[[Player], None] = lambda p: None
-    # protect_async: Callable[[Player], None] = lambda p: None
-    # guard_async: Callable[[Kard], None] = lambda k: None
-    # exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None
-    # rummage_async: Callable[[Player], None] = lambda p: None
-    # defeat_by_daizin_async: Callable[[Player], None] = lambda p: None
-    # diskard_hime_async: Callable[[Player], None] = lambda p: None
 
     def game_start(self) -> None:
         """ゲームの開始時に呼び出され、最初のターンプレイヤーを設定します。"""
@@ -71,10 +58,6 @@ class Board:
         player.hands.remove(kard)
         player.log.append(kard)
         self.diskard_func_async(player, kard)
-        # from model.deck import KARD_HIME
-        # if kard == KARD_HIME:
-        #     self.diskard_hime_async(player)
-        #     self.retire(player=player)
 
     def retire(self, player: Player) -> None:
         """プレイヤーを退場させる処理を行います。"""
@@ -95,55 +78,3 @@ class Board:
                 return
         raise ValueError("生存者がいません", self)
     
-    # def arrest(self, player: Player, kard: Kard) -> None:
-    #     if player.protected:
-    #         from model.deck import KARD_HEISI
-    #         self.guard_async(KARD_HEISI)
-    #         return
-    #     self.arrest_async(player, kard)
-    #     if player.hands[0] == kard:
-    #         self.retire(player=player)
-
-    # def peep(self, peeper: Player, watched: Player, subject: Player) -> None:
-    #     if watched.protected:
-    #         from model.deck import KARD_DOUKE
-    #         self.guard_async(KARD_DOUKE)
-    #         return
-    #     self.peep_async(peeper, watched, subject)
-
-    # def duel(self, p1: Player, p2: Player) -> None:
-    #     if p1.protected or p2.protected:
-    #         from model.deck import KARD_KISI
-    #         self.guard_async(KARD_KISI)
-    #         return
-    #     self.duel_async(p1, p2)
-    #     if p1.hands[0].rank > p2.hands[0].rank:
-    #         self.defeat_by_duel_async(p2)
-    #         self.retire(player=p2)
-    #     elif p1.hands[0].rank < p2.hands[0].rank:
-    #         self.defeat_by_duel_async(p1)
-    #         self.retire(player=p1)
-
-    # def protect(self, player: Player) -> None:
-    #     self.protect_async(player)
-    #     player.protected = True
-
-    # def rummage(self, player: Player) -> None:
-    #     """プレイヤーがカードを捨てて、新しいカードを引く処理を行います。"""
-    #     if player.protected:
-    #         from model.deck import KARD_MAZYUTUSI
-    #         self.guard_async(KARD_MAZYUTUSI)
-    #         return
-    #     self.diskard(player=player, kard=player.hands[0])
-    #     if player.alive:
-    #         self.rummage_async(player)
-    #         self.draw(player=player)
-
-    # def exchange_kards(self, p1: Player, p2: Player) -> None:
-    #     """二人のプレイヤー間でカードを交換する処理を行います。"""
-    #     if p1.protected or p2.protected:
-    #         from model.deck import KARD_SYOUGUN
-    #         self.guard_async(KARD_SYOUGUN)
-    #         return
-    #     self.exchange_kards_async(p1, p2)
-    #     p1.hands, p2.hands = p2.hands, p1.hands

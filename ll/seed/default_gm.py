@@ -1,8 +1,8 @@
 from any.game_master import GameMaster
 from ctrl.bright_kards import BrightKardsController
-from ctrl.diskard_funcs import DiskardFuncsController
+# from ctrl.diskard_funcs import DiskardFuncsController
 from ctrl.draw_kards import DrawKardsController
-from ctrl.drawn_funcs import DrawnFuncsController
+# from ctrl.drawn_funcs import DrawnFuncsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from ctrl.win_by_strengths import WinByStrengthsController
@@ -10,6 +10,7 @@ from ctrl.win_by_survivals import WinBySurvivalsController
 from model.board import Board
 from model.player import Player
 from seed.default_deck import inject_deck
+from seed.default_router import router
 from view.board_view import BoardView
 
 # def _make_board() -> Board:
@@ -39,21 +40,24 @@ view = BoardView(subject=board.players[0], bridge=gm)
 gm.view = view
 inject_deck(bridge=gm)
 
+board.drawn_func_async = router.drawn_funcs_async
+board.diskard_func_async = router.diskard_funcs_async
+
 board.draw_kard_async = DrawKardsController(
     bridge=gm
 ).action
-board.drawn_func_async = DrawnFuncsController(
-    bridge=gm
-).action
+# board.drawn_func_async = DrawnFuncsController(
+#     bridge=gm
+# ).action
 board.turn_start_async = TurnStartsController(
     bridge=gm
 ).action
 board.use_kard_async = BrightKardsController(
     bridge=gm
 ).action
-board.diskard_func_async = DiskardFuncsController(
-    bridge=gm
-).action
+# board.diskard_func_async = DiskardFuncsController(
+#     bridge=gm
+# ).action
 board.win_by_survival_async = WinBySurvivalsController(
     bridge=gm
 ).action
