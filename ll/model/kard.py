@@ -21,7 +21,7 @@ class Kard(Protocol):
     def drawn_func(self, bridge: Any, player: Any) -> None:
         ...
 
-    def discard_func(self, bridge: Any, player: Any) -> None:
+    def diskard_func(self, bridge: Any, player: Any) -> None:
         ...
 
     @property
@@ -51,7 +51,7 @@ class _EmptyKard():
     def drawn_func(self, bridge: Any, player: Any) -> None:
         raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
 
-    def discard_func(self, bridge: Any, player: Any) -> None:
+    def diskard_func(self, bridge: Any, player: Any) -> None:
         raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
 
     @property

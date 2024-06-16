@@ -44,5 +44,5 @@ class InEffectKard():
     def drawn_func(self, bridge: Bridge, player: Player) -> None:
         self.kard_core.drawn_func(bridge, player)
 
-    def discard_func(self, bridge: Bridge, player: Player) -> None:
-        self.kard_core.discard_func(bridge, player)
+    def diskard_func(self, bridge: Bridge, player: Player) -> None:
+        self.kard_core.diskard_func(bridge, player)

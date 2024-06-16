@@ -18,7 +18,7 @@ class Board:
     drawn_func_async: Callable[[Player, Kard], None] = lambda p, k: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
-    discard_func_async: Callable[[Player, Kard], None] = lambda p, k: None
+    diskard_func_async: Callable[[Player, Kard], None] = lambda p, k: None
     win_by_survival_async: Callable[[Player], None] = lambda p: None
     win_by_strength_async: Callable[[Player], None] = lambda p: None
 
@@ -70,7 +70,7 @@ class Board:
         """プレイヤーがカードを捨てる処理を行います。"""
         player.hands.remove(kard)
         player.log.append(kard)
-        self.discard_func_async(player, kard)
+        self.diskard_func_async(player, kard)
         # from model.deck import KARD_HIME
         # if kard == KARD_HIME:
         #     self.diskard_hime_async(player)

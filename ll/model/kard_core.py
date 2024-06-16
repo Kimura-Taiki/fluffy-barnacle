@@ -13,7 +13,7 @@ class KardCore:
     rank: int
     use_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
     drawn_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
-    discard_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
+    diskard_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, KardCore):

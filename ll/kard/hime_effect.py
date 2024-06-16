@@ -12,7 +12,7 @@ class HimeEffect():
     '''フックに掛ける非同期処理を担うController.action命令を注入する。
     '''
 
-    def discard_func(self, bridge: Bridge, player: Player) -> None:
+    def diskard_func(self, bridge: Bridge, player: Player) -> None:
         '''ドロー時に呼ばれる命令。
         '''
         self.commit_board(
@@ -30,4 +30,4 @@ class HimeEffect():
 
     @property
     def effect(self) -> Effect:
-        return Effect(discard_func=self.discard_func)
+        return Effect(diskard_func=self.diskard_func)

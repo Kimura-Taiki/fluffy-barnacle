@@ -8,4 +8,4 @@ from ptc.bridge import Bridge
 class Effect():
     use_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
     drawn_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
-    discard_func: Callable[[Bridge, Player], None] = lambda bridge, player: None
+    diskard_func: Callable[[Bridge, Player], None] = lambda bridge, player: None

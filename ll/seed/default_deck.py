@@ -106,7 +106,7 @@ class DefaultDeck():
 
     def _kard_cores(self) -> list[KardCore]:
         return [KardCore(
-            id, name, rank, effect.use_func, effect.drawn_func, effect.discard_func
+            id, name, rank, effect.use_func, effect.drawn_func, effect.diskard_func
         ) for id, name, rank, effect in self._kc_params()]
 
     def _kc_params(self) -> list[tuple[KardID, Callable[[], str], int, Effect]]:
