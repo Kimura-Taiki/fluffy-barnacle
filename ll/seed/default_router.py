@@ -3,8 +3,35 @@ from any.router import Router
 router = Router()
 
 # ボード直轄の非同期処理
+from ctrl.bright_kards import BrightKardsController
+from ctrl.draw_kards import DrawKardsController
+from ctrl.turn_starts import TurnStartsController
+from ctrl.setups import SetupsController
+from ctrl.win_by_strengths import WinByStrengthsController
+from ctrl.win_by_survivals import WinBySurvivalsController
+
+router.setups_async = SetupsController(
+    injector=router.bridge_injector
+).action
+router.draw_kards_async = DrawKardsController(
+    injector=router.bridge_injector
+).action
+router.turn_starts_async = TurnStartsController(
+    injector=router.bridge_injector
+).action
+router.use_kards_async = BrightKardsController(
+    injector=router.bridge_injector
+).action
+router.win_by_strengths_async = WinByStrengthsController(
+    injector=router.bridge_injector
+).action
+router.win_by_survivals_async = WinBySurvivalsController(
+    injector=router.bridge_injector
+).action
+
 from ctrl.drawn_funcs import DrawnFuncsController
 from ctrl.diskard_funcs import DiskardFuncsController
+
 router.drawn_funcs_async = DrawnFuncsController(
     injector=router.bridge_injector
 ).action

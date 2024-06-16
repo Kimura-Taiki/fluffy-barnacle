@@ -10,6 +10,13 @@ class Router():
     bridge: Bridge = field(default_factory=lambda: EMPTY_BRIDGE)
 
     # ボード直轄の非同期処理
+    setups_async: Callable[[], None] = lambda: None
+    draw_kards_async: Callable[[Player], None] = lambda p: None
+    turn_starts_async: Callable[[], None] = lambda : None
+    use_kards_async: Callable[[Player, Kard], None] = lambda p, k: None
+    win_by_survivals_async: Callable[[Player], None] = lambda p: None
+    win_by_strengths_async: Callable[[Player], None] = lambda p: None
+
     drawn_funcs_async: Callable[[Player, Kard], None] = lambda p, k: None
     diskard_funcs_async: Callable[[Player, Kard], None] = lambda p, k: None
 

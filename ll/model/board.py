@@ -12,13 +12,14 @@ class Board:
     turn_player: Player = field(default_factory=lambda : OBSERVER)
     reserve: list[Kard] = field(default_factory=lambda : [])
 
-    draw_kard_async: Callable[[Player], None] = lambda p: None
-    drawn_func_async: Callable[[Player, Kard], None] = lambda p, k: None
-    turn_start_async: Callable[[], None] = lambda : None
-    use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
-    diskard_func_async: Callable[[Player, Kard], None] = lambda p, k: None
-    win_by_survival_async: Callable[[Player], None] = lambda p: None
-    win_by_strength_async: Callable[[Player], None] = lambda p: None
+    setups_async: Callable[[], None] = lambda: None
+    draw_kards_async: Callable[[Player], None] = lambda p: None
+    drawn_funcs_async: Callable[[Player, Kard], None] = lambda p, k: None
+    turn_starts_async: Callable[[], None] = lambda : None
+    use_kards_async: Callable[[Player, Kard], None] = lambda p, k: None
+    diskard_funcs_async: Callable[[Player, Kard], None] = lambda p, k: None
+    win_by_survivals_async: Callable[[Player], None] = lambda p: None
+    win_by_strengths_async: Callable[[Player], None] = lambda p: None
 
     def game_start(self) -> None:
         """ゲームの開始時に呼び出され、最初のターンプレイヤーを設定します。"""
@@ -27,16 +28,16 @@ class Board:
 
     def draw(self, player: Player) -> None:
         """プレイヤーがカードを引く処理を行います。"""
-        self.draw_kard_async(player)
+        self.draw_kards_async(player)
         player.hands.append(kard := self.deck.pop(0))
-        self.drawn_func_async(player, kard)
+        self.drawn_funcs_async(player, kard)
 
     def turn_start(self) -> None:
         if len(self.deck) == 0:
             for winner in self.highest_ranked_alive_players():
-                self.win_by_strength_async(winner)
+                self.win_by_strengths_async(winner)
             exit()
-        self.turn_start_async()
+        self.turn_starts_async()
         self.turn_player.protected = False
         self.draw(player=self.turn_player)
         if not self.turn_player.alive:
@@ -50,14 +51,14 @@ class Board:
 
     def use_kard(self, player: Player, kard: Kard) -> None:
         """プレイヤーがカードを使用する処理を行います。"""
-        self.use_kard_async(player, kard)
+        self.use_kards_async(player, kard)
         self.diskard(player=player, kard=kard)
 
     def diskard(self, player: Player, kard: Kard) -> None:
         """プレイヤーがカードを捨てる処理を行います。"""
         player.hands.remove(kard)
         player.log.append(kard)
-        self.diskard_func_async(player, kard)
+        self.diskard_funcs_async(player, kard)
 
     def retire(self, player: Player) -> None:
         """プレイヤーを退場させる処理を行います。"""
@@ -66,7 +67,7 @@ class Board:
         player.log.extend(player.hands)
         player.hands.clear()
         if len((winner := [player for player in self.players if player.alive])) == 1:
-            self.win_by_survival_async(winner[0])
+            self.win_by_survivals_async(winner[0])
             exit()
 
     def advance_to_next_turn(self) -> None:

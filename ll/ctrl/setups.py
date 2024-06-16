@@ -1,9 +1,15 @@
+from dataclasses import dataclass
+from typing import Callable
 from ptc.bridge import Bridge
 
 from ptc.controller import Controller
+@dataclass
 class SetupsController():
-    def __init__(self, bridge: Bridge) -> None:
-        self.bridge = bridge
+    injector: Callable[[], Bridge]
+
+    @property
+    def bridge(self) -> Bridge:
+        return self.injector()
 
     def action(self) -> None:
         while (handless_player := next((
