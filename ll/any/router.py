@@ -1,12 +1,14 @@
 from dataclasses import dataclass, field
 from typing import Callable
 
-from ptc.bridge import Bridge, EMPTY_BRIDGE
+from model.kard import Kard
 from model.player import Player
+from ptc.bridge import Bridge, EMPTY_BRIDGE
 
 @dataclass
 class Router():
     bridge: Bridge = field(default_factory=lambda: EMPTY_BRIDGE)
+    arrests_async: Callable[[Player, Kard], None] = lambda p, k: None
     duels_async: Callable[[Player, Player], None] = lambda p1, p2: None
     guards_async: Callable[[str], None] = lambda s: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None

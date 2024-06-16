@@ -3,8 +3,9 @@ from math import sin, cos, radians
 
 from any.func import ratio_rect, img_zoom, rect_fill, translucented_color
 from any.screen import screen, WV2
-from seed.default_deck import _kards, KARD_BANPEI
-from model.kard import Kard
+# from seed.default_deck import _kards, KARD_BANPEI
+from model.board import Board
+from model.kard import Kard, EMPTY_KARD
 from model.ui_element import UIElement
 from ptc.bridge import Bridge
 from view.kard_square import KardSquare
@@ -23,10 +24,11 @@ class KardSelectView():
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
         self.view = bridge.view
+        self.set_kards = board_rest_kards(board=bridge.board)
         self.img = self._img()
         self.squares = self._squares()
         self._selected = False
-        self.selected_kard: Kard = KARD_BANPEI
+        self.selected_kard: Kard = EMPTY_KARD
 
     def get_hover(self) -> UIElement | None:
         for square in self.squares[::-1]:
@@ -57,7 +59,7 @@ class KardSelectView():
         return img_zoom(img=img,rect=self.rect, ratio=_RATIO)
 
     def _squares(self) -> list[KardSquare]:
-        n = 7
+        n = len(self.set_kards)
         return [self._kq(i=i, n=n) for i in range(n)]
 
     def _kq(self, i: int, n: int) -> KardSquare:
@@ -66,7 +68,7 @@ class KardSelectView():
         deg = -10.0+20.0*i/(n-1)-90.0
         rad = radians(deg)
         i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
-        kard = _kards[i+2]
+        kard = self.set_kards[i]
         ui_element = UIElement(
             mousedown=lambda : self._complete(kard=kard)
         )
@@ -82,6 +84,18 @@ class KardSelectView():
     def _complete(self, kard: Kard) -> None:
         self.selected_kard = kard
         self._pre_complete()
+
+def board_rest_kards(board: Board) -> list[Kard]:
+    all_kards: list[Kard] = []
+    all_kards.extend(board.reserve)
+    all_kards.extend(board.deck)
+    for player in board.players:
+        all_kards.extend(player.hands)
+    li: list[Kard] = []
+    for kard in all_kards:
+        if kard not in li:
+            li.append(kard)
+    return sorted(list(li), key=lambda kard: kard.rank)
 
 def ie_v2_from_radian(radian: float) -> V2:
     return V2(cos(radian), sin(radian))

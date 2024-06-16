@@ -1,4 +1,5 @@
 from any.router import Router
+from ctrl.arrests import ArrestsController
 from ctrl.duels import DuelsController
 from ctrl.exchange_kards import ExchangeKardsController
 from ctrl.guards import GuardsController
@@ -6,6 +7,9 @@ from ctrl.peeps import PeepsController
 from ctrl.protects import ProtectsController
 
 router = Router()
+router.arrests_async = ArrestsController(
+    injector=router.bridge_injector
+).action
 router.duels_async = DuelsController(
     injector=router.bridge_injector
 ).action
