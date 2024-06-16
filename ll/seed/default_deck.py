@@ -3,12 +3,13 @@ from random import shuffle
 from typing import Callable
 
 from any.locales import kames
-from kard.douke_effect import DoukeEffect
 from kard.heisi_effect import HeisiEffect
+from kard.douke_effect import DoukeEffect
 from kard.kisi_effect import KisiEffect
 from kard.souryo_effect import SouryoEffect
-from kard.syougun_effect import SyougunEffect
 from kard.mazyutusi_effect import MazyutusiEffect
+from kard.syougun_effect import SyougunEffect
+from kard.daizin_effect import DaizinEffect
 from model.effect import Effect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
@@ -39,6 +40,9 @@ mazyutusi_effect = MazyutusiEffect(
 syougun_effect = SyougunEffect(
     guards_async=router.guards_async,
     exchange_kards_async=router.exchange_kards_async
+)
+daizin_effect = DaizinEffect(
+    defeat_by_ministers=router.defeat_by_ministers_async
 )
 
 @dataclass
@@ -109,7 +113,7 @@ class DefaultDeck():
             (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, souryo_effect.effect),
             (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.effect),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.effect),
-            (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
+            (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, daizin_effect.effect),
             (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)
         ]
         return kc_params

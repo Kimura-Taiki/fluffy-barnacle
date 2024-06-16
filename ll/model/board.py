@@ -40,6 +40,9 @@ class Board:
         """プレイヤーがカードを引く処理を行います。"""
         self.draw_kard_async(player)
         player.hands.append(self.deck.pop(0))
+        # for kard in player.hands:
+        #     if player.alive:
+        #         kard.drawn_func()
         # from model.deck import KARD_DAIZIN
         # if KARD_DAIZIN in player.hands and sum(kard.rank for kard in player.hands) >= 12:
         #     self.defeat_by_daizin_async(player)
