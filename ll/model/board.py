@@ -15,8 +15,10 @@ class Board:
     reserve: list[Kard] = field(default_factory=lambda : [])
 
     draw_kard_async: Callable[[Player], None] = lambda p: None
+    drawn_func_async: Callable[[Player, Kard], None] = lambda p, k: None
     turn_start_async: Callable[[], None] = lambda : None
     use_kard_async: Callable[[Player, Kard], None] = lambda p, k: None
+    discard_func_async: Callable[[Player, Kard], None] = lambda p, k: None
     win_by_survival_async: Callable[[Player], None] = lambda p: None
     win_by_strength_async: Callable[[Player], None] = lambda p: None
 
@@ -39,14 +41,8 @@ class Board:
     def draw(self, player: Player) -> None:
         """プレイヤーがカードを引く処理を行います。"""
         self.draw_kard_async(player)
-        player.hands.append(self.deck.pop(0))
-        # for kard in player.hands:
-        #     if player.alive:
-        #         kard.drawn_func()
-        # from model.deck import KARD_DAIZIN
-        # if KARD_DAIZIN in player.hands and sum(kard.rank for kard in player.hands) >= 12:
-        #     self.defeat_by_daizin_async(player)
-        #     self.retire(player=player)
+        player.hands.append(kard := self.deck.pop(0))
+        self.drawn_func_async(player, kard)
 
     def turn_start(self) -> None:
         if len(self.deck) == 0:
@@ -74,6 +70,7 @@ class Board:
         """プレイヤーがカードを捨てる処理を行います。"""
         player.hands.remove(kard)
         player.log.append(kard)
+        self.discard_func_async(player, kard)
         # from model.deck import KARD_HIME
         # if kard == KARD_HIME:
         #     self.diskard_hime_async(player)

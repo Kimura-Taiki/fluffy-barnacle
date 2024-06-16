@@ -1,6 +1,7 @@
 from any.game_master import GameMaster
 from ctrl.bright_kards import BrightKardsController
 from ctrl.draw_kards import DrawKardsController
+from ctrl.drawn_funcs import DrawnFuncsController
 from ctrl.turn_starts import TurnStartsController
 from ctrl.setups import SetupsController
 from ctrl.win_by_strengths import WinByStrengthsController
@@ -38,6 +39,9 @@ gm.view = view
 inject_deck(bridge=gm)
 
 board.draw_kard_async = DrawKardsController(
+    bridge=gm
+).action
+board.drawn_func_async = DrawnFuncsController(
     bridge=gm
 ).action
 board.turn_start_async = TurnStartsController(

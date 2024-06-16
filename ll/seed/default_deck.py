@@ -58,26 +58,27 @@ class DefaultDeck():
 
     def _make_deck(self) -> list[Kard]:
         deck = self._original_deck()
-        hei1 = deck[0]
-        hei2 = deck[1]
-        hei3 = deck[2]
-        hei4 = deck[3]
+        # hei1 = deck[0]
+        # hei2 = deck[1]
+        # hei3 = deck[2]
+        # hei4 = deck[3]
         # hei5 = deck[4]
         # dou1 = deck[5]
         # dou2 = deck[6]
         # kis1 = deck[7]
         # kis2 = deck[8]
-        pri1 = deck[9]
+        # pri1 = deck[9]
         # pri2 = deck[10]
-        # wiz1 = deck[11]
+        wiz1 = deck[11]
         # wiz2 = deck[12]
+        dai1 = deck[14]
         shuffle(deck)
-        deck.insert(0, pri1)
-        # deck.insert(1, pri2)
-        deck.insert(4, hei1)
-        deck.insert(5, hei2)
-        deck.insert(6, hei3)
-        deck.insert(7, hei4)
+        deck.insert(0, wiz1)
+        deck.insert(1, dai1)
+        deck.insert(4, dai1)
+        deck.insert(5, wiz1)
+        # deck.insert(6, hei3)
+        # deck.insert(7, hei4)
         # deck.insert(0, wiz1)
         # deck.insert(1, wiz2)
         return deck
