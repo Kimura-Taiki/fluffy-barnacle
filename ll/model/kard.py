@@ -18,6 +18,12 @@ class Kard(Protocol):
         '''
         ...
 
+    def drawn_func(self, bridge: Any, player: Any) -> None:
+        ...
+
+    def discard_func(self, bridge: Any, player: Any) -> None:
+        ...
+
     @property
     def name(self) -> str:
         ...
@@ -40,6 +46,12 @@ class _EmptyKard():
         raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
 
     def use_func(self, bridge: Any, player: Any) -> None:
+        raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
+
+    def drawn_func(self, bridge: Any, player: Any) -> None:
+        raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
+
+    def discard_func(self, bridge: Any, player: Any) -> None:
         raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
 
     @property

@@ -9,6 +9,7 @@ from kard.kisi_effect import KisiEffect
 from kard.souryo_effect import SouryoEffect
 from kard.syougun_effect import SyougunEffect
 from kard.mazyutusi_effect import MazyutusiEffect
+from model.effect import Effect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
 from model.kard_core import KardCore
@@ -94,18 +95,20 @@ class DefaultDeck():
         return deck_params
 
     def _kard_cores(self) -> list[KardCore]:
-        return [KardCore(id, name, rank, func) for id, name, rank, func in self._kc_params()]
-    
-    def _kc_params(self) -> list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]]:
-        _func = lambda bridge, player: print("Hoge")
-        kc_params: list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]] = [
+        return [KardCore(
+            id, name, rank, effect.use_func, effect.drawn_func, effect.discard_func
+        ) for id, name, rank, effect in self._kc_params()]
+
+    def _kc_params(self) -> list[tuple[KardID, Callable[[], str], int, Effect]]:
+        _func = Effect()
+        kc_params: list[tuple[KardID, Callable[[], str], int, Effect]] = [
             (KardID.BANPEI, lambda : "(番兵)", 0, _func),
-            (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, heisi_effect.use_func),
-            (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, douke_effect.use_func),
-            (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, kisi_effect.use_func),
-            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, souryo_effect.use_func),
-            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.use_func),
-            (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.use_func),
+            (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, heisi_effect.effect),
+            (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, douke_effect.effect),
+            (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, kisi_effect.effect),
+            (KardID.SOURYO, lambda : kames(folder="souryo", key="name"), 4, souryo_effect.effect),
+            (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.effect),
+            (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.effect),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, _func),
             (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)
         ]

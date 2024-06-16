@@ -20,7 +20,7 @@ class InEffectKard():
 
     def picture(self) -> Surface:
         return kp_cache.picture(key=(self.kard_core, self.png_file))
-
+    
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, InEffectKard):
             return False
@@ -40,3 +40,9 @@ class InEffectKard():
 
     def use_func(self, bridge: Bridge, player: Player) -> None:
         self.kard_core.use_func(bridge, player)
+
+    def drawn_func(self, bridge: Bridge, player: Player) -> None:
+        self.kard_core.drawn_func(bridge, player)
+
+    def discard_func(self, bridge: Bridge, player: Player) -> None:
+        self.kard_core.discard_func(bridge, player)
