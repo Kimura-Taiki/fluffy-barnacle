@@ -2,6 +2,8 @@ from pygame import Surface
 from dataclasses import dataclass
 from typing import Protocol, runtime_checkable, Any
 
+from model.kard_id import KardID
+
 @runtime_checkable
 class Kard(Protocol):
     def picture(self) -> Surface:
@@ -25,6 +27,10 @@ class Kard(Protocol):
         ...
 
     @property
+    def id(self) -> KardID:
+        ...
+
+    @property
     def view_hash(self) -> tuple[Any, ...]:
         ...
 
@@ -42,6 +48,10 @@ class _EmptyKard():
 
     @property
     def rank(self) -> int:
+        raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
+
+    @property
+    def id(self) -> KardID:
         raise RuntimeError("このクラスは実際の運用を想定していないため、操作ができません。")
 
     @property

@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from model.kard_core import KardCore
+from model.kard_id import KardID
 from model.kard_picture_cache import kp_cache
 from model.player import Player
 from ptc.bridge import Bridge
@@ -32,6 +33,10 @@ class InEffectKard():
     @property
     def rank(self) -> int:
         return self.kard_core.rank
+    
+    @property
+    def id(self) -> KardID:
+        return self.kard_core.id
 
     def use_func(self, bridge: Bridge, player: Player) -> None:
         self.kard_core.use_func(bridge, player)

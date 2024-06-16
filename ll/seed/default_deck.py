@@ -53,8 +53,13 @@ class DefaultDeck():
 
     def _make_deck(self) -> list[Kard]:
         deck = self._original_deck()
-        dou1 = deck[5]
-        dou2 = deck[6]
+        hei1 = deck[0]
+        hei2 = deck[1]
+        hei3 = deck[2]
+        hei4 = deck[3]
+        # hei5 = deck[4]
+        # dou1 = deck[5]
+        # dou2 = deck[6]
         # kis1 = deck[7]
         # kis2 = deck[8]
         pri1 = deck[9]
@@ -64,8 +69,10 @@ class DefaultDeck():
         shuffle(deck)
         deck.insert(0, pri1)
         # deck.insert(1, pri2)
-        deck.insert(4, dou1)
-        deck.insert(5, dou2)
+        deck.insert(4, hei1)
+        deck.insert(5, hei2)
+        deck.insert(6, hei3)
+        deck.insert(7, hei4)
         # deck.insert(0, wiz1)
         # deck.insert(1, wiz2)
         return deck
@@ -93,7 +100,6 @@ class DefaultDeck():
         _func = lambda bridge, player: print("Hoge")
         kc_params: list[tuple[KardID, Callable[[], str], int, Callable[[Bridge, Player], None]]] = [
             (KardID.BANPEI, lambda : "(番兵)", 0, _func),
-            # (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, _func),
             (KardID.HEISI, lambda : kames(folder="heisi", key="name"), 1, heisi_effect.use_func),
             (KardID.DOUKE, lambda : kames(folder="douke", key="name"), 2, douke_effect.use_func),
             (KardID.KISI, lambda : kames(folder="kisi", key="name"), 3, kisi_effect.use_func),

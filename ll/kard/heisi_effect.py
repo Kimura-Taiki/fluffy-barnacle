@@ -4,6 +4,7 @@ from typing import Callable
 from any.locales import kames
 from model.board import Board
 from model.kard import Kard
+from model.kard_id import KardID
 from model.player import Player
 from ptc.bridge import Bridge
 from view.kard_select_view import KardSelectView
@@ -29,7 +30,8 @@ class HeisiEffect():
             exclude=bridge.board.turn_player,
         )))
         bridge.whileloop(new_view=(ksv := KardSelectView(
-            bridge=bridge
+            bridge=bridge,
+            select_list=_board_rest_kards(board=bridge.board)
         )))
         self.commit_board(
             board=bridge.board,
@@ -51,3 +53,19 @@ class HeisiEffect():
         self.arrests_async(player, kard)
         if player.hand == kard:
             board.retire(player=player)
+
+def _board_rest_kards(board: Board) -> list[Kard]:
+    all_kards: list[Kard] = []
+    all_kards.extend(board.reserve)
+    all_kards.extend(board.deck)
+    for player in board.players:
+        all_kards.extend(player.hands)
+    li: list[Kard] = []
+    for kard in all_kards:
+        if kard not in li:
+            li.append(kard)
+    brk = sorted(list(li), key=lambda kard: kard.rank)
+    print(brk[0].id, KardID.HEISI)
+    if brk[0].id == KardID.HEISI:
+        brk.pop(0)
+    return brk

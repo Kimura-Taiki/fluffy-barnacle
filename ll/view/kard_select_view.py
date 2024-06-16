@@ -16,15 +16,15 @@ _RATIO = V2(1280, 640)
 from ptc.transition import Transition
 class KardSelectView():
     def __init__(
-            self, bridge: Bridge, rect: Rect=Rect((0, 0), WV2),
-            canvas: Surface=screen
+            self, bridge: Bridge, select_list: list[Kard],
+            rect: Rect=Rect((0, 0), WV2), canvas: Surface=screen
         ) -> None:
         _, self.in_progress, self._pre_complete, _, _, _\
             = ProgressHelper(seconds=0.0).provide_progress_funcs()
         self.rect = ratio_rect(rect=rect, ratio=_RATIO)
         self.canvas = canvas
         self.view = bridge.view
-        self.set_kards = board_rest_kards(board=bridge.board)
+        self.select_list = select_list
         self.img = self._img()
         self.squares = self._squares()
         self._selected = False
@@ -59,7 +59,7 @@ class KardSelectView():
         return img_zoom(img=img,rect=self.rect, ratio=_RATIO)
 
     def _squares(self) -> list[KardSquare]:
-        n = len(self.set_kards)
+        n = len(self.select_list)
         return [self._kq(i=i, n=n) for i in range(n)]
 
     def _kq(self, i: int, n: int) -> KardSquare:
@@ -68,7 +68,7 @@ class KardSelectView():
         deg = -10.0+20.0*i/(n-1)-90.0
         rad = radians(deg)
         i_v2 = o_v2+ie_v2_from_radian(radian=rad)*r
-        kard = self.set_kards[i]
+        kard = self.select_list[i]
         ui_element = UIElement(
             mousedown=lambda : self._complete(kard=kard)
         )
@@ -84,18 +84,6 @@ class KardSelectView():
     def _complete(self, kard: Kard) -> None:
         self.selected_kard = kard
         self._pre_complete()
-
-def board_rest_kards(board: Board) -> list[Kard]:
-    all_kards: list[Kard] = []
-    all_kards.extend(board.reserve)
-    all_kards.extend(board.deck)
-    for player in board.players:
-        all_kards.extend(player.hands)
-    li: list[Kard] = []
-    for kard in all_kards:
-        if kard not in li:
-            li.append(kard)
-    return sorted(list(li), key=lambda kard: kard.rank)
 
 def ie_v2_from_radian(radian: float) -> V2:
     return V2(cos(radian), sin(radian))
