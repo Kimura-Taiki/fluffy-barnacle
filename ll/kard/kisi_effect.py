@@ -3,6 +3,7 @@ from typing import Callable
 
 from any.locales import kames
 from model.board import Board
+from model.effect import Effect
 from model.player import Player
 from ptc.bridge import Bridge
 from view.player_select_view import PlayerSelectView
@@ -48,3 +49,7 @@ class KisiEffect():
             board.retire(player=p2)
         elif p2.hand.rank > p1.hand.rank:
             board.retire(player=p1)
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)

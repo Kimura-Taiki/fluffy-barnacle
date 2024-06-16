@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from model.board import Board
+from model.effect import Effect
 from model.player import Player
 from ptc.bridge import Bridge
 
@@ -34,3 +35,7 @@ class SouryoEffect():
         '''
         self.protects_async(player)
         player.protected = True
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)

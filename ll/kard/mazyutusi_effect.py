@@ -3,6 +3,7 @@ from typing import Callable
 
 from any.locales import kames
 from model.board import Board
+from model.effect import Effect
 from model.player import Player
 from ptc.bridge import Bridge
 from view.player_select_view import PlayerSelectView
@@ -34,3 +35,7 @@ class MazyutusiEffect():
             return
         board.diskard(player=player, kard=player.hand)
         board.draw(player=player)
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)

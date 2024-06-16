@@ -3,6 +3,7 @@ from typing import Callable
 
 from any.locales import kames
 from model.board import Board
+from model.effect import Effect
 from model.kard import Kard
 from model.kard_id import KardID
 from model.player import Player
@@ -53,6 +54,10 @@ class HeisiEffect():
         self.arrests_async(player, kard)
         if player.hand == kard:
             board.retire(player=player)
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)
 
 def _board_rest_kards(board: Board) -> list[Kard]:
     all_kards: list[Kard] = []

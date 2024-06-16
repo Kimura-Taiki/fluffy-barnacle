@@ -3,6 +3,7 @@ from typing import Callable
 
 from any.locales import kames
 from model.board import Board
+from model.effect import Effect
 from model.player import Player
 from ptc.bridge import Bridge
 from view.player_select_view import PlayerSelectView
@@ -45,3 +46,7 @@ class SyougunEffect():
             return
         self.exchange_kards_async(p1, p2)
         p1.hands, p2.hands = p2.hands, p1.hands
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)

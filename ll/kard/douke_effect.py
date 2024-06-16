@@ -4,9 +4,9 @@ from typing import Callable
 from any.func import enforce
 from any.locales import kames
 from model.board import Board
+from model.effect import Effect
 from model.player import Player
 from ptc.bridge import Bridge
-# from ptc.main_view import MainView
 from view.board_view import BoardView
 from view.player_select_view import PlayerSelectView
 
@@ -48,3 +48,7 @@ class DoukeEffect():
             self.guards_async(kames(folder="douke", key="name"))
             return
         self.peeps_async(peeper, watched, subject)
+
+    @property
+    def effect(self) -> Effect:
+        return Effect(use_func=self.use_func)
