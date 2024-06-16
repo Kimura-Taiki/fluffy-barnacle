@@ -8,5 +8,4 @@ class DiscardFuncsController():
         self.bridge = bridge
 
     def action(self, player: Player, kard: Kard) -> None:
-        for pk in player.hands:
-            pk.discard_func(bridge=self.bridge, player=player)
+        kard.discard_func(bridge=self.bridge, player=player)

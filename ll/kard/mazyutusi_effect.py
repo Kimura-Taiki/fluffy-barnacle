@@ -34,7 +34,8 @@ class MazyutusiEffect():
             self.guards_async(kames(folder="mazyutusi", key="name"))
             return
         board.diskard(player=player, kard=player.hand)
-        board.draw(player=player)
+        if player.alive:
+            board.draw(player=player)
 
     @property
     def effect(self) -> Effect:

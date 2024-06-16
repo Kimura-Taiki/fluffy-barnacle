@@ -10,6 +10,7 @@ class Router():
     bridge: Bridge = field(default_factory=lambda: EMPTY_BRIDGE)
     arrests_async: Callable[[Player, Kard], None] = lambda p, k: None
     defeat_by_ministers_async: Callable[[Player], None] = lambda p: None
+    diskard_himes_async: Callable[[Player], None] = lambda p: None
     duels_async: Callable[[Player, Player], None] = lambda p1, p2: None
     guards_async: Callable[[str], None] = lambda s: None
     exchange_kards_async: Callable[[Player, Player], None] = lambda p1, p2: None

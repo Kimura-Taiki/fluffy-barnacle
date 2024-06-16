@@ -10,6 +10,7 @@ from kard.souryo_effect import SouryoEffect
 from kard.mazyutusi_effect import MazyutusiEffect
 from kard.syougun_effect import SyougunEffect
 from kard.daizin_effect import DaizinEffect
+from kard.hime_effect import HimeEffect
 from model.effect import Effect
 from model.in_effect_kard import InEffectKard
 from model.kard import Kard
@@ -44,6 +45,9 @@ syougun_effect = SyougunEffect(
 daizin_effect = DaizinEffect(
     defeat_by_ministers=router.defeat_by_ministers_async
 )
+hime_effect = HimeEffect(
+    diskard_himes_async=router.diskard_himes_async
+)
 
 @dataclass
 class DefaultDeck():
@@ -70,13 +74,14 @@ class DefaultDeck():
         # pri1 = deck[9]
         # pri2 = deck[10]
         wiz1 = deck[11]
-        # wiz2 = deck[12]
-        dai1 = deck[14]
+        wiz2 = deck[12]
+        # dai1 = deck[14]
+        him1 = deck[15]
         shuffle(deck)
         deck.insert(0, wiz1)
-        deck.insert(1, dai1)
-        deck.insert(4, dai1)
-        deck.insert(5, wiz1)
+        deck.insert(1, him1)
+        deck.insert(4, him1)
+        deck.insert(5, wiz2)
         # deck.insert(6, hei3)
         # deck.insert(7, hei4)
         # deck.insert(0, wiz1)
@@ -115,7 +120,7 @@ class DefaultDeck():
             (KardID.MAZYUTUSI, lambda : kames(folder="mazyutusi", key="name"), 5, mazyutusi_effect.effect),
             (KardID.SYOUGUN, lambda : kames(folder="syougun", key="name"), 6, syougun_effect.effect),
             (KardID.DAIZIN, lambda : kames(folder="daizin", key="name"), 7, daizin_effect.effect),
-            (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, _func)
+            (KardID.HIME, lambda : kames(folder="hime", key="name"), 8, hime_effect.effect)
         ]
         return kc_params
 
