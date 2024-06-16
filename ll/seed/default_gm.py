@@ -1,5 +1,6 @@
 from any.game_master import GameMaster
 from ctrl.bright_kards import BrightKardsController
+from ctrl.discard_funcs import DiscardFuncsController
 from ctrl.draw_kards import DrawKardsController
 from ctrl.drawn_funcs import DrawnFuncsController
 from ctrl.turn_starts import TurnStartsController
@@ -48,6 +49,9 @@ board.turn_start_async = TurnStartsController(
     bridge=gm
 ).action
 board.use_kard_async = BrightKardsController(
+    bridge=gm
+).action
+board.discard_func_async = DiscardFuncsController(
     bridge=gm
 ).action
 board.win_by_survival_async = WinBySurvivalsController(
